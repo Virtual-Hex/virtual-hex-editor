@@ -68,7 +68,7 @@ public class ImGuiEditorRenderingSystem extends BaseEntitySystem {
         for (int i = 0; i < entities.size(); i++) {
             int entityId = entities.get(i);
             JImGuiRenderComponent JImGuiRenderComponent = renderComponent.get(entityId);
-            JImGuiRenderComponent.JImGuiDrawable.dispose();
+            JImGuiRenderComponent.jImGuiDrawable.dispose();
         }
 
         imGui.deallocateNativeObject();

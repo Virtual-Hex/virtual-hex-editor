@@ -6,13 +6,14 @@ import com.mr00anderson.core.jimgui.JImGuiDrawable;
 import org.ice1000.jimgui.JImGui;
 
 public class JImGuiRenderComponent extends Component {
+
     public boolean active;
-    public JImGuiDrawable JImGuiDrawable;
+    public JImGuiDrawable jImGuiDrawable;
 
     public JImGuiRenderComponent() {
     }
 
     public void drawSafe(JImGui imGui, World world){
-        if(active) JImGuiDrawable.draw(imGui, world);
+        if(active) jImGuiDrawable.draw(imGui, world);
     }
 }

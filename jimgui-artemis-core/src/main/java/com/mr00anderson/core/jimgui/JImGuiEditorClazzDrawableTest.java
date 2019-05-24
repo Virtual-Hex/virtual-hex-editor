@@ -7,12 +7,12 @@ import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JImGuiEditorWorldDrawable implements JImGuiDrawable {
+public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
 
     /**
      * Simply a Logger Reference
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JImGuiEditorWorldDrawable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JImGuiEditorClazzDrawableTest.class);
 
     public static final String WINDOW_TITLE = "Worlds View";
     public static final int WORLD_NAME_LENGTH = 255;
@@ -37,7 +37,7 @@ public class JImGuiEditorWorldDrawable implements JImGuiDrawable {
 
 
     // Need to create the world objects that may be needed for the UI - Clear color
-    public JImGuiEditorWorldDrawable() {
+    public JImGuiEditorClazzDrawableTest() {
 //        deallocatableObjectManager.add(showMainMenuBar);
 
     }
@@ -48,6 +48,7 @@ public class JImGuiEditorWorldDrawable implements JImGuiDrawable {
 //
 //        }
 
+        // TODO How to create widgets from basic building blocks and serialize them
 
         // Todo icon set
 

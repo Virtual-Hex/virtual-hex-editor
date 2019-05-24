@@ -7,13 +7,19 @@ import com.artemis.managers.TagManager;
 import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
 import com.mr00anderson.core.atremis.components.TestComponentComplex;
+import com.mr00anderson.core.atremis.components.TestComponentSimple;
+import com.mr00anderson.core.atremis.systems.ImGuiEditorRenderingSystem;
+import org.ice1000.jimgui.NativeBool;
+import org.ice1000.jimgui.NativeInt;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 
-public class WorldSerializationTest {
+public class WorldSerializationTest implements BasicApp {
+
+    private boolean running = true;
 
     public WorldSerializationTest() {
     }
@@ -31,20 +37,39 @@ public class WorldSerializationTest {
         World world = new World(
                 new WorldConfiguration()
                         .setSystem(manager)
-                        .setSystem(tagManager));
+                        .setSystem(tagManager)
+                        .setSystem(new ImGuiEditorRenderingSystem())
+        );
 
         JsonArtemisSerializer jsonArtemisSerializer = new JsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
         ComponentMapper<TestComponentComplex> mapperTwo = world.getMapper(TestComponentComplex.class);
+        ComponentMapper<TestComponentSimple> mapperthree = world.getMapper(TestComponentSimple.class);
 
         // Create various simple and complex entities
         int simple1 = world.create();
         tagManager.register("TestTagSimple", simple1);
-
         TestComponentComplex testComp = mapperTwo.create(simple1);
 
+
+
+        int simple2 = world.create();
+        TestComponentSimple testComponentSimple = mapperthree.create(simple2);
+        testComponentSimple.hi = 50;
+
+        ImGuiEditorRenderingSystem system = world.getSystem(ImGuiEditorRenderingSystem.class);
+        system.setMainApp(this);
+
         world.process();
+
+
+        // Modifications after test because of world must process and start Jimgui
+        testComponentSimple.nativeBool = new NativeBool();
+        testComponentSimple.nativeBool.modifyValue(true);
+        testComponentSimple.nativeInt = new NativeInt();
+        testComponentSimple.nativeInt.modifyValue(65);
+
 
         EntitySubscription entitySubscription = world.getAspectSubscriptionManager().get(Aspect.all());
         IntBag entities = entitySubscription.getEntities();
@@ -59,6 +84,9 @@ public class WorldSerializationTest {
             e.printStackTrace();
         }
 
+
+        testComponentSimple.nativeBool.deallocateNativeObject();
+        testComponentSimple.nativeInt.deallocateNativeObject();
     }
 
 
@@ -98,6 +126,16 @@ public class WorldSerializationTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setRunning() {
+        this.running = true;
+    }
+
+    @Override
+    public void setNotRunning() {
+        this.running = false;
     }
 
 //    public static void main(String[] args) throws IOException {

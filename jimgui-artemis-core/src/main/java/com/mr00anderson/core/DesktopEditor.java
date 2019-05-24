@@ -3,8 +3,10 @@ package com.mr00anderson.core;
 
 import com.artemis.*;
 import com.mr00anderson.core.atremis.components.JImGuiRenderComponent;
+import com.mr00anderson.core.atremis.components.MainMenuBarComponent;
 import com.mr00anderson.core.atremis.systems.ImGuiEditorRenderingSystem;
-import com.mr00anderson.core.jimgui.JImGuiEditorWorldDrawable;
+import com.mr00anderson.core.jimgui.JImGuiDrawable;
+import com.mr00anderson.core.jimgui.JImGuiEditorClazzDrawableTest;
 
 /**
  * TODO: Will need some reflective data entities to be able to render IDs to names, ect since
@@ -56,17 +58,9 @@ public class DesktopEditor implements BasicApp {
         ImGuiEditorRenderingSystem system = world.getSystem(ImGuiEditorRenderingSystem.class);
         system.setMainApp(this);
 
-        // This should be the initial window eventually
-        Archetype archetype = new ArchetypeBuilder().add(JImGuiRenderComponent.class).build(world);
+        // TODO Setup or load from a save file
+        setupEditorBaseEntities();
 
-//        world.compositionId();
-        int i = world.create(archetype);
-        ComponentMapper<JImGuiRenderComponent> mapper = world.getMapper(JImGuiRenderComponent.class);
-        JImGuiRenderComponent worldMainViewComponent = mapper.get(i);
-        worldMainViewComponent.active = true;
-        worldMainViewComponent.JImGuiDrawable = new JImGuiEditorWorldDrawable();
-
-//        system.start();
 
         // We need to loop here, maybe allow a loop type to be chosen
         // The Imgui will be rendered through the main world view.
@@ -76,6 +70,22 @@ public class DesktopEditor implements BasicApp {
 
         // Clean it up
         world.dispose();
+    }
+
+    private void setupEditorBaseEntities() {
+        JImGuiDrawable[] components = {
+                new JImGuiEditorClazzDrawableTest(),
+                new MainMenuBarComponent()
+        };
+
+        Archetype archetype = new ArchetypeBuilder().add(JImGuiRenderComponent.class).build(world);
+        ComponentMapper<JImGuiRenderComponent> mapper = world.getMapper(JImGuiRenderComponent.class);
+        for (int i = 0; i < components.length; i++) {
+            int entityId = world.create(archetype);
+            JImGuiRenderComponent component = mapper.create(entityId);
+            component.active = true;
+            component.jImGuiDrawable = components[i];
+        }
     }
 
     @Override

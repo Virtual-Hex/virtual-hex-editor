@@ -1,0 +1,4 @@
+rootProject.name = 'jimgui-artemis-odb-world-editor'
+
+include 'jimgui-artemis-core'
+

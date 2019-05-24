@@ -7,3 +7,6 @@ Currently in early development. The purpose of this library is to allow rapid de
 The app launches into a editor. This editor will contain menu, option to see the JImGui demo so that users can see what can be added or done. The editor will then access and allow editing of a collections of worlds under a project.
 
 Estimated time until arrival: TBD, in the works while working on college.
+
+
+

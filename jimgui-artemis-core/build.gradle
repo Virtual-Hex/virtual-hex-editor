@@ -17,6 +17,8 @@ project.ext {
     lwjglNatives = "natives-windows"
 }
 
+test.useJUnitPlatform()
+
 dependencies {
     // Logging
     compile "org.slf4j:slf4j-api:1.7.25"

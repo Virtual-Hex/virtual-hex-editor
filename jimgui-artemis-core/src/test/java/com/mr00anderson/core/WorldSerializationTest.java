@@ -8,6 +8,7 @@ import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
 import com.mr00anderson.core.atremis.components.TestComponentComplex;
 import com.mr00anderson.core.atremis.components.TestComponentSimple;
+import com.mr00anderson.core.atremis.serializer.NativeBoolSerializer;
 import com.mr00anderson.core.atremis.systems.ImGuiEditorRenderingSystem;
 import org.ice1000.jimgui.NativeBool;
 import org.ice1000.jimgui.NativeInt;
@@ -42,6 +43,7 @@ public class WorldSerializationTest implements BasicApp {
         );
 
         JsonArtemisSerializer jsonArtemisSerializer = new JsonArtemisSerializer(world).prettyPrint(true);
+        jsonArtemisSerializer.register(NativeBool.class, new NativeBoolSerializer());
         manager.setSerializer(jsonArtemisSerializer);
 
         ComponentMapper<TestComponentComplex> mapperTwo = world.getMapper(TestComponentComplex.class);

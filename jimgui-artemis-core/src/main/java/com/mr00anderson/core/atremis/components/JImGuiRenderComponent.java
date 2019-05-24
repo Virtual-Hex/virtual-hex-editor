@@ -7,6 +7,7 @@ import org.ice1000.jimgui.JImGui;
 
 public class JImGuiRenderComponent extends Component {
 
+    // TODO Change to native bool and add native serializers
     public boolean active;
     public JImGuiDrawable jImGuiDrawable;
 

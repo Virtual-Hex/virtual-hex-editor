@@ -17,7 +17,7 @@ import static org.ice1000.jimgui.JImGuiGen.nextColumn;
 
 public class DefaultJImGuiBooleanPrimTypeHandler implements JImGuiTypeHandler {
 
-    protected Int2ObjectMap<Map<String, DataFieldMapper<NativeBool>>> int2ObjectMap = new Int2ObjectOpenHashMap<>();
+    protected transient Int2ObjectMap<Map<String, DataFieldMapper<NativeBool>>> int2ObjectMap = new Int2ObjectOpenHashMap<>();
 
     @Override
     public void handle(JImGui imGui, int fieldCount, Field field, int instanceId, Object objectToDraw) {

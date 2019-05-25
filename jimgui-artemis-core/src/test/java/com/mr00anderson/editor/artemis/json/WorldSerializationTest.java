@@ -29,19 +29,6 @@ public class WorldSerializationTest implements BasicApp {
     @Test
     public void desktopEditorSerializeTest(){
         DesktopEditor desktopEditor = new DesktopEditor();
-        desktopEditor.run(null, (operation, world) -> {
-            switch (operation) {
-                case CREATED_NEW:
-                    final WorldSerializationManager manager = new WorldSerializationManager();
-                    JsonArtemisSerializer jsonArtemisSerializer = new EnhancedJsonArtemisSerializer(world).prettyPrint(true);
-                    manager.setSerializer(jsonArtemisSerializer);
-                    break;
-                case PRE_DISPOSE:
-                    break;
-                case POST_DISPOSE:
-                    break;
-            }
-        });
     }
 
     /**

@@ -27,8 +27,8 @@ Goals(Incomplete, not all inclusive)
   - [ ] Investigate a window where we can actually run the game (Experimental)
   - [ ] Investigate a test running ImGui with LibGDX at the same time.
 
-- [ ] Ability to Serialize the Editor World
-  - [ ] Save Editor State
+- [X] Ability to Serialize the Editor World
+  - [X] Save Editor State (Artemis Json - Default Backend)
   - [ ] Load Editor State
   - [ ] Todo - Place Holder ( With the ability to serialize the editor, or parts team development could be a thing )
 

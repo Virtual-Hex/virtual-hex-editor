@@ -14,7 +14,7 @@ import static org.ice1000.jimgui.JImGui.separator;
 
 
 /**
- * Per world instance
+ * Per world instance, This must be disposed of, this draws fields on an object
  */
 public class JImGuiClazzDraw implements Disposable, InstancePurge {
 

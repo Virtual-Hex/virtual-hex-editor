@@ -102,6 +102,8 @@ public class WorldSerializationTest implements BasicApp {
         testComponentSimple.nativeInt.deallocateNativeObject();
 
         testComponentSimple.dispose();
+
+        world.dispose();
     }
 
 

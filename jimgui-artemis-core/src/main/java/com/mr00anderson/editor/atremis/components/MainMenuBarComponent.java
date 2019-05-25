@@ -18,6 +18,6 @@ public class MainMenuBarComponent implements JImGuiDrawable {
 
     @Override
     public void dispose() {
-
+        nativeBool.deallocateNativeObject();
     }
 }

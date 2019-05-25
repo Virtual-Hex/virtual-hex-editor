@@ -7,6 +7,7 @@ import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// This is the test drawable use to tes the class drawer. TODO remove
 public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
 
     /**
@@ -44,9 +45,6 @@ public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
 
     @Override
     public void draw(JImGui imGui, World world) {
-//        if(showMainMenuBar.accessValue()){
-//
-//        }
 
         // TODO How to create widgets from basic building blocks and serialize them
 

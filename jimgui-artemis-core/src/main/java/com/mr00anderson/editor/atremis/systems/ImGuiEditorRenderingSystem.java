@@ -62,18 +62,26 @@ public class ImGuiEditorRenderingSystem extends BaseEntitySystem {
     @Override
     protected void dispose() {
         super.dispose();
-
         // Depose of any objects
         IntBag entities = subscription.getEntities();
-        for (int i = 0; i < entities.size(); i++) {
-            int entityId = entities.get(i);
-            JImGuiRenderComponent JImGuiRenderComponent = renderComponent.get(entityId);
-            JImGuiRenderComponent.jImGuiDrawable.dispose();
-        }
-
+        removed(entities);
         imGui.deallocateNativeObject();
     }
 
+    @Override
+    public void removed(IntBag entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            int entityId = entities.get(i);
+            removed(entityId);
+        }
+    }
+
+    @Override
+    protected void removed(int entityId) {
+        super.removed(entityId);
+        JImGuiRenderComponent JImGuiRenderComponent = renderComponent.get(entityId);
+        JImGuiRenderComponent.jImGuiDrawable.dispose();
+    }
 
     public void  setMainApp(BasicApp app){
         this.app = app;

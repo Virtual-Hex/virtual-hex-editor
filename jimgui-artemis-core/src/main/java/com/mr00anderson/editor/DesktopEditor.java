@@ -7,6 +7,7 @@ import com.mr00anderson.editor.atremis.components.MainMenuBarComponent;
 import com.mr00anderson.editor.atremis.systems.ImGuiEditorRenderingSystem;
 import com.mr00anderson.editor.jimgui.JImGuiDrawable;
 import com.mr00anderson.editor.jimgui.JImGuiEditorClazzDrawableTest;
+import org.ice1000.jimgui.NativeBool;
 
 /**
  * TODO: Will need some reflective data entities to be able to render IDs to names, ect since
@@ -83,7 +84,7 @@ public class DesktopEditor implements BasicApp {
         for (int i = 0; i < components.length; i++) {
             int entityId = world.create(archetype);
             JImGuiRenderComponent component = mapper.create(entityId);
-            component.active = true;
+            component.active = new NativeBool();
             component.jImGuiDrawable = components[i];
         }
     }

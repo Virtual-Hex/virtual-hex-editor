@@ -1,4 +1,5 @@
 rootProject.name = 'jimgui-artemis-odb-world-editor'
 
 include 'jimgui-artemis-core'
+include 'jimgui-artemis-json-serialization'
 

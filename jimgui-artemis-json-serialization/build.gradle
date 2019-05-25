@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'com.mr00anderson'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+project.ext {
+    lwjglVersion = "3.2.2"
+    lwjglNatives = "natives-windows"
+}
+
+test.useJUnitPlatform()
+
+dependencies{
+    // We want Virtual Hex, Engine Common to available to this library
+    compile project(":jimgui-artemis-core")
+    compile project(path: ':jimgui-artemis-core', configuration: 'compile')
+
+
+    // Testing
+    testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
+    testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
+}
+

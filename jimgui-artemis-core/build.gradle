@@ -45,7 +45,7 @@ dependencies {
     compile "net.mostlyoriginal.artemis-odb:contrib-plugin-profiler:2.4.0"
 
 
-    // Testiing
+    // Testing
     testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
     testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
 

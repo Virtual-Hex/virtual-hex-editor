@@ -2,16 +2,21 @@ package com.mr00anderson.editor.types;
 
 import com.artemis.World;
 import com.mr00anderson.editor.jimgui.JImGuiDrawable;
+import com.mr00anderson.editor.jimgui.handlers.ActivationHandler;
 import com.mr00anderson.editor.utils.NativeUtils;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 
-public class JImGuiWindowDrawable implements JImGuiDrawable {
+public class JImGuiWindowDrawable extends AbstractJImGuiDrawable {
 
     public String label;
     public NativeBool open;
     public int flags;
     public JImGuiDrawable windowContents;
+
+    public JImGuiWindowDrawable(ActivationHandler activationHandler) {
+        super(activationHandler);
+    }
 
     public JImGuiWindowDrawable() {
     }
@@ -36,6 +41,7 @@ public class JImGuiWindowDrawable implements JImGuiDrawable {
         imGui.begin(label, open, flags);
         windowContents.draw(imGui, world);
         imGui.end();
+        activationHandler.handle(this);
     }
 
     @Override

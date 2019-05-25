@@ -1,18 +1,15 @@
 package com.mr00anderson.editor;
 
 
-import com.artemis.*;
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
 import com.artemis.io.JsonArtemisSerializer;
 import com.artemis.managers.WorldSerializationManager;
 import com.mr00anderson.editor.artemis.json.EnhancedJsonArtemisSerializer;
-import com.mr00anderson.editor.atremis.components.JImGuiRenderComponent;
-import com.mr00anderson.editor.atremis.components.MainMenuBarComponent;
 import com.mr00anderson.editor.atremis.systems.ImGuiEditorRenderingSystem;
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
-import com.mr00anderson.editor.jimgui.JImGuiEditorClazzDrawableTest;
-import com.mr00anderson.editor.types.JImGuiWindowDrawable;
+import com.mr00anderson.editor.builtin.EditorWorldSetup;
 import com.mr00anderson.editor.utils.ArtemisIoUtils;
-import com.mr00anderson.editor.utils.NativeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,8 +79,8 @@ public final class DesktopEditor implements BasicApp {
         if(load){
             // TODO Editor serialization not supported yet
         } else {
-            // Use default editor setup
-            setupEditorBaseEntities();
+            // Use builtin editor setup
+            EditorWorldSetup.setupEditorBaseEntities(world);
         }
 
         // We need to loop here, maybe allow a loop type to be chosen
@@ -100,23 +97,6 @@ public final class DesktopEditor implements BasicApp {
         }
 
         world.dispose();
-    }
-
-    private void setupEditorBaseEntities() {
-        JImGuiDrawable[] components = {
-                new MainMenuBarComponent(),
-                new JImGuiWindowDrawable("Clazz Draw Test", new JImGuiEditorClazzDrawableTest()),
-
-        };
-
-        Archetype archetype = new ArchetypeBuilder().add(JImGuiRenderComponent.class).build(world);
-        ComponentMapper<JImGuiRenderComponent> mapper = world.getMapper(JImGuiRenderComponent.class);
-        for (int i = 0; i < components.length; i++) {
-            int entityId = world.create(archetype);
-            JImGuiRenderComponent component = mapper.create(entityId);
-            component.active = NativeUtils.createBool(true);
-            component.jImGuiDrawable = components[i];
-        }
     }
 
     public World getWorld() {

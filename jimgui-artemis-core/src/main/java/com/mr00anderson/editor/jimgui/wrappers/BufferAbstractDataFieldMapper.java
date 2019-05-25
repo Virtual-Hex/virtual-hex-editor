@@ -6,7 +6,7 @@ import java.util.Arrays;
 public abstract class BufferAbstractDataFieldMapper extends AbstractDataFieldMapper<byte[]> {
 
     /**
-     * 255 byte buffer limit, default, can be larger
+     * 255 byte buffer limit, builtin, can be larger
      *
      * @param field
      * @param object

@@ -11,6 +11,21 @@ public class JImGuiMenuItemDrawable implements JImGuiDrawable {
     public boolean selected;
     public boolean enabled;
 
+    public JImGuiMenuItemDrawable(String label) {
+        this(label, false, true);
+    }
+
+    public JImGuiMenuItemDrawable(String label, boolean selected, boolean enabled){
+        this(label, null, selected, enabled);
+    }
+
+    public JImGuiMenuItemDrawable(String label, String shortcut, boolean selected, boolean enabled) {
+        this.label = label;
+        this.shortcut = shortcut;
+        this.selected = selected;
+        this.enabled = enabled;
+    }
+
     @Override
     public void draw(JImGui imGui, World world) {
         imGui.menuItem(label, shortcut, selected, enabled);

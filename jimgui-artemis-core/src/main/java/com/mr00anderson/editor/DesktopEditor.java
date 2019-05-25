@@ -7,7 +7,7 @@ import com.mr00anderson.editor.atremis.components.MainMenuBarComponent;
 import com.mr00anderson.editor.atremis.systems.ImGuiEditorRenderingSystem;
 import com.mr00anderson.editor.jimgui.JImGuiDrawable;
 import com.mr00anderson.editor.jimgui.JImGuiEditorClazzDrawableTest;
-import org.ice1000.jimgui.NativeBool;
+import com.mr00anderson.editor.utils.NativeUtils;
 
 /**
  * TODO: Will need some reflective data entities to be able to render IDs to names, ect since
@@ -62,7 +62,6 @@ public class DesktopEditor implements BasicApp {
         // TODO Setup or load from a save file
         setupEditorBaseEntities();
 
-
         // We need to loop here, maybe allow a loop type to be chosen
         // The Imgui will be rendered through the main world view.
         while (running){
@@ -84,7 +83,7 @@ public class DesktopEditor implements BasicApp {
         for (int i = 0; i < components.length; i++) {
             int entityId = world.create(archetype);
             JImGuiRenderComponent component = mapper.create(entityId);
-            component.active = new NativeBool();
+            component.active = NativeUtils.createBool(true);
             component.jImGuiDrawable = components[i];
         }
     }

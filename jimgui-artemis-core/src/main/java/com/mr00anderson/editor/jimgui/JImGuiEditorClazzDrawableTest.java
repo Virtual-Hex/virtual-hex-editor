@@ -58,7 +58,7 @@ public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
 
 
         // Temporary
-        imGui.begin("Class Drawer");
+
         imGuiClazzDraw.drawSlowJavaClazz(imGui, 0, testComponentComplex);
 
         // Permanent

@@ -7,6 +7,7 @@ import com.artemis.managers.TagManager;
 import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
 import com.mr00anderson.editor.BasicApp;
+import com.mr00anderson.editor.DesktopEditor;
 import com.mr00anderson.editor.atremis.components.TestComponentComplex;
 import com.mr00anderson.editor.atremis.components.TestComponentSimple;
 import com.mr00anderson.editor.atremis.systems.ImGuiEditorRenderingSystem;
@@ -22,6 +23,25 @@ public class WorldSerializationTest implements BasicApp {
     private boolean running = true;
 
     public WorldSerializationTest() {
+    }
+
+//    @Disabled
+    @Test
+    public void desktopEditorSerializeTest(){
+        DesktopEditor desktopEditor = new DesktopEditor();
+        desktopEditor.run(null, (operation, world) -> {
+            switch (operation) {
+                case CREATED_NEW:
+                    final WorldSerializationManager manager = new WorldSerializationManager();
+                    JsonArtemisSerializer jsonArtemisSerializer = new EnhancedJsonArtemisSerializer(world).prettyPrint(true);
+                    manager.setSerializer(jsonArtemisSerializer);
+                    break;
+                case PRE_DISPOSE:
+                    break;
+                case POST_DISPOSE:
+                    break;
+            }
+        });
     }
 
     /**

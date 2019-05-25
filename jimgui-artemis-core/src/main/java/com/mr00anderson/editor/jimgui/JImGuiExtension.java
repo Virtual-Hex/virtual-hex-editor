@@ -18,4 +18,5 @@ public class JImGuiExtension extends JImGui {
     public static String f(String format, Object... objects) {
         return String.format(format, objects);
     }
+
 }

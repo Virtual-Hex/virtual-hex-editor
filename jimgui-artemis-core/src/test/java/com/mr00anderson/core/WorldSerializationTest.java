@@ -8,10 +8,9 @@ import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
 import com.mr00anderson.core.atremis.components.TestComponentComplex;
 import com.mr00anderson.core.atremis.components.TestComponentSimple;
-import com.mr00anderson.core.atremis.serializer.NativeBoolSerializer;
+import com.mr00anderson.core.atremis.serializer.EnhancedJsonArtemisSerializer;
 import com.mr00anderson.core.atremis.systems.ImGuiEditorRenderingSystem;
-import org.ice1000.jimgui.NativeBool;
-import org.ice1000.jimgui.NativeInt;
+import org.ice1000.jimgui.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -42,8 +41,7 @@ public class WorldSerializationTest implements BasicApp {
                         .setSystem(new ImGuiEditorRenderingSystem())
         );
 
-        JsonArtemisSerializer jsonArtemisSerializer = new JsonArtemisSerializer(world).prettyPrint(true);
-        jsonArtemisSerializer.register(NativeBool.class, new NativeBoolSerializer());
+        JsonArtemisSerializer jsonArtemisSerializer = new EnhancedJsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
         ComponentMapper<TestComponentComplex> mapperTwo = world.getMapper(TestComponentComplex.class);
@@ -69,12 +67,25 @@ public class WorldSerializationTest implements BasicApp {
         // Modifications after test because of world must process and start Jimgui
         testComponentSimple.nativeBool = new NativeBool();
         testComponentSimple.nativeBool.modifyValue(true);
+
+        testComponentSimple.nativeShort = new NativeShort();
+        testComponentSimple.nativeShort.modifyValue((short) 120);
+
         testComponentSimple.nativeInt = new NativeInt();
         testComponentSimple.nativeInt.modifyValue(65);
 
+        testComponentSimple.nativeLong = new NativeLong();
+        testComponentSimple.nativeLong.modifyValue( 55555L);
+
+        testComponentSimple.nativeFloat = new NativeFloat();
+        testComponentSimple.nativeFloat.modifyValue(3.14f);
+
+        testComponentSimple.nativeDouble = new NativeDouble();
+        testComponentSimple.nativeDouble.modifyValue(10.25d);
 
         EntitySubscription entitySubscription = world.getAspectSubscriptionManager().get(Aspect.all());
         IntBag entities = entitySubscription.getEntities();
+
         try(
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ){
@@ -89,6 +100,8 @@ public class WorldSerializationTest implements BasicApp {
 
         testComponentSimple.nativeBool.deallocateNativeObject();
         testComponentSimple.nativeInt.deallocateNativeObject();
+
+        testComponentSimple.dispose();
     }
 
 

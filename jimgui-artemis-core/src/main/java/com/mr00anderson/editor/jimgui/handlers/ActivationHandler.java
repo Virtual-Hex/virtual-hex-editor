@@ -1,7 +1,8 @@
 package com.mr00anderson.editor.jimgui.handlers;
 
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
+import com.mr00anderson.editor.jimgui.EditorDrawable;
 
-public interface ActivationHandler<T extends JImGuiDrawable> {
-    public boolean handle(T imGuiDrawable);
+@FunctionalInterface
+public interface ActivationHandler<T extends EditorDrawable> {
+    void handle(T imGuiDrawable);
 }

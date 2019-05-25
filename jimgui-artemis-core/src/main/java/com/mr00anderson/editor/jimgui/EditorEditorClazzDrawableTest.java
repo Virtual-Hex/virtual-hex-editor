@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // This is the test drawable use to tes the class drawer. TODO remove
-public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
+public class EditorEditorClazzDrawableTest implements EditorDrawable {
 
     /**
      * Simply a Logger Reference
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JImGuiEditorClazzDrawableTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditorEditorClazzDrawableTest.class);
 
     public static final String WINDOW_TITLE = "Worlds View";
     public static final int WORLD_NAME_LENGTH = 255;
@@ -38,7 +38,7 @@ public class JImGuiEditorClazzDrawableTest implements JImGuiDrawable {
 
 
     // Need to create the world objects that may be needed for the UI - Clear color
-    public JImGuiEditorClazzDrawableTest() {
+    public EditorEditorClazzDrawableTest() {
 //        deallocatableObjectManager.add(showMainMenuBar);
 
     }

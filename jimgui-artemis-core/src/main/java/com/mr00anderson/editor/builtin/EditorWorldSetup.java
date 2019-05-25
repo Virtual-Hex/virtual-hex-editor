@@ -6,10 +6,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.mr00anderson.editor.atremis.components.JImGuiRenderComponent;
 import com.mr00anderson.editor.atremis.components.MainMenuBarComponent;
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
-import com.mr00anderson.editor.jimgui.JImGuiEditorClazzDrawableTest;
-import com.mr00anderson.editor.types.JImGuiMenuItemDrawable;
-import com.mr00anderson.editor.types.JImGuiWindowDrawable;
+import com.mr00anderson.editor.jimgui.EditorDrawable;
+import com.mr00anderson.editor.jimgui.EditorEditorClazzDrawableTest;
+import com.mr00anderson.editor.types.EditorMenuItemDrawable;
+import com.mr00anderson.editor.types.EditorWindowDrawable;
 import com.mr00anderson.editor.utils.NativeUtils;
 
 public class EditorWorldSetup {
@@ -18,12 +18,12 @@ public class EditorWorldSetup {
 
 
     public static void setupEditorBaseEntities(final World world) {
-        JImGuiDrawable[] mainMenuBar = {
-                new JImGuiMenuItemDrawable("");
+        EditorDrawable[] mainMenuBar = {
+                new EditorMenuItemDrawable("");
         };
 
 
-        JImGuiDrawable[] components = {
+        EditorDrawable[] components = {
                 new MainMenuBarComponent(),// TODO dont forget debug window enable disable
                 // Debug Window
 
@@ -31,7 +31,7 @@ public class EditorWorldSetup {
                 // World edit window - Selectable Worlds (project parents)
                 // File browser (project parent), components, entities, prefabs can be loaded into a world or (STAGING Area)
 
-                new JImGuiWindowDrawable("Clazz Draw Test", new JImGuiEditorClazzDrawableTest()),
+                new EditorWindowDrawable("Clazz Draw Test", new EditorEditorClazzDrawableTest()),
 
         };
 
@@ -41,7 +41,7 @@ public class EditorWorldSetup {
             int entityId = world.create(archetype);
             JImGuiRenderComponent component = mapper.create(entityId);
             component.active = NativeUtils.createBool(true);
-            component.jImGuiDrawable = components[i];
+            component.editorDrawable = components[i];
         }
     }
 

@@ -24,7 +24,7 @@ import java.io.IOException;
  *          -> Entities should be added in the order of rendering
  *          -> Entities will have one component for rendering and in that
  *              their may be a organization of how data is added, Example:
- *              menu bar process can be a linked list of JImGuiDrawable's
+ *              menu bar process can be a linked list of EditorDrawable's
  *
  */
 public final class DesktopEditor implements BasicApp {

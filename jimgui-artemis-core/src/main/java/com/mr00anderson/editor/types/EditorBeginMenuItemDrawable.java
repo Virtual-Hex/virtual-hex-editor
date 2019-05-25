@@ -1,10 +1,10 @@
 package com.mr00anderson.editor.types;
 
 import com.artemis.World;
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
+import com.mr00anderson.editor.jimgui.EditorDrawable;
 import org.ice1000.jimgui.JImGui;
 
-public class JImGuiBeginMenuItemDrawable implements JImGuiDrawable {
+public class EditorBeginMenuItemDrawable implements EditorDrawable {
 
     public String label;
     public boolean enabled;

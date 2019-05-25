@@ -95,7 +95,7 @@ public class Demo {
 				imGui.end();
 			}
 
-			// Demonstrate the various window flags. Typically you would just use the builtin.
+			// Demonstrate the various window flags. Typically you would just use the default.
 			int windowFlags = JImWindowFlags.Nothing;
 			if (noTitlebar.accessValue()) windowFlags |= JImWindowFlags.NoTitleBar;
 			if (noScrollbar.accessValue()) windowFlags |= JImWindowFlags.NoScrollbar;
@@ -326,7 +326,7 @@ public class Demo {
 
 	@SuppressWarnings("AccessStaticViaInstance")
 	private static void showExampleAppWindowTitles(@NotNull JImGui imGui) {
-		// By builtin, Windows are uniquely identified by their title.
+		// By default, Windows are uniquely identified by their title.
 		// You can use the "##" and "###" markers to manipulate the display/ID.
 
 		// Using "##" to display same title but have unique identifier.

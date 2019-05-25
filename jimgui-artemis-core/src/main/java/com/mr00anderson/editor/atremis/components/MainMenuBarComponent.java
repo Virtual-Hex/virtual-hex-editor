@@ -1,24 +1,24 @@
 package com.mr00anderson.editor.atremis.components;
 
 import com.artemis.World;
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
+import com.mr00anderson.editor.jimgui.EditorDrawable;
 import org.ice1000.jimgui.JImGui;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class MainMenuBarComponent implements JImGuiDrawable {
+public class MainMenuBarComponent implements EditorDrawable {
 
     // Link List of Menu Items or array
 
-    public LinkedList<JImGuiDrawable> linkedList;
+    public LinkedList<EditorDrawable> linkedList;
 
     public MainMenuBarComponent() {
     }
 
-    public MainMenuBarComponent(JImGuiDrawable... jImGuiDrawables){
-        LinkedList<JImGuiDrawable> drawables = new LinkedList<>();
-        Collections.addAll(drawables, jImGuiDrawables);
+    public MainMenuBarComponent(EditorDrawable... editorDrawables){
+        LinkedList<EditorDrawable> drawables = new LinkedList<>();
+        Collections.addAll(drawables, editorDrawables);
         this.linkedList = new LinkedList<>();
     }
 

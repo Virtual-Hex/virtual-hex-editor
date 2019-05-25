@@ -1,25 +1,25 @@
 package com.mr00anderson.editor.types;
 
 import com.artemis.World;
-import com.mr00anderson.editor.jimgui.JImGuiDrawable;
+import com.mr00anderson.editor.jimgui.EditorDrawable;
 import org.ice1000.jimgui.JImGui;
 
-public class JImGuiMenuItemDrawable implements JImGuiDrawable {
+public class EditorMenuItemDrawable implements EditorDrawable {
 
     public String label;
     public String shortcut;
     public boolean selected;
     public boolean enabled;
 
-    public JImGuiMenuItemDrawable(String label) {
+    public EditorMenuItemDrawable(String label) {
         this(label, false, true);
     }
 
-    public JImGuiMenuItemDrawable(String label, boolean selected, boolean enabled){
+    public EditorMenuItemDrawable(String label, boolean selected, boolean enabled){
         this(label, null, selected, enabled);
     }
 
-    public JImGuiMenuItemDrawable(String label, String shortcut, boolean selected, boolean enabled) {
+    public EditorMenuItemDrawable(String label, String shortcut, boolean selected, boolean enabled) {
         this.label = label;
         this.shortcut = shortcut;
         this.selected = selected;
@@ -41,7 +41,7 @@ public class JImGuiMenuItemDrawable implements JImGuiDrawable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        JImGuiMenuItemDrawable JImGuiMenuItemDrawable = (JImGuiMenuItemDrawable) o;
+        EditorMenuItemDrawable JImGuiMenuItemDrawable = (EditorMenuItemDrawable) o;
 
         if (selected != JImGuiMenuItemDrawable.selected) return false;
         if (enabled != JImGuiMenuItemDrawable.enabled) return false;

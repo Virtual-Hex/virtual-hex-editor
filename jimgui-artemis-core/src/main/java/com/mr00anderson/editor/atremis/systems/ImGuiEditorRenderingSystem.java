@@ -80,7 +80,7 @@ public class ImGuiEditorRenderingSystem extends BaseEntitySystem {
     protected void removed(int entityId) {
         super.removed(entityId);
         JImGuiRenderComponent JImGuiRenderComponent = renderComponent.get(entityId);
-        JImGuiRenderComponent.jImGuiDrawable.dispose();
+        JImGuiRenderComponent.editorDrawable.dispose();
     }
 
     public void  setMainApp(BasicApp app){

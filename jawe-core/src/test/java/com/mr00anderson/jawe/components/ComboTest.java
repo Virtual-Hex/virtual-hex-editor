@@ -5,6 +5,7 @@ import org.ice1000.jimgui.util.JImGuiUtil;
 import org.ice1000.jimgui.util.JniLoader;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class ComboTest {
@@ -13,6 +14,7 @@ public class ComboTest {
 		JImGuiTest.useAlternativeJniLibAndCheckHeadless();
 	}
 
+	@Disabled
 	@Test
 	public void testSandbox() {
 		main();

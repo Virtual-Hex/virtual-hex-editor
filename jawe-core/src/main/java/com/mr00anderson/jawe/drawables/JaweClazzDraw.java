@@ -1,7 +1,7 @@
 package com.mr00anderson.jawe.drawables;
 
+import com.artemis.World;
 import com.mr00anderson.jawe.handlers.*;
-import com.mr00anderson.jawe.types.Disposable;
 import com.mr00anderson.jawe.types.InstancePurge;
 import org.ice1000.jimgui.JImGui;
 
@@ -16,7 +16,9 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per world instance, This must be disposed of, this draws fields on an object
  */
-public class JaweClazzDraw implements Disposable, InstancePurge {
+public class JaweClazzDraw extends AbstractJaweDrawable implements InstancePurge {
+
+    // Should make this an entity drawer instead, with a prescan of fields for type handling?
 
     // Should turn this into a proper drawable? if i did then it would need to have a instance for each entity
     // TODO
@@ -31,11 +33,14 @@ public class JaweClazzDraw implements Disposable, InstancePurge {
      */
     protected Map<Class<?>, JImGuiTypeHandler> typeHandlerMap = new HashMap<>();
 
+    // Serialization can be on a class bases for drawing with this, but then alot of new refernces, similar to the static final issue
     public JaweClazzDraw() {
         init();
     }
 
     private void init() {
+
+        // TODO use default static final serializers but then optional override
         typeHandlerMap.put(boolean.class, new DefaultJImGuiBooleanPrimTypeHandler());
         typeHandlerMap.put(byte.class, new DefaultJImGuiBytePrimTypeHandler());
         typeHandlerMap.put(short.class, new DefaultJImGuiShortPrimTypeHandler());
@@ -82,5 +87,10 @@ public class JaweClazzDraw implements Disposable, InstancePurge {
                 return jImGuiTypeHandler;
             });
         }
+    }
+
+    @Override
+    public void draw(JImGui imGui, World world) {
+
     }
 }

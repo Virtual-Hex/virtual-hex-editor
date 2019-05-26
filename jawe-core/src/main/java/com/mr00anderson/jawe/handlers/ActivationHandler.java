@@ -1,7 +1,8 @@
 package com.mr00anderson.jawe.handlers;
 
-import com.mr00anderson.jawe.types.Disposable;
 import com.mr00anderson.jawe.drawables.JaweDrawable;
+import com.mr00anderson.jawe.drawables.JaweWindow;
+import com.mr00anderson.jawe.types.Disposable;
 
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
@@ -11,6 +12,18 @@ import com.mr00anderson.jawe.drawables.JaweDrawable;
  * @param <T>
  */
 public interface ActivationHandler<T extends JaweDrawable> extends Disposable {
+    ActivationHandler<JaweWindow> EMPTY_DRAWABLE = new ActivationHandler<JaweWindow>() {
+        @Override
+        public void dispose() {
+
+        }
+
+        @Override
+        public void handle(JaweWindow imGuiDrawable) {
+
+        }
+    };
+
     void handle(T imGuiDrawable);
 }
 
@@ -19,4 +32,4 @@ public interface ActivationHandler<T extends JaweDrawable> extends Disposable {
 // Activation wrapper is a instance where we need to inject empty value or check every time
 // Could be done on entities add, or just a null check.
 
-// TODO Check weaving feature
+// For now will just use new instance of activation handler

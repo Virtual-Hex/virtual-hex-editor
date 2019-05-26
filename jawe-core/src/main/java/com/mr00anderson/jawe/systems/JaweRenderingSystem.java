@@ -4,8 +4,11 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.utils.IntBag;
-import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
+import com.mr00anderson.jawe.handlers.ActivationHandler;
+import com.mr00anderson.jawe.types.BasicApp;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
 
@@ -14,8 +17,10 @@ import org.ice1000.jimgui.util.JniLoader;
 public class JaweRenderingSystem extends BaseEntitySystem {
     ComponentMapper<JaweRenderComponent> renderComponent;
 
-    private JImGui imGui;
-    private BasicApp app;
+    private transient JImGui imGui;
+    private transient BasicApp app;
+
+    public Int2ObjectMap<ActivationHandler> activationHandlers;
 
     @Override
     protected void initialize() {
@@ -24,6 +29,9 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         JniLoader.load();
         imGui = new JImGui();
         imGui.initBeforeMainLoop();
+
+        activationHandlers = new Int2ObjectOpenHashMap<>();
+        activationHandlers.put(0, new ActivationHandlerEmpty());
 
         // TODO Clear color, should be a drawable saved in the world
     }
@@ -44,7 +52,8 @@ public class JaweRenderingSystem extends BaseEntitySystem {
             imGui.initNewFrame();
 
             IntBag entities = subscription.getEntities();
-            for (int i = 0; i < entities.size(); i++) {
+            int length = entities.size();
+            for (int i = 0; i < length; i++) {
                 int entityId = entities.get(i);
                 JaweRenderComponent JaweRenderComponent = renderComponent.get(entityId);
                 JaweRenderComponent.drawSafe(imGui, world);

@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
+import com.artemis.Component;
 import com.artemis.World;
 import com.artemis.annotations.PooledWeaver;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
@@ -8,19 +9,25 @@ import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 
 @PooledWeaver
-public class JaweWindow extends AbstractJaweDrawable {
+public class JaweWindow extends Component implements JaweDrawable {
 
     public String label;
-    public NativeBool open;
-    public int flags;
-    public JaweDrawable windowContents = JaweUtils.EMPTY_DRAWABLE;
+    public NativeBool open = JaweUtils.createBool(true);
+    public int flags = 0;
+    public ActivationHandler<JaweWindow> onActivation = ActivationHandler.EMPTY_DRAWABLE;
+
+    public JaweDrawable windowContents;
 
     public JaweWindow() {
     }
 
+
     @Override
     public void draw(JImGui imGui, World world) {
-        draw0(imGui.begin(label, open, flags));
+        if(imGui.begin(label, open, flags)) {
+            onActivation.handle(this);
+        }
+
         windowContents.draw(imGui, world);
         imGui.end();
     }
@@ -35,10 +42,10 @@ public class JaweWindow extends AbstractJaweDrawable {
 
     public static final class JaweWindowBuilder {
         public String label;
-        public boolean open;
+        public boolean open = true;
         public int flags;
         public JaweDrawable windowContents;
-        public ActivationHandler<JaweWindow> onActivation;
+        public ActivationHandler<JaweWindow> onActivation = ActivationHandler.EMPTY_DRAWABLE;
 
 
         private JaweWindowBuilder() {
@@ -78,7 +85,6 @@ public class JaweWindow extends AbstractJaweDrawable {
             jaweWindow.label = this.label;
             jaweWindow.open = JaweUtils.createBool(open);
             jaweWindow.windowContents = this.windowContents;
-            jaweWindow.onActivation = this.onActivation;
             jaweWindow.flags = this.flags;
             return jaweWindow;
         }

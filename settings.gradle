@@ -1,5 +1,5 @@
-rootProject.name = 'jimgui-artemis-odb-world-editor'
+rootProject.name = 'jimgui-artemis-odb-world-jawe'
 
-include 'jimgui-artemis-core'
+include 'jawe-core'
 
 

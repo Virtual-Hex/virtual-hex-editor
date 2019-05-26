@@ -1,4 +1,4 @@
-# jimgui-artemis-odb-world-editor
+# jimgui-artemis-odb-world-editor (jawe)
 This editor runs on artemis obd and rendered by ImGUi through JImGui
 
 Currently in early development. The purpose of this library is to allow rapid development of game data. This library extends [JImGui](https://github.com/ice1000/jimgui) and [artemis-obd](https://github.com/junkdog/artemis-odb) to tie them together.

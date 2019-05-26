@@ -1,0 +1,147 @@
+{
+"entities": {
+	"0": {
+		"archetype": 1,
+		"components": {
+			"JaweRenderComponent": {
+				"jaweDrawable": {
+					"class": "com.mr00anderson.jawe.types.JaweWindow",
+					"onBeginActivation": {
+						"class": "com.mr00anderson.jawe.types.JaweWindowBuilder$1"
+					},
+					"open": false,
+					"windowContents": {
+						"class": "com.mr00anderson.jawe.JaweClazzDrawableTest",
+						"imGuiClazzDraw": {
+							"typeHandlerMap": {
+								"class": "java.util.HashMap",
+								"double": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiDoublePrimTypeHandler"
+								},
+								"boolean": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiBooleanPrimTypeHandler"
+								},
+								"byte": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiBytePrimTypeHandler"
+								},
+								"float": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiFloatPrimTypeHandler"
+								},
+								"java.lang.String": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiStringPrimTypeHandler"
+								},
+								"int": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiIntPrimTypeHandler"
+								},
+								"long": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiLongPrimTypeHandler"
+								},
+								"short": {
+									"class": "com.mr00anderson.jawe.jimgui.handlers.DefaultJImGuiShortPrimTypeHandler"
+								}
+							}
+						},
+						"testComponentComplex": {
+							"intsPrim": [ 512, 512 ],
+							"component": {
+								"words": [
+									"One",
+									"Two"
+								]
+							},
+							"shortsPrim": [ 256, 256 ],
+							"doublesPrim": [ 1.2, 1.2 ],
+							"floatsPrim": [ 1.2, 1.2 ],
+							"bytePrim": -110,
+							"longsPrim": [ 512, 512 ],
+							"dictionaryComponents": [
+								{
+									"words": [
+										"One",
+										"Two"
+									]
+								},
+								{
+									"words": [
+										"cat, dog"
+									]
+								},
+								{
+									"words": [
+										"bird, plane"
+									]
+								}
+							],
+							"booleansPrim": [
+								true,
+								true
+							],
+							"aStrings": [
+								"TestString1",
+								"TestString2"
+							],
+							"objects": [
+								{
+									"class": "java.lang.String",
+									"value": "Test"
+								},
+								{
+									"class": "java.lang.String",
+									"value": "Test 2"
+								}
+							],
+							"intPrim": 510,
+							"components": [
+								{
+									"class": "com.mr00anderson.jawe.atremis.components.DictionaryComponent",
+									"words": [
+										"cat, dog"
+									]
+								},
+								{
+									"class": "com.mr00anderson.jawe.atremis.components.DictionaryComponent",
+									"words": [
+										"bird, plane"
+									]
+								}
+							],
+							"doublePrim": 1.2000000476837158,
+							"bytesPrim": [ 120, 120 ],
+							"floatPrim": -0.79999995,
+							"shortPrim": 255,
+							"complexMap": {
+								"class": "java.util.HashMap",
+								"TestKey2": {
+									"class": "com.mr00anderson.jawe.atremis.components.DictionaryComponent",
+									"words": [
+										"bird, plane"
+									]
+								},
+								"TestKey1": {
+									"class": "com.mr00anderson.jawe.atremis.components.DictionaryComponent",
+									"words": [
+										"cat, dog"
+									]
+								}
+							}
+						}
+					},
+					"label": "Clazz Test Draw"
+				},
+				"active": true
+			}
+		}
+	}
+},
+"archetypes": {
+	"1": [
+		"JaweRenderComponent"
+	]
+},
+"componentIdentifiers": {
+	"com.mr00anderson.jawe.atremis.components.JaweRenderComponent": "JaweRenderComponent"
+},
+"metadata": {
+	"version": 1
+}
+}

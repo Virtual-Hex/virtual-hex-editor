@@ -1,16 +1,26 @@
-plugins {
-    id 'java'
-}
-
 group 'com.mr00anderson'
 version '1.0.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
     jcenter()
 }
+
+
+apply plugin: 'java'
+apply plugin: 'artemis'
+
+// artemis-odb: weaving settings.
+weave {
+    enableArtemisPlugin = true
+    enablePooledWeaving = true
+    optimizeEntitySystems = true
+    classesDir = sourceSets.main.java.outputDir
+}
+
+classes.finalizedBy weave
+
+sourceCompatibility = 1.8
 
 project.ext {
     lwjglVersion = "3.2.2"
@@ -45,6 +55,7 @@ dependencies {
     compile "net.mostlyoriginal.artemis-odb:contrib-plugin-profiler:2.4.0"
 
 
+
     // Testing
     testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
     testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
@@ -67,6 +78,7 @@ dependencies {
 
     // JImGui
     compile "org.ice1000.jimgui:core:v0.7" // basic functionality
+
 //    compile "org.ice1000.jimgui:kotlin-dsl:$jimgui_version" // kotlin dsl wrapper
 }
 

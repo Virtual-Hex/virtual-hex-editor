@@ -5,10 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.utils.IntBag;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.handlers.ActivationHandler;
 import com.mr00anderson.jawe.types.BasicApp;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
 
@@ -20,7 +17,21 @@ public class JaweRenderingSystem extends BaseEntitySystem {
     private transient JImGui imGui;
     private transient BasicApp app;
 
-    public Int2ObjectMap<ActivationHandler> activationHandlers;
+
+    @Override
+    public void inserted(IntBag entities) {
+        super.inserted(entities);
+        System.out.println(entities);
+    }
+
+    @Override
+    protected void inserted(int entityId) {
+        super.inserted(entityId);
+        System.out.println(entityId);
+        JaweRenderComponent jaweRenderComponent = renderComponent.get(entityId);
+        // This is used for post construction logic, used to construct complex transient types
+//        jaweRenderComponent.jaweDrawable.init(world);
+    }
 
     @Override
     protected void initialize() {
@@ -29,9 +40,6 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         JniLoader.load();
         imGui = new JImGui();
         imGui.initBeforeMainLoop();
-
-        activationHandlers = new Int2ObjectOpenHashMap<>();
-        activationHandlers.put(0, new ActivationHandlerEmpty());
 
         // TODO Clear color, should be a drawable saved in the world
     }

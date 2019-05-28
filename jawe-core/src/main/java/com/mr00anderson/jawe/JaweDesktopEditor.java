@@ -6,7 +6,7 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.io.JsonArtemisSerializer;
 import com.artemis.managers.WorldSerializationManager;
-import com.mr00anderson.jawe.json.EnhancedJsonArtemisSerializer;
+import com.mr00anderson.jawe.json.JaweJsonArtemisSerializer;
 import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.utils.ArtemisIoUtils;
@@ -40,6 +40,7 @@ public final class JaweDesktopEditor implements BasicApp {
     private boolean running = true;
 
     public static void main(String[] args) {
+        // TODO jimgui.ini loading so users can import layouts
         for (int i = 0; i < args.length; i++) {
         }
         JaweDesktopEditor jaweDesktopEditor = new JaweDesktopEditor();
@@ -65,7 +66,7 @@ public final class JaweDesktopEditor implements BasicApp {
         world = new World(worldConfig);
 
         // TODO BACKEND OPTION - LOADING HERE
-        JsonArtemisSerializer jsonArtemisSerializer = new EnhancedJsonArtemisSerializer(world).prettyPrint(true);
+        JsonArtemisSerializer jsonArtemisSerializer = new JaweJsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
         Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, world);
@@ -91,6 +92,7 @@ public final class JaweDesktopEditor implements BasicApp {
 
         // Clean it up
         try {
+
             ArtemisIoUtils.saveAllFile(world, "jawe-cache-test.json");
         } catch (IOException e) {
             e.printStackTrace();

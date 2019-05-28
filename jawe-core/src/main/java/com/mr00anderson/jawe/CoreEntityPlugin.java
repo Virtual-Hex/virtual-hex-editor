@@ -3,6 +3,7 @@ package com.mr00anderson.jawe;
 import com.artemis.ArtemisPlugin;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.link.EntityLinkManager;
+import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import net.mostlyoriginal.api.event.common.EventSystem;
 
@@ -21,6 +22,10 @@ public class CoreEntityPlugin implements ArtemisPlugin {
          * Managed entity names
          */
         b.with(1000, new TagManager());
+        /*
+         * Managed groups
+         */
+        b.with(1000, new GroupManager());
         /*
          * Managed entity references
          */

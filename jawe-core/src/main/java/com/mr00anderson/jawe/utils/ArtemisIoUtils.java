@@ -3,9 +3,10 @@ package com.mr00anderson.jawe.utils;
 import com.artemis.Aspect;
 import com.artemis.EntitySubscription;
 import com.artemis.World;
-import com.artemis.io.SaveFileFormat;
 import com.artemis.managers.WorldSerializationManager;
 import com.artemis.utils.IntBag;
+import com.mr00anderson.jawe.JaweSaveFileFormat;
+import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -36,7 +37,8 @@ public class ArtemisIoUtils {
         WorldSerializationManager manager = world.getSystem(WorldSerializationManager.class);
         EntitySubscription entitySubscription = world.getAspectSubscriptionManager().get(Aspect.all());
         IntBag entities = entitySubscription.getEntities();
-        manager.save(outputStream, new SaveFileFormat(entities));
+        JaweRenderingSystem renderingSystem = world.getSystem(JaweRenderingSystem.class);
+        manager.save(outputStream, new JaweSaveFileFormat(entities));
     }
 
 }

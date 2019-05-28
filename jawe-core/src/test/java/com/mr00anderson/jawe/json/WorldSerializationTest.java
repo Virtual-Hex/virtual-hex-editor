@@ -48,7 +48,7 @@ public class WorldSerializationTest implements BasicApp {
                         .setSystem(new JaweRenderingSystem())
         );
 
-        JsonArtemisSerializer jsonArtemisSerializer = new EnhancedJsonArtemisSerializer(world).prettyPrint(true);
+        JsonArtemisSerializer jsonArtemisSerializer = new JaweJsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
         ComponentMapper<TestComponentComplex> mapperTwo = world.getMapper(TestComponentComplex.class);

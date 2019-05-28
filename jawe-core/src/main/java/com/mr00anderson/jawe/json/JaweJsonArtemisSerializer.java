@@ -4,10 +4,10 @@ import com.artemis.World;
 import com.artemis.io.JsonArtemisSerializer;
 import org.ice1000.jimgui.*;
 
-public class EnhancedJsonArtemisSerializer extends JsonArtemisSerializer {
+public class JaweJsonArtemisSerializer extends JsonArtemisSerializer {
 
 
-    public EnhancedJsonArtemisSerializer(World world) {
+    public JaweJsonArtemisSerializer(World world) {
         super(world);
 
         this.register(NativeBool.class, new NativeBoolSerializer());
@@ -17,4 +17,6 @@ public class EnhancedJsonArtemisSerializer extends JsonArtemisSerializer {
         this.register(NativeFloat.class, new NativeFloatSerializer());
         this.register(NativeDouble.class, new NativeDoubleSerializer());
     }
+
+
 }

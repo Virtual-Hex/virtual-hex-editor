@@ -16,11 +16,6 @@ public class JaweColumn implements JaweDrawable {
         imGui.columns(count, stringId, border);
     }
 
-    @Override
-    public void dispose() {
-        // Nothing to dispose of here
-    }
-
     public static final class JaweColumnBuilder {
         public int count;
         public String stringId;

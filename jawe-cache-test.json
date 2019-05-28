@@ -11,33 +11,9 @@
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
 					"open": true,
 					"windowContents": {
-						"class": "com.mr00anderson.jawe.DebugWindow",
-						"noCollapse": false,
-						"noNav": false,
-						"showAppAbout": false,
-						"show_app_log": false,
-						"noScrollbar": false,
-						"clicked": 0,
-						"check": true,
-						"show_app_property_editor": false,
-						"show_app_layout": false,
-						"pOpen": false,
-						"showAppStyleEditor": false,
-						"e": 0,
-						"showAppWindowTitles": false,
-						"show_app_long_text": false,
-						"noMove": false,
-						"noMenu": false,
-						"noResize": false,
-						"show_app_auto_resize": false,
-						"showAppMainMenuBar": false,
-						"showAppSimpleOverlay": false,
-						"noTitlebar": false,
-						"show_app_constrained_resize": false,
-						"show_app_custom_rendering": false,
-						"showAppMetrics": true
+						"class": "com.mr00anderson.jawe.drawables.WorldsJaweComponent"
 					},
-					"label": "Debug"
+					"label": "Worlds"
 				},
 				"active": true
 			}
@@ -53,86 +29,20 @@
 				"jaweDrawable": {
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
 					"open": true,
-					"onActivation": {
-						"class": "com.mr00anderson.jawe.EditorWorldSetup$1"
-					},
 					"windowContents": {
-						"class": "com.mr00anderson.jawe.drawables.JaweClazzDraw",
-						"typeHandlerMap": {
-							"class": "java.util.HashMap",
-							"short": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiShortPrimTypeHandler"
+						"class": "com.mr00anderson.jawe.drawables.JaweTestingWindow",
+						"jaweSelectable": [
+							{
+								"label": "Test Selectable One",
+								"selected": false
 							},
-							"byte": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiBytePrimTypeHandler"
-							},
-							"float": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiFloatPrimTypeHandler"
-							},
-							"int": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiIntPrimTypeHandler"
-							},
-							"double": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiDoublePrimTypeHandler"
-							},
-							"boolean": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiBooleanPrimTypeHandler"
-							},
-							"long": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiLongPrimTypeHandler"
-							},
-							"java.lang.String": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiStringPrimTypeHandler"
+							{
+								"label": "Test Selectable Two",
+								"selected": false
 							}
-						}
+						]
 					},
-					"label": "Clazz Test Draw 2"
-				},
-				"active": true
-			}
-		}
-	},
-	"2": {
-		"archetype": 1,
-		"groups": [
-			"JaweDrawable"
-		],
-		"components": {
-			"JaweRenderComponent": {
-				"jaweDrawable": {
-					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
-					"open": true,
-					"windowContents": {
-						"class": "com.mr00anderson.jawe.drawables.JaweClazzDraw",
-						"typeHandlerMap": {
-							"class": "java.util.HashMap",
-							"short": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiShortPrimTypeHandler"
-							},
-							"byte": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiBytePrimTypeHandler"
-							},
-							"float": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiFloatPrimTypeHandler"
-							},
-							"int": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiIntPrimTypeHandler"
-							},
-							"double": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiDoublePrimTypeHandler"
-							},
-							"boolean": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiBooleanPrimTypeHandler"
-							},
-							"long": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiLongPrimTypeHandler"
-							},
-							"java.lang.String": {
-								"class": "com.mr00anderson.jawe.handlers.DefaultJImGuiStringPrimTypeHandler"
-							}
-						}
-					},
-					"label": "Clazz Test Draw 1"
+					"label": "Window"
 				},
 				"active": true
 			}

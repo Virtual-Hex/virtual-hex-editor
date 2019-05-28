@@ -16,7 +16,7 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per world instance, This must be disposed of, this draws fields on an object
  */
-public class JaweClazzDraw extends AbstractJaweDrawable implements InstancePurge {
+public class JaweClazzDraw implements InstancePurge, JaweDrawable {
 
     // Should make this an entity drawer instead, with a prescan of fields for type handling?
 
@@ -51,7 +51,8 @@ public class JaweClazzDraw extends AbstractJaweDrawable implements InstancePurge
         typeHandlerMap.put(String.class, new DefaultJImGuiStringPrimTypeHandler());
     }
 
-    @Override
+
+    // TODO move this, since native types will be managed by editor automatically
     public void dispose() {
         typeHandlerMap.forEach((k,v) -> v.dispose());
         typeHandlerMap.clear();

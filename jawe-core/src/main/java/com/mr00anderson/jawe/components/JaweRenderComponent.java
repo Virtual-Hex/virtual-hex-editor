@@ -1,9 +1,9 @@
 package com.mr00anderson.jawe.components;
 
+import com.artemis.Component;
 import com.artemis.World;
 import com.mr00anderson.jawe.drawables.JaweDrawable;
 import org.ice1000.jimgui.JImGui;
-import org.ice1000.jimgui.NativeBool;
 
 /**
  * This can be anything that draws, but this is for uniform
@@ -11,21 +11,23 @@ import org.ice1000.jimgui.NativeBool;
  * and no sub class mapping? Maybe do a PR to map for them
  * an extension that maps aspects of subtypes?
  */
-public class JaweRenderComponent extends DisposableComponent {
+public class JaweRenderComponent extends Component {
 
-    public NativeBool active;
+    /**
+     * Used to indicate if a component should be drawn
+     */
+    public boolean active;
+
+    /**
+     * The component that should be drawn
+     */
     public JaweDrawable jaweDrawable;
 
     public JaweRenderComponent() {
     }
 
-    public void drawSafe(JImGui imGui, World world){
-        if(active.accessValue()) jaweDrawable.draw(imGui, world);
-    }
-
-    @Override
-    public void dispose() {
-        jaweDrawable.dispose();
+    public void draw(JImGui imGui, World world){
+        if(active) jaweDrawable.draw(imGui, world);
     }
 
 

@@ -1,8 +1,6 @@
 package com.mr00anderson.jawe.handlers;
 
 import com.mr00anderson.jawe.drawables.JaweDrawable;
-import com.mr00anderson.jawe.drawables.JaweWindow;
-import com.mr00anderson.jawe.types.Disposable;
 
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
@@ -11,19 +9,13 @@ import com.mr00anderson.jawe.types.Disposable;
  *
  * @param <T>
  */
-public interface ActivationHandler<T extends JaweDrawable> extends Disposable {
-    ActivationHandler<JaweWindow> EMPTY_DRAWABLE = new ActivationHandler<JaweWindow>() {
-        @Override
-        public void dispose() {
+public interface ActivationHandler<T extends JaweDrawable> {
 
-        }
 
-        @Override
-        public void handle(JaweWindow imGuiDrawable) {
-
-        }
-    };
-
+    /**
+     * The drawable that was activated
+     * @param imGuiDrawable
+     */
     void handle(T imGuiDrawable);
 }
 

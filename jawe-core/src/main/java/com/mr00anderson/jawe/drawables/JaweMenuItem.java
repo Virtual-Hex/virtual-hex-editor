@@ -1,26 +1,43 @@
 package com.mr00anderson.jawe.drawables;
 
 import com.artemis.World;
-import com.artemis.annotations.PooledWeaver;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
 
-@PooledWeaver
-public class JaweMenuItem extends AbstractJaweDrawable {
+public class JaweMenuItem implements JaweDrawable {
 
+    /**
+     * Menu item name
+     */
     public String label;
+
+    /**
+     * These are not currently processed by ImGui, JImGui or Jawe
+     */
     public String shortcut;
+
+    /**
+     * If the menu item is selected or not
+     */
     public boolean selected;
+
+    /**
+     * If the menu item is enabled
+     */
     public boolean enabled;
+
+    /**
+     *
+     */
+    public ActivationHandler<JaweMenuItem> onActivation;
 
     @Override
     public void draw(JImGui imGui, World world) {
-        draw0(imGui.menuItem(label, shortcut, selected, enabled));
-    }
-
-    @Override
-    public void dispose() {
-        // No native or allocated objects to dispose
+        // Returns true on activation + toggle
+        // @see https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L535
+        if(imGui.menuItem(label, shortcut, selected, enabled) && onActivation != null){
+            onActivation.handle(this);
+        }
     }
 
     public static final class JaweMenuItemBuilder {

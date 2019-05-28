@@ -12,8 +12,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mr00anderson.jawe.JImGuiExtension.f;
-import static com.mr00anderson.jawe.JImGuiExtension.showHelpMarker;
+import static com.mr00anderson.jawe.JaweJImGui.f;
+import static com.mr00anderson.jawe.JaweJImGui.showHelpMarker;
 import static org.ice1000.jimgui.JImGuiGen.nextColumn;
 
 public class DefaultJImGuiBytePrimTypeHandler implements JImGuiTypeHandler {

@@ -4,9 +4,9 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.utils.IntBag;
+import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
 import com.mr00anderson.jawe.types.BasicApp;
-import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
 
 // not completely generic
@@ -14,9 +14,10 @@ import org.ice1000.jimgui.util.JniLoader;
 public class JaweRenderingSystem extends BaseEntitySystem {
     ComponentMapper<JaweRenderComponent> renderComponent;
 
-    private transient JImGui imGui;
-    private transient BasicApp app;
+    public transient JaweJImGui imGui;
+    public transient BasicApp app;
 
+    // TODO Insert a new entity dropper
 
     @Override
     public void inserted(IntBag entities) {
@@ -29,16 +30,25 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         super.inserted(entityId);
         System.out.println(entityId);
         JaweRenderComponent jaweRenderComponent = renderComponent.get(entityId);
+        world.inject(jaweRenderComponent);
+
+        System.out.println(jaweRenderComponent.jaweDrawable);
+
+        // Components need to be injected but we want a functional interface for drawbles
+        // Some drawables care about the world and some do not
+
+
         // This is used for post construction logic, used to construct complex transient types
 //        jaweRenderComponent.jaweDrawable.init(world);
     }
+
 
     @Override
     protected void initialize() {
         super.initialize();
 
         JniLoader.load();
-        imGui = new JImGui();
+        imGui = new JaweJImGui();
         imGui.initBeforeMainLoop();
 
         // TODO Clear color, should be a drawable saved in the world
@@ -64,7 +74,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
             for (int i = 0; i < length; i++) {
                 int entityId = entities.get(i);
                 JaweRenderComponent JaweRenderComponent = renderComponent.get(entityId);
-                JaweRenderComponent.drawSafe(imGui, world);
+                JaweRenderComponent.draw(imGui, world);
             }
 
             imGui.render();
@@ -82,7 +92,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         // Depose of any objects
         IntBag entities = subscription.getEntities();
         removed(entities);
-        imGui.deallocateNativeObject();
+        imGui.deallocateNativeObject0();
     }
 
     @Override
@@ -97,7 +107,6 @@ public class JaweRenderingSystem extends BaseEntitySystem {
     protected void removed(int entityId) {
         super.removed(entityId);
         JaweRenderComponent JaweRenderComponent = renderComponent.get(entityId);
-        JaweRenderComponent.jaweDrawable.dispose();
     }
 
     public void  setMainApp(BasicApp app){

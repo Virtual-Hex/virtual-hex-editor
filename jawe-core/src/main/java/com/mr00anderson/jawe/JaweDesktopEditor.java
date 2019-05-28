@@ -26,6 +26,7 @@ import java.io.IOException;
  *              their may be a organization of how data is added, Example:
  *              menu bar process can be a linked list of JaweDrawable's
  *
+ *
  */
 public final class JaweDesktopEditor implements BasicApp {
 
@@ -63,6 +64,7 @@ public final class JaweDesktopEditor implements BasicApp {
                 // TODO Profiler Plugin For Editor ?
                 .build();
 
+        // Entities in this world will be generally entities with JaweDrawable components
         world = new World(worldConfig);
 
         // TODO BACKEND OPTION - LOADING HERE
@@ -72,8 +74,8 @@ public final class JaweDesktopEditor implements BasicApp {
         Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, world);
 
         // Set app here so that the ImGui instance can close this application
-        JaweRenderingSystem system = world.getSystem(JaweRenderingSystem.class);
-        system.setMainApp(this);
+        JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);
+        jaweRenderingSystem.setMainApp(this);
 
         // TODO Setup or load from a save file
         final boolean load = false;
@@ -81,7 +83,7 @@ public final class JaweDesktopEditor implements BasicApp {
             // TODO Editor serialization not supported yet
         } else {
             // Use builtin jawe setup
-            EditorWorldSetup.setupEditorBaseEntities(world);
+            EditorWorldSetup.setupEditorBaseEntities(world, jaweRenderingSystem.imGui);
         }
 
         // We need to loop here, maybe allow a loop type to be chosen
@@ -99,6 +101,7 @@ public final class JaweDesktopEditor implements BasicApp {
         }
 
         world.dispose();
+        JaweJimGuiStaticDeallocateManager.deallocateNativeObject0();
     }
 
     public World getWorld() {

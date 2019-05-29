@@ -8,7 +8,7 @@ public class JaweBeginMenuItem implements JaweDrawable {
 
     public String label;
     public boolean enabled;
-    public ActivationHandler<JaweDrawable> activationHandler;
+    public ActivationHandler<JaweBeginMenuItem> activationHandler = imGuiDrawable -> {};
 
     @Override
     public void draw(JImGui imGui, World world) {

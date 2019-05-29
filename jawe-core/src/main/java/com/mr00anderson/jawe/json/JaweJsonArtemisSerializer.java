@@ -16,6 +16,7 @@ public class JaweJsonArtemisSerializer extends JsonArtemisSerializer {
         this.register(NativeLong.class, new NativeLongSerializer());
         this.register(NativeFloat.class, new NativeFloatSerializer());
         this.register(NativeDouble.class, new NativeDoubleSerializer());
+        this.register(ActivationHandlerSerializer.class, new ActivationHandlerSerializer());
     }
 
 

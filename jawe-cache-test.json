@@ -11,7 +11,13 @@
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
 					"open": true,
 					"windowContents": {
-						"class": "com.mr00anderson.jawe.drawables.WorldsJaweComponent"
+						"class": "com.mr00anderson.jawe.components.WorldsJaweComponent",
+						"jaweButton": {
+							"label": "+",
+							"onActivation": {
+								"class": "com.mr00anderson.jawe.components.WorldsJaweComponent$1"
+							}
+						}
 					},
 					"label": "Worlds"
 				},
@@ -34,10 +40,16 @@
 						"jaweSelectable": [
 							{
 								"label": "Test Selectable One",
+								"onActivation": {
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$9/423031029"
+								},
 								"selected": false
 							},
 							{
 								"label": "Test Selectable Two",
+								"onActivation": {
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$9/423031029"
+								},
 								"selected": false
 							}
 						]

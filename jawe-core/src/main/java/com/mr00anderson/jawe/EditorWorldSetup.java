@@ -6,7 +6,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.drawables.*;
+import com.mr00anderson.jawe.drawables.JaweDrawable;
+import com.mr00anderson.jawe.drawables.JaweTestingWindow;
+import com.mr00anderson.jawe.drawables.JaweWindow;
+import com.mr00anderson.jawe.components.WorldsJaweComponent;
 
 public class EditorWorldSetup {
 

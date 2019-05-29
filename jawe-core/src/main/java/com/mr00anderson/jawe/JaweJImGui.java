@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe;
 
 import com.mr00anderson.jawe.drawables.JaweDrawable;
-import com.mr00anderson.jawe.drawables.JaweWindow;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
@@ -12,7 +11,7 @@ public class JaweJImGui extends JImGui {
     public static final JaweDrawable EMPTY_DRAWABLE = (imGui, world) -> {};
     public static final JaweDrawable SEPARATOR = (imGui, world) -> JImGui.separator();
 
-    public static final ActivationHandler<JaweWindow> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};
+    public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};
 
     protected DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 

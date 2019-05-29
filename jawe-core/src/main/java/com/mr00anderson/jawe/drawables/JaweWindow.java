@@ -10,7 +10,11 @@ import org.ice1000.jimgui.NativeBool;
 /**
  * TODO Window Utilities from, probably just a API note that they can be  used
  * inside begin() end() so within he provided window contents
- *  *https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L258
+ *
+ *  https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L258
+ *
+ *  Returns false indicating collapsed or fully clipped
+ *  @See https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L245
  *
  *
  */
@@ -42,23 +46,16 @@ public class JaweWindow implements JaweDrawable {
      *
      *  @See https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L245
      */
-    public ActivationHandler<JaweWindow> onActivation;
-
-
+    public ActivationHandler<JaweWindow> onActivation = imGuiDrawable -> {};
 
     public JaweWindow() {
     }
 
     @Override
     public void draw(JImGui imGui, World world) {
-
-        // Returns false indicating collapsed or fully clipped
-        // @See https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L245
         if(imGui.begin(label, open, flags)) {
             windowContents.draw(imGui, world);
-            if(onActivation != null) {
-                onActivation.handle(this);
-            }
+            onActivation.handle(this);
         }
         imGui.end();
     }

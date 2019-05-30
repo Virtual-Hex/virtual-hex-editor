@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.artemis.World;
 import com.mr00anderson.jawe.JaweJimGuiStaticDeallocateManager;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
@@ -52,9 +51,9 @@ public class JaweWindow implements JaweDrawable {
     }
 
     @Override
-    public void draw(JImGui imGui, World world) {
+    public void draw(JImGui imGui) {
         if(imGui.begin(label, open, flags)) {
-            windowContents.draw(imGui, world);
+            windowContents.draw(imGui);
             onActivation.handle(this);
         }
         imGui.end();

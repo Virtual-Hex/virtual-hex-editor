@@ -9,6 +9,8 @@ import com.artemis.managers.WorldSerializationManager;
 import com.mr00anderson.jawe.json.JaweJsonArtemisSerializer;
 import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import com.mr00anderson.jawe.types.BasicApp;
+import com.mr00anderson.jawe.types.WorldWrapper;
+import com.mr00anderson.jawe.types.Worlds;
 import com.mr00anderson.jawe.utils.ArtemisIoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import java.io.IOException;
  *          -> Entities will have one component for rendering and in that
  *              their may be a organization of how data is added, Example:
  *              menu bar process can be a linked list of JaweDrawable's
+ *
  *
  *
  */
@@ -71,7 +74,7 @@ public final class JaweDesktopEditor implements BasicApp {
         JsonArtemisSerializer jsonArtemisSerializer = new JaweJsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
-        Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, world);
+        Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, new WorldWrapper());
 
         // Set app here so that the ImGui instance can close this application
         JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);

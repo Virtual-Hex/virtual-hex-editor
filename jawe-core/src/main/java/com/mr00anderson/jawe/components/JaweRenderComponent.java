@@ -27,7 +27,7 @@ public class JaweRenderComponent extends Component {
     }
 
     public void draw(JImGui imGui, World world){
-        if(active) jaweDrawable.draw(imGui, world);
+        if(active) jaweDrawable.draw(imGui);
     }
 
 

@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.artemis.World;
 import org.ice1000.jimgui.JImGui;
 
 /**
@@ -8,5 +7,5 @@ import org.ice1000.jimgui.JImGui;
  * This should map to JImGui#methodNameHere when created
  */
 public interface JaweDrawable {
-    void draw(JImGui imGui, World world);
+    void draw(JImGui imGui);
 }

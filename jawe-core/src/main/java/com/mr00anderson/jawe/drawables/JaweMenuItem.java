@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.artemis.World;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
 
@@ -32,7 +31,7 @@ public class JaweMenuItem implements JaweDrawable {
     public ActivationHandler<JaweMenuItem> onActivation;
 
     @Override
-    public void draw(JImGui imGui, World world) {
+    public void draw(JImGui imGui) {
         // Returns true on activation + toggle
         // @see https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L535
         if(imGui.menuItem(label, shortcut, selected, enabled) && onActivation != null){

@@ -48,7 +48,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         super.initialize();
 
         JniLoader.load();
-        imGui = new JaweJImGui();
+        imGui = new JaweJImGui(world);
         imGui.initBeforeMainLoop();
 
         // TODO Clear color, should be a drawable saved in the world

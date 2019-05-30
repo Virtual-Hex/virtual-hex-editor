@@ -1,21 +1,88 @@
 package com.mr00anderson.jawe;
 
-import com.mr00anderson.jawe.drawables.JaweDrawable;
+import com.artemis.World;
+import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
+import org.jetbrains.annotations.NotNull;
 
 public class JaweJImGui extends JImGui {
 
 
-    public static final JaweDrawable EMPTY_DRAWABLE = (imGui, world) -> {};
-    public static final JaweDrawable SEPARATOR = (imGui, world) -> JImGui.separator();
+    public static final JaweDrawable EMPTY_DRAWABLE = new EmptyJaweDrawable();
+
+    /**
+     *  separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
+     */
+    public static final JaweDrawable SEPARATOR = new JaweSeparator();
+
+    /**
+     * next column, defaults to current row or next row if the current row is finished
+     */
+    public static final JaweDrawable NEXT_COLUMN = new JaweNextColumn();
+
+    /**
+     * undo a SameLine() or force a new line when in an horizontal-layout context.
+     */
+    public static final JaweDrawable NEW_LINE = new JaweNewLine();
+
+    /**
+     * add vertical spacing
+     */
+    public static final JaweDrawable JAWE_SPACING = new JaweSpacing();
+
 
     public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};
 
     protected DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 
     public static final JaweJimGuiStaticDeallocateManager STATIC_NATIVE_MANAGEMENT = new JaweJimGuiStaticDeallocateManager();
+
+    public World world;
+
+    public JaweJImGui(World world) {
+        this.world = world;
+    }
+
+    public JaweJImGui(int width, int height, @NotNull String title, World world) {
+        super(width, height, title);
+        this.world = world;
+    }
+
+    public JaweJImGui(int width, int height, World world) {
+        super(width, height);
+        this.world = world;
+    }
+
+    public JaweJImGui(int width, int height, @NotNull JImFontAtlas fontAtlas, @NotNull String title, World world) {
+        super(width, height, fontAtlas, title);
+        this.world = world;
+    }
+
+    public JaweJImGui(int width, int height, @NotNull JImFontAtlas fontAtlas, @NotNull String title, long anotherWindow, World world) {
+        super(width, height, fontAtlas, title, anotherWindow);
+        this.world = world;
+    }
+
+    public JaweJImGui() {
+    }
+
+    public JaweJImGui(int width, int height, @NotNull String title) {
+        super(width, height, title);
+    }
+
+    public JaweJImGui(int width, int height) {
+        super(width, height);
+    }
+
+    public JaweJImGui(int width, int height, @NotNull JImFontAtlas fontAtlas, @NotNull String title) {
+        super(width, height, fontAtlas, title);
+    }
+
+    public JaweJImGui(int width, int height, @NotNull JImFontAtlas fontAtlas, @NotNull String title, long anotherWindow) {
+        super(width, height, fontAtlas, title, anotherWindow);
+    }
 
     public static void showHelpMarker(JImGui imGui, String description) {
         imGui.textDisabled("(?)");

@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.artemis.World;
 import com.artemis.annotations.PooledWeaver;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
@@ -13,7 +12,7 @@ public class JaweBeginMenu implements JaweDrawable {
     public ActivationHandler<JaweBeginMenu> onActivation;
 
     @Override
-    public void draw(JImGui imGui, World world) {
+    public void draw(JImGui imGui) {
         // Returns true on activation
         if(imGui.beginMenu(label, enabled)){
 

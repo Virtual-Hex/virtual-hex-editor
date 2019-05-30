@@ -1,4 +1,4 @@
-package com.mr00anderson.jawe;
+package com.mr00anderson.jawe.types;
 
 import com.artemis.World;
 import org.jetbrains.annotations.NotNull;
@@ -6,7 +6,17 @@ import org.jetbrains.annotations.NotNull;
 public class WorldWrapper implements Comparable<WorldWrapper>{
 
     public String name;
+    public Location location;
     public World world;
+
+    public WorldWrapper() {
+    }
+
+    public WorldWrapper(String name, Location location, World world) {
+        this.name = name;
+        this.location = location;
+        this.world = world;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -31,4 +41,12 @@ public class WorldWrapper implements Comparable<WorldWrapper>{
     public int compareTo(@NotNull WorldWrapper o) {
         return name.compareTo(o.name);
     }
+
+    public enum Location {
+        CODE,
+        CLASSPATH_FILE,
+        FILE,
+        URL
+    }
+
 }

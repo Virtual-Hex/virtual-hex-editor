@@ -32,7 +32,7 @@ public class DefaultJImGuiStringPrimTypeHandler implements JImGuiTypeHandler {
 
         wrappedTextBuffer.setFieldFromData();
         nextColumn();
-        imGui.text("string");
+        imGui.text("path");
         imGui.sameLine();
         int bufferLength = wrappedTextBuffer.getBufferEndIndex();
         showHelpMarker(imGui, f( "Range 0 to %,d", wrappedTextBuffer.getData().length - 1));

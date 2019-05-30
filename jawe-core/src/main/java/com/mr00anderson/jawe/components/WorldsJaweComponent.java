@@ -4,22 +4,28 @@ import com.artemis.PooledComponent;
 import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.drawables.JaweColumns;
 import com.mr00anderson.jawe.drawables.JaweDrawable;
-import com.mr00anderson.jawe.drawables.JaweSelectable;
 import com.mr00anderson.jawe.drawables.JaweText;
-import com.mr00anderson.jawe.handlers.ActivationHandler;
 import com.mr00anderson.jawe.types.WorldWrapper;
-import com.mr00anderson.jawe.types.Worlds;
 import org.ice1000.jimgui.JImGui;
-import org.ice1000.jimgui.flag.JImSelectableFlags;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 // TODO Further abstraction optional, can take a list of elements and rename this to JaweDrawableComponent
 public class WorldsJaweComponent extends PooledComponent implements JaweDrawable {
 
-    public JaweOrderedDrawables drawables;
 
-    public WorldsJaweComponent() {
+    public JaweOrderedDrawables drawables;
+    public JaweOrderedDrawables worldsList;
+
+    // Cached windows for when worlds are unclicked and clicked
+    public Map<String, JaweWorldWindow> worlds = new HashMap<>();
+
+    public WorldsJaweComponent(WorldWrapper worldWrapper) {
+
+        // TODO ADD
+        // TODO REMOVE
+        // TODO CATEGORIES (All (just paths), Unloaded, Loaded, Simulating)
         //        jaweButton = new JaweButton();
 //        jaweButton.label = "+";
 //        jaweButton.onActivation = new ActivationHandler<JaweButton>() {
@@ -29,7 +35,7 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
 //            }
 //        };
 
-        JaweOrderedDrawables worldsList = new JaweOrderedDrawables();
+        worldsList = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
 
         this.drawables = new JaweOrderedDrawables(
                 new JaweColumns("Worlds Columns", 3, true),
@@ -38,73 +44,19 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
                 new JaweText("Location Type"),
                 JaweJImGui.NEXT_COLUMN,
                 new JaweText("Location Path"),
-                JaweJImGui.NEXT_COLUMN
-
+                JaweJImGui.NEXT_COLUMN,
+                JaweJImGui.SEPARATOR
         );
-
-
-        Set<WorldWrapper> worldWrapperSet = new TreeSet<>(Comparator.comparing(o -> o.name));
-
-        JaweDrawable[] drawables = new JaweDrawable[Worlds.WORLDS.size()];
-
-
-        for (int i = 0; i < drawables.length; i++) {
-
-        }
-
-
-//        (worldWrapper -> {
-//
-//            InternalJaweDrawable internalJaweDrawable = new InternalJaweDrawable(worldWrapper);
-//            drawables[index++];
-//            worldsSet.add(internalJaweDrawable);
-//        });
-
-        // TODO ADD
-        // TODO REMOVE
-
-        // TODO CATEGORIES (All (just paths), Unloaded, Loaded, Simulating)
-
     }
 
-    public class InternalJaweDrawable implements JaweDrawable{
-        public String label;
-        public JaweSelectable worldNameSelectable; // World name
-        public JaweDrawable locationType;
-        public JaweDrawable locationPath;
-        public ActivationHandler<JaweSelectable> onActivation;
-
-        public InternalJaweDrawable(WorldWrapper worldWrapper) {
-            this.worldNameSelectable = new JaweSelectable(worldWrapper.name, JImSelectableFlags.SpanAllColumns);
-        }
-
-
-
-        @Override
-        public void draw(JImGui imGui) {
-            worldNameSelectable.draw(imGui);
-            JaweJImGui.NEXT_COLUMN.draw(imGui);
-            locationType.draw(imGui);
-        }
-
-//        new ActivationHandler<JaweSelectable>() {
-//            @Override
-//            public void handle(JaweSelectable imGuiDrawable) {
-//                // Add a new entity with a component used to get to archetype mapper
-//                // TODO make sure this window is not thrown away when the label is not selected because of creation and garbage,
-//                // Only unload it when asked
-////                        world.create()
-//            }
-    }
-
-    // TODO
     @Override
     protected void reset() {
-
+        // TODO
     }
 
     @Override
     public void draw(JImGui imGui) {
         drawables.draw(imGui);
+        worldsList.draw(imGui);
     }
 }

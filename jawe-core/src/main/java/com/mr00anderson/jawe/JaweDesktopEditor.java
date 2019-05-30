@@ -6,6 +6,7 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.artemis.io.JsonArtemisSerializer;
 import com.artemis.managers.WorldSerializationManager;
+import com.mr00anderson.jawe.components.SomeLocation;
 import com.mr00anderson.jawe.json.JaweJsonArtemisSerializer;
 import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import com.mr00anderson.jawe.types.BasicApp;
@@ -16,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
+import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
 
 /**
  * TODO: Will need some reflective data entities to be able to render IDs to names, ect since
@@ -42,6 +45,7 @@ public final class JaweDesktopEditor implements BasicApp {
 
     private World world;
     private boolean running = true;
+    private EditorWorldBuilder editorWorldBuilder;
 
     public static void main(String[] args) {
         // TODO jimgui.ini loading so users can import layouts
@@ -74,11 +78,12 @@ public final class JaweDesktopEditor implements BasicApp {
         JsonArtemisSerializer jsonArtemisSerializer = new JaweJsonArtemisSerializer(world).prettyPrint(true);
         manager.setSerializer(jsonArtemisSerializer);
 
-        Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, new WorldWrapper());
-
         // Set app here so that the ImGui instance can close this application
         JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);
         jaweRenderingSystem.setMainApp(this);
+
+        WorldWrapper worldWrapper = new WorldWrapper(WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
+        Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, worldWrapper);
 
         // TODO Setup or load from a save file
         final boolean load = false;
@@ -86,7 +91,7 @@ public final class JaweDesktopEditor implements BasicApp {
             // TODO Editor serialization not supported yet
         } else {
             // Use builtin jawe setup
-            EditorWorldSetup.setupEditorBaseEntities(world, jaweRenderingSystem.imGui);
+            editorWorldBuilder = new EditorWorldBuilder(worldWrapper, jaweRenderingSystem.imGui);
         }
 
         // We need to loop here, maybe allow a loop type to be chosen
@@ -119,5 +124,13 @@ public final class JaweDesktopEditor implements BasicApp {
     @Override
     public void setNotRunning() {
         this.running = false;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public EditorWorldBuilder getEditorWorldBuilder() {
+        return editorWorldBuilder;
     }
 }

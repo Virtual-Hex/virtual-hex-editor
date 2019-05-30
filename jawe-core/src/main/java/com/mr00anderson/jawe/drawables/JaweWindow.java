@@ -5,6 +5,10 @@ import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * TODO Window Utilities from, probably just a API note that they can be  used
@@ -37,7 +41,7 @@ public class JaweWindow implements JaweDrawable {
     /**
      * The window contents which can be any other JaweDrawable, it will serialize like this class
      */
-    public JaweDrawable windowContents;
+    public List <JaweDrawable> windowContents;
 
     /**
      * This will be called when the window is not collapsed or not fully clipped,
@@ -50,15 +54,16 @@ public class JaweWindow implements JaweDrawable {
     public JaweWindow() {
     }
 
-    public JaweWindow(String label, JaweDrawable windowContents) {
+    public JaweWindow(String label, JaweDrawable... windowContentElements) {
         this.label = label;
-        this.windowContents = windowContents;
+        this.windowContents = new ArrayList<>();
+        Collections.addAll(windowContents, windowContentElements);
     }
 
     @Override
     public void draw(JImGui imGui) {
         if(imGui.begin(label, open, flags)) {
-            windowContents.draw(imGui);
+            windowContents.forEach(d -> d.draw(imGui));
             onActivation.handle(this);
         }
         imGui.end();

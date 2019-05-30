@@ -1,23 +1,37 @@
 package com.mr00anderson.jawe.types;
 
 import com.artemis.World;
+import com.mr00anderson.jawe.components.SomeLocation;
+import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import org.jetbrains.annotations.NotNull;
 
 public class WorldWrapper implements Comparable<WorldWrapper>{
 
     public String name;
-    public Location locationType;
-    public String locationPath;
+    public SomeLocation someLocation;
     public World world;
+
+    /**
+     * This is used for methods to help get App or JImGui Access
+     */
+    public transient JaweRenderingSystem renderingSystem;
 
     public WorldWrapper() {
     }
 
-    public WorldWrapper(String name, Location locationType, String locationPath, World world) {
+    public WorldWrapper(String name, SomeLocation someLocation, World world) {
         this.name = name;
-        this.locationType = locationType;
+        this.someLocation = someLocation;
         this.world = world;
     }
+
+    public WorldWrapper(String name, SomeLocation someLocation, World world, JaweRenderingSystem renderingSystem) {
+        this.name = name;
+        this.someLocation = someLocation;
+        this.world = world;
+        this.renderingSystem = renderingSystem;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -43,11 +57,6 @@ public class WorldWrapper implements Comparable<WorldWrapper>{
         return name.compareTo(o.name);
     }
 
-    public enum Location {
-        CODE,
-        CLASSPATH_FILE,
-        FILE,
-        URL
-    }
+
 
 }

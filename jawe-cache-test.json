@@ -9,7 +9,7 @@
 			"JaweRenderComponent": {
 				"jaweDrawable": {
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
-					"open": true,
+					"open": false,
 					"windowContents": {
 						"class": "com.mr00anderson.jawe.components.WorldsJaweComponent",
 						"drawables": {
@@ -40,13 +40,40 @@
 								},
 								{
 									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								}
+							]
+						},
+						"worldsList": {
+							"drawables": [
+								{
+									"class": "com.mr00anderson.jawe.components.WorldJaweSelectable",
+									"locationType": {
+										"class": "com.mr00anderson.jawe.drawables.JaweText",
+										"text": "CODE"
+									},
+									"worldNameSelectable": {
+										"flags": 2,
+										"label": "This Jawe Editor",
+										"onActivation": {
+											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$3/788117692"
+										},
+										"selected": true
+									},
+									"onActivation": null,
+									"locationPath": {
+										"class": "com.mr00anderson.jawe.drawables.JaweText",
+										"text": ""
+									}
 								}
 							]
 						}
 					},
 					"label": "Worlds",
 					"onActivation": {
-						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$5/1810132623"
+						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$4/510113906"
 					}
 				},
 				"active": true
@@ -69,14 +96,14 @@
 							{
 								"label": "Test Selectable One",
 								"onActivation": {
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/846492085"
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$5/1622006612"
 								},
 								"selected": false
 							},
 							{
 								"label": "Test Selectable Two",
 								"onActivation": {
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/846492085"
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$5/1622006612"
 								},
 								"selected": false
 							}
@@ -84,7 +111,7 @@
 					},
 					"label": "Window",
 					"onActivation": {
-						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$5/1810132623"
+						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$4/510113906"
 					}
 				},
 				"active": true

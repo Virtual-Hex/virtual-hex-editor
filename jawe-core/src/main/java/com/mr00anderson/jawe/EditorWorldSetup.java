@@ -6,6 +6,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
+import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.JaweDrawable;
 import com.mr00anderson.jawe.drawables.JaweTestingWindow;
 import com.mr00anderson.jawe.drawables.JaweWindow;
@@ -21,17 +22,6 @@ public class EditorWorldSetup {
 //        JaweDrawable clearColor;
 //        JaweDrawable mainMenuBar;
 
-        JaweWindow worlds = new JaweWindow();
-        worlds.label = "Worlds";
-        worlds.windowContents = new WorldsJaweComponent();
-        worlds.open.modifyValue(true);
-
-        JaweWindow testWindow = new JaweWindow();
-        testWindow.label = "Window";
-        testWindow.windowContents = new JaweTestingWindow();
-        testWindow.open.modifyValue(true);
-
-
         // TODO Replace with toggle menu option and update the eample using this libraires methods
 //        JaweDrawable debugWindow = JaweWindow.Builder
 //                .builder()
@@ -41,8 +31,8 @@ public class EditorWorldSetup {
 //
 
         JaweDrawable[] jaweDefaultBuildEntities = {
-                worlds,
-                testWindow,
+                new JaweWindow("Worlds", new WorldsJaweComponent()),
+                new JaweWindow("Window", new JaweTestingWindow()),
 
 
                 // DISABLED debug due to complexity, want to keep it simple for first world edit testing and need for update use wit this libs api

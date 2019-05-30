@@ -11,9 +11,18 @@ import org.ice1000.jimgui.JImGui;
  */
 public class JaweColumns implements JaweDrawable {
 
-    public int count;
     public String stringId;
+    public int count;
     public boolean border;
+
+    public JaweColumns() {
+    }
+
+    public JaweColumns(String stringId, int count, boolean border) {
+        this.stringId = stringId;
+        this.count = count;
+        this.border = border;
+    }
 
     @Override
     public void draw(JImGui imGui) {

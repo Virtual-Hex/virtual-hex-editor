@@ -6,15 +6,16 @@ import org.jetbrains.annotations.NotNull;
 public class WorldWrapper implements Comparable<WorldWrapper>{
 
     public String name;
-    public Location location;
+    public Location locationType;
+    public String locationPath;
     public World world;
 
     public WorldWrapper() {
     }
 
-    public WorldWrapper(String name, Location location, World world) {
+    public WorldWrapper(String name, Location locationType, String locationPath, World world) {
         this.name = name;
-        this.location = location;
+        this.locationType = locationType;
         this.world = world;
     }
 

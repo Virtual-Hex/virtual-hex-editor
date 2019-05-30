@@ -25,6 +25,11 @@ public class JaweSelectable implements JaweDrawable {
         this.label = label;
     }
 
+    public JaweSelectable(String label, int flags) {
+        this.label = label;
+        this.flags = flags;
+    }
+
     @Override
     public void draw(JImGui imGui) {
         //  returning the state true when selected or false when unselected

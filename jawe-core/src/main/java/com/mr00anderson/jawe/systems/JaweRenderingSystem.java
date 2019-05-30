@@ -39,7 +39,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
 
 
         // This is used for post construction logic, used to construct complex transient types
-//        jaweRenderComponent.jaweDrawable.init(world);
+//        jaweRenderComponent.locationType.init(world);
     }
 
 

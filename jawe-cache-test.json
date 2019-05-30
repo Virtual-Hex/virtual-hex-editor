@@ -11,38 +11,43 @@
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
 					"open": true,
 					"windowContents": {
-						"class": "com.mr00anderson.jawe.WorldsJaweComponent",
-						"drawables": [
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweColumns",
-								"stringId": "Worlds Columns",
-								"count": 3,
-								"border": true
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweText",
-								"text": "Worlds"
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweText",
-								"text": "Location Type"
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweText",
-								"text": "Location Path"
-							},
-							{
-								"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
-							}
-						]
+						"class": "com.mr00anderson.jawe.components.WorldsJaweComponent",
+						"drawables": {
+							"drawables": [
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweColumns",
+									"stringId": "Worlds Columns",
+									"count": 3,
+									"border": true
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Worlds"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Location Type"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Location Path"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								}
+							]
+						}
 					},
-					"label": "Worlds"
+					"label": "Worlds",
+					"onActivation": {
+						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$5/1810132623"
+					}
 				},
 				"active": true
 			}
@@ -64,20 +69,23 @@
 							{
 								"label": "Test Selectable One",
 								"onActivation": {
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$4/510113906"
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/846492085"
 								},
 								"selected": false
 							},
 							{
 								"label": "Test Selectable Two",
 								"onActivation": {
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$4/510113906"
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/846492085"
 								},
 								"selected": false
 							}
 						]
 					},
-					"label": "Window"
+					"label": "Window",
+					"onActivation": {
+						"class": "com.mr00anderson.jawe.drawables.JaweWindow$$Lambda$5/1810132623"
+					}
 				},
 				"active": true
 			}

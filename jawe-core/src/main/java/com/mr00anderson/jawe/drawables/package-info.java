@@ -74,3 +74,70 @@ package com.mr00anderson.jawe.drawables;
 //            IMGUI_API void          LabelTextV(const char* label, const char* fmt, va_list args)    IM_FMTLIST(2);
 //            IMGUI_API void          BulletText(const char* fmt, ...)                                IM_FMTARGS(1); // shortcut for Bullet()+Text()
 //            IMGUI_API void          BulletTextV(const char* fmt, va_list args)                      IM_FMTLIST(1);
+
+
+
+// if (ImGui::Button("Stacked modals.."))
+//         ImGui::OpenPopup("Stacked 1");
+//         if (ImGui::BeginPopupModal("Stacked 1", NULL, ImGuiWindowFlags_MenuBar))
+//         {
+//         if (ImGui::BeginMenuBar())
+//         {
+//         if (ImGui::BeginMenu("File"))
+//         {
+//         if (ImGui::MenuItem("Dummy menu item")) {}
+//         ImGui::EndMenu();
+//         }
+//         ImGui::EndMenuBar();
+//         }
+//         ImGui::Text("Hello from Stacked The First\nUsing style.Colors[ImGuiCol_ModalWindowDimBg] behind it.");
+//
+//// Testing behavior of widgets stacking their own regular popups over the modal.
+//static int item = 1;
+//static float color[4] = { 0.4f,0.7f,0.0f,0.5f };
+//        ImGui::Combo("Combo", &item, "aaaa\0bbbb\0cccc\0dddd\0eeee\0\0");
+//        ImGui::ColorEdit4("color", color);
+//
+//        if (ImGui::Button("Add another modal.."))
+//        ImGui::OpenPopup("Stacked 2");
+//
+//        // Also demonstrate passing a bool* to BeginPopupModal(), this will create a regular close button which will close the popup.
+//        // Note that the visibility state of popups is owned by imgui, so the input value of the bool actually doesn't matter here.
+//        bool dummy_open = true;
+//        if (ImGui::BeginPopupModal("Stacked 2", &dummy_open))
+//        {
+//        ImGui::Text("Hello from Stacked The Second!");
+//        if (ImGui::Button("Close"))
+//        ImGui::CloseCurrentPopup();
+//        ImGui::EndPopup();
+//        }
+//
+//        if (ImGui::Button("Close"))
+//        ImGui::CloseCurrentPopup();
+//        ImGui::EndPopup();
+//        }
+
+// Tooltips
+//    IMGUI_API void          BeginTooltip();                                                     // begin/append a tooltip window. to create full-featured tooltip (with any kind of items).
+//            IMGUI_API void          EndTooltip();
+//            IMGUI_API void          SetTooltip(const char* fmt, ...) IM_FMTARGS(1);                     // set a text-only tooltip, typically use with ImGui::IsItemHovered(). override any previous call to SetTooltip().
+//            IMGUI_API void          SetTooltipV(const char* fmt, va_list args) IM_FMTLIST(1);
+//
+//            // Popups, Modals
+//            // The properties of popups windows are:
+//            // - They block normal mouse hovering detection outside them. (*)
+//            // - Unless modal, they can be closed by clicking anywhere outside them, or by pressing ESCAPE.
+//            // - Their visibility state (~bool) is held internally by imgui instead of being held by the programmer as we are used to with regular Begin() calls.
+//            //   User can manipulate the visibility state by calling OpenPopup().
+//            // (*) One can use IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) to bypass it and detect hovering even when normally blocked by a popup.
+//            // Those three properties are connected. The library needs to hold their visibility state because it can close popups at any time.
+//            IMGUI_API void          OpenPopup(const char* str_id);
+//            IMGUI_API bool          BeginPopup(const char* str_id, ImGuiWindowFlags flags = 0);                                             // return true if the popup is open, and you can start outputting to it. only call EndPopup() if BeginPopup() returns true!
+//            IMGUI_API bool          BeginPopupContextItem(const char* str_id = NULL, int mouse_button = 1);                                 // helper to open and begin popup when clicked on last item. if you can pass a NULL str_id only if the previous item had an id. If you want to use that on a non-interactive item such as Text() you need to pass in an explicit ID here. read comments in .cpp!
+//            IMGUI_API bool          BeginPopupContextWindow(const char* str_id = NULL, int mouse_button = 1, bool also_over_items = true);  // helper to open and begin popup when clicked on current window.
+//            IMGUI_API bool          BeginPopupContextVoid(const char* str_id = NULL, int mouse_button = 1);                                 // helper to open and begin popup when clicked in void (where there are no imgui windows).
+//            IMGUI_API bool          BeginPopupModal(const char* name, bool* p_open = NULL, ImGuiWindowFlags flags = 0);                     // modal dialog (regular window with title bar, block interactions behind the modal window, can't close the modal window by clicking outside)
+//            IMGUI_API void          EndPopup();                                                                                             // only call EndPopup() if BeginPopupXXX() returns true!
+//            IMGUI_API bool          OpenPopupOnItemClick(const char* str_id = NULL, int mouse_button = 1);                                  // helper to open popup when clicked on last item (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors). return true when just opened.
+//            IMGUI_API bool          IsPopupOpen(const char* str_id);                                    // return true if the popup is open at the current begin-ed level of the popup stack.
+//            IMGUI_API void          CloseCurrentPopup();

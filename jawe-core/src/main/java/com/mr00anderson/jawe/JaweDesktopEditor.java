@@ -33,6 +33,10 @@ import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
  *
  *
  *
+ * When editor is loaded...
+ * project = worlds // May be more then one project
+ * worlds = entities
+ * entities = component
  */
 public final class JaweDesktopEditor implements BasicApp {
 
@@ -43,16 +47,19 @@ public final class JaweDesktopEditor implements BasicApp {
 
     public static final String WORLD_EDITOR_WINDOW = "This Jawe Editor";
 
+    public static JaweDesktopEditor INSTANCE;
+
     private World world;
     private boolean running = true;
     private EditorWorldBuilder editorWorldBuilder;
+    private Worlds worlds = new Worlds();
 
     public static void main(String[] args) {
         // TODO jimgui.ini loading so users can import layouts
         for (int i = 0; i < args.length; i++) {
         }
-        JaweDesktopEditor jaweDesktopEditor = new JaweDesktopEditor();
-        jaweDesktopEditor.run(null);
+        INSTANCE = new JaweDesktopEditor();
+        INSTANCE.run(null);
     }
 
     public void run(WorldConfigurationBuilder builder) {
@@ -81,9 +88,10 @@ public final class JaweDesktopEditor implements BasicApp {
         // Set app here so that the ImGui instance can close this application
         JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);
         jaweRenderingSystem.setMainApp(this);
+        jaweRenderingSystem.title = "JImGui Artemis obd World Editor (Jawe)";
 
         WorldWrapper worldWrapper = new WorldWrapper(WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
-        Worlds.WORLDS.put(WORLD_EDITOR_WINDOW, worldWrapper);
+        worlds.worlds.put(WORLD_EDITOR_WINDOW, worldWrapper);
 
         // TODO Setup or load from a save file
         final boolean load = false;

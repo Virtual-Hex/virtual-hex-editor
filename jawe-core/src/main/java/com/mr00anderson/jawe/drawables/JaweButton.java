@@ -28,9 +28,26 @@ public class JaweButton implements JaweDrawable {
         this.label = label;
     }
 
+    public JaweButton(String label, int width, int height) {
+        this.label = label;
+        this.width = width;
+        this.height = height;
+    }
+
+    public JaweButton(String label, ActivationHandler<JaweButton> onActivation) {
+        this.label = label;
+        this.onActivation = onActivation;
+    }
+
+    public JaweButton(String label, int width, int height, ActivationHandler<JaweButton> onActivation) {
+        this.label = label;
+        this.width = width;
+        this.height = height;
+        this.onActivation = onActivation;
+    }
+
     @Override
     public void draw(JImGui imGui) {
-        //
         if(imGui.button(label, width, height)){
             onActivation.handle(this);
         }

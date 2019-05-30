@@ -7,6 +7,8 @@ import java.util.TreeMap;
 
 public class Worlds {
 
-    public static final Map<String, WorldWrapper> WORLDS = new TreeMap<>(String::compareTo);
+    public final Map<String, WorldWrapper> worlds = new TreeMap<>(String::compareTo);
 
+    public Worlds() {
+    }
 }

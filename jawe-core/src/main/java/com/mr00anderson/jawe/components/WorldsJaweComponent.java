@@ -36,9 +36,17 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
 //            }
 //        };
 
+        // TODO Move this world into the main menu for editing
         worldColumsDrawable = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
 
         this.drawables = new JaweOrderedDrawables(
+                // ADD
+//                new JaweButton(" + ", new ActivationHandler<JaweButton>() {
+//                    @Override
+//                    public void handle(JaweButton imGuiDrawable) {
+//                        new JaweWindow("Add World");
+//                    }
+//                }),
                 new JaweColumns("Worlds Columns", 3, true),
                 new JaweText("Worlds"),
                 JaweJImGui.NEXT_COLUMN,
@@ -60,4 +68,6 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
         drawables.draw(imGui);
         worldColumsDrawable.draw(imGui);
     }
+
+
 }

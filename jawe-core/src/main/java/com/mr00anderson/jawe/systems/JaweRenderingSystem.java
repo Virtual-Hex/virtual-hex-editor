@@ -14,6 +14,9 @@ import org.ice1000.jimgui.util.JniLoader;
 public class JaweRenderingSystem extends BaseEntitySystem {
     ComponentMapper<JaweRenderComponent> renderComponent;
 
+    public String title  = "JaweRenderingSystem.class";
+    public int width = 1280;
+    public int height = 720;
     public transient JaweJImGui imGui;
     public transient BasicApp app;
 

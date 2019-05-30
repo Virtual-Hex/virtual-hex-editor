@@ -27,6 +27,9 @@ public class JaweJImGui extends JImGui {
      */
     public static final JaweDrawable NEW_LINE = new JaweNewLine();
 
+
+    public static final JaweDrawable SAME_LINE = new JaweSameLine();
+
     /**
      * add vertical spacing
      */

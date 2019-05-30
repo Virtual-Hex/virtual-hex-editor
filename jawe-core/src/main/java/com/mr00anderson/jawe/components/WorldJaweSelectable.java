@@ -2,10 +2,7 @@ package com.mr00anderson.jawe.components;
 
 import com.mr00anderson.jawe.JaweDesktopEditor;
 import com.mr00anderson.jawe.JaweJImGui;
-import com.mr00anderson.jawe.drawables.JaweDrawable;
-import com.mr00anderson.jawe.drawables.JaweSelectable;
-import com.mr00anderson.jawe.drawables.JaweText;
-import com.mr00anderson.jawe.drawables.JaweWindow;
+import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.types.WorldWrapper;
@@ -36,7 +33,23 @@ public class WorldJaweSelectable implements JaweDrawable {
                     if(app.getClass().isAssignableFrom(JaweDesktopEditor.class)){
                         // Check if exist
                        JaweDesktopEditor jaweDesktopEditor = (JaweDesktopEditor) app;
-                       JaweWindow jaweWindow = new JaweWindow(nameSelectable.label, JaweJImGui.EMPTY_DRAWABLE);
+                       // Selectable reference
+
+
+                       JaweSelectable[] jaweSelectables = {
+                                new JaweSelectable("Config"), // Config print out
+                                new JaweSelectable("Systems"),
+                                new JaweSelectable("Mappers"),
+                                new JaweSelectable("Entities"),
+                                new JaweSelectable("Components")
+                       };
+
+                       JaweWindow jaweWindow = new JaweWindow(
+                               worldWrapper.name,
+                               new JaweText("TODO - World Meta Data"),
+                               // TODO TABS
+                                new JaweSingleHorizontalSelection(jaweSelectables)
+                       );
                        worldsJaweComponent.worlds.putIfAbsent(nameSelectable.label, jaweWindow);
                        jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);
                     } else {

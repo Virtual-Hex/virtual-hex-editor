@@ -60,6 +60,13 @@ public class JaweWindow implements JaweDrawable {
         Collections.addAll(windowContents, windowContentElements);
     }
 
+    public JaweWindow(String label, int flags, JaweDrawable... windowContentElements) {
+        this.label = label;
+        this.flags = flags;
+        this.windowContents = new ArrayList<>();
+        Collections.addAll(windowContents, windowContentElements);
+    }
+
     @Override
     public void draw(JImGui imGui) {
         if(imGui.begin(label, open, flags)) {

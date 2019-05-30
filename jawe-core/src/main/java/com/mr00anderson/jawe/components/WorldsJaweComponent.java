@@ -5,21 +5,22 @@ import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.drawables.JaweColumns;
 import com.mr00anderson.jawe.drawables.JaweDrawable;
 import com.mr00anderson.jawe.drawables.JaweText;
+import com.mr00anderson.jawe.drawables.JaweWindow;
 import com.mr00anderson.jawe.types.WorldWrapper;
 import org.ice1000.jimgui.JImGui;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 // TODO Further abstraction optional, can take a list of elements and rename this to JaweDrawableComponent
 public class WorldsJaweComponent extends PooledComponent implements JaweDrawable {
 
 
     public JaweOrderedDrawables drawables;
-    public JaweOrderedDrawables worldsList;
+    public JaweOrderedDrawables worldColumsDrawable;
 
     // Cached windows for when worlds are unclicked and clicked
-    public Map<String, JaweWorldWindow> worlds = new HashMap<>();
+    public Map<String, JaweWindow> worlds = new TreeMap<>(String::compareTo);
 
     public WorldsJaweComponent(WorldWrapper worldWrapper) {
 
@@ -35,7 +36,7 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
 //            }
 //        };
 
-        worldsList = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
+        worldColumsDrawable = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
 
         this.drawables = new JaweOrderedDrawables(
                 new JaweColumns("Worlds Columns", 3, true),
@@ -57,6 +58,6 @@ public class WorldsJaweComponent extends PooledComponent implements JaweDrawable
     @Override
     public void draw(JImGui imGui) {
         drawables.draw(imGui);
-        worldsList.draw(imGui);
+        worldColumsDrawable.draw(imGui);
     }
 }

@@ -18,6 +18,8 @@ public class JaweColumns implements JaweDrawable {
     public JaweColumns() {
     }
 
+
+
     public JaweColumns(String stringId, int count, boolean border) {
         this.stringId = stringId;
         this.count = count;

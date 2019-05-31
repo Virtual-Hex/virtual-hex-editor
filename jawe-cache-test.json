@@ -25,53 +25,343 @@
 											"text": "TODO - World Meta Data"
 										},
 										{
-											"class": "com.mr00anderson.jawe.drawables.JaweCombo",
-											"currentSelectable": {
-												"label": "Component Mappers",
-												"onActivation": {
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+											"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+											"addWindowQueue": [],
+											"label": "Systems",
+											"drawables": [
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
 												},
-												"selected": true
-											},
-											"label": "World Section",
-											"jaweSelectables": {
-												"addWindowQueue": [],
-												"drawables": [
-													{
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-														"label": "Systems",
-														"onActivation": {
-															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-														},
-														"selected": false
-													},
-													{
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-														"label": "Component Mappers",
-														"onActivation": {
-															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-														},
-														"selected": true
-													},
-													{
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-														"label": "Entities",
-														"onActivation": {
-															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-														},
-														"selected": false
-													},
-													{
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-														"label": "Components",
-														"onActivation": {
-															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-														},
-														"selected": false
-													}
-												],
-												"removeWindowQueue": []
-											}
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweColumns",
+													"stringId": "System - C",
+													"count": 3,
+													"border": true
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "Class Name"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "Enabled"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "Fully Qualified Name"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "ComponentManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.ComponentManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "EntityManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.EntityManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "AspectSubscriptionManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.AspectSubscriptionManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "EventSystem"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class net.mostlyoriginal.api.event.common.EventSystem"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "TagManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.managers.TagManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "GroupManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.managers.GroupManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "EntityLinkManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.link.EntityLinkManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "WorldSerializationManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.managers.WorldSerializationManager"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "JaweRenderingSystem"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.mr00anderson.jawe.systems.JaweRenderingSystem"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												}
+											],
+											"removeWindowQueue": []
+										},
+										{
+											"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+											"addWindowQueue": [],
+											"label": "Component Types",
+											"drawables": [
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "ComponentType"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "0"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "false"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.ComponentType"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "ComponentType"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "1"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "true"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweText",
+													"text": "class com.artemis.ComponentType"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+												},
+												{
+													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+												}
+											],
+											"removeWindowQueue": []
+										},
+										{
+											"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+											"addWindowQueue": [],
+											"label": "Entities",
+											"removeWindowQueue": []
+										},
+										{
+											"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+											"addWindowQueue": [],
+											"label": "Components",
+											"removeWindowQueue": []
 										}
 									],
 									"label": "This Jawe Editor",
@@ -210,53 +500,343 @@
 							"text": "TODO - World Meta Data"
 						},
 						{
-							"class": "com.mr00anderson.jawe.drawables.JaweCombo",
-							"currentSelectable": {
-								"label": "Component Mappers",
-								"onActivation": {
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+							"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+							"addWindowQueue": [],
+							"label": "Systems",
+							"drawables": [
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
 								},
-								"selected": true
-							},
-							"label": "World Section",
-							"jaweSelectables": {
-								"addWindowQueue": [],
-								"drawables": [
-									{
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-										"label": "Systems",
-										"onActivation": {
-											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-										},
-										"selected": false
-									},
-									{
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-										"label": "Component Mappers",
-										"onActivation": {
-											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-										},
-										"selected": true
-									},
-									{
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-										"label": "Entities",
-										"onActivation": {
-											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-										},
-										"selected": false
-									},
-									{
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-										"label": "Components",
-										"onActivation": {
-											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-										},
-										"selected": false
-									}
-								],
-								"removeWindowQueue": []
-							}
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweColumns",
+									"stringId": "System - C",
+									"count": 3,
+									"border": true
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Class Name"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Enabled"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "Fully Qualified Name"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "ComponentManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.ComponentManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "EntityManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.EntityManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "AspectSubscriptionManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.AspectSubscriptionManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "EventSystem"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class net.mostlyoriginal.api.event.common.EventSystem"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "TagManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.managers.TagManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "GroupManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.managers.GroupManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "EntityLinkManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.link.EntityLinkManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "WorldSerializationManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.managers.WorldSerializationManager"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "JaweRenderingSystem"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.mr00anderson.jawe.systems.JaweRenderingSystem"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								}
+							],
+							"removeWindowQueue": []
+						},
+						{
+							"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+							"addWindowQueue": [],
+							"label": "Component Types",
+							"drawables": [
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "ComponentType"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "0"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "false"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.ComponentType"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "ComponentType"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "1"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "true"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweText",
+									"text": "class com.artemis.ComponentType"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweNextColumn"
+								},
+								{
+									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
+								}
+							],
+							"removeWindowQueue": []
+						},
+						{
+							"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+							"addWindowQueue": [],
+							"label": "Entities",
+							"removeWindowQueue": []
+						},
+						{
+							"class": "com.mr00anderson.jawe.drawables.JaweCollapsingHeader",
+							"addWindowQueue": [],
+							"label": "Components",
+							"removeWindowQueue": []
 						}
 					],
 					"label": "This Jawe Editor",

@@ -1,5 +1,9 @@
 package com.mr00anderson.jawe.components;
 
+import com.artemis.BaseSystem;
+import com.artemis.Component;
+import com.artemis.ComponentType;
+import com.artemis.utils.ImmutableBag;
 import com.mr00anderson.jawe.JaweDesktopEditor;
 import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.drawables.*;
@@ -8,6 +12,9 @@ import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.types.WorldWrapper;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.flag.JImSelectableFlags;
+
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class WorldJaweSelectable implements JaweDrawable {
 
@@ -36,18 +43,95 @@ public class WorldJaweSelectable implements JaweDrawable {
                        // Selectable reference
 
 
-                       JaweSelectable[] jaweSelectables = {
-                                new JaweSelectable("Systems"),
-                                new JaweSelectable("Component Mappers"),
-                                new JaweSelectable("Entities"),
-                                new JaweSelectable("Components")
-                       };
+                        // SYSTEMS
+                        ImmutableBag<BaseSystem> worldSystems = worldWrapper.world.getSystems();
+                        LinkedList<JaweDrawable> systemsDrawables = new LinkedList<>();
 
-                       JaweWindow jaweWindow = new JaweWindow(
+                        Collections.addAll(
+                                systemsDrawables,
+                                JaweJImGui.SEPARATOR,
+                                new JaweColumns("System - C", 3, true),
+                                new JaweText("Class Name"),
+                                JaweJImGui.NEXT_COLUMN,
+                                new JaweText(("Enabled")), // Todo Check Box, are you sure pop up
+                                JaweJImGui.NEXT_COLUMN,
+                                new JaweText("Fully Qualified Name"),
+                                JaweJImGui.NEXT_COLUMN,
+                                JaweJImGui.SEPARATOR
+                        );
+
+                        for (int i = 0; i < worldSystems.size(); i++) {
+                            BaseSystem baseSystem = worldSystems.get(i);
+                            Class<? extends BaseSystem> aClass = baseSystem.getClass();
+                            Collections.addAll(
+                                        systemsDrawables,
+                                        new JaweText(aClass.getSimpleName()),
+                                        JaweJImGui.NEXT_COLUMN,
+                                        new JaweText(String.valueOf(baseSystem.isEnabled())),// TODO Check box, ar you sure pop up
+                                        JaweJImGui.NEXT_COLUMN,
+                                        new JaweText(aClass.toString()),
+                                        JaweJImGui.NEXT_COLUMN,
+                                        JaweJImGui.SEPARATOR
+                                    );
+                        }
+                        JaweDrawable[] jaweDrawablesSystem = new JaweDrawable[systemsDrawables.size()];
+                        systemsDrawables.toArray(jaweDrawablesSystem);
+
+
+                        // COMPONENT TYPES
+                        ImmutableBag<ComponentType> componentTypes = worldWrapper.world.getComponentManager().getComponentTypes();
+                        LinkedList<JaweDrawable> ComponentTypeDrawables = new LinkedList<>();
+
+                        Collections.addAll(
+                                ComponentTypeDrawables,
+                                JaweJImGui.SEPARATOR,
+                                new JaweColumns("Component - C", 4, true),
+                                new JaweText("Class Name"),
+                                JaweJImGui.NEXT_COLUMN,
+                                new JaweText(("Index")),
+                                JaweJImGui.NEXT_COLUMN,
+                                new JaweText(("Is Pooled")),
+                                JaweJImGui.NEXT_COLUMN,
+                                new JaweText("Fully Qualified Name"),
+                                JaweJImGui.NEXT_COLUMN,
+                                JaweJImGui.SEPARATOR
+                        );
+
+                        for (int i = 0; i < componentTypes.size(); i++) {
+                            ComponentType componentType = componentTypes.get(i);
+                            Class<? extends Component> aClass = componentType.getType();
+                            Collections.addAll(
+                                    ComponentTypeDrawables,
+                                    new JaweText(aClass.getSimpleName()),
+                                    JaweJImGui.NEXT_COLUMN,
+                                    new JaweText(String.valueOf(componentType.getIndex())),
+                                    JaweJImGui.NEXT_COLUMN,
+                                    new JaweText(String.valueOf(componentType.isPooled)),// TODO Check box, ar you sure pop up
+                                    JaweJImGui.NEXT_COLUMN,
+                                    new JaweText(aClass.toString()),
+                                    JaweJImGui.NEXT_COLUMN,
+                                    JaweJImGui.SEPARATOR
+                            );
+                        }
+
+                        JaweDrawable[] jaweDrawablesComponents = new JaweDrawable[ComponentTypeDrawables.size()];
+                        ComponentTypeDrawables.toArray(jaweDrawablesComponents);
+
+
+                        JaweWindow jaweWindow = new JaweWindow(
                                worldWrapper.name,
                                new JaweText("TODO - World Meta Data"),
                                // TODO TABS
-                                new JaweCombo("World Section", new JaweOrderedDrawables<>(jaweSelectables))
+                               new JaweCollapsingHeader(
+                                        "Systems",
+                                               jaweDrawablesSystem
+                               ),
+                               new JaweCollapsingHeader(
+                                       "Component Types",
+                                            jaweDrawablesComponents
+                               ),
+                               new JaweCollapsingHeader("Entities"),
+                               new JaweCollapsingHeader("Components")
                        );
                        worldsJaweComponent.worlds.putIfAbsent(nameSelectable.label, jaweWindow);
                        jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);

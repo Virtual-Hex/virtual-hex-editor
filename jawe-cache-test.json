@@ -25,96 +25,39 @@
 											"text": "TODO - World Meta Data"
 										},
 										{
-											"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection",
-											"addWindowQueue": [],
-											"drawables": [
+											"class": "com.mr00anderson.jawe.drawables.JaweCombo",
+											"previewValue": "Components",
+											"label": "World Section",
+											"jaweSelectables": [
 												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-													"label": "World Configuration",
-													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
-													},
-													"selected": false
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 													"label": "Systems",
 													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 													},
 													"selected": false
 												},
 												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 													"label": "Component Mappers",
 													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 													},
 													"selected": false
 												},
 												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 													"label": "Entities",
 													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 													},
 													"selected": false
 												},
 												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 													"label": "Components",
 													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 													},
 													"selected": false
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-												},
-												{
-													"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
 												}
-											],
-											"removeWindowQueue": []
+											]
 										}
 									],
 									"label": "This Jawe Editor",
@@ -253,96 +196,39 @@
 							"text": "TODO - World Meta Data"
 						},
 						{
-							"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection",
-							"addWindowQueue": [],
-							"drawables": [
+							"class": "com.mr00anderson.jawe.drawables.JaweCombo",
+							"previewValue": "Components",
+							"label": "World Section",
+							"jaweSelectables": [
 								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
-									"label": "World Configuration",
-									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
-									},
-									"selected": false
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 									"label": "Systems",
 									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 									},
 									"selected": false
 								},
 								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 									"label": "Component Mappers",
 									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 									},
 									"selected": false
 								},
 								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 									"label": "Entities",
 									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 									},
 									"selected": false
 								},
 								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
 									"label": "Components",
 									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSingleHorizontalSelection$1"
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
 									},
 									"selected": false
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSeparator"
-								},
-								{
-									"class": "com.mr00anderson.jawe.drawables.JaweSameLine"
 								}
-							],
-							"removeWindowQueue": []
+							]
 						}
 					],
 					"label": "This Jawe Editor",

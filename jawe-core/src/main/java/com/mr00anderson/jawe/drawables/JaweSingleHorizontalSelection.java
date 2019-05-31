@@ -37,9 +37,11 @@ public class JaweSingleHorizontalSelection extends JaweOrderedDrawables {
             Collections.addAll(
                     drawables,
                     drawableElement,
+                    JaweJImGui.SEPARATOR,
                     JaweJImGui.SAME_LINE,
                     JaweJImGui.SEPARATOR,
-                    JaweJImGui.SAME_LINE
+                    JaweJImGui.SAME_LINE,
+                    JaweJImGui.SEPARATOR
             );
         }
     }

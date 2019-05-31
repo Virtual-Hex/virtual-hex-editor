@@ -37,9 +37,8 @@ public class WorldJaweSelectable implements JaweDrawable {
 
 
                        JaweSelectable[] jaweSelectables = {
-                                new JaweSelectable("Config"), // Config print out
                                 new JaweSelectable("Systems"),
-                                new JaweSelectable("Mappers"),
+                                new JaweSelectable("Component Mappers"),
                                 new JaweSelectable("Entities"),
                                 new JaweSelectable("Components")
                        };
@@ -48,7 +47,7 @@ public class WorldJaweSelectable implements JaweDrawable {
                                worldWrapper.name,
                                new JaweText("TODO - World Meta Data"),
                                // TODO TABS
-                                new JaweSingleHorizontalSelection(jaweSelectables)
+                                new JaweCombo("World Section", jaweSelectables)
                        );
                        worldsJaweComponent.worlds.putIfAbsent(nameSelectable.label, jaweWindow);
                        jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);

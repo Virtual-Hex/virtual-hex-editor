@@ -1,20 +1,25 @@
 package com.mr00anderson.jawe.components;
 
-import com.artemis.BaseSystem;
-import com.artemis.Component;
-import com.artemis.ComponentType;
+import com.artemis.*;
+import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
+import com.artemis.utils.IntBag;
 import com.mr00anderson.jawe.JaweDesktopEditor;
 import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.types.WorldWrapper;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.flag.JImSelectableFlags;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.function.IntConsumer;
 
 public class WorldJaweSelectable implements JaweDrawable {
 
@@ -41,6 +46,9 @@ public class WorldJaweSelectable implements JaweDrawable {
                         // Check if exist
                        JaweDesktopEditor jaweDesktopEditor = (JaweDesktopEditor) app;
                        // Selectable reference
+
+                        // TODO Periodic refresh
+//                        - Fix column issue with trees
 
 
                         // SYSTEMS
@@ -69,9 +77,8 @@ public class WorldJaweSelectable implements JaweDrawable {
                                         JaweJImGui.NEXT_COLUMN,
                                         new JaweText(String.valueOf(baseSystem.isEnabled())),// TODO Check box, ar you sure pop up
                                         JaweJImGui.NEXT_COLUMN,
-                                        new JaweText(aClass.toString()),
-                                        JaweJImGui.NEXT_COLUMN,
-                                        JaweJImGui.SEPARATOR
+                                        new JaweText(aClass.getCanonicalName()),
+                                        JaweJImGui.NEXT_COLUMN
                                     );
                         }
                         JaweDrawable[] jaweDrawablesSystem = new JaweDrawable[systemsDrawables.size()];
@@ -80,10 +87,10 @@ public class WorldJaweSelectable implements JaweDrawable {
 
                         // COMPONENT TYPES
                         ImmutableBag<ComponentType> componentTypes = worldWrapper.world.getComponentManager().getComponentTypes();
-                        LinkedList<JaweDrawable> ComponentTypeDrawables = new LinkedList<>();
+                        LinkedList<JaweDrawable> componentTypeDrawables = new LinkedList<>();
 
                         Collections.addAll(
-                                ComponentTypeDrawables,
+                                componentTypeDrawables,
                                 JaweJImGui.SEPARATOR,
                                 new JaweColumns("Component - C", 4, true),
                                 new JaweText("Class Name"),
@@ -101,21 +108,99 @@ public class WorldJaweSelectable implements JaweDrawable {
                             ComponentType componentType = componentTypes.get(i);
                             Class<? extends Component> aClass = componentType.getType();
                             Collections.addAll(
-                                    ComponentTypeDrawables,
+                                    componentTypeDrawables,
                                     new JaweText(aClass.getSimpleName()),
                                     JaweJImGui.NEXT_COLUMN,
                                     new JaweText(String.valueOf(componentType.getIndex())),
                                     JaweJImGui.NEXT_COLUMN,
                                     new JaweText(String.valueOf(componentType.isPooled)),// TODO Check box, ar you sure pop up
                                     JaweJImGui.NEXT_COLUMN,
-                                    new JaweText(aClass.toString()),
-                                    JaweJImGui.NEXT_COLUMN,
-                                    JaweJImGui.SEPARATOR
+                                    new JaweText(aClass.getCanonicalName()),
+                                    JaweJImGui.NEXT_COLUMN
                             );
                         }
 
-                        JaweDrawable[] jaweDrawablesComponents = new JaweDrawable[ComponentTypeDrawables.size()];
-                        ComponentTypeDrawables.toArray(jaweDrawablesComponents);
+                        JaweDrawable[] jaweDrawablesComponents = new JaweDrawable[componentTypeDrawables.size()];
+                        componentTypeDrawables.toArray(jaweDrawablesComponents);
+
+
+
+                        // TODO Insert Filtering option, or  wrap this in a filter, this way can edit groups or find entities of X composition
+                        // Entities All
+                        EntitySubscription entitySubscription = worldWrapper.world.getAspectSubscriptionManager().get(Aspect.all());
+                        LinkedList<JaweDrawable> entityDrawables = new LinkedList<>();
+
+//
+//                        // TODO This is dynamic based on entity components
+//                        Collections.addAll(
+//                                entityDrawables,
+//                                JaweJImGui.SEPARATOR,
+//                                new JaweColumns("Entity - C", 4, true),
+//                                new JaweText("Id"),
+//                                JaweJImGui.NEXT_COLUMN,
+//                                new JaweText(("")),
+//                                JaweJImGui.NEXT_COLUMN,
+//                                new JaweText(("Is Pooled")),
+//                                JaweJImGui.NEXT_COLUMN,
+//                                new JaweText("Fully Qualified Name"),
+//                                JaweJImGui.NEXT_COLUMN,
+//                                JaweJImGui.SEPARATOR
+//                        );
+
+
+                        IntBag entities = entitySubscription.getEntities();
+                        int[] entityIds = entities.getData();
+
+                        Int2ObjectMap<IntList> map = new Int2ObjectOpenHashMap<>();
+
+                        // TODO Arch Type Mapper look up for friendly name mapping
+                        for (int i = 0; i < entities.size(); i++) {
+                            int entityId = entityIds[i];
+                            int compositionIdentity = worldWrapper.world.getComponentManager().getIdentity(entityId);
+                            IntList integers = map.computeIfAbsent(compositionIdentity, IntArrayList::new);
+                            integers.add(entityId);
+                        }
+
+                        map.forEach((k, v) -> {
+                            JaweTreeNodeExNoPop archetypeTree = new JaweTreeNodeExNoPop(String.format("Archetype ID: %d", k));
+                            entityDrawables.add(archetypeTree);  // TODO Temp until String name for archetype
+
+                           // The reason this is not working is because they are all drawing if not open,
+                            // need to nest the drawables or rework the three class?, likely nest
+                            v.forEach((IntConsumer) value -> {
+                                JaweTreeNodeExNoPop entityTree = new JaweTreeNodeExNoPop(String.format("Entity ID: %d", value));
+                                archetypeTree.drawables = new LinkedList<>();
+                                archetypeTree.drawables.add(entityTree);
+
+                                Bag<Component> components = new Bag<>();
+                                worldWrapper.world.getComponentManager().getComponentsFor(value, components);
+                                for (int i = 0; i < components.size(); i++) {
+                                    Component component = components.get(i);
+
+                                    JaweTreeNodeExNoPop componentTree = new JaweTreeNodeExNoPop(String.format("Component %s", component));
+                                    entityTree.drawables = new LinkedList<>();
+                                    entityTree.drawables.add(componentTree);
+
+                                    componentTree.drawables = new LinkedList<>();
+                                    componentTree.drawables.add(new JaweText("Todo Place Holder Clazz Drawer"));
+
+                                    componentTree.drawables.add(
+                                            // Pop Components Tree
+                                            JaweJImGui.TREE_POP);
+                                }
+                                // Pop Entities Tree
+                                entityDrawables.add(JaweJImGui.TREE_POP);
+                            });
+                            // Pop Archetype Tree
+                            entityDrawables.add(JaweJImGui.TREE_POP);
+                        });
+
+
+
+
+
+                        JaweDrawable[] jaweDrawablesEntities = new JaweDrawable[entityDrawables.size()];
+                        entityDrawables.toArray(jaweDrawablesEntities);
 
 
                         JaweWindow jaweWindow = new JaweWindow(
@@ -126,12 +211,17 @@ public class WorldJaweSelectable implements JaweDrawable {
                                         "Systems",
                                                jaweDrawablesSystem
                                ),
+                               new JaweColumns("", 1, false),
                                new JaweCollapsingHeader(
                                        "Component Types",
                                             jaweDrawablesComponents
                                ),
-                               new JaweCollapsingHeader("Entities"),
-                               new JaweCollapsingHeader("Components")
+                               new JaweColumns("", 1, false),
+                               new JaweCollapsingHeader(
+                                       "Entities",
+                                       jaweDrawablesEntities
+                               ),
+                               new JaweColumns("", 1, false)
                        );
                        worldsJaweComponent.worlds.putIfAbsent(nameSelectable.label, jaweWindow);
                        jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);

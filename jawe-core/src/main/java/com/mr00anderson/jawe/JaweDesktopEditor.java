@@ -37,6 +37,8 @@ import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
  * project = worlds // May be more then one project
  * worlds = entities
  * entities = component
+ *
+ *  TODO- Replace linked list with fixed but resizable array to reduced linked list garbage
  */
 public final class JaweDesktopEditor implements BasicApp {
 
@@ -107,6 +109,7 @@ public final class JaweDesktopEditor implements BasicApp {
         while (running){
             world.process();
         }
+
 
         // Clean it up
         try {

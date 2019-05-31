@@ -25,6 +25,8 @@ public class EditorWorldBuilder {
         this.worldWrapper = worldWrapper;
         this.imGui = imGui;
 
+
+
         buildMainMenu();
 
 //        JaweDrawable clearColor;

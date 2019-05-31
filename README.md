@@ -21,8 +21,8 @@ Goals(Incomplete, not all inclusive)
       - [ ] Provided Helpers
         - [ ] Disk Writing
 
-      -[] World Version Control, Load version specific, will probably need class loading here for extensions
-
+      -[ ] World Version Control, Load version specific, will probably need class loading here for extensions
+  -[ ] When editing the world check for possible types, basic on generic and subtyping.
 
 - [ ] World Simulation (We want to see say a generated chunk, item, or whole world)
   - [ ] Ability to simulate various game processing techniques

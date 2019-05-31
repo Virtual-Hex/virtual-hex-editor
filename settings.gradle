@@ -2,4 +2,3 @@ rootProject.name = 'jimgui-artemis-odb-world-jawe'
 
 include 'jawe-core'
 
-

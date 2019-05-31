@@ -47,7 +47,7 @@ public class WorldJaweSelectable implements JaweDrawable {
                                worldWrapper.name,
                                new JaweText("TODO - World Meta Data"),
                                // TODO TABS
-                                new JaweCombo("World Section", jaweSelectables)
+                                new JaweCombo("World Section", new JaweOrderedDrawables<>(jaweSelectables))
                        );
                        worldsJaweComponent.worlds.putIfAbsent(nameSelectable.label, jaweWindow);
                        jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);

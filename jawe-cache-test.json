@@ -18,7 +18,7 @@
 								"class": "java.util.TreeMap",
 								"This Jawe Editor": {
 									"class": "com.mr00anderson.jawe.drawables.JaweWindow",
-									"open": false,
+									"open": true,
 									"windowContents": [
 										{
 											"class": "com.mr00anderson.jawe.drawables.JaweText",
@@ -26,38 +26,52 @@
 										},
 										{
 											"class": "com.mr00anderson.jawe.drawables.JaweCombo",
-											"previewValue": "Components",
+											"currentSelectable": {
+												"label": "Component Mappers",
+												"onActivation": {
+													"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+												},
+												"selected": true
+											},
 											"label": "World Section",
-											"jaweSelectables": [
-												{
-													"label": "Systems",
-													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+											"jaweSelectables": {
+												"addWindowQueue": [],
+												"drawables": [
+													{
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+														"label": "Systems",
+														"onActivation": {
+															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+														},
+														"selected": false
 													},
-													"selected": false
-												},
-												{
-													"label": "Component Mappers",
-													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+													{
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+														"label": "Component Mappers",
+														"onActivation": {
+															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+														},
+														"selected": true
 													},
-													"selected": false
-												},
-												{
-													"label": "Entities",
-													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+													{
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+														"label": "Entities",
+														"onActivation": {
+															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+														},
+														"selected": false
 													},
-													"selected": false
-												},
-												{
-													"label": "Components",
-													"onActivation": {
-														"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-													},
-													"selected": false
-												}
-											]
+													{
+														"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+														"label": "Components",
+														"onActivation": {
+															"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+														},
+														"selected": false
+													}
+												],
+												"removeWindowQueue": []
+											}
 										}
 									],
 									"label": "This Jawe Editor",
@@ -189,7 +203,7 @@
 			"JaweRenderComponent": {
 				"jaweDrawable": {
 					"class": "com.mr00anderson.jawe.drawables.JaweWindow",
-					"open": false,
+					"open": true,
 					"windowContents": [
 						{
 							"class": "com.mr00anderson.jawe.drawables.JaweText",
@@ -197,38 +211,52 @@
 						},
 						{
 							"class": "com.mr00anderson.jawe.drawables.JaweCombo",
-							"previewValue": "Components",
+							"currentSelectable": {
+								"label": "Component Mappers",
+								"onActivation": {
+									"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+								},
+								"selected": true
+							},
 							"label": "World Section",
-							"jaweSelectables": [
-								{
-									"label": "Systems",
-									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+							"jaweSelectables": {
+								"addWindowQueue": [],
+								"drawables": [
+									{
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+										"label": "Systems",
+										"onActivation": {
+											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+										},
+										"selected": false
 									},
-									"selected": false
-								},
-								{
-									"label": "Component Mappers",
-									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+									{
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+										"label": "Component Mappers",
+										"onActivation": {
+											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+										},
+										"selected": true
 									},
-									"selected": false
-								},
-								{
-									"label": "Entities",
-									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+									{
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+										"label": "Entities",
+										"onActivation": {
+											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+										},
+										"selected": false
 									},
-									"selected": false
-								},
-								{
-									"label": "Components",
-									"onActivation": {
-										"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
-									},
-									"selected": false
-								}
-							]
+									{
+										"class": "com.mr00anderson.jawe.drawables.JaweSelectable",
+										"label": "Components",
+										"onActivation": {
+											"class": "com.mr00anderson.jawe.drawables.JaweSelectable$$Lambda$6/760563749"
+										},
+										"selected": false
+									}
+								],
+								"removeWindowQueue": []
+							}
 						}
 					],
 					"label": "This Jawe Editor",

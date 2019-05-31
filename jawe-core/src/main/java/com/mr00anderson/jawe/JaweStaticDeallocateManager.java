@@ -3,7 +3,7 @@ package com.mr00anderson.jawe;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 
-public class JaweJimGuiStaticDeallocateManager {
+public class JaweStaticDeallocateManager {
 
 
     protected static final DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();

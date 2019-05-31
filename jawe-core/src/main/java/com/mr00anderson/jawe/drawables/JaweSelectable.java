@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.JaweJimGuiStaticDeallocateManager;
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
@@ -8,7 +8,7 @@ import org.ice1000.jimgui.NativeBool;
 public class JaweSelectable implements JaweDrawable {
 
     public String label;
-    public NativeBool selected = JaweJimGuiStaticDeallocateManager.createBool(false);
+    public NativeBool selected = JaweStaticDeallocateManager.createBool(false);
     public int flags;
     public int width;
     public int height;

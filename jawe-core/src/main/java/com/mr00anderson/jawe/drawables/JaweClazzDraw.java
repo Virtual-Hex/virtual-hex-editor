@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
+import com.mr00anderson.jawe.components.JaweOrderedDrawables;
 import com.mr00anderson.jawe.handlers.*;
 import com.mr00anderson.jawe.types.InstancePurge;
 import org.ice1000.jimgui.JImGui;
@@ -15,7 +16,7 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per world instance, This must be disposed of, this draws fields on an object
  */
-public class JaweClazzDraw implements InstancePurge, JaweDrawable {
+public class JaweClazzDraw extends JaweOrderedDrawables<JaweDrawable> implements InstancePurge, JaweDrawable {
 
     // Should make this an entity drawer instead, with a prescan of fields for type handling?
 
@@ -31,6 +32,8 @@ public class JaweClazzDraw implements InstancePurge, JaweDrawable {
      * Will share this out and allow overriding of type mappings
      */
     protected Map<Class<?>, JImGuiTypeHandler> typeHandlerMap = new HashMap<>();
+
+    protected Map<Class<?>, JaweDrawable> typeDrawer = new HashMap<>();
 
     // Serialization can be on a class bases for drawing with this, but then alot of new refernces, similar to the static final issue
     public JaweClazzDraw() {
@@ -48,6 +51,10 @@ public class JaweClazzDraw implements InstancePurge, JaweDrawable {
         typeHandlerMap.put(float.class, new DefaultJImGuiFloatPrimTypeHandler());
         typeHandlerMap.put(double.class, new DefaultJImGuiDoublePrimTypeHandler());
         typeHandlerMap.put(String.class, new DefaultJImGuiStringPrimTypeHandler());
+
+        typeDrawer.putIfAbsent(boolean.class, new JaweOrderedDrawables<>(
+
+        ));
     }
 
 

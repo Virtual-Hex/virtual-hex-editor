@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.JaweJimGuiStaticDeallocateManager;
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 
@@ -9,7 +9,7 @@ public class JaweCollapsingHeaderExitable extends JaweTreeNodeEx {
     /**
      * Can be null, if not null an X will appear
      */
-    public NativeBool nativeBool = JaweJimGuiStaticDeallocateManager.createBool(true);
+    public NativeBool nativeBool = JaweStaticDeallocateManager.createBool(true);
 
     public JaweCollapsingHeaderExitable(String label) {
         super(label);

@@ -122,7 +122,7 @@ public final class JaweDesktopEditor implements BasicApp {
         }
 
         world.dispose();
-        JaweJimGuiStaticDeallocateManager.deallocateNativeObject0();
+        JaweStaticDeallocateManager.deallocateNativeObject0();
     }
 
     public World getWorld() {

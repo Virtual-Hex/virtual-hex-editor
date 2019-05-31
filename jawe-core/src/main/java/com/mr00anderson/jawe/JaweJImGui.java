@@ -42,7 +42,7 @@ public class JaweJImGui extends JImGui {
 
     protected DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 
-    public static final JaweJimGuiStaticDeallocateManager STATIC_NATIVE_MANAGEMENT = new JaweJimGuiStaticDeallocateManager();
+    public static final JaweStaticDeallocateManager STATIC_NATIVE_MANAGEMENT = new JaweStaticDeallocateManager();
 
     public World world;
 

@@ -6,11 +6,15 @@
  *
  * See https://github.com/ocornut/imgui/blob/master/imgui.h
  *
+ *
+ * TODO Will need to look at subclassing where we want to have interchangeable but restricted parts,
+ * I.E ColorText and Text would just be a parent of Text which is a parent of Labeled... Or something like that
+ *
  */
 package com.mr00anderson.jawe.drawables;
 
 
-// TODO
+// TODO below
 // Buttons
 //IMGUI_API bool          ArrowButton(const char* str_id, ImGuiDir dir);                  // square button with an arrow shape
 //IMGUI_API void          Image(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0,0), const ImVec2& uv1 = ImVec2(1,1), const ImVec4& tint_col = ImVec4(1,1,1,1), const ImVec4& border_col = ImVec4(0,0,0,0));
@@ -159,9 +163,6 @@ package com.mr00anderson.jawe.drawables;
 //            IMGUI_API bool          TreeNodeExV(const void* ptr_id, ImGuiTreeNodeFlags flags, const char* fmt, va_list args) IM_FMTLIST(3);
 //            IMGUI_API void          TreePush(const char* str_id);                                       // ~ Indent()+PushId(). Already called by TreeNode() when returning true, but you can call TreePush/TreePop yourself if desired.
 //            IMGUI_API void          TreePush(const void* ptr_id = NULL);                                // "
-//            IMGUI_API void          TreePop();                                                          // ~ Unindent()+PopId()
 //            IMGUI_API void          TreeAdvanceToLabelPos();                                            // advance cursor x position by GetTreeNodeToLabelSpacing()
 //            IMGUI_API float         GetTreeNodeToLabelSpacing();                                        // horizontal distance preceding label when using TreeNode*() or Bullet() == (g.FontSize + style.FramePadding.x*2) for a regular unframed TreeNode
-//            IMGUI_API bool          CollapsingHeader(const char* label, ImGuiTreeNodeFlags flags = 0);  // if returning 'true' the header is open. doesn't indent nor push on ID stack. user doesn't have to call TreePop().
-//            IMGUI_API bool          CollapsingHeader(const char* label, bool* p_open, ImGuiTreeNodeFlags flags = 0); // when 'p_open' isn't NULL, display an additional small close button on upper right of the header
 //            IMGUI_API void          SetNextItemOpen(bool is_open, ImGuiCond cond = 0);

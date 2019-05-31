@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.JaweJimGuiStaticDeallocateManager;
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
@@ -31,7 +31,7 @@ public class JaweWindow implements JaweDrawable {
     /**
      * A native boolean which will be converted to a java boolean before world serialization
      */
-    public NativeBool open = JaweJimGuiStaticDeallocateManager.createBool(true);
+    public NativeBool open = JaweStaticDeallocateManager.createBool(true);
 
     /**
      * {@link org.ice1000.jimgui.flag.JImWindowFlags}

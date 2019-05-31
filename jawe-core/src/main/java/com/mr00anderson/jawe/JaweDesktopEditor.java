@@ -89,8 +89,10 @@ public final class JaweDesktopEditor implements BasicApp {
 
         // Set app here so that the ImGui instance can close this application
         JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);
-        jaweRenderingSystem.setMainApp(this);
-        jaweRenderingSystem.title = "JImGui Artemis obd World Editor (Jawe)";
+        jaweRenderingSystem.setMainApp(this, "JImGui Artemis obd World Editor (Jawe)");
+
+        // TODO Optional load editor project, to allow editing a separate world for making a new version of the editor
+        // this one will be serialized
 
         WorldWrapper worldWrapper = new WorldWrapper(WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
         worlds.worlds.put(WORLD_EDITOR_WINDOW, worldWrapper);

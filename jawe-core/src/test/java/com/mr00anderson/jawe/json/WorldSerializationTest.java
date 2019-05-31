@@ -65,7 +65,7 @@ public class WorldSerializationTest implements BasicApp {
         testComponentNative.hi = 50;
 
         JaweRenderingSystem system = world.getSystem(JaweRenderingSystem.class);
-        system.setMainApp(this);
+        system.setMainApp(this, "JImGui Artemis obd World Editor (Jawe)");
 
         world.process();
 

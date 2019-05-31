@@ -14,7 +14,7 @@ import org.ice1000.jimgui.util.JniLoader;
 public class JaweRenderingSystem extends BaseEntitySystem {
     ComponentMapper<JaweRenderComponent> renderComponent;
 
-    public String title  = "JaweRenderingSystem.class";
+    public String title  = "TODO JaweRenderingSystem.class";
     public int width = 1280;
     public int height = 720;
     public transient JaweJImGui imGui;
@@ -51,7 +51,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         super.initialize();
 
         JniLoader.load();
-        imGui = new JaweJImGui(world);
+        imGui = new JaweJImGui(width, height, title, world);// TODO Title some how before this is contructed or move this out
         imGui.initBeforeMainLoop();
 
         // TODO Clear color, should be a drawable saved in the world
@@ -112,7 +112,9 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         JaweRenderComponent JaweRenderComponent = renderComponent.get(entityId);
     }
 
-    public void  setMainApp(BasicApp app){
+    public void  setMainApp(BasicApp app, String title){
         this.app = app;
+        this.title = title;
+
     }
 }

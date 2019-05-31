@@ -161,42 +161,34 @@ public class WorldJaweSelectable implements JaweDrawable {
                             integers.add(entityId);
                         }
 
-                        map.forEach((k, v) -> {
-                            JaweTreeNodeExNoPop archetypeTree = new JaweTreeNodeExNoPop(String.format("Archetype ID: %d", k));
-                            entityDrawables.add(archetypeTree);  // TODO Temp until String name for archetype
+                        JaweClazzDraw jaweClazzDraw = new JaweClazzDraw();
 
-                           // The reason this is not working is because they are all drawing if not open,
-                            // need to nest the drawables or rework the three class?, likely nest
-                            v.forEach((IntConsumer) value -> {
-                                JaweTreeNodeExNoPop entityTree = new JaweTreeNodeExNoPop(String.format("Entity ID: %d", value));
-                                archetypeTree.drawables = new LinkedList<>();
-                                archetypeTree.drawables.add(entityTree);
+                        map.forEach((archetypes, entityIdsV) -> {
+                            JaweTreeNodeExNoPop archetypeTree = new JaweTreeNodeExNoPop(String.format("Archetype ID: %d", archetypes));
+                            // Archtype Id Tree Pop
+                            Collections.addAll(entityDrawables, archetypeTree, JaweJImGui.TREE_POP); // TODO Temp until String name for archetype
+
+                            entityIdsV.forEach((IntConsumer) entityId -> {
+                                JaweTreeNodeExNoPop entityTree = new JaweTreeNodeExNoPop(String.format("Entity ID: %d", entityId));
+
+                                Collections.addAll(archetypeTree.drawables, entityTree);
 
                                 Bag<Component> components = new Bag<>();
-                                worldWrapper.world.getComponentManager().getComponentsFor(value, components);
+                                worldWrapper.world.getComponentManager().getComponentsFor(entityId, components);
+
                                 for (int i = 0; i < components.size(); i++) {
                                     Component component = components.get(i);
-
-                                    JaweTreeNodeExNoPop componentTree = new JaweTreeNodeExNoPop(String.format("Component %s", component));
-                                    entityTree.drawables = new LinkedList<>();
-                                    entityTree.drawables.add(componentTree);
-
-                                    componentTree.drawables = new LinkedList<>();
-                                    componentTree.drawables.add(new JaweText("Todo Place Holder Clazz Drawer"));
-
-                                    componentTree.drawables.add(
-                                            // Pop Components Tree
-                                            JaweJImGui.TREE_POP);
+                                    JaweTreeNodeExNoPop componentsTree = new JaweTreeNodeExNoPop(
+                                            String.format("Component %s", component),
+                                                // UPDATE CLAZZ DRAW AND ALSO SO
+//                                                imGui -> jaweClazzDraw.drawSlowJavaClazz(imGui, entityId, component),
+                                                JaweJImGui.TREE_POP
+                                            );
+                                    // Entity Id Tree Pop
+                                    Collections.addAll(entityTree.drawables, componentsTree, JaweJImGui.TREE_POP);
                                 }
-                                // Pop Entities Tree
-                                entityDrawables.add(JaweJImGui.TREE_POP);
                             });
-                            // Pop Archetype Tree
-                            entityDrawables.add(JaweJImGui.TREE_POP);
                         });
-
-
-
 
 
                         JaweDrawable[] jaweDrawablesEntities = new JaweDrawable[entityDrawables.size()];

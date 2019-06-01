@@ -1,4 +1,4 @@
-package com.mr00anderson.jawe.components;
+package com.mr00anderson.jawe.drawables;
 
 import com.artemis.PooledComponent;
 

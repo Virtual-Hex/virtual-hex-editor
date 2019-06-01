@@ -1,7 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.components.JaweDrawables;
-
 /**
  * TreeNode functions return true when the node is open, in which case you need to also call TreePop() when you are finished displaying the tree node contents.
  */

@@ -9,7 +9,7 @@ public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
         super(label);
     }
 
-    public JaweTreeNodeExNoPop(String label, JImGuiDrawable... drawableElements) {
+    public JaweTreeNodeExNoPop(String label, Object... drawableElements) {
         super(label, drawableElements);
     }
 
@@ -17,14 +17,14 @@ public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
         super(label, flags);
     }
 
-    public JaweTreeNodeExNoPop(String label, int flags, JImGuiDrawable... drawableElements) {
+    public JaweTreeNodeExNoPop(String label, int flags, Object... drawableElements) {
         super(label, flags, drawableElements);
     }
 
     public JaweTreeNodeExNoPop() {
     }
 
-    public JaweTreeNodeExNoPop(JImGuiDrawable[] drawableElements) {
+    public JaweTreeNodeExNoPop(Object[] drawableElements) {
         super(drawableElements);
     }
 }

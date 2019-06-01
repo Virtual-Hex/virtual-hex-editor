@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.components.JaweDrawables;
 import com.mr00anderson.jawe.handlers.*;
 import com.mr00anderson.jawe.types.InstancePurge;
 import org.ice1000.jimgui.JImGui;

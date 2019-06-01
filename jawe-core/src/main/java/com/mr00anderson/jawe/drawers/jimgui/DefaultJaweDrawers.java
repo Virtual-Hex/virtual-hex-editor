@@ -1,8 +1,5 @@
-package com.mr00anderson.jawe.drawers;
+package com.mr00anderson.jawe.drawers.jimgui;
 
-import com.mr00anderson.jawe.JaweClazzDrawer;
-import com.mr00anderson.jawe.components.JaweDrawables;
-import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
 import org.ice1000.jimgui.JImGui;
@@ -73,6 +70,24 @@ public class DefaultJaweDrawers {
 
     public static void emptyDrawable(JImGui imGui, Object drawable0) {}
 
+    public static void collapsingHeaderExitable(JImGui imGui, Object drawable0) {
+        JaweCollapsingHeaderExitable drawable = (JaweCollapsingHeaderExitable) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("open");
+            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+
+            mapper.setNativeFromField();
+            boolean isOpen = imGui.collapsingHeader(drawable.label, mapper.getNativeData(), drawable.flags);
+            mapper.setFieldFromNative();
+            if(isOpen){
+                drawable.drawables.forEach(d -> clazzDraw.draw(imGui, d));
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void collapsingHeader(JImGui imGui, Object drawable0) {
         JaweCollapsingHeader drawable = (JaweCollapsingHeader) drawable0;
         boolean isOpen = imGui.collapsingHeader(drawable.label);
@@ -133,12 +148,6 @@ public class DefaultJaweDrawers {
 
     public static void newLine(JImGui imGui, Object drawable0) {
         imGui.newLine();
-    }
-
-    public static void worldsJaweComponent(JImGui imGui, Object drawable0) {
-        WorldsJaweComponent drawable = (WorldsJaweComponent) drawable0;
-        clazzDraw.draw(imGui, drawable.worldsHeader);
-        clazzDraw.draw(imGui, drawable.worldsData);
     }
 
     public static void jaweOrderedDrawables(JImGui imGui, Object drawable0) {

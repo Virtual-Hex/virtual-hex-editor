@@ -1,7 +1,7 @@
 package com.mr00anderson.jawe.components;
 
 import com.artemis.Component;
-import com.mr00anderson.jawe.JaweClazzDrawer;
+import com.mr00anderson.jawe.drawers.jimgui.JaweClazzDrawer;
 import com.mr00anderson.jawe.JaweJImGui;
 
 /**

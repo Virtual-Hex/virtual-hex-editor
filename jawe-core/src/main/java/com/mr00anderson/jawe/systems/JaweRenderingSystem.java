@@ -76,8 +76,8 @@ public class JaweRenderingSystem extends BaseEntitySystem {
             int length = entities.size();
             for (int i = 0; i < length; i++) {
                 int entityId = entities.get(i);
-                JaweRenderComponent JaweRenderComponent = renderComponent.get(entityId);
-                JaweRenderComponent.draw(imGui);
+                JaweRenderComponent jaweRenderComponent = renderComponent.get(entityId);
+                jaweRenderComponent.draw(imGui);
             }
 
             imGui.render();

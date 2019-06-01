@@ -11,27 +11,27 @@ public class JaweJImGui extends JImGui {
 //    /**
 //     *  separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 //     */
-//    public static final JaweDrawable SEPARATOR = new JaweSeparator();
+//    public static final JImGuiDrawable SEPARATOR = new JaweSeparator();
 //
 //    /**
 //     * next column, defaults to current row or next row if the current row is finished
 //     */
-//    public static final JaweDrawable NEXT_COLUMN = new JaweNextColumn();
+//    public static final JImGuiDrawable NEXT_COLUMN = new JaweNextColumn();
 //
 //    /**
 //     * undo a SameLine() or force a new line when in an horizontal-layout context.
 //     */
-//    public static final JaweDrawable NEW_LINE = new JaweNewLine();
+//    public static final JImGuiDrawable NEW_LINE = new JaweNewLine();
 //
 //
-//    public static final JaweDrawable SAME_LINE = new JaweSameLine();
+//    public static final JImGuiDrawable SAME_LINE = new JaweSameLine();
 //
-//    public static final JaweDrawable TREE_POP = new JaweTreePop();
+//    public static final JImGuiDrawable TREE_POP = new JaweTreePop();
 //
 //    /**
 //     * add vertical spacing
 //     */
-//    public static final JaweDrawable JAWE_SPACING = new JaweSpacing();
+//    public static final JImGuiDrawable JAWE_SPACING = new JaweSpacing();
 
 
     public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};

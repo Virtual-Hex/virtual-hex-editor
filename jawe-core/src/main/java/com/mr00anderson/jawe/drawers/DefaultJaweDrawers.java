@@ -1,6 +1,8 @@
 package com.mr00anderson.jawe.drawers;
 
-import com.mr00anderson.jawe.ClazzDrawer;
+import com.mr00anderson.jawe.JaweClazzDrawer;
+import com.mr00anderson.jawe.components.JaweOrderedDrawables;
+import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
 import org.ice1000.jimgui.JImGui;
@@ -10,9 +12,23 @@ import java.lang.reflect.Field;
 public class DefaultJaweDrawers {
 
     // TODO Move this class drawing to instance?
-    public static final ClazzDrawer clazzDraw = new ClazzDrawer();
+    public static final JaweClazzDrawer clazzDraw = new JaweClazzDrawer();
 
-    public static void drawWindow(JImGui imGui, Object drawable0) {
+    public static void seperator(JImGui imGui, Object drawable0) {
+        imGui.separator();
+    }
+
+
+    public static void nextColumn(JImGui imGui, Object drawable0){
+        imGui.nextColumn();
+    }
+
+    public static void columns(JImGui imGui, Object drawable0){
+        JaweColumns drawable = (JaweColumns) drawable0;
+        imGui.columns(drawable.count, drawable.stringId, drawable.border);
+    }
+
+    public static void window(JImGui imGui, Object drawable0) {
         JaweWindow drawable = (JaweWindow) drawable0;
         if(imGui.begin(drawable.label, drawable.open, drawable.flags)) {
             drawable.windowContents.forEach(d -> clazzDraw.draw(imGui, d));
@@ -22,7 +38,7 @@ public class DefaultJaweDrawers {
     }
 
     // This wraps a field mapper
-    public static void drawCheckbox(JImGui imGui, Object drawable0) {
+    public static void checkbox(JImGui imGui, Object drawable0) {
         JaweCheckBox drawable = (JaweCheckBox) drawable0;
         Field field;
         try {
@@ -34,26 +50,26 @@ public class DefaultJaweDrawers {
         }
     }
 
-    public static void drawButton(JImGui imGui, Object drawable0) {
+    public static void button(JImGui imGui, Object drawable0) {
         JaweButton drawable = (JaweButton) drawable0;
         if(imGui.button(drawable.label, drawable.width, drawable.height)){
             drawable.onActivation.handle(drawable);
         }
     }
-    public static void drawBeginMenu(JImGui imGui, Object drawable0) {
+    public static void beginMenu(JImGui imGui, Object drawable0) {
         // Returns true on activation
 //        if(imGui.beginMenu(label, enabled)){
 //          TODO
 //        }
     }
 
-    public static void drawBeginMenuItem(JImGui imGui, Object drawable0) {
+    public static void beginMenuItem(JImGui imGui, Object drawable0) {
         //TODO
     }
 
     public static void emptyDrawable(JImGui imGui, Object drawable0) {}
 
-    public static void drawCollapsingHeader(JImGui imGui, Object drawable0) {
+    public static void collapsingHeader(JImGui imGui, Object drawable0) {
         JaweCollapsingHeader drawable = (JaweCollapsingHeader) drawable0;
         boolean isOpen = imGui.collapsingHeader(drawable.label);
         if(isOpen){
@@ -61,32 +77,26 @@ public class DefaultJaweDrawers {
         }
     }
 
-
-    public static void drawTreeNodeEx(JImGui imGui, Object drawable0) {
+    public static void treeNodeEx(JImGui imGui, Object drawable0) {
         JaweTreeNodeEx drawable = (JaweTreeNodeEx) drawable0;
         boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
         if(open){
-            drawable.drawables.forEach(d -> d.draw(imGui, d));
+            drawable.drawables.forEach(d -> clazzDraw.draw(imGui, d));
             imGui.treePop();
         }
     }
 
-    public static void drawColorText(JImGui imGui, Object drawable0){
+    public static void colorText(JImGui imGui, Object drawable0){
         JaweColorText drawable = (JaweColorText) drawable0;
         imGui.textColored(drawable.color, drawable.text);
     }
 
-    public static void drawTextFromString(JImGui imGui, Object drawable0){
-        String drawable = (String) drawable0;
-        imGui.text(drawable);
-    }
-
-    public static void drawText(JImGui imGui, Object drawable0){
+    public static void text(JImGui imGui, Object drawable0){
         JaweText drawable = (JaweText) drawable0;
         imGui.text(drawable.text);
     }
 
-    public static void drawSelectable(JImGui imGui, Object drawable0){
+    public static void selectable(JImGui imGui, Object drawable0){
         JaweSelectable drawable = (JaweSelectable) drawable0;
         Field field;
         try {
@@ -102,12 +112,32 @@ public class DefaultJaweDrawers {
         }
     }
 
-    public static void drawSameLine(JImGui imGui, Object drawable0){
+    public static void sameLine(JImGui imGui, Object drawable0){
         JaweSameLine drawable = (JaweSameLine) drawable0;
         imGui.sameLine(drawable.positionX, drawable.spacingWidth);
     }
 
-    public static void drawNewLine(JImGui imGui, Object drawable0) {
+    public static void newLine(JImGui imGui, Object drawable0) {
         imGui.newLine();
+    }
+
+    public static void worldsJaweComponent(JImGui imGui, Object drawable0) {
+        WorldsJaweComponent drawable = (WorldsJaweComponent) drawable0;
+        clazzDraw.draw(imGui, drawable.worldsHeader);
+        clazzDraw.draw(imGui, drawable.worldsData);
+    }
+
+    public static void jaweOrderedDrawables(JImGui imGui, Object drawable0) {
+        JaweOrderedDrawables drawable = (JaweOrderedDrawables) drawable0;
+
+        for (Object element; (element = drawable.addWindowQueue.poll()) != null;){
+            drawable.drawables.add(element);
+        }
+
+        for (Object element; (element = drawable.removeWindowQueue.poll()) != null;){
+            drawable.drawables.remove(element);
+        }
+
+        drawable.drawables.forEach((d) -> clazzDraw.draw(imGui, d));
     }
 }

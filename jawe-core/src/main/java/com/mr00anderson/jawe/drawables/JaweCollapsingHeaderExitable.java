@@ -15,7 +15,7 @@ public class JaweCollapsingHeaderExitable extends JaweTreeNodeEx {
         super(label);
     }
 
-    public JaweCollapsingHeaderExitable(String label, JaweDrawable... drawableElements) {
+    public JaweCollapsingHeaderExitable(String label, JImGuiDrawable... drawableElements) {
         super(label, drawableElements);
     }
 
@@ -23,22 +23,22 @@ public class JaweCollapsingHeaderExitable extends JaweTreeNodeEx {
         super(label, flags);
     }
 
-    public JaweCollapsingHeaderExitable(String label, int flags, JaweDrawable... drawableElements) {
+    public JaweCollapsingHeaderExitable(String label, int flags, JImGuiDrawable... drawableElements) {
         super(label, flags, drawableElements);
     }
 
     public JaweCollapsingHeaderExitable() {
     }
 
-    public JaweCollapsingHeaderExitable(JaweDrawable[] drawableElements) {
+    public JaweCollapsingHeaderExitable(JImGuiDrawable[] drawableElements) {
         super(drawableElements);
     }
 
 
     public void draw(JImGui imGui) {
-        boolean isOpen = imGui.collapsingHeader(label, nativeBool, flags);
-        if(isOpen){
-            drawables.forEach(d -> d.draw(imGui, d));
-        }
+//        boolean isOpen = imGui.collapsingHeader(label, nativeBool, flags);
+//        if(isOpen){
+//            worldsHeader.forEach(d -> d.draw(imGui, d));
+//        }
     }
 }

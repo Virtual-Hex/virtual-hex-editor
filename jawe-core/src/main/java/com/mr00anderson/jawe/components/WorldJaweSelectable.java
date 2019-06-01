@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.components;
 
-import com.mr00anderson.jawe.drawables.JaweDrawable;
+import com.mr00anderson.jawe.drawables.JImGuiDrawable;
 import com.mr00anderson.jawe.drawables.JaweSelectable;
 import com.mr00anderson.jawe.types.WorldWrapper;
 import org.ice1000.jimgui.JImGui;
@@ -8,8 +8,8 @@ import org.ice1000.jimgui.JImGui;
 public class WorldJaweSelectable  {
 
     public JaweSelectable nameSelectable; // World name
-    public JaweDrawable locationType;
-    public JaweDrawable locationPath;
+    public JImGuiDrawable locationType;
+    public JImGuiDrawable locationPath;
 
     public WorldJaweSelectable() {
     }
@@ -37,7 +37,7 @@ public class WorldJaweSelectable  {
 //
 //                        // SYSTEMS
 //                        ImmutableBag<BaseSystem> worldSystems = worldWrapper.world.getSystems();
-//                        LinkedList<JaweDrawable> systemsDrawables = new LinkedList<>();
+//                        LinkedList<JImGuiDrawable> systemsDrawables = new LinkedList<>();
 //
 //                        Collections.addAll(
 //                                systemsDrawables,
@@ -65,13 +65,13 @@ public class WorldJaweSelectable  {
 //                                        JaweJImGui.NEXT_COLUMN
 //                                    );
 //                        }
-//                        JaweDrawable[] jaweDrawablesSystem = new JaweDrawable[systemsDrawables.size()];
+//                        JImGuiDrawable[] jaweDrawablesSystem = new JImGuiDrawable[systemsDrawables.size()];
 //                        systemsDrawables.toArray(jaweDrawablesSystem);
 //
 //
 //                        // COMPONENT TYPES
 //                        ImmutableBag<ComponentType> componentTypes = worldWrapper.world.getComponentManager().getComponentTypes();
-//                        LinkedList<JaweDrawable> componentTypeDrawables = new LinkedList<>();
+//                        LinkedList<JImGuiDrawable> componentTypeDrawables = new LinkedList<>();
 //
 //                        Collections.addAll(
 //                                componentTypeDrawables,
@@ -104,7 +104,7 @@ public class WorldJaweSelectable  {
 //                            );
 //                        }
 //
-//                        JaweDrawable[] jaweDrawablesComponents = new JaweDrawable[componentTypeDrawables.size()];
+//                        JImGuiDrawable[] jaweDrawablesComponents = new JImGuiDrawable[componentTypeDrawables.size()];
 //                        componentTypeDrawables.toArray(jaweDrawablesComponents);
 //
 //
@@ -112,7 +112,7 @@ public class WorldJaweSelectable  {
 //                        // TODO Insert Filtering option, or  wrap this in a filter, this way can edit groups or find entities of X composition
 //                        // Entities All
 //                        EntitySubscription entitySubscription = worldWrapper.world.getAspectSubscriptionManager().get(Aspect.all());
-//                        LinkedList<JaweDrawable> entityDrawables = new LinkedList<>();
+//                        LinkedList<JImGuiDrawable> entityDrawables = new LinkedList<>();
 //
 ////
 ////                        // TODO This is dynamic based on entity components
@@ -145,7 +145,7 @@ public class WorldJaweSelectable  {
 //                            integers.add(entityId);
 //                        }
 //
-//                        JaweClazzDraw jaweClazzDraw = new JaweClazzDraw();
+//                        ReflectiveJaweClazzDraw jaweClazzDraw = new ReflectiveJaweClazzDraw();
 //
 //                        map.forEach((archetypes, entityIdsV) -> {
 //                            JaweTreeNodeExNoPop archetypeTree = new JaweTreeNodeExNoPop(String.format("Archetype ID: %d", archetypes));
@@ -155,7 +155,7 @@ public class WorldJaweSelectable  {
 //                            entityIdsV.forEach((IntConsumer) entityId -> {
 //                                JaweTreeNodeExNoPop entityTree = new JaweTreeNodeExNoPop(String.format("Entity ID: %d", entityId));
 //
-//                                Collections.addAll(archetypeTree.drawables, entityTree);
+//                                Collections.addAll(archetypeTree.worldsHeader, entityTree);
 //
 //                                Bag<Component> components = new Bag<>();
 //                                worldWrapper.world.getComponentManager().getComponentsFor(entityId, components);
@@ -169,13 +169,13 @@ public class WorldJaweSelectable  {
 //                                                JaweJImGui.TREE_POP
 //                                            );
 //                                    // Entity Id Tree Pop
-//                                    Collections.addAll(entityTree.drawables, componentsTree, JaweJImGui.TREE_POP);
+//                                    Collections.addAll(entityTree.worldsHeader, componentsTree, JaweJImGui.TREE_POP);
 //                                }
 //                            });
 //                        });
 //
 //
-//                        JaweDrawable[] jaweDrawablesEntities = new JaweDrawable[entityDrawables.size()];
+//                        JImGuiDrawable[] jaweDrawablesEntities = new JImGuiDrawable[entityDrawables.size()];
 //                        entityDrawables.toArray(jaweDrawablesEntities);
 //
 //

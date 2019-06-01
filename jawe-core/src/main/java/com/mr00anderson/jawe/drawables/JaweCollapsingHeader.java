@@ -8,7 +8,7 @@ public class JaweCollapsingHeader extends JaweTreeNodeEx {
         super(label);
     }
 
-    public JaweCollapsingHeader(String label, JaweDrawable... drawableElements) {
+    public JaweCollapsingHeader(String label, JImGuiDrawable... drawableElements) {
         super(label, drawableElements);
     }
 
@@ -16,14 +16,14 @@ public class JaweCollapsingHeader extends JaweTreeNodeEx {
         super(label, flags);
     }
 
-    public JaweCollapsingHeader(String label, int flags, JaweDrawable... drawableElements) {
+    public JaweCollapsingHeader(String label, int flags, JImGuiDrawable... drawableElements) {
         super(label, flags, drawableElements);
     }
 
     public JaweCollapsingHeader() {
     }
 
-    public JaweCollapsingHeader(JaweDrawable[] drawableElements) {
+    public JaweCollapsingHeader(JImGuiDrawable[] drawableElements) {
         super(drawableElements);
     }
 

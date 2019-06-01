@@ -11,7 +11,7 @@ public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
         super(label);
     }
 
-    public JaweTreeNodeExNoPop(String label, JaweDrawable... drawableElements) {
+    public JaweTreeNodeExNoPop(String label, JImGuiDrawable... drawableElements) {
         super(label, drawableElements);
     }
 
@@ -19,22 +19,22 @@ public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
         super(label, flags);
     }
 
-    public JaweTreeNodeExNoPop(String label, int flags, JaweDrawable... drawableElements) {
+    public JaweTreeNodeExNoPop(String label, int flags, JImGuiDrawable... drawableElements) {
         super(label, flags, drawableElements);
     }
 
     public JaweTreeNodeExNoPop() {
     }
 
-    public JaweTreeNodeExNoPop(JaweDrawable[] drawableElements) {
+    public JaweTreeNodeExNoPop(JImGuiDrawable[] drawableElements) {
         super(drawableElements);
     }
 
 
     public void draw(JImGui imGui) {
-        boolean open = imGui.treeNodeEx(label, flags);
-        if(open){
-            drawables.forEach(d -> d.draw(imGui, d));
-        }
+//        boolean open = imGui.treeNodeEx(label, flags);
+//        if(open){
+//            worldsHeader.forEach(d -> d.draw(imGui, d));
+//        }
     }
 }

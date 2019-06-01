@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.handlers;
 
-import com.mr00anderson.jawe.drawables.JaweDrawable;
+import com.mr00anderson.jawe.drawables.JImGuiDrawable;
 
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
@@ -9,12 +9,12 @@ import com.mr00anderson.jawe.drawables.JaweDrawable;
  *
  * @param <T>
  */
-public class ActivationHandlerDrawer<T extends JaweDrawable> implements ActivationHandler<T> {
+public class ActivationHandlerDrawer<T extends JImGuiDrawable> implements ActivationHandler<T> {
 
-    public JaweDrawable jaweDrawable;
+    public JImGuiDrawable JImGuiDrawable;
 
-    public ActivationHandlerDrawer(JaweDrawable jaweDrawable) {
-        this.jaweDrawable = jaweDrawable;
+    public ActivationHandlerDrawer(JImGuiDrawable JImGuiDrawable) {
+        this.JImGuiDrawable = JImGuiDrawable;
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.mr00anderson.jawe.components;
 
 import com.artemis.PooledComponent;
-import com.mr00anderson.jawe.drawables.JaweWindow;
+import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.types.WorldWrapper;
-import org.ice1000.jimgui.JImGui;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,9 +10,8 @@ import java.util.TreeMap;
 // TODO Further abstraction optional, can take a list of elements and rename this to JaweDrawableComponent
 public class WorldsJaweComponent extends PooledComponent {
 
-
-    public JaweOrderedDrawables drawables;
-    public JaweOrderedDrawables worldColumsDrawable;
+    public JaweOrderedDrawables worldsHeader;
+    public JaweOrderedDrawables worldsData;
 
     // Cached windows for when worlds are unclicked and clicked
     public Map<String, JaweWindow> worlds = new TreeMap<>(String::compareTo);
@@ -33,36 +31,30 @@ public class WorldsJaweComponent extends PooledComponent {
 //        };
 
 //        // TODO Move this world into the main menu for editing
-//        worldColumsDrawable = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
-//
-//        this.drawables = new JaweOrderedDrawables(
-//                // ADD
-////                new JaweButton(" + ", new ActivationHandler<JaweButton>() {
-////                    @Override
-////                    public void handle(JaweButton imGuiDrawable) {
-////                        new JaweWindow("Add World");
-////                    }
-////                }),
-//                new JaweColumns("Worlds Columns", 3, true),
-//                new JaweText("Worlds"),
-//                JaweJImGui.NEXT_COLUMN,
-//                new JaweText("Location Type"),
-//                JaweJImGui.NEXT_COLUMN,
-//                new JaweText("Location Path"),
-//                JaweJImGui.NEXT_COLUMN,
-//                JaweJImGui.SEPARATOR
-//        );
+        worldsData = new JaweOrderedDrawables(new WorldJaweSelectable(this, worldWrapper));
+
+        worldsHeader = new JaweOrderedDrawables(
+                // ADD
+//                new JaweButton(" + ", new ActivationHandler<JaweButton>() {
+//                    @Override
+//                    public void handle(JaweButton imGuiDrawable) {
+//                        new JaweWindow("Add World");
+//                    }
+//                }),
+
+                new JaweColumns("Worlds Columns", 3, true),
+                new JaweText("Worlds"),
+                new JaweNextColumn(),
+                new JaweText("Location Type"),
+                new JaweNextColumn(),
+                new JaweText("Location Path"),
+                new JaweNextColumn(),
+                new JaweSeparator()
+        );
     }
 
     @Override
     protected void reset() {
         // TODO
     }
-
-    public void draw(JImGui imGui) {
-//        drawables.draw(imGui);
-//        worldColumsDrawable.draw(imGui);
-    }
-
-
 }

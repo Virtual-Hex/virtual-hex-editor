@@ -38,7 +38,7 @@ public class JaweWindow {
     public int flags;
 
     /**
-     * The window contents which can be any other JaweDrawable, it will serialize like this class
+     * The window contents which can be any other JImGuiDrawable, it will serialize like this class
      */
     public List <Object> windowContents;
 

@@ -47,10 +47,10 @@ public class JaweCombo{
 //        boolean beginCombo = imGui.beginCombo(label, currentSelectable.label, flags);
 //        if(beginCombo){
 //            // Replace with JawOrderDrawables to allow inserting
-//            LinkedList<JaweSelectable> drawables = jaweSelectables.drawables;
+//            LinkedList<JaweSelectable> worldsHeader = jaweSelectables.worldsHeader;
 //
-//            for (int i = 0; i < drawables.size(); i++) {
-//                JaweSelectable jaweSelectable = drawables.get(i);
+//            for (int i = 0; i < worldsHeader.size(); i++) {
+//                JaweSelectable jaweSelectable = worldsHeader.get(i);
 //                jaweSelectable.draw(imGui);
 //                boolean accessValue = jaweSelectable.selected.accessValue();
 //                if(accessValue){

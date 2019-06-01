@@ -1,22 +1,21 @@
 package com.mr00anderson.jawe.components;
 
 import com.artemis.PooledComponent;
-import com.mr00anderson.jawe.drawables.JaweDrawable;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class JaweOrderedDrawables<T extends JaweDrawable> extends PooledComponent {
+public class JaweOrderedDrawables extends PooledComponent {
 
-    public LinkedList<T> drawables = new LinkedList<>();
-    public ConcurrentLinkedQueue<T> addWindowQueue = new ConcurrentLinkedQueue<>();
-    public ConcurrentLinkedQueue<T> removeWindowQueue = new ConcurrentLinkedQueue<>();
+    public LinkedList<Object> drawables = new LinkedList<>();
+    public ConcurrentLinkedQueue<Object> addWindowQueue = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<Object> removeWindowQueue = new ConcurrentLinkedQueue<>();
 
     public JaweOrderedDrawables() {
     }
 
-    public JaweOrderedDrawables(T... drawableElements) {
+    public JaweOrderedDrawables(Object... drawableElements) {
         Collections.addAll(drawables, drawableElements);
     }
 
@@ -25,18 +24,4 @@ public class JaweOrderedDrawables<T extends JaweDrawable> extends PooledComponen
         drawables.clear();
     }
 
-//    @Override
-//    public void draw(JImGui imGui) {
-//        T addPoll = addWindowQueue.poll();
-//        if(addPoll != null){
-//            drawables.add(addPoll);
-//        }
-//
-//        drawables.forEach((d) -> d.draw(imGui));
-//
-//        T removePoll = removeWindowQueue.poll();
-//        if(removePoll != null){
-//            drawables.remove(removePoll);
-//        }
-//    }
 }

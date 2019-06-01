@@ -6,11 +6,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.drawables.JaweColorText;
-import com.mr00anderson.jawe.drawables.JaweText;
+import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.JaweWindow;
 import com.mr00anderson.jawe.types.WorldWrapper;
-import org.ice1000.jimgui.JImVec4;
 
 public class EditorWorldBuilder {
 
@@ -30,11 +28,11 @@ public class EditorWorldBuilder {
 
         buildMainMenu();
 
-//        JaweDrawable clearColor;
-//        JaweDrawable mainMenuBar;
+//        JImGuiDrawable clearColor;
+//        JImGuiDrawable mainMenuBar;
 
         // TODO Replace with toggle menu option and update the eample using this libraires methods
-//        JaweDrawable debugWindow = JaweWindow.Builder
+//        JImGuiDrawable debugWindow = JaweWindow.Builder
 //                .builder()
 //                .label("Debug")
 //                .windowContents(new DebugWindow())
@@ -42,11 +40,11 @@ public class EditorWorldBuilder {
 //
 
         JaweWindow[] jaweDefaultBuildEntities = {
-//                new JaweWindow("Worlds", new WorldsJaweComponent(worldWrapper)),
-                new JaweWindow("Window",
-                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
-                        new JaweText("Hello Test")
-                ),
+                new JaweWindow("Worlds", new WorldsJaweComponent(worldWrapper)),
+//                new JaweWindow("Window",
+//                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
+//                        new JaweText("Hello Test")
+//                ),
 
 
                 // DISABLED debug due to complexity, want to keep it simple for first world edit testing and need for update use wit this libs api
@@ -78,10 +76,10 @@ public class EditorWorldBuilder {
     public int addToWorld(JaweWindow window){
         int entityId =  worldWrapper.world.create(jaweDrawableArcheType);
         JaweRenderComponent component = renderMapper.create(entityId);
-        groupManager.add(entityId, "JaweDrawable");
+        groupManager.add(entityId, "JImGuiDrawable");
         tagManager.register(window.label, entityId);
         component.active = true;
-        component.jaweDrawable = window;
+        component.objectToDraw = window;
         return entityId;
     }
 

@@ -2,7 +2,7 @@
  * Drawables are JImGui drawing code and is serializable without Artemis OBD, though the methods take a World,
  * this may not be needed, TODO TBD
  *
- * Artemis OBD does serialize the layers found in drawables.
+ * Artemis OBD does serialize the layers found in worldsHeader.
  *
  * See https://github.com/ocornut/imgui/blob/master/imgui.h
  *

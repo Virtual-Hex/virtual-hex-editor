@@ -12,7 +12,7 @@ import org.ice1000.jimgui.JImGui;
  *
  *   button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
  */
-public class JaweInvisibleButton implements JaweDrawable {
+public class JaweInvisibleButton {
 
     public String label;
     public int width;
@@ -30,7 +30,7 @@ public class JaweInvisibleButton implements JaweDrawable {
         this.label = label;
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
         //
         if(imGui.invisibleButton(label, width, height)){

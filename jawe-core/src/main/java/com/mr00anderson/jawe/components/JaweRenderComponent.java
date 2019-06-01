@@ -1,9 +1,8 @@
 package com.mr00anderson.jawe.components;
 
 import com.artemis.Component;
-import com.artemis.World;
-import com.mr00anderson.jawe.drawables.JaweDrawable;
-import org.ice1000.jimgui.JImGui;
+import com.mr00anderson.jawe.ClazzDrawer;
+import com.mr00anderson.jawe.JaweJImGui;
 
 /**
  * This can be anything that draws, but this is for uniform
@@ -16,18 +15,20 @@ public class JaweRenderComponent extends Component {
     /**
      * Used to indicate if a component should be drawn
      */
+    public ClazzDrawer clazzDrawer = new ClazzDrawer();
+
     public boolean active;
 
     /**
      * The component that should be drawn
      */
-    public JaweDrawable jaweDrawable;
+    public Object jaweDrawable;
 
     public JaweRenderComponent() {
     }
 
-    public void draw(JImGui imGui, World world){
-        if(active) jaweDrawable.draw(imGui);
+    public void draw(JaweJImGui imGui){
+        if(active) clazzDrawer.draw(imGui, jaweDrawable);
     }
 
 

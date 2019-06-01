@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.wrappers;
 
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.NativeLong;
 
 import java.lang.reflect.Field;
@@ -7,6 +8,9 @@ import java.lang.reflect.Field;
 
 public class NativeLongDataFieldMapper extends AbstractDeallocateDataFieldMapper<NativeLong> {
 
+    public NativeLongDataFieldMapper(Field field, Object object) {
+        super(JaweStaticDeallocateManager.createLong(0L), field, object);
+    }
     public NativeLongDataFieldMapper(NativeLong nativeData, Field field, Object object) {
         super(nativeData, field, object);
     }

@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.wrappers;
 
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.NativeFloat;
 
 import java.lang.reflect.Field;
@@ -7,7 +8,7 @@ import java.lang.reflect.Field;
 public class NativeFloatDataFieldMapper extends AbstractDeallocateDataFieldMapper<NativeFloat> {
 
     public NativeFloatDataFieldMapper(Field field, Object object) {
-        super(new NativeFloat(), field, object);
+        super(JaweStaticDeallocateManager.createFloat(0.0f), field, object);
     }
 
     public NativeFloatDataFieldMapper(NativeFloat nativeData, Field field, Object object) {

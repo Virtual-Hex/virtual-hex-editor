@@ -5,10 +5,10 @@ import org.ice1000.jimgui.JImGui;
 /**
  *  // call to mark popup as open (don't call every frame!). popups are closed when user click outside, or if CloseCurrentPopup() is called within a BeginPopup()/EndPopup() block. By default, Selectable()/MenuItem() are calling CloseCurrentPopup(). Popup identifiers are relative to the current ID-stack (so OpenPopup and BeginPopup needs to be at the same level).
  */
-public class JaweOpenPopup implements JaweDrawable {
+public class JaweOpenPopup   {
 
     // THIS CLASS needs to manage a state so it does not recall open popup, maybe leeave this to the user
-    @Override
+
     public void draw(JImGui imGui) {
 
     }

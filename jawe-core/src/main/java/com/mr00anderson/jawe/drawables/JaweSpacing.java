@@ -5,9 +5,9 @@ import org.ice1000.jimgui.JImGui;
 /**
  * add vertical spacing.
  */
-public class JaweSpacing implements JaweDrawable {
+public class JaweSpacing   {
 
-    @Override
+
     public void draw(JImGui imGui) {
         imGui.spacing();
     }

@@ -11,7 +11,7 @@ import org.ice1000.jimgui.JImGui;
  * returning true when pressed and triggers activation handler
  *
  */
-public class JaweSmallButton implements JaweDrawable {
+public class JaweSmallButton   {
 
     public String label;
 
@@ -27,7 +27,7 @@ public class JaweSmallButton implements JaweDrawable {
         this.label = label;
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
         if(imGui.smallButton(label)){
             onActivation.handle(this);

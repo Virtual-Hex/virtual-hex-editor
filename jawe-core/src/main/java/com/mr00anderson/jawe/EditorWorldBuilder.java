@@ -6,10 +6,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.components.WorldsJaweComponent;
-import com.mr00anderson.jawe.drawables.JaweTestingWindow;
+import com.mr00anderson.jawe.drawables.JaweColorText;
+import com.mr00anderson.jawe.drawables.JaweText;
 import com.mr00anderson.jawe.drawables.JaweWindow;
 import com.mr00anderson.jawe.types.WorldWrapper;
+import org.ice1000.jimgui.JImVec4;
 
 public class EditorWorldBuilder {
 
@@ -41,8 +42,11 @@ public class EditorWorldBuilder {
 //
 
         JaweWindow[] jaweDefaultBuildEntities = {
-                new JaweWindow("Worlds", new WorldsJaweComponent(worldWrapper)),
-                new JaweWindow("Window", new JaweTestingWindow()),
+//                new JaweWindow("Worlds", new WorldsJaweComponent(worldWrapper)),
+                new JaweWindow("Window",
+                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
+                        new JaweText("Hello Test")
+                ),
 
 
                 // DISABLED debug due to complexity, want to keep it simple for first world edit testing and need for update use wit this libs api

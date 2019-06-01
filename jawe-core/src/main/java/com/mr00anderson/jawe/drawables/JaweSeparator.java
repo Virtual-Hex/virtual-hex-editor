@@ -2,9 +2,9 @@ package com.mr00anderson.jawe.drawables;
 
 import org.ice1000.jimgui.JImGui;
 
-public class JaweSeparator implements JaweDrawable {
+public class JaweSeparator   {
 
-    @Override
+
     public void draw(JImGui imGui) {
         imGui.separator();
     }

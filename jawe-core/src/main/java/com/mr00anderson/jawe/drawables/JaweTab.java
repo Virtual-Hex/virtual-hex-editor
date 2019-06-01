@@ -6,7 +6,7 @@ import org.ice1000.jimgui.JImGui;
 /**
  * Not in JImGui yet
  */
-public class JaweTab implements JaweDrawable {
+public class JaweTab   {
 //    // Tab Bars, Tabs
 //    // [BETA API] API may evolve!
 //    IMGUI_API bool          BeginTabBar(const char* str_id, ImGuiTabBarFlags flags = 0);        // create and append into a TabBar
@@ -42,7 +42,7 @@ public class JaweTab implements JaweDrawable {
 //            ImGui::Separator();
 //            ImGui::TreePop();
 
-    @Override
+
     public void draw(JImGui imGui) {
 
     }

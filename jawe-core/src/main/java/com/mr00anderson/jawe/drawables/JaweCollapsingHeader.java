@@ -27,11 +27,8 @@ public class JaweCollapsingHeader extends JaweTreeNodeEx {
         super(drawableElements);
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
-        boolean isOpen = imGui.collapsingHeader(label);
-        if(isOpen){
-            drawables.forEach(d -> d.draw(imGui));
-        }
+
     }
 }

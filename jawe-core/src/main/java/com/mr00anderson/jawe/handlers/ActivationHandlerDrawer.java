@@ -18,7 +18,7 @@ public class ActivationHandlerDrawer<T extends JaweDrawable> implements Activati
     }
 
     @Override
-    public void handle(T imGuiDrawable) {
+    public void handle(T objectActivated) {
 
     }
 }

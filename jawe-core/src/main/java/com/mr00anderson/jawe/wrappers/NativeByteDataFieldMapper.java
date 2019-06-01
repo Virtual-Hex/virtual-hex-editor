@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.wrappers;
 
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.NativeInt;
 
 import java.lang.reflect.Field;
@@ -8,7 +9,7 @@ import java.lang.reflect.Field;
 public class NativeByteDataFieldMapper extends AbstractDeallocateDataFieldMapper<NativeInt> {
 
     public NativeByteDataFieldMapper(Field field, Object object) {
-        super(new NativeInt(), field, object);
+        super(JaweStaticDeallocateManager.createInt(0), field, object);
     }
 
     public NativeByteDataFieldMapper(NativeInt nativeData, Field field, Object object) {

@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe;
 
 import com.artemis.World;
-import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
@@ -9,33 +8,30 @@ import org.jetbrains.annotations.NotNull;
 
 public class JaweJImGui extends JImGui {
 
-
-    public static final JaweDrawable EMPTY_DRAWABLE = new EmptyJaweDrawable();
-
-    /**
-     *  separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
-     */
-    public static final JaweDrawable SEPARATOR = new JaweSeparator();
-
-    /**
-     * next column, defaults to current row or next row if the current row is finished
-     */
-    public static final JaweDrawable NEXT_COLUMN = new JaweNextColumn();
-
-    /**
-     * undo a SameLine() or force a new line when in an horizontal-layout context.
-     */
-    public static final JaweDrawable NEW_LINE = new JaweNewLine();
-
-
-    public static final JaweDrawable SAME_LINE = new JaweSameLine();
-
-    public static final JaweDrawable TREE_POP = new JaweTreePop();
-
-    /**
-     * add vertical spacing
-     */
-    public static final JaweDrawable JAWE_SPACING = new JaweSpacing();
+//    /**
+//     *  separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
+//     */
+//    public static final JaweDrawable SEPARATOR = new JaweSeparator();
+//
+//    /**
+//     * next column, defaults to current row or next row if the current row is finished
+//     */
+//    public static final JaweDrawable NEXT_COLUMN = new JaweNextColumn();
+//
+//    /**
+//     * undo a SameLine() or force a new line when in an horizontal-layout context.
+//     */
+//    public static final JaweDrawable NEW_LINE = new JaweNewLine();
+//
+//
+//    public static final JaweDrawable SAME_LINE = new JaweSameLine();
+//
+//    public static final JaweDrawable TREE_POP = new JaweTreePop();
+//
+//    /**
+//     * add vertical spacing
+//     */
+//    public static final JaweDrawable JAWE_SPACING = new JaweSpacing();
 
 
     public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};

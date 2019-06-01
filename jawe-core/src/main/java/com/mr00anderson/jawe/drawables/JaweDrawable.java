@@ -6,6 +6,13 @@ import org.ice1000.jimgui.JImGui;
  * This should represent the smallest unit translated to JImGui
  * This should map to JImGui#methodNameHere when created
  */
-public interface JaweDrawable {
-    void draw(JImGui imGui);
+@FunctionalInterface
+public interface JaweDrawable<T extends JaweDrawable> {
+    /**
+     * Used to draw specific types
+     *
+     * @param imGui
+     * @param drawable
+     */
+    void draw(JImGui imGui, T drawable);
 }

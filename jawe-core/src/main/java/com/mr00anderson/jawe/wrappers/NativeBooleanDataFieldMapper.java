@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.wrappers;
 
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.NativeBool;
 
 import java.lang.reflect.Field;
@@ -8,7 +9,7 @@ import java.lang.reflect.Field;
 public class NativeBooleanDataFieldMapper extends AbstractDeallocateDataFieldMapper<NativeBool> {
 
     public NativeBooleanDataFieldMapper(Field field, Object object) {
-        super(new NativeBool(), field, object);
+        super(JaweStaticDeallocateManager.createBool(false), field, object);
     }
 
     public NativeBooleanDataFieldMapper(NativeBool nativeData, Field field, Object object) {

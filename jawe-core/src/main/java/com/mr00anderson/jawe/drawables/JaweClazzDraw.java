@@ -16,9 +16,9 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per world instance, This must be disposed of, this draws fields on an object
  */
-public class JaweClazzDraw extends JaweOrderedDrawables<JaweDrawable> implements InstancePurge, JaweDrawable {
+public class JaweClazzDraw extends JaweOrderedDrawables<JaweDrawable> implements InstancePurge {
 
-    // Should make this an entity drawer instead, with a prescan of fields for type handling?
+    // Should make this an entity drawers instead, with a prescan of fields for type handling?
 
     // Should turn this into a proper drawable? if i did then it would need to have a instance for each entity
     // TODO
@@ -52,9 +52,7 @@ public class JaweClazzDraw extends JaweOrderedDrawables<JaweDrawable> implements
         typeHandlerMap.put(double.class, new DefaultJImGuiDoublePrimTypeHandler());
         typeHandlerMap.put(String.class, new DefaultJImGuiStringPrimTypeHandler());
 
-        typeDrawer.putIfAbsent(boolean.class, new JaweOrderedDrawables<>(
 
-        ));
     }
 
 
@@ -96,7 +94,7 @@ public class JaweClazzDraw extends JaweOrderedDrawables<JaweDrawable> implements
         }
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
 
     }

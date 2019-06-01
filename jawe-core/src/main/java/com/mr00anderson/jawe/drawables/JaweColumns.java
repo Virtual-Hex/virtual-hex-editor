@@ -9,7 +9,7 @@ import org.ice1000.jimgui.JImGui;
  * // - You can also use SameLine(pos_x) to mimic simplified columns.
  * // - The columns API is work-in-progress and rather lacking (columns are arguably the worst part of dear imgui at the moment!)
  */
-public class JaweColumns implements JaweDrawable {
+public class JaweColumns {
 
     public String stringId;
     public int count;
@@ -26,7 +26,7 @@ public class JaweColumns implements JaweDrawable {
         this.border = border;
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
         imGui.columns(count, stringId, border);
     }

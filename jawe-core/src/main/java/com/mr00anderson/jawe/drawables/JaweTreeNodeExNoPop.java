@@ -30,11 +30,11 @@ public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
         super(drawableElements);
     }
 
-    @Override
+
     public void draw(JImGui imGui) {
         boolean open = imGui.treeNodeEx(label, flags);
         if(open){
-            drawables.forEach(d -> d.draw(imGui));
+            drawables.forEach(d -> d.draw(imGui, d));
         }
     }
 }

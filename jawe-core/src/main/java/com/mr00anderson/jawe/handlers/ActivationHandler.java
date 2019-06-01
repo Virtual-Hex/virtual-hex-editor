@@ -1,7 +1,5 @@
 package com.mr00anderson.jawe.handlers;
 
-import com.mr00anderson.jawe.drawables.JaweDrawable;
-
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
  * to allow connecting of the handling, The caller is fed in, so that the person can access the
@@ -9,14 +7,13 @@ import com.mr00anderson.jawe.drawables.JaweDrawable;
  *
  * @param <T>
  */
-public interface ActivationHandler<T extends JaweDrawable> {
-
+public interface ActivationHandler<T> {
 
     /**
      * The drawable that was activated
-     * @param imGuiDrawable
+     * @param objectActivated
      */
-    void handle(T imGuiDrawable);
+    void handle(T objectActivated);
 }
 
 

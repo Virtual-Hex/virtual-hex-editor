@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.components.JaweOrderedDrawables;
-import org.ice1000.jimgui.JImGui;
 
 /**
  * TreeNode functions return true when the node is open, in which case you need to also call TreePop() when you are finished displaying the tree node contents.
@@ -36,14 +35,5 @@ public class JaweTreeNodeEx extends JaweOrderedDrawables<JaweDrawable> {
 
     public JaweTreeNodeEx(JaweDrawable[] drawableElements) {
         super(drawableElements);
-    }
-
-    @Override
-    public void draw(JImGui imGui) {
-        boolean open = imGui.treeNodeEx(label, flags);
-        if(open){
-            drawables.forEach(d -> d.draw(imGui));
-            imGui.treePop();
-        }
     }
 }

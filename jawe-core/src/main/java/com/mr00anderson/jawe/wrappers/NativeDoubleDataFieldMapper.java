@@ -1,5 +1,6 @@
 package com.mr00anderson.jawe.wrappers;
 
+import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import org.ice1000.jimgui.NativeDouble;
 
 import java.lang.reflect.Field;
@@ -8,7 +9,7 @@ import java.lang.reflect.Field;
 public class NativeDoubleDataFieldMapper extends AbstractDeallocateDataFieldMapper<NativeDouble> {
 
     public NativeDoubleDataFieldMapper(Field field, Object object) {
-        super(new NativeDouble(), field, object);
+        super(JaweStaticDeallocateManager.createDouble(0.0d), field, object);
     }
 
     public NativeDoubleDataFieldMapper(NativeDouble nativeData, Field field, Object object) {

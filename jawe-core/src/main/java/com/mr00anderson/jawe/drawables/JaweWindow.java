@@ -2,7 +2,6 @@ package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
-import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
  *
  *
  */
-public class JaweWindow implements JaweDrawable {
+public class JaweWindow {
 
     /**
      * Labels are unique see
@@ -41,7 +40,7 @@ public class JaweWindow implements JaweDrawable {
     /**
      * The window contents which can be any other JaweDrawable, it will serialize like this class
      */
-    public List <JaweDrawable> windowContents;
+    public List <Object> windowContents;
 
     /**
      * This will be called when the window is not collapsed or not fully clipped,
@@ -54,26 +53,17 @@ public class JaweWindow implements JaweDrawable {
     public JaweWindow() {
     }
 
-    public JaweWindow(String label, JaweDrawable... windowContentElements) {
+    public JaweWindow(String label, Object... windowContentElements) {
         this.label = label;
         this.windowContents = new ArrayList<>();
         Collections.addAll(windowContents, windowContentElements);
     }
 
-    public JaweWindow(String label, int flags, JaweDrawable... windowContentElements) {
+    public JaweWindow(String label, int flags, Object... windowContentElements) {
         this.label = label;
         this.flags = flags;
         this.windowContents = new ArrayList<>();
         Collections.addAll(windowContents, windowContentElements);
-    }
-
-    @Override
-    public void draw(JImGui imGui) {
-        if(imGui.begin(label, open, flags)) {
-            windowContents.forEach(d -> d.draw(imGui));
-            onActivation.handle(this);
-        }
-        imGui.end();
     }
 
 }

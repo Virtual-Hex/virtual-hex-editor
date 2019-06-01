@@ -37,4 +37,17 @@ public class JaweSelectable {
         this.flags = flags;
         this.onActivation = onActivation;
     }
+
+    public JaweSelectable(String label, boolean selected, ActivationHandler<JaweSelectable> onActivation) {
+        this.label = label;
+        this.selected = selected;
+        this.onActivation = onActivation;
+    }
+
+    public JaweSelectable(String label, boolean selected, int flags, ActivationHandler<JaweSelectable> onActivation) {
+        this.label = label;
+        this.selected = selected;
+        this.flags = flags;
+        this.onActivation = onActivation;
+    }
 }

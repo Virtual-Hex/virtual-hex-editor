@@ -26,12 +26,12 @@ public class DefaultJImGuiDoublePrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<NativeDouble>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<NativeDouble> nativeDoubleWrapperDouble = objectMap.computeIfAbsent(fieldName, (s) -> new NativeDoubleDataFieldMapper(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeDoubleWrapperDouble.setDataFromField();
-        if(imGui.inputDouble(field.getName(), nativeDoubleWrapperDouble.getData(), 1, 1, "%g")){
+        nativeDoubleWrapperDouble.setFieldFromNative();
+        if(imGui.inputDouble(field.getName(), nativeDoubleWrapperDouble.getNativeData(), 1, 1, "%g")){
             // Was inputted, need to check TODO
             System.out.println("Text input received");
         }
-        nativeDoubleWrapperDouble.setFieldFromData();
+        nativeDoubleWrapperDouble.setNativeFromField();
         nextColumn();
         imGui.text("double");
         imGui.sameLine();

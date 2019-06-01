@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.components.JaweOrderedDrawables;
+import com.mr00anderson.jawe.components.JaweDrawables;
 import com.mr00anderson.jawe.handlers.*;
 import com.mr00anderson.jawe.types.InstancePurge;
 import org.ice1000.jimgui.JImGui;
@@ -16,7 +16,7 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per world instance, This must be disposed of, this draws fields on an object
  */
-public class ReflectiveJaweClazzDraw extends JaweOrderedDrawables implements InstancePurge {
+public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePurge {
 
     // Should make this an entity drawers instead, with a prescan of fields for type handling?
 
@@ -24,7 +24,7 @@ public class ReflectiveJaweClazzDraw extends JaweOrderedDrawables implements Ins
     // TODO
     // world reference
     // entity reference
-    //  Would have to make the data types elevated and this into a manager of worlds, entities,
+    //  Would have to make the nativeData types elevated and this into a manager of worlds, entities,
     // then this could be a proper drawable that can be encapsulated into a window for
     // serialization
 
@@ -71,7 +71,7 @@ public class ReflectiveJaweClazzDraw extends JaweOrderedDrawables implements Ins
         Class<?> aClass = objectToDraw.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
 
-        // TODO Need to refresh variables or not use caching anymore with the get because of changinging the data other then the UI will not refresh in the UI
+        // TODO Need to refresh variables or not use caching anymore with the get because of changinging the nativeData other then the UI will not refresh in the UI
         imGui.columns(3); // 4-ways, with border
         separator();
         imGui.text("Value & Field Name");

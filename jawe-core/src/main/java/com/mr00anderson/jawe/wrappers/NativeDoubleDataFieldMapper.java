@@ -17,7 +17,7 @@ public class NativeDoubleDataFieldMapper extends AbstractDeallocateDataFieldMapp
     }
 
     public double get() {
-        return data.doubleValue();
+        return nativeData.doubleValue();
     }
 
     @Override
@@ -26,18 +26,18 @@ public class NativeDoubleDataFieldMapper extends AbstractDeallocateDataFieldMapp
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setDouble(object, data.doubleValue());
+            nativeData.modifyValue(field.getDouble(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getDouble(object));
+            field.setDouble(object, nativeData.doubleValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

@@ -15,7 +15,7 @@ public class JaweOpenPopup   {
 
 //    public String stringId;
 //    public int flags;
-//    public JaweOrderedDrawables jaweOrderedDrawables;
+//    public JaweDrawables jaweOrderedDrawables;
 //    public State state = State.REQUEST_CLOSE;
 //
 //    public JaweOpenPopup() {

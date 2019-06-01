@@ -27,15 +27,15 @@ public class DefaultJImGuiIntPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<NativeInt>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<NativeInt> nativeIntWrapperInt = objectMap.computeIfAbsent(fieldName, (s) -> new NativeIntDataFieldMapper(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeIntWrapperInt.setDataFromField();
+        nativeIntWrapperInt.setFieldFromNative();
 
-        if(imGui.inputInt(field.getName(), nativeIntWrapperInt.getData(), 1, 1, JImInputTextFlags.CharsDecimal & JImInputTextFlags.CallbackHistory)){
+        if(imGui.inputInt(field.getName(), nativeIntWrapperInt.getNativeData(), 1, 1, JImInputTextFlags.CharsDecimal & JImInputTextFlags.CallbackHistory)){
             // Was inputted, need to check TODO
             System.out.println("Text input received");
 
         }
         // Set the app field from the native field
-        nativeIntWrapperInt.setFieldFromData();
+        nativeIntWrapperInt.setNativeFromField();
         nextColumn();
         imGui.text("int");
         imGui.sameLine();

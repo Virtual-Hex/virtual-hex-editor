@@ -16,7 +16,7 @@ public class WrappedTextBuffer extends BufferAbstractDataFieldMapper {
     }
 
     public String get() {
-        return new String(data, 0, bufferEndIndex(data));
+        return new String(nativeData, 0, bufferEndIndex(nativeData));
     }
 
     @Override
@@ -25,21 +25,21 @@ public class WrappedTextBuffer extends BufferAbstractDataFieldMapper {
     }
 
     @Override
-    public void setDataFromField() {
-        Object o = null;
+    public void setFieldFromNative() {
         try {
-            o = field.get(object);
-            String s = o.toString();
-            copyStringIntoBuffer(s);
+            field.set(object, get());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
+        Object o = null;
         try {
-            field.set(object, get());
+            o = field.get(object);
+            String s = o.toString();
+            copyStringIntoBuffer(s);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

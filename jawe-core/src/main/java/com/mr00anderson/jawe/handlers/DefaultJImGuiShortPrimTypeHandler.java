@@ -27,15 +27,15 @@ public class DefaultJImGuiShortPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<NativeInt>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<NativeInt> nativeIntWrapperShort = objectMap.computeIfAbsent(fieldName, (s) -> new NativeShortDataFieldMapper(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeIntWrapperShort.setDataFromField();
+        nativeIntWrapperShort.setFieldFromNative();
 
-        if(imGui.inputInt(field.getName(), nativeIntWrapperShort.getData(), 1, 1, JImInputTextFlags.CharsDecimal & JImInputTextFlags.CallbackHistory)){
+        if(imGui.inputInt(field.getName(), nativeIntWrapperShort.getNativeData(), 1, 1, JImInputTextFlags.CharsDecimal & JImInputTextFlags.CallbackHistory)){
             // Was inputted, need to check TODO
             System.out.println("Text input received");
 
         }
         // Set the app field from the native field
-        nativeIntWrapperShort.setFieldFromData();
+        nativeIntWrapperShort.setNativeFromField();
         nextColumn();
         imGui.text("short");
         imGui.sameLine();

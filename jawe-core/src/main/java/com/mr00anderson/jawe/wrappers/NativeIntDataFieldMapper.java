@@ -18,7 +18,7 @@ public class NativeIntDataFieldMapper extends AbstractDeallocateDataFieldMapper<
     }
 
     public int get() {
-        return data.intValue();
+        return nativeData.intValue();
     }
 
     @Override
@@ -27,18 +27,18 @@ public class NativeIntDataFieldMapper extends AbstractDeallocateDataFieldMapper<
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setInt(object, data.intValue());
+            nativeData.modifyValue(field.getInt(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getInt(object));
+            field.setInt(object, nativeData.intValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

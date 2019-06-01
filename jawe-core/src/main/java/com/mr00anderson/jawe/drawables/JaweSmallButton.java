@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.handlers.ActivationHandler;
-import org.ice1000.jimgui.JImGui;
 
 /**
  * button with FramePadding=(0,0) to easily embed within text
@@ -27,10 +26,4 @@ public class JaweSmallButton   {
         this.label = label;
     }
 
-
-    public void draw(JImGui imGui) {
-        if(imGui.smallButton(label)){
-            onActivation.handle(this);
-        }
-    }
 }

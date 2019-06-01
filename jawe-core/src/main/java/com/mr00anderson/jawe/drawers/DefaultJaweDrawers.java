@@ -1,7 +1,7 @@
 package com.mr00anderson.jawe.drawers;
 
 import com.mr00anderson.jawe.JaweClazzDrawer;
-import com.mr00anderson.jawe.components.JaweOrderedDrawables;
+import com.mr00anderson.jawe.components.JaweDrawables;
 import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
@@ -13,6 +13,8 @@ public class DefaultJaweDrawers {
 
     // TODO Move this class drawing to instance?
     public static final JaweClazzDrawer clazzDraw = new JaweClazzDrawer();
+
+
 
     public static void seperator(JImGui imGui, Object drawable0) {
         imGui.separator();
@@ -44,7 +46,9 @@ public class DefaultJaweDrawers {
         try {
             field = drawable.getClass().getField("checked");
             NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
-            imGui.checkbox(drawable.label, mapper.getData());
+            mapper.setNativeFromField();
+            imGui.checkbox(drawable.label, mapper.getNativeData());
+            mapper.setFieldFromNative();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -86,6 +90,14 @@ public class DefaultJaweDrawers {
         }
     }
 
+    public static void treeNodeExNoPop(JImGui imGui, Object drawable0) {
+        JaweTreeNodeEx drawable = (JaweTreeNodeEx) drawable0;
+        boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
+        if(open){
+            drawable.drawables.forEach(d -> clazzDraw.draw(imGui, d));
+        }
+    }
+
     public static void colorText(JImGui imGui, Object drawable0){
         JaweColorText drawable = (JaweColorText) drawable0;
         imGui.textColored(drawable.color, drawable.text);
@@ -104,7 +116,9 @@ public class DefaultJaweDrawers {
             NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
             //  returning the state true when selected or false when unselected
             //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
-            if(imGui.selectable(drawable.label, mapper.getData(), drawable.flags, drawable.width, drawable.height)){
+            mapper.setNativeFromField();
+            if(imGui.selectable(drawable.label, mapper.getNativeData(), drawable.flags, drawable.width, drawable.height)){
+                mapper.setFieldFromNative();
                 drawable.onActivation.handle(drawable);
             }
         } catch (NoSuchFieldException e) {
@@ -128,7 +142,7 @@ public class DefaultJaweDrawers {
     }
 
     public static void jaweOrderedDrawables(JImGui imGui, Object drawable0) {
-        JaweOrderedDrawables drawable = (JaweOrderedDrawables) drawable0;
+        JaweDrawables drawable = (JaweDrawables) drawable0;
 
         for (Object element; (element = drawable.addWindowQueue.poll()) != null;){
             drawable.drawables.add(element);
@@ -139,5 +153,28 @@ public class DefaultJaweDrawers {
         }
 
         drawable.drawables.forEach((d) -> clazzDraw.draw(imGui, d));
+    }
+
+    public static void dummy(JImGui imGui, Object drawable0) {
+        JaweDummy drawable = (JaweDummy) drawable0;
+        imGui.dummy(drawable.width, drawable.height);
+    }
+
+    public static void invisibleButton(JImGui imGui, Object drawable0) {
+        JaweInvisibleButton drawable = (JaweInvisibleButton) drawable0;
+        if(imGui.invisibleButton(drawable.label, drawable.width, drawable.height)){
+            drawable.onActivation.handle(drawable);
+        }
+    }
+
+    public static void smallButton(JImGui imGui, Object drawable0) {
+        JaweSmallButton drawable = (JaweSmallButton) drawable0;
+        if(imGui.smallButton(drawable.label)){
+            drawable.onActivation.handle(drawable);
+        }
+    }
+
+    public static void spacing(JImGui imGui, Object drawable0) {
+        imGui.spacing();
     }
 }

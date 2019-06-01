@@ -24,18 +24,18 @@ public class DefaultJImGuiStringPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, WrappedTextBuffer> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         WrappedTextBuffer wrappedTextBuffer = objectMap.computeIfAbsent(fieldName, (s) -> new WrappedTextBuffer(field, objectToDraw));
         // Set the field from the entity to the native - TODO Caching
-        wrappedTextBuffer.setDataFromField();
+        wrappedTextBuffer.setFieldFromNative();
 
-        if(imGui.inputText(field.getName(), wrappedTextBuffer.getData())){
+        if(imGui.inputText(field.getName(), wrappedTextBuffer.getNativeData())){
             // Was inputted, need to check TODO
         }
 
-        wrappedTextBuffer.setFieldFromData();
+        wrappedTextBuffer.setNativeFromField();
         nextColumn();
         imGui.text("path");
         imGui.sameLine();
         int bufferLength = wrappedTextBuffer.getBufferEndIndex();
-        showHelpMarker(imGui, f( "Range 0 to %,d", wrappedTextBuffer.getData().length - 1));
+        showHelpMarker(imGui, f( "Range 0 to %,d", wrappedTextBuffer.getNativeData().length - 1));
         nextColumn();
         imGui.text(String.valueOf(bufferLength));
         nextColumn();

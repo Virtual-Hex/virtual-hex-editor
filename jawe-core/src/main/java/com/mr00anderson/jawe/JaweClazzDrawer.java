@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe;
 
-import com.mr00anderson.jawe.components.JaweOrderedDrawables;
+import com.mr00anderson.jawe.components.JaweDrawables;
 import com.mr00anderson.jawe.components.WorldsJaweComponent;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.drawers.DefaultJaweDrawers;
@@ -27,16 +27,31 @@ public class JaweClazzDrawer {
         typeDrawer.put(JaweCheckBox.class, DefaultJaweDrawers::checkbox);
         typeDrawer.put(JaweCollapsingHeader.class, DefaultJaweDrawers::collapsingHeader);
         typeDrawer.put(JaweColorText.class, DefaultJaweDrawers::colorText);
-
+        typeDrawer.put(JaweColumns.class, DefaultJaweDrawers::columns);
+        // TODO COMBO
+        typeDrawer.put(JaweDummy.class, DefaultJaweDrawers::dummy);
+        typeDrawer.put(JaweInvisibleButton.class, DefaultJaweDrawers::invisibleButton);
+        // TODO MENU
+        // TODO MENU ITEM
         typeDrawer.put(JaweNewLine.class, DefaultJaweDrawers::newLine);
+        typeDrawer.put(JaweNextColumn.class, DefaultJaweDrawers::nextColumn);
+        // TODO OPEN POPUP
         typeDrawer.put(JaweSameLine.class, DefaultJaweDrawers::sameLine);
         typeDrawer.put(JaweSelectable.class, DefaultJaweDrawers::selectable);
-        typeDrawer.put(JaweTreeNodeEx.class, DefaultJaweDrawers::treeNodeEx);
+        typeDrawer.put(JaweSeparator.class, DefaultJaweDrawers::seperator);
+        typeDrawer.put(JaweSmallButton.class, DefaultJaweDrawers::smallButton);
+        typeDrawer.put(JaweSpacing.class, DefaultJaweDrawers::spacing);
+        // TODO TAB
         typeDrawer.put(JaweText.class, DefaultJaweDrawers::text);
+        typeDrawer.put(JaweTreeNodeEx.class, DefaultJaweDrawers::treeNodeEx);
+        typeDrawer.put(JaweTreeNodeExNoPop.class, DefaultJaweDrawers::treeNodeExNoPop);
         typeDrawer.put(JaweWindow.class, DefaultJaweDrawers::window);
 
+        // TODO Remove World Jwe
         typeDrawer.put(WorldsJaweComponent.class, DefaultJaweDrawers::worldsJaweComponent);
-        typeDrawer.put(JaweOrderedDrawables.class, DefaultJaweDrawers::jaweOrderedDrawables);
+
+        // This will stay because its needed to structured the drawing
+        typeDrawer.put(JaweDrawables.class, DefaultJaweDrawers::jaweOrderedDrawables);
 
     }
 

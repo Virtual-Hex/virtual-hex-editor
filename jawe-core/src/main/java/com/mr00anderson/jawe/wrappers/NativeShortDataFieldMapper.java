@@ -18,7 +18,7 @@ public class NativeShortDataFieldMapper extends AbstractDeallocateDataFieldMappe
     }
 
     public short get() {
-        return data.shortValue();
+        return nativeData.shortValue();
     }
 
     @Override
@@ -27,18 +27,18 @@ public class NativeShortDataFieldMapper extends AbstractDeallocateDataFieldMappe
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setShort(object, data.shortValue());
+            nativeData.modifyValue(field.getInt(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getInt(object));
+            field.setShort(object, nativeData.shortValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

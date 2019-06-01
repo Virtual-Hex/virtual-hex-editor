@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.handlers.ActivationHandler;
-import org.ice1000.jimgui.JImGui;
 
 /**
  *  Button
@@ -28,13 +27,5 @@ public class JaweInvisibleButton {
 
     public JaweInvisibleButton(String label) {
         this.label = label;
-    }
-
-
-    public void draw(JImGui imGui) {
-        //
-        if(imGui.invisibleButton(label, width, height)){
-            onActivation.handle(this);
-        }
     }
 }

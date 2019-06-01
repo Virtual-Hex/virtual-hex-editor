@@ -15,16 +15,7 @@ public class WrappedLongTextBuffer extends BufferAbstractDataFieldMapper {
 
 
     @Override
-    public void setFieldFromData() {
-        try {
-            field.setLong(object, get());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void setDataFromField() {
+    public void setNativeFromField() {
         long aLong = 0;
         try {
             aLong = field.getLong(object);
@@ -35,9 +26,18 @@ public class WrappedLongTextBuffer extends BufferAbstractDataFieldMapper {
         }
     }
 
+    @Override
+    public void setFieldFromNative() {
+        try {
+            field.setLong(object, get());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public long get() {
-        String string = new String(data, 0, bufferEndIndex(data));
+        String string = new String(nativeData, 0, bufferEndIndex(nativeData));
         return Long.parseLong(string);
     }
 

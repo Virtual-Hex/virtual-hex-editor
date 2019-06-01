@@ -17,7 +17,7 @@ public class NativeBooleanDataFieldMapper extends AbstractDeallocateDataFieldMap
     }
 
     public boolean get() {
-        return data.accessValue();
+        return nativeData.accessValue();
     }
 
     @Override
@@ -26,18 +26,18 @@ public class NativeBooleanDataFieldMapper extends AbstractDeallocateDataFieldMap
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setBoolean(object, data.accessValue());
+            nativeData.modifyValue(field.getBoolean(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getBoolean(object));
+            field.setBoolean(object, nativeData.accessValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

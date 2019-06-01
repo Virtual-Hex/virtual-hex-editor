@@ -1,21 +1,16 @@
 package com.mr00anderson.jawe.drawables;
 
-import org.ice1000.jimgui.JImGui;
-
 /**
  * simple formatted text
  */
-public class JaweText extends JaweDrawableText {
+public class JaweText  {
+
+    public String text;
 
     public JaweText() {
     }
 
     public JaweText(String text) {
-        super(text);
-    }
-
-
-    public void draw(JImGui imGui) {
-        imGui.text(text);
+        this.text = text;
     }
 }

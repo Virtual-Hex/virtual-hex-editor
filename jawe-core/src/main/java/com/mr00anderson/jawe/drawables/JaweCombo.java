@@ -1,6 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.components.JaweOrderedDrawables;
+import com.mr00anderson.jawe.components.JaweDrawables;
 import org.ice1000.jimgui.JImGui;
 
 /**
@@ -11,30 +11,30 @@ public class JaweCombo{
 
     public String label;
     public int flags = 0;
-    public JaweOrderedDrawables jaweSelectables;
+    public JaweDrawables jaweSelectables;
     public JaweSelectable currentSelectable = new JaweSelectable("");
 
     public JaweCombo() {
     }
 
-    public JaweCombo(String label, JaweOrderedDrawables jaweSelectables) {
+    public JaweCombo(String label, JaweDrawables jaweSelectables) {
         this.label = label;
         this.jaweSelectables = jaweSelectables;
     }
 
-    public JaweCombo(String label, int flags, JaweOrderedDrawables jaweSelectables) {
+    public JaweCombo(String label, int flags, JaweDrawables jaweSelectables) {
         this.label = label;
         this.flags = flags;
         this.jaweSelectables = jaweSelectables;
     }
 
-    public JaweCombo(String label, JaweSelectable currentSelectable, JaweOrderedDrawables jaweSelectables) {
+    public JaweCombo(String label, JaweSelectable currentSelectable, JaweDrawables jaweSelectables) {
         this.label = label;
         this.currentSelectable = currentSelectable;
         this.jaweSelectables = jaweSelectables;
     }
 
-    public JaweCombo(String label, JaweSelectable currentSelectable, int flags, JaweOrderedDrawables jaweSelectables) {
+    public JaweCombo(String label, JaweSelectable currentSelectable, int flags, JaweDrawables jaweSelectables) {
         this.label = label;
         this.currentSelectable = currentSelectable;
         this.flags = flags;

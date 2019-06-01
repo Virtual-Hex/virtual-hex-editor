@@ -17,7 +17,7 @@ public class NativeByteDataFieldMapper extends AbstractDeallocateDataFieldMapper
     }
 
     public byte get() {
-        return data.byteValue();
+        return nativeData.byteValue();
     }
 
     @Override
@@ -26,18 +26,18 @@ public class NativeByteDataFieldMapper extends AbstractDeallocateDataFieldMapper
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setByte(object, data.byteValue());
+            nativeData.modifyValue(field.getByte(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getByte(object));
+            field.setByte(object, nativeData.byteValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

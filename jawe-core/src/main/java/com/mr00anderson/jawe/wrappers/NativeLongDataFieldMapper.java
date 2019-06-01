@@ -16,7 +16,7 @@ public class NativeLongDataFieldMapper extends AbstractDeallocateDataFieldMapper
     }
 
     public long get() {
-        return data.longValue();
+        return nativeData.longValue();
     }
 
     @Override
@@ -25,18 +25,18 @@ public class NativeLongDataFieldMapper extends AbstractDeallocateDataFieldMapper
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setLong(object, data.longValue());
+            nativeData.modifyValue(field.getLong(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getLong(object));
+            field.setLong(object, nativeData.longValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

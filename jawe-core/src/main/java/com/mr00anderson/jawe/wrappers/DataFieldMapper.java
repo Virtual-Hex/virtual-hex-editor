@@ -5,18 +5,18 @@ import com.mr00anderson.jawe.types.Disposable;
 public interface DataFieldMapper<T> extends Disposable {
     /**
      *
-     * @return T underlying data source, may be a native reference class, byte[] or other
+     * @return T underlying nativeData source, may be a native reference class, byte[] or other
      */
-    T getData();
+    T getNativeData();
 
     /**
      *
-     * @return Object returns the data as a java object,
-     * which may translate the data from native or byte[]
+     * @return Object returns the nativeData as a java object,
+     * which may translate the nativeData from native or byte[]
      * or other into
      */
     Object getAsObject();
 
-    void setFieldFromData();
-    void setDataFromField();
+    void setNativeFromField();
+    void setFieldFromNative();
 }

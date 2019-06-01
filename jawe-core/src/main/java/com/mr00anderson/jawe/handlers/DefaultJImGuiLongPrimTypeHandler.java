@@ -25,16 +25,16 @@ public class DefaultJImGuiLongPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<byte[]>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<byte[]> nativeIntWrapperLong = objectMap.computeIfAbsent(fieldName, (s) -> new WrappedLongTextBuffer(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeIntWrapperLong.setDataFromField();
+        nativeIntWrapperLong.setFieldFromNative();
 
-        if(imGui.inputText(field.getName(), nativeIntWrapperLong.getData())){
+        if(imGui.inputText(field.getName(), nativeIntWrapperLong.getNativeData())){
             // Was inputted, need to check TODO
             System.out.println("Text input received");
             // TODO Plus buttons
         }
         // Set the a
         // pp field from the native field
-        nativeIntWrapperLong.setFieldFromData();
+        nativeIntWrapperLong.setNativeFromField();
         nextColumn();
         imGui.text("long");
         imGui.sameLine();

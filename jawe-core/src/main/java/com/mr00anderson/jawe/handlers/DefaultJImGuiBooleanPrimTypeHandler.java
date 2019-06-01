@@ -25,13 +25,13 @@ public class DefaultJImGuiBooleanPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<NativeBool>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<NativeBool> nativeBoolWrapperBoolean = objectMap.computeIfAbsent(fieldName, (s) -> new NativeBooleanDataFieldMapper(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeBoolWrapperBoolean.setDataFromField();
-        if(imGui.checkbox(fieldName, nativeBoolWrapperBoolean.getData())){
+        nativeBoolWrapperBoolean.setFieldFromNative();
+        if(imGui.checkbox(fieldName, nativeBoolWrapperBoolean.getNativeData())){
             // Was inputted, need to check TODO
 
         }
         // Set the app field from the native field
-        nativeBoolWrapperBoolean.setFieldFromData();
+        nativeBoolWrapperBoolean.setNativeFromField();
         nextColumn();
         imGui.text("boolean");
         imGui.sameLine();

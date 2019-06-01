@@ -12,7 +12,7 @@ public abstract class AbstractDeallocateDataFieldMapper<T extends DeallocatableO
 
     @Override
     public void dispose() {
-        data.deallocateNativeObject();
+        nativeData.deallocateNativeObject();
         super.dispose();
     }
 }

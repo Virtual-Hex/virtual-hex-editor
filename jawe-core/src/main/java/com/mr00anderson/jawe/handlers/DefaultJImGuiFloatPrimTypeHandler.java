@@ -26,15 +26,15 @@ public class DefaultJImGuiFloatPrimTypeHandler implements JImGuiTypeHandler {
         Map<String, DataFieldMapper<NativeFloat>> objectMap = int2ObjectMap.computeIfAbsent(instanceId, value -> new HashMap<>(fieldCount, 1.0f));
         DataFieldMapper<NativeFloat> nativeFloatWrapperFloat = objectMap.computeIfAbsent(fieldName, (s) -> new NativeFloatDataFieldMapper(field, objectToDraw));
         // Set the native field from the app field, allowing the app to update the UI
-        nativeFloatWrapperFloat.setDataFromField();
+        nativeFloatWrapperFloat.setFieldFromNative();
 
 
-        if(imGui.inputFloat(field.getName(), nativeFloatWrapperFloat.getData(), 1, 1, "%g")){
+        if(imGui.inputFloat(field.getName(), nativeFloatWrapperFloat.getNativeData(), 1, 1, "%g")){
             // Was inputted, need to check TODO
             System.out.println("Text input received");
         }
 
-        nativeFloatWrapperFloat.setFieldFromData();
+        nativeFloatWrapperFloat.setNativeFromField();
         nextColumn();
         imGui.text("float");
         imGui.sameLine();

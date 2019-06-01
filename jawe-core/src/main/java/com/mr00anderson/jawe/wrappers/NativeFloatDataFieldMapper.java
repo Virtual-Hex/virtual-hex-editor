@@ -16,7 +16,7 @@ public class NativeFloatDataFieldMapper extends AbstractDeallocateDataFieldMappe
     }
 
     public float get() {
-        return data.floatValue();
+        return nativeData.floatValue();
     }
 
     @Override
@@ -25,18 +25,18 @@ public class NativeFloatDataFieldMapper extends AbstractDeallocateDataFieldMappe
     }
 
     @Override
-    public void setFieldFromData() {
+    public void setNativeFromField() {
         try {
-            field.setFloat(object, data.floatValue());
+            nativeData.modifyValue(field.getFloat(object));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void setDataFromField() {
+    public void setFieldFromNative() {
         try {
-            data.modifyValue(field.getFloat(object));
+            field.setFloat(object, nativeData.floatValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

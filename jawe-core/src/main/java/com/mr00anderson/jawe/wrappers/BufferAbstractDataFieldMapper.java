@@ -20,12 +20,12 @@ public abstract class BufferAbstractDataFieldMapper extends AbstractDataFieldMap
     }
 
     protected void copyStringIntoBuffer(String textInput){
-        Arrays.fill(data, (byte) 0);
-        System.arraycopy(textInput.getBytes(), 0, data, 0, textInput.length());
+        Arrays.fill(nativeData, (byte) 0);
+        System.arraycopy(textInput.getBytes(), 0, nativeData, 0, textInput.length());
     }
 
     public int getBufferEndIndex(){
-        return bufferEndIndex(data);
+        return bufferEndIndex(nativeData);
     }
 
     public static int bufferEndIndex(byte[] data){

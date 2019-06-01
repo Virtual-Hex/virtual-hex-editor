@@ -21,14 +21,14 @@ import java.io.IOException;
 import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
 
 /**
- * TODO: Will need some reflective data entities to be able to render IDs to names, ect since
+ * TODO: Will need some reflective nativeData entities to be able to render IDs to names, ect since
  * TODO: Pluggable Serialization
  *
  * Note: As of now the intent is that Entities translate to a widget.
  *          -> Entities have a main render component
  *          -> Entities should be added in the order of rendering
  *          -> Entities will have one component for rendering and in that
- *              their may be a organization of how data is added, Example:
+ *              their may be a organization of how nativeData is added, Example:
  *              menu bar process can be a linked list of JImGuiDrawable's
  *
  *

@@ -52,6 +52,7 @@ public class EditorWorldBuilder {
 
         JaweWindow[] jaweDefaultBuildEntities = {
                 new JaweWindow("Worlds", getWorldComponents(worldWrapper)),
+                new JaweWindow("Tabs Test", getTabsTest())
 //                new JaweWindow("Window",
 //                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
 //                        new JaweText("Hello Test")
@@ -84,6 +85,10 @@ public class EditorWorldBuilder {
 
     }
 
+    private  Object[] getTabsTest() {
+        return new JaweBeginTabBar("");
+    }
+
     public int addToWorld(JaweWindow window){
         int entityId =  worldWrapper.world.create(jaweDrawableArcheType);
         JaweRenderComponent component = renderMapper.create(entityId);
@@ -111,6 +116,7 @@ public class EditorWorldBuilder {
 
     public static Object[] getWorldComponents(WorldWrapper worldWrapper){
         Object[] objectsArray = new Object[2];
+
         // TODO ADD
         // TODO REMOVE
         // TODO CATEGORIES (All (just paths), Unloaded, Loaded, Simulating)
@@ -287,21 +293,23 @@ public class EditorWorldBuilder {
                                         worldWrapper.name,
                                         new JaweText("TODO - World Meta Data"),
                                         // TODO TABS
-                                        new JaweCollapsingHeader(
-                                                "Systems",
-                                                systemsDrawables
-                                        ),
-                                        new JaweColumns("", 1, false),
-                                        new JaweCollapsingHeader(
-                                                "Component Types",
-                                                componentTypeDrawables
-                                        ),
-                                        new JaweColumns("", 1, false),
-                                        new JaweCollapsingHeader(
-                                                "Entities",
-                                                entityDrawables
-                                        ),
-                                        new JaweColumns("", 1, false)
+                                        new JaweBeginTabBar("World Editing", 0,
+                                                new JaweBeginTabItem(
+                                                        "Systems",
+                                                        systemsDrawables
+                                                ),
+                                                new JaweColumns("", 1, false),
+                                                new JaweBeginTabItem(
+                                                        "Component Types",
+                                                        componentTypeDrawables
+                                                ),
+                                                new JaweColumns("", 1, false),
+                                                new JaweBeginTabItem(
+                                                        "Entities",
+                                                        entityDrawables
+                                                ),
+                                                new JaweColumns("", 1, false)
+                                        )
                                 );
                                 worlds.putIfAbsent(worldWrapper.name, jaweWindow);
                                 jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);

@@ -1,7 +1,5 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.artemis.PooledComponent;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * If no list is provided linked list will be used
  */
-public class JaweDrawables extends PooledComponent {
+public class JaweDrawables {
 
     public List<Object> drawables;
     public ConcurrentLinkedQueue<Object> addWindowQueue = new ConcurrentLinkedQueue<>();
@@ -93,9 +91,11 @@ public class JaweDrawables extends PooledComponent {
     // TODO Convert from one type of JaweDrawables to another,
     //  or allow list changing for performance and ordering changing
 
-    @Override
+
     protected void reset() {
         drawables.clear();
+        addWindowQueue.clear();
+        removeWindowQueue.clear();
     }
 
 }

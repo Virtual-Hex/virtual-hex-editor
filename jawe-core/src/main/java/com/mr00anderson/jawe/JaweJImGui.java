@@ -176,5 +176,12 @@ public class JaweJImGui extends JImGui {
         return nativeValue;
     }
 
+    public void text(@NotNull byte[] text) {
+        textUnformatted(text);
+    }
 
+    @Override
+    public void text(@NotNull String text) {
+        super.text(text);
+    }
 }

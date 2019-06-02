@@ -1,10 +1,13 @@
 package com.mr00anderson.jawe.drawers.jimgui;
 
+import com.mr00anderson.jawe.JaweJImGui;
 import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
 import org.ice1000.jimgui.JImGui;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
+import java.util.WeakHashMap;
 
 public class DefaultJaweDrawers {
 
@@ -118,9 +121,13 @@ public class DefaultJaweDrawers {
         imGui.textColored(drawable.color, drawable.text);
     }
 
+    public transient static final WeakHashMap<String, byte[]> cachedBytes = new WeakHashMap<>();
+
     public static void text(JImGui imGui, Object drawable0){
         JaweText drawable = (JaweText) drawable0;
-        imGui.text(drawable.text);
+        byte[] bytes = cachedBytes.computeIfAbsent(drawable.text, s -> s.getBytes(StandardCharsets.UTF_8));
+        JaweJImGui jaweJImGui = (JaweJImGui) imGui;
+        jaweJImGui.text(bytes);
     }
 
     public static void selectable(JImGui imGui, Object drawable0){

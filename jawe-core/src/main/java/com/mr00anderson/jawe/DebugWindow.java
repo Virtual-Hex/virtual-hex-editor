@@ -3,7 +3,7 @@
 //import com.artemis.World;
 //import com.artemis.annotations.PooledWeaver;
 //
-//import com.mr00anderson.jawe.worldsHeader.JImGuiDrawable;
+//import com.mr00anderson.jawe.worldsHeader.Drawable;
 //import org.ice1000.jimgui.*;
 //import org.ice1000.jimgui.flag.JImCondition;
 //import org.ice1000.jimgui.flag.JImDirection;
@@ -11,7 +11,7 @@
 //import org.jetbrains.annotations.NotNull;
 //
 //// TODO move this example into a correct format
-//public class DebugWindow implements JImGuiDrawable {
+//public class DebugWindow implements Drawable {
 //
 //    public String windowName = "Debug";
 //    public NativeBool noTitlebar = new NativeBool();

@@ -16,7 +16,7 @@ public class JaweButton {
     public int height;
 
     /**
-     * This will be triggered when selected or deselected
+     * This will be triggered when open or deselected
      */
     public ActivationHandler<JaweButton> onActivation = imGuiDrawable -> {};
 

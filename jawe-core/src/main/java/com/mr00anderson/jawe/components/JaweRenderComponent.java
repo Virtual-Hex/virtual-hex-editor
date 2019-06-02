@@ -1,7 +1,7 @@
 package com.mr00anderson.jawe.components;
 
 import com.artemis.Component;
-import com.mr00anderson.jawe.drawers.jimgui.JaweClazzDrawer;
+import com.mr00anderson.jawe.drawables.JaweClazzDrawer;
 import com.mr00anderson.jawe.JaweJImGui;
 
 /**
@@ -13,27 +13,20 @@ import com.mr00anderson.jawe.JaweJImGui;
 public class JaweRenderComponent extends Component {
 
     /**
-     * Used to indicate if a component should be drawn
-     *
-     * This can be used to customize drawing by registering new classes
-     */
-    public JaweClazzDrawer clazzDrawer = new JaweClazzDrawer();
-
-    /**
      * If the rendering component is active or not
      */
     public boolean active;
 
     /**
-     * The component that should be drawn
+     * The component that should be drawn. This is used as the base parent drawer and layout for this component
      */
-    public Object objectToDraw;
+    public JaweClazzDrawer jaweClazzDrawer;
 
     public JaweRenderComponent() {
     }
 
     public void draw(JaweJImGui imGui){
-        if(active) clazzDrawer.draw(imGui, objectToDraw);
+        if(active) jaweClazzDrawer.draw(imGui);
     }
 
 

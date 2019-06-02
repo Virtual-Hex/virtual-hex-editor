@@ -32,7 +32,7 @@ public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePu
      */
     protected Map<Class<?>, JImGuiTypeHandler> typeHandlerMap = new HashMap<>();
 
-    protected Map<Class<?>, JImGuiDrawable> typeDrawer = new HashMap<>();
+
 
     // Serialization can be on a class bases for drawing with this, but then alot of new refernces, similar to the static final issue
     public ReflectiveJaweClazzDraw() {

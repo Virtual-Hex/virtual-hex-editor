@@ -1,7 +1,5 @@
 package com.mr00anderson.jawe.handlers;
 
-import com.mr00anderson.jawe.drawables.JImGuiDrawable;
-
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
  * to allow connecting of the handling, The caller is fed in, so that the person can access the
@@ -9,12 +7,12 @@ import com.mr00anderson.jawe.drawables.JImGuiDrawable;
  *
  * @param <T>
  */
-public class ActivationHandlerDrawer<T extends JImGuiDrawable> implements ActivationHandler<T> {
+public class ActivationHandlerDrawer<T extends Object> implements ActivationHandler<T> {
 
-    public JImGuiDrawable JImGuiDrawable;
+    public T Drawable;
 
-    public ActivationHandlerDrawer(JImGuiDrawable JImGuiDrawable) {
-        this.JImGuiDrawable = JImGuiDrawable;
+    public ActivationHandlerDrawer(T drawable) {
+        this.Drawable = drawable;
     }
 
     @Override

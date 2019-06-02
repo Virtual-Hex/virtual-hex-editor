@@ -15,7 +15,7 @@ public class JaweOpenPopup   {
 
 //    public String stringId;
 //    public int flags;
-//    public JaweDrawables jaweOrderedDrawables;
+//    public JaweDrawables drawables;
 //    public State state = State.REQUEST_CLOSE;
 //
 //    public JaweOpenPopup() {
@@ -39,7 +39,7 @@ public class JaweOpenPopup   {
 //            }
 //            case OPEN:
 //                // Do nothing here but draw contents
-//                jaweOrderedDrawables.draw(imGui);
+//                drawables.draw(imGui);
 //                break;
 //            case CLOSED:
 //

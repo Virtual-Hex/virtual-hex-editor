@@ -29,7 +29,7 @@ import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
  *          -> Entities should be added in the order of rendering
  *          -> Entities will have one component for rendering and in that
  *              their may be a organization of how nativeData is added, Example:
- *              menu bar process can be a linked list of JImGuiDrawable's
+ *              menu bar process can be a linked list of Drawable's
  *
  *
  *
@@ -80,7 +80,7 @@ public final class JaweDesktopEditor implements BasicApp {
                 // TODO Profiler Plugin For Editor ?
                 .build();
 
-        // Entities in this world will be generally entities with JImGuiDrawable components
+        // Entities in this world will be generally entities with Drawable components
         world = new World(worldConfig);
 
         // TODO BACKEND OPTION - LOADING HERE

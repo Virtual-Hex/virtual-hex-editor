@@ -15,7 +15,7 @@ public class JaweSmallButton   {
     public String label;
 
     /**
-     * This will be triggered when selected or deselected
+     * This will be triggered when open or deselected
      */
     public ActivationHandler<JaweSmallButton> onActivation = imGuiDrawable -> {};
 

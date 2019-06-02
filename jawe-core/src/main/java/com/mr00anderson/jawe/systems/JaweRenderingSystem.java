@@ -35,7 +35,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         JaweRenderComponent jaweRenderComponent = renderComponent.get(entityId);
         world.inject(jaweRenderComponent);
 
-        System.out.println(jaweRenderComponent.objectToDraw);
+        System.out.println(jaweRenderComponent.jaweClazzDrawer);
 
         // Components need to be injected but we want a functional interface for drawbles
         // Some worldsHeader care about the world and some do not

@@ -1,12 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.JaweStaticDeallocateManager;
 import com.mr00anderson.jawe.handlers.ActivationHandler;
-import org.ice1000.jimgui.NativeBool;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -30,7 +24,7 @@ public class JaweWindow {
     /**
      * A native boolean which will be converted to a java boolean before world serialization
      */
-    public NativeBool open = JaweStaticDeallocateManager.createBool(true);
+    public boolean open;
 
     /**
      * {@link org.ice1000.jimgui.flag.JImWindowFlags}
@@ -38,9 +32,9 @@ public class JaweWindow {
     public int flags;
 
     /**
-     * The window contents which can be any other JImGuiDrawable, it will serialize like this class
+     * The window contents which can be any other Drawable, it will serialize like this class
      */
-    public List <Object> windowContents;
+    public JaweDrawables drawables;
 
     /**
      * This will be called when the window is not collapsed or not fully clipped,
@@ -53,17 +47,18 @@ public class JaweWindow {
     public JaweWindow() {
     }
 
-    public JaweWindow(String label, Object... windowContentElements) {
+    public JaweWindow(String label, boolean open, int flags, JaweDrawables drawables) {
         this.label = label;
-        this.windowContents = new ArrayList<>();
-        Collections.addAll(windowContents, windowContentElements);
-    }
-
-    public JaweWindow(String label, int flags, Object... windowContentElements) {
-        this.label = label;
+        this.open = open;
         this.flags = flags;
-        this.windowContents = new ArrayList<>();
-        Collections.addAll(windowContents, windowContentElements);
+        this.drawables = drawables;
     }
 
+    public JaweWindow(String label, boolean open, int flags, JaweDrawables drawables, ActivationHandler<JaweWindow> onActivation) {
+        this.label = label;
+        this.open = open;
+        this.flags = flags;
+        this.drawables = drawables;
+        this.onActivation = onActivation;
+    }
 }

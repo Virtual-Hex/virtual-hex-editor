@@ -16,7 +16,7 @@ public class JaweMenuItem  {
     public String shortcut;
 
     /**
-     * If the menu item is selected or not
+     * If the menu item is open or not
      */
     public boolean selected;
 

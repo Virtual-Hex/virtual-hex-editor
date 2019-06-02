@@ -7,27 +7,15 @@ public class JaweCollapsingHeaderExitable extends JaweTreeNodeEx {
      */
     public boolean open;
 
-    public JaweCollapsingHeaderExitable(String label) {
-        super(label);
-    }
-
-    public JaweCollapsingHeaderExitable(String label, Object... drawableElements) {
-        super(label, drawableElements);
-    }
-
-    public JaweCollapsingHeaderExitable(String label, int flags) {
-        super(label, flags);
-    }
-
-    public JaweCollapsingHeaderExitable(String label, int flags, Object... drawableElements) {
-        super(label, flags, drawableElements);
-    }
-
     public JaweCollapsingHeaderExitable() {
     }
 
-    public JaweCollapsingHeaderExitable(Object[] drawableElements) {
-        super(drawableElements);
+    public JaweCollapsingHeaderExitable(boolean open) {
+        this.open = open;
     }
 
+    public JaweCollapsingHeaderExitable(String label, int flags, JaweDrawables jaweDrawables, boolean open) {
+        super(label, flags, jaweDrawables);
+        this.open = open;
+    }
 }

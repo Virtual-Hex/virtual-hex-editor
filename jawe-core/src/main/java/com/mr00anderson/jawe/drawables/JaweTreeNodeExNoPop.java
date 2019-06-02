@@ -5,26 +5,10 @@ package com.mr00anderson.jawe.drawables;
  */
 public class JaweTreeNodeExNoPop extends JaweTreeNodeEx {
 
-    public JaweTreeNodeExNoPop(String label) {
-        super(label);
-    }
-
-    public JaweTreeNodeExNoPop(String label, Object... drawableElements) {
-        super(label, drawableElements);
-    }
-
-    public JaweTreeNodeExNoPop(String label, int flags) {
-        super(label, flags);
-    }
-
-    public JaweTreeNodeExNoPop(String label, int flags, Object... drawableElements) {
-        super(label, flags, drawableElements);
-    }
-
     public JaweTreeNodeExNoPop() {
     }
 
-    public JaweTreeNodeExNoPop(Object[] drawableElements) {
-        super(drawableElements);
+    public JaweTreeNodeExNoPop(String label, int flags, JaweDrawables drawables) {
+        super(label, flags, drawables);
     }
 }

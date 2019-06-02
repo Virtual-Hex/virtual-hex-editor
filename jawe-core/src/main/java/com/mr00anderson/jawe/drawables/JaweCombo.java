@@ -51,9 +51,9 @@ public class JaweCombo{
 //            for (int i = 0; i < worldsHeader.size(); i++) {
 //                JaweSelectable jaweSelectable = worldsHeader.get(i);
 //                jaweSelectable.draw(imGui);
-//                boolean accessValue = jaweSelectable.selected.accessValue();
+//                boolean accessValue = jaweSelectable.open.accessValue();
 //                if(accessValue){
-//                    currentSelectable.selected.modifyValue(false);
+//                    currentSelectable.open.modifyValue(false);
 //                    currentSelectable = jaweSelectable;
 //                    imGui.setItemDefaultFocus();
 //                }

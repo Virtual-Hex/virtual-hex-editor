@@ -14,12 +14,14 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.flag.JImSelectableFlags;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 public class EditorWorldBuilder {
 
@@ -39,20 +41,23 @@ public class EditorWorldBuilder {
 
         buildMainMenu();
 
-//        JImGuiDrawable clearColor;
-//        JImGuiDrawable mainMenuBar;
+//        Drawable clearColor;
+//        Drawable mainMenuBar;
 
         // TODO Replace with toggle menu option and update the eample using this libraires methods
-//        JImGuiDrawable debugWindow = JaweWindow.Builder
+//        Drawable debugWindow = JaweWindow.Builder
 //                .builder()
 //                .label("Debug")
 //                .windowContents(new DebugWindow())
 //                .build();
 //
 
-        JaweWindow[] jaweDefaultBuildEntities = {
-                new JaweWindow("Worlds", getWorldComponents(worldWrapper)),
-                new JaweWindow("Tabs Test", getTabsTest())
+        JaweClazzDrawer[] jaweDefaultBuildEntities = {
+                new JaweClazzDrawer(true, "DEFAULT",
+                        new JaweWindow("Worlds", true, 0,
+                                new JaweDrawables(getWorldComponents(worldWrapper))
+                        )),
+
 //                new JaweWindow("Window",
 //                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
 //                        new JaweText("Hello Test")
@@ -69,9 +74,6 @@ public class EditorWorldBuilder {
                 // Project browser ? This will be something eventually
                 // World edit window - Selectable Worlds (project parents)
                 // File browser (project parent), components, entities, prefabs can be loaded into a world or (STAGING Area)
-
-
-
         };
 
 
@@ -85,17 +87,13 @@ public class EditorWorldBuilder {
 
     }
 
-    private  Object[] getTabsTest() {
-        return new JaweBeginTabBar("");
-    }
-
-    public int addToWorld(JaweWindow window){
+    public int addToWorld(JaweClazzDrawer jaweClazzDrawer){
         int entityId =  worldWrapper.world.create(jaweDrawableArcheType);
         JaweRenderComponent component = renderMapper.create(entityId);
-        groupManager.add(entityId, "JImGuiDrawable");
-        tagManager.register(window.label, entityId);
+        groupManager.add(entityId, "Drawable");
+        tagManager.register(jaweClazzDrawer.name, entityId);
         component.active = true;
-        component.objectToDraw = window;
+        component.jaweClazzDrawer = jaweClazzDrawer;
         return entityId;
     }
 
@@ -226,7 +224,7 @@ public class EditorWorldBuilder {
                                 // TODO Insert Filtering option, or  wrap this in a filter, this way can edit groups or find entities of X composition
                                 // Entities All
                                 EntitySubscription entitySubscription = worldWrapper.world.getAspectSubscriptionManager().get(Aspect.all());
-                                LinkedList<JImGuiDrawable> entityDrawables = new LinkedList<>();
+                                LinkedList<Consumer<JImGui>> entityDrawables = new LinkedList<>();
 
 //
 //                        // TODO This is dynamic based on entity components
@@ -291,28 +289,39 @@ public class EditorWorldBuilder {
 
                                 JaweWindow jaweWindow = new JaweWindow(
                                         worldWrapper.name,
-                                        new JaweText("TODO - World Meta Data"),
-                                        // TODO TABS
-                                        new JaweBeginTabBar("World Editing", 0,
-                                                new JaweBeginTabItem(
-                                                        "Systems",
-                                                        systemsDrawables
-                                                ),
-                                                new JaweColumns("", 1, false),
-                                                new JaweBeginTabItem(
-                                                        "Component Types",
-                                                        componentTypeDrawables
-                                                ),
-                                                new JaweColumns("", 1, false),
-                                                new JaweBeginTabItem(
-                                                        "Entities",
-                                                        entityDrawables
-                                                ),
-                                                new JaweColumns("", 1, false)
+                                        true,
+                                        0,
+                                            new JaweDrawables(
+                                                    new JaweText("TODO - World Meta Data"),
+                                                    new JaweTabBar("World Editing", 0,
+                                                            new JaweDrawables(
+                                                            new JaweBeginTabItem(
+                                                                    "Systems", 0, true,
+                                                                    new JaweDrawables(
+                                                                        systemsDrawables
+                                                                    )
+                                                            ),
+                                                            new JaweColumns("", 1, false),
+                                                            new JaweBeginTabItem(
+                                                                    "Component Types", 0, true,
+                                                                    new JaweDrawables(
+                                                                        componentTypeDrawables
+                                                                    )
+                                                            ),
+                                                            new JaweColumns("", 1, false),
+                                                            new JaweBeginTabItem(
+                                                                    "Entities", 0, true,
+                                                                    new JaweDrawables(
+                                                                        entityDrawables
+                                                                    )
+                                                            ),
+                                                            new JaweColumns("", 1, false)
+                                                    )
+                                            )
                                         )
                                 );
                                 worlds.putIfAbsent(worldWrapper.name, jaweWindow);
-                                jaweDesktopEditor.getEditorWorldBuilder().addToWorld(jaweWindow);
+                                jaweDesktopEditor.getEditorWorldBuilder().addToWorld(new JaweClazzDrawer(true, "DEFAULT", jaweWindow));
                             } else {
                                 // TODO ERROR should never happen as a worlds rendering system app should be a
                                 // jawe editor here and nothing else

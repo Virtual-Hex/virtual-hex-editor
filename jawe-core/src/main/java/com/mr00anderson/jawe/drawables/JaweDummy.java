@@ -14,4 +14,22 @@ public class JaweDummy {
     public void draw(JImGui imGui) {
         imGui.dummy(width, height);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JaweDummy jaweDummy = (JaweDummy) o;
+
+        if (Float.compare(jaweDummy.width, width) != 0) return false;
+        return Float.compare(jaweDummy.height, height) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (width != +0.0f ? Float.floatToIntBits(width) : 0);
+        result = 31 * result + (height != +0.0f ? Float.floatToIntBits(height) : 0);
+        return result;
+    }
 }

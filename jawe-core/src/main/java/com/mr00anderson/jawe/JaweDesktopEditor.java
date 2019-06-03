@@ -1,6 +1,5 @@
 package com.mr00anderson.jawe;
 
-
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
@@ -47,8 +46,6 @@ public final class JaweDesktopEditor implements BasicApp {
      */
     private static final Logger L = LoggerFactory.getLogger(JaweDesktopEditor.class);
 
-    public static final String WORLD_EDITOR_WINDOW = "This Jawe Editor";
-
     public static JaweDesktopEditor INSTANCE;
 
     private World world;
@@ -94,8 +91,8 @@ public final class JaweDesktopEditor implements BasicApp {
         // TODO Optional load editor project, to allow editing a separate world for making a new version of the editor
         // this one will be serialized
 
-        WorldWrapper worldWrapper = new WorldWrapper(WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
-        worlds.worlds.put(WORLD_EDITOR_WINDOW, worldWrapper);
+        WorldWrapper worldWrapper = new WorldWrapper(EditorWorldBuilder.WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
+        worlds.worlds.put(EditorWorldBuilder.WORLD_EDITOR_WINDOW, worldWrapper);
 
         // TODO Setup or load from a save file
         final boolean load = false;

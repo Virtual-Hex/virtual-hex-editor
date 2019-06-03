@@ -8,4 +8,6 @@ public class JaweCollapsingHeader extends JaweTreeNodeEx {
     public JaweCollapsingHeader(String label, int flags, JaweDrawables drawables) {
         super(label, flags, drawables);
     }
+
+
 }

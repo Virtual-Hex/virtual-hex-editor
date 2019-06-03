@@ -28,4 +28,22 @@ public class JaweInvisibleButton {
     public JaweInvisibleButton(String label) {
         this.label = label;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JaweInvisibleButton that = (JaweInvisibleButton) o;
+
+        if (label != null ? !label.equals(that.label) : that.label != null) return false;
+        return onActivation != null ? onActivation.equals(that.onActivation) : that.onActivation == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = label != null ? label.hashCode() : 0;
+        result = 31 * result + (onActivation != null ? onActivation.hashCode() : 0);
+        return result;
+    }
 }

@@ -10,6 +10,9 @@
  * TODO Will need to look at subclassing where we want to have interchangeable but restricted parts,
  * I.E ColorText and Text would just be a parent of Text which is a parent of Labeled... Or something like that
  *
+ *
+ * TODO Need to use IDs for some windows for hashcode and equals, for the cases we do not want to dril down
+ * hashcodes but where we need to identify a series of object for caching purposes
  */
 package com.mr00anderson.jawe.drawables;
 

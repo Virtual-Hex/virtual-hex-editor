@@ -18,4 +18,22 @@ public class JaweCollapsingHeaderExitable extends JaweTreeNodeEx {
         super(label, flags, jaweDrawables);
         this.open = open;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        JaweCollapsingHeaderExitable that = (JaweCollapsingHeaderExitable) o;
+
+        return open == that.open;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (open ? 1 : 0);
+        return result;
+    }
 }

@@ -1,11 +1,13 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.JaweJImGui;
+import com.mr00anderson.jawe.wrappers.DataFieldMapper;
 import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.ice1000.jimgui.JImGui;
+import org.ice1000.jimgui.NativeBool;
 
 import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -15,17 +17,18 @@ import java.util.function.BiConsumer;
  */
 public class JaweClazzDrawer {
 
-    public Map<Class<?>, BiConsumer<JImGui, Object>> typeDrawer;
+    public Map<Class<?>, BiConsumer<JImGui, Object>> typeDrawers;
+    public transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeBool>>>> cachedMappers = new HashMap<>();
     public String name;
     public Object baseDrawable;
 
     public JaweClazzDrawer() {
         this.name = "";
-        this.typeDrawer = new HashMap<>();
+        this.typeDrawers = new HashMap<>();
     }
 
     public JaweClazzDrawer(boolean useDefaultDrawer, String name, Object baseDrawable) {
-        this.typeDrawer = new HashMap<>();
+        this.typeDrawers = new HashMap<>();
         if(useDefaultDrawer){
             init();
         } else {
@@ -40,45 +43,44 @@ public class JaweClazzDrawer {
     // TODO Native types need to be cached and not recreated everytime
 
     private void init() {
-        typeDrawer.put(JaweBeginMenu.class, this::beginMenu);
-        typeDrawer.put(JaweBeginMenuItem.class, this::beginMenuItem);
-        typeDrawer.put(JaweTabBar.class, this::beginTabBar);
-        typeDrawer.put(JaweBeginTabItem.class, this::beginTabItem);
-        typeDrawer.put(JaweButton.class, this::button);
-        typeDrawer.put(JaweCheckBox.class, this::checkbox);
-        typeDrawer.put(JaweCollapsingHeader.class, this::collapsingHeader);
-        typeDrawer.put(JaweColorText.class, this::colorText);
-        typeDrawer.put(JaweColumns.class, this::columns);
+        typeDrawers.put(JaweBeginMenu.class, this::beginMenu);
+
+        typeDrawers.put(JaweTabBar.class, this::beginTabBar);
+        typeDrawers.put(JaweBeginTabItem.class, this::beginTabItem);
+        typeDrawers.put(JaweButton.class, this::button);
+        typeDrawers.put(JaweCheckBox.class, this::checkbox);
+        typeDrawers.put(JaweCollapsingHeader.class, this::collapsingHeader);
+        typeDrawers.put(JaweColorText.class, this::colorText);
+        typeDrawers.put(JaweColumns.class, this::columns);
         // TODO COMBO
-        typeDrawer.put(JaweDummy.class, this::dummy);
-        typeDrawer.put(JaweEndTabBar.class, this::beginTabBar);
-        typeDrawer.put(JaweEndTabItem.class, this::beginTabItem);
-        typeDrawer.put(JaweInvisibleButton.class, this::invisibleButton);
+        typeDrawers.put(JaweDummy.class, this::dummy);
+
+        typeDrawers.put(JaweInvisibleButton.class, this::invisibleButton);
         // TODO MENU
         // TODO MENU ITEM
-        typeDrawer.put(JaweNewLine.class, this::newLine);
-        typeDrawer.put(JaweNextColumn.class, this::nextColumn);
+        typeDrawers.put(JaweNewLine.class, this::newLine);
+        typeDrawers.put(JaweNextColumn.class, this::nextColumn);
         // TODO OPEN POPUP
-        typeDrawer.put(JaweSameLine.class, this::sameLine);
-        typeDrawer.put(JaweSelectable.class, this::selectable);
-        typeDrawer.put(JaweSeparator.class, this::seperator);
-        typeDrawer.put(JaweSmallButton.class, this::smallButton);
-        typeDrawer.put(JaweSpacing.class, this::spacing);
-        typeDrawer.put(JaweText.class, this::text);
-        typeDrawer.put(JaweTreeNodeEx.class, this::treeNodeEx);
-        typeDrawer.put(JaweTreeNodeExNoPop.class, this::treeNodeExNoPop);
-        typeDrawer.put(JaweWindow.class, this::window);
+        typeDrawers.put(JaweSameLine.class, this::sameLine);
+        typeDrawers.put(JaweSelectable.class, this::selectable);
+        typeDrawers.put(JaweSeparator.class, this::seperator);
+        typeDrawers.put(JaweSmallButton.class, this::smallButton);
+        typeDrawers.put(JaweSpacing.class, this::spacing);
+        typeDrawers.put(JaweText.class, this::text);
+        typeDrawers.put(JaweTreeNodeEx.class, this::treeNodeEx);
+        typeDrawers.put(JaweTreeNodeExNoPop.class, this::treeNodeExNoPop);
+        typeDrawers.put(JaweWindow.class, this::window);
 
         // This will stay because its needed to structured the drawing
-        typeDrawer.put(JaweDrawables.class, this::jaweDrawables);
+        typeDrawers.put(JaweDrawables.class, this::jaweDrawables);
 
-        typeDrawer.put(ArrayList.class, this::list);
-        typeDrawer.put(LinkedList.class, this::list);
+        typeDrawers.put(ArrayList.class, this::list);
+        typeDrawers.put(LinkedList.class, this::list);
 
         // Todo determine way to get subtypes, look at serialization libs, so we dont have to register everything
         // when we can just register a subtype
 
-        typeDrawer.put(List.class, this::list);
+        typeDrawers.put(List.class, this::list);
     }
 
 
@@ -87,7 +89,7 @@ public class JaweClazzDrawer {
     // External
     public void draw(JImGui imGui) {
         Class<?> aClass = baseDrawable.getClass();
-        BiConsumer<JImGui, Object> objectDrawer = typeDrawer.get(aClass);
+        BiConsumer<JImGui, Object> objectDrawer = typeDrawers.get(aClass);
         if (objectDrawer == null) {
             objectDrawer = checkSubtype(aClass.getSuperclass());
         }
@@ -96,7 +98,7 @@ public class JaweClazzDrawer {
 
     protected void draw(JImGui imGui, Object nestedDrawable) {
         Class<?> aClass = nestedDrawable.getClass();
-        BiConsumer<JImGui, Object> objectDrawer = typeDrawer.get(aClass);
+        BiConsumer<JImGui, Object> objectDrawer = typeDrawers.get(aClass);
         if (objectDrawer == null) {
             objectDrawer = checkSubtype(aClass.getSuperclass());
         }
@@ -111,7 +113,7 @@ public class JaweClazzDrawer {
     // Check iterations and sub-typing through testing
     public BiConsumer<JImGui, Object> checkSubtype(Class<?> aSubTypeClazz) {
         // Try as a subtype instead later for this for generics
-        BiConsumer<JImGui, Object> biConsumer = typeDrawer.get(aSubTypeClazz);
+        BiConsumer<JImGui, Object> biConsumer = typeDrawers.get(aSubTypeClazz);
         return biConsumer == null ? this::emptyDrawable : biConsumer;
     }
 
@@ -129,7 +131,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
             mapper.setNativeFromField();
             boolean selected = imGui.beginTabItem(drawable.label, mapper.getNativeData(), drawable.flags);
             if(selected){
@@ -141,6 +143,13 @@ public class JaweClazzDrawer {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+    }
+
+    public DataFieldMapper<NativeBool> getDataFieldMapper(Field field, Object object){
+        return cachedMappers
+                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+                .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
+                .computeIfAbsent(field.getName(), name -> new NativeBooleanDataFieldMapper(field, object));
     }
 
     public void endTabBar(JImGui imGui, Object drawable0){
@@ -171,7 +180,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
             mapper.setNativeFromField();
             if(imGui.begin(drawable.label, mapper.getNativeData(), drawable.flags)) {
                 mapper.setFieldFromNative();
@@ -190,7 +199,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("checked");
-            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
             mapper.setNativeFromField();
             imGui.checkbox(drawable.label, mapper.getNativeData());
             mapper.setFieldFromNative();
@@ -223,7 +232,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
 
             mapper.setNativeFromField();
             boolean isOpen = imGui.collapsingHeader(drawable.label, mapper.getNativeData(), drawable.flags);
@@ -266,13 +275,10 @@ public class JaweClazzDrawer {
         imGui.textColored(drawable.color, drawable.text);
     }
 
-    public transient static final WeakHashMap<String, byte[]> cachedBytes = new WeakHashMap<>();
 
     public void text(JImGui imGui, Object drawable0){
         JaweText drawable = (JaweText) drawable0;
-        byte[] bytes = cachedBytes.computeIfAbsent(drawable.text, s -> s.getBytes(StandardCharsets.UTF_8));
-        JaweJImGui jaweJImGui = (JaweJImGui) imGui;
-        jaweJImGui.text(bytes);
+        imGui.text(drawable.text);
     }
 
     public void selectable(JImGui imGui, Object drawable0){
@@ -280,7 +286,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("selected");
-            NativeBooleanDataFieldMapper mapper = new NativeBooleanDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
             //  returning the state true when open or false when unselected
             //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
             mapper.setNativeFromField();

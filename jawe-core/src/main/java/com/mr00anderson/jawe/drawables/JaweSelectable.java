@@ -50,4 +50,26 @@ public class JaweSelectable {
         this.flags = flags;
         this.onActivation = onActivation;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JaweSelectable that = (JaweSelectable) o;
+
+        if (selected != that.selected) return false;
+        if (flags != that.flags) return false;
+        if (label != null ? !label.equals(that.label) : that.label != null) return false;
+        return onActivation != null ? onActivation.equals(that.onActivation) : that.onActivation == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = label != null ? label.hashCode() : 0;
+        result = 31 * result + (selected ? 1 : 0);
+        result = 31 * result + flags;
+        result = 31 * result + (onActivation != null ? onActivation.hashCode() : 0);
+        return result;
+    }
 }

@@ -9,6 +9,8 @@ import com.mr00anderson.jawe.components.JaweRenderComponent;
 import com.mr00anderson.jawe.types.BasicApp;
 import org.ice1000.jimgui.util.JniLoader;
 
+import java.util.HashMap;
+
 // not completely generic
 @All({JaweRenderComponent.class})
 public class JaweRenderingSystem extends BaseEntitySystem {
@@ -45,6 +47,8 @@ public class JaweRenderingSystem extends BaseEntitySystem {
 //        jaweRenderComponent.locationType.init(world);
     }
 
+    // TODO This should be cleaned up at some interval
+    HashMap<String, byte[]> cachedStrings = new HashMap<>();
 
     @Override
     protected void initialize() {
@@ -52,6 +56,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
 
         JniLoader.load();
         imGui = new JaweJImGui(width, height, title, world);// TODO Title some how before this is contructed or move this out
+//        JImGuiUtil.setStringToBytes(s -> cachedStrings.computeIfAbsent(s, s1 -> s1.getBytes(StandardCharsets.UTF_8)));
         imGui.initBeforeMainLoop();
 
         // TODO Clear color, should be a drawable saved in the world

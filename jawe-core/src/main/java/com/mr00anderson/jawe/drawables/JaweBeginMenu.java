@@ -7,4 +7,5 @@ public class JaweBeginMenu {
     public String label;
     public boolean enabled;
     public ActivationHandler<JaweBeginMenu> onActivation;
+
 }

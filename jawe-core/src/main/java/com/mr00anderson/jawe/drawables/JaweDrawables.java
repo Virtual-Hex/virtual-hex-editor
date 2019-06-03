@@ -98,4 +98,18 @@ public class JaweDrawables {
         removeWindowQueue.clear();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JaweDrawables that = (JaweDrawables) o;
+
+        return drawables != null ? drawables.equals(that.drawables) : that.drawables == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return drawables != null ? drawables.hashCode() : 0;
+    }
 }

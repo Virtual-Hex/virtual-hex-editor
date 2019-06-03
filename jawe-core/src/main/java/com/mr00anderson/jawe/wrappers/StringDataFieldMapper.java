@@ -3,15 +3,15 @@ package com.mr00anderson.jawe.wrappers;
 import java.lang.reflect.Field;
 
 // This class will be cachedNativeValue, so will need to dispose of the
-public class WrappedTextBuffer extends BufferAbstractDataFieldMapper {
+public class StringDataFieldMapper extends BufferAbstractDataFieldMapper {
 
     // Field then wrapped
 
-    public WrappedTextBuffer(Field field, Object object) {
+    public StringDataFieldMapper(Field field, Object object) {
         this(new byte[255], field, object);
     }
 
-    public WrappedTextBuffer(byte[] nativeData, Field field, Object object) {
+    public StringDataFieldMapper(byte[] nativeData, Field field, Object object) {
         super(nativeData, field, object);
     }
 

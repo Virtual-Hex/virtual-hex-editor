@@ -96,8 +96,8 @@ public final class JaweDesktopEditor implements BasicApp {
         // TODO Optional load editor project, to allow editing a separate worldWrapper for making a new version of the editor
         // this one will be serialized
 
-        WorldWrapper worldWrapper = new WorldWrapper(EditorWorldBuilder.WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
-        WORLDS.put(EditorWorldBuilder.WORLD_EDITOR_WINDOW, worldWrapper);
+        WorldWrapper worldWrapper = new WorldWrapper(EditorWorldBuilder.WINDOW_DEBUG, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
+        WORLDS.put(EditorWorldBuilder.WINDOW_DEBUG, worldWrapper);
 
         // TODO Setup or load from a save file
         final boolean load = false;

@@ -1,11 +1,15 @@
 package com.mr00anderson.jawe.drawables;
 
-import com.mr00anderson.jawe.wrappers.DataFieldMapper;
-import com.mr00anderson.jawe.wrappers.NativeBooleanDataFieldMapper;
+import com.mr00anderson.jawe.JaweColumnSet;
+import com.mr00anderson.jawe.JaweColumnSetBody;
+import com.mr00anderson.jawe.JaweColumnSetHeader;
+import com.mr00anderson.jawe.JaweColumnSetRow;
+import com.mr00anderson.jawe.wrappers.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import org.ice1000.jimgui.JImGui;
-import org.ice1000.jimgui.NativeBool;
+import org.ice1000.jimgui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -17,10 +21,36 @@ import java.util.*;
 public class JaweClazzDrawer {
 
     /**
+     * Simply a Logger Reference
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JaweClazzDrawer.class);
+
+
+    /**
      * These get cached first cycle through
      */
-    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeBool>>>> cachedMappers = new HashMap<>();
+    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeBool>>>> cachedMappersBool = new HashMap<>();
 
+
+    /**
+     * These get cached first cycle through
+     */
+    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeInt>>>> cachedMappersInt = new HashMap<>();
+
+    /**
+     * These get cached first cycle through
+     */
+    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeFloat>>>> cachedMappersFloat = new HashMap<>();
+
+    /**
+     * These get cached first cycle through
+     */
+    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<NativeDouble>>>> cachedMappersDouble = new HashMap<>();
+
+    /**
+     * These get cached first cycle through
+     */
+    public static transient Map<Class<?>, Int2ObjectMap<HashMap<String, DataFieldMapper<byte[]>>>> cachedMappersBytes = new HashMap<>();
 
     public Map<Class<?>, TypeDrawer> typeDrawers;
     public String name;
@@ -61,8 +91,14 @@ public class JaweClazzDrawer {
         typeDrawers.put(JaweCollapsingHeader.class, JaweClazzDrawer::collapsingHeader);
         typeDrawers.put(JaweColorText.class, JaweClazzDrawer::colorText);
         typeDrawers.put(JaweColumns.class, JaweClazzDrawer::columns);
-        // TODO COMBO
         typeDrawers.put(JaweDummy.class, JaweClazzDrawer::dummy);
+        // TODO COMBO
+        typeDrawers.put(JaweInputDouble.class, JaweClazzDrawer::inputDouble);
+        typeDrawers.put(JaweInputDoubleStepped.class, JaweClazzDrawer::inputDoubleStepped);
+        typeDrawers.put(JaweInputFloat.class, JaweClazzDrawer::inputFloat);
+        typeDrawers.put(JaweInputFloatStepped.class, JaweClazzDrawer::inputFloatStepped);
+        typeDrawers.put(JaweInputInt.class, JaweClazzDrawer::inputInt);
+        typeDrawers.put(JaweInputIntStepped.class, JaweClazzDrawer::inputIntStepped);
 
         typeDrawers.put(JaweInvisibleButton.class, JaweClazzDrawer::invisibleButton);
         // TODO MENU
@@ -76,6 +112,7 @@ public class JaweClazzDrawer {
         typeDrawers.put(JaweSmallButton.class, JaweClazzDrawer::smallButton);
         typeDrawers.put(JaweSpacing.class, JaweClazzDrawer::spacing);
         typeDrawers.put(JaweText.class, JaweClazzDrawer::text);
+        typeDrawers.put(JaweTextInput.class, JaweClazzDrawer::inputText);
         typeDrawers.put(JaweTreeNodeEx.class, JaweClazzDrawer::treeNodeEx);
         typeDrawers.put(JaweWindow.class, JaweClazzDrawer::window);
 
@@ -89,11 +126,42 @@ public class JaweClazzDrawer {
         // when we can just register a subtype
 
         typeDrawers.put(List.class, JaweClazzDrawer::list);
-    }
 
+
+
+        // Editable
+    }
 
     // TODO Register method
 
+    public void drawReflectiveInputColumns(JImGui imGui, Object drawable, JaweClazzDrawer parentDrawer){
+        Class<?> aClass = drawable.getClass();
+        Field[] declaredFields = aClass.getDeclaredFields();
+
+        Object[] columns = new Object[declaredFields.length];
+        JaweColumnSet columnSet = new JaweColumnSet(
+                new JaweColumnSetHeader(aClass + " - hc:" + drawable.hashCode(), true,
+                        "Value & Field Name", "Type", "Size (b)"),
+                new JaweColumnSetBody(new JaweColumnSetRow(columns))
+        );
+
+        int declaredFieldsLength = declaredFields.length;
+        for (int i = 0; i < declaredFieldsLength; i++) {
+            Field field = declaredFields[i];
+
+
+            try {
+                draw(imGui, field.get(drawable), parentDrawer);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+//
+//            typeHandlerMap.computeIfPresent(clazz, (aClass1, jImGuiTypeHandler) -> {
+//                jImGuiTypeHandler.handle(imGui, declaredFieldsLength, field, instanceId, objectToDraw);
+//                return jImGuiTypeHandler;
+//            });
+        }
+    }
 
     public void draw(JImGui imGui, Object drawable, JaweClazzDrawer parentDrawer) {
         Class<?> aClass = drawable.getClass();
@@ -101,6 +169,7 @@ public class JaweClazzDrawer {
         if (objectDrawer == null) {
             objectDrawer = checkSubtype(aClass.getSuperclass());
         }
+//        LOGGER.debug("Drawing a class {}, type {}", drawable, aClass);
         objectDrawer.draw(imGui, drawable, parentDrawer);
     }
 
@@ -139,7 +208,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapperBool(field, drawable);
             mapper.setNativeFromField();
             boolean selected = imGui.beginTabItem(drawable.label, mapper.getNativeData(), drawable.flags);
             if(selected){
@@ -154,11 +223,39 @@ public class JaweClazzDrawer {
 
     }
 
-    public static DataFieldMapper<NativeBool> getDataFieldMapper(Field field, Object object){
-        return cachedMappers
+    public static DataFieldMapper<NativeBool> getDataFieldMapperBool(Field field, Object object){
+        return cachedMappersBool
                 .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
                 .computeIfAbsent(field.getName(), name -> new NativeBooleanDataFieldMapper(field, object));
+    }
+
+    public static DataFieldMapper<NativeInt> getDataFieldMapperInt(Field field, Object object){
+        return cachedMappersInt
+                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+                .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
+                .computeIfAbsent(field.getName(), name -> new NativeIntDataFieldMapper(field, object));
+    }
+
+    public static DataFieldMapper<NativeFloat> getDataFieldMapperFloat(Field field, Object object){
+        return cachedMappersFloat
+                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+                .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
+                .computeIfAbsent(field.getName(), name -> new NativeFloatDataFieldMapper(field, object));
+    }
+
+    public static DataFieldMapper<NativeDouble> getDataFieldMapperDouble(Field field, Object object){
+        return cachedMappersDouble
+                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+                .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
+                .computeIfAbsent(field.getName(), name -> new NativeDoubleDataFieldMapper(field, object));
+    }
+
+    public static DataFieldMapper<byte[]> getDataFieldMapperString(Field field, Object object){
+        return cachedMappersBytes
+                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+                .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
+                .computeIfAbsent(field.getName(), name -> new StringDataFieldMapper(field, object));
     }
 
     public static void endTabBar(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
@@ -185,18 +282,17 @@ public class JaweClazzDrawer {
 
     public static void window(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
         JaweWindow drawable = (JaweWindow) drawable0;
-
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapperBool(field, drawable);
             mapper.setNativeFromField();
             if(imGui.begin(drawable.label, mapper.getNativeData(), drawable.flags)) {
                 mapper.setFieldFromNative();
                 jaweDrawableProcess(imGui, drawable.drawables, parentDrawer);
                 drawable.onActivation.handle(drawable, parentDrawer);
+                imGui.end();// May need to be moved up into the if loop
             }
-            imGui.end();// May need to be moved up into the if loop
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -207,10 +303,109 @@ public class JaweClazzDrawer {
         JaweCheckBox drawable = (JaweCheckBox) drawable0;
         Field field;
         try {
-            field = drawable.getClass().getField("checked");
-            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapperBool(field, drawable);
             mapper.setNativeFromField();
             imGui.checkbox(drawable.label, mapper.getNativeData());
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputText(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweTextInput drawable = (JaweTextInput) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<byte[]> mapper = getDataFieldMapperString(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputText(drawable.label, mapper.getNativeData(), drawable.flags);
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputInt(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputInt drawable = (JaweInputInt) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeInt> mapper = getDataFieldMapperInt(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputInt(drawable.label, mapper.getNativeData());
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputIntStepped(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputIntStepped drawable = (JaweInputIntStepped) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeInt> mapper = getDataFieldMapperInt(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputInt(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast, drawable.flags);
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputFloat(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputFloat drawable = (JaweInputFloat) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeFloat> mapper = getDataFieldMapperFloat(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputFloat(drawable.label, mapper.getNativeData());
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputFloatStepped(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputFloatStepped drawable = (JaweInputFloatStepped) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeFloat> mapper = getDataFieldMapperFloat(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputFloat(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast);// TODO Format
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void inputDouble(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputDouble drawable = (JaweInputDouble) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeDouble> mapper = getDataFieldMapperDouble(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputDouble(drawable.label, mapper.getNativeData());
+            mapper.setFieldFromNative();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void inputDoubleStepped(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+        JaweInputFloatStepped drawable = (JaweInputFloatStepped) drawable0;
+        Field field;
+        try {
+            field = drawable.getClass().getField("value");
+            DataFieldMapper<NativeDouble> mapper = getDataFieldMapperDouble(field, drawable);
+            mapper.setNativeFromField();
+            imGui.inputDouble(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast);// TODO Format
             mapper.setFieldFromNative();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -241,7 +436,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapperBool(field, drawable);
 
             mapper.setNativeFromField();
             boolean isOpen = imGui.collapsingHeader(drawable.label, mapper.getNativeData(), drawable.flags);
@@ -287,7 +482,7 @@ public class JaweClazzDrawer {
         Field field;
         try {
             field = drawable.getClass().getField("selected");
-            DataFieldMapper<NativeBool> mapper = getDataFieldMapper(field, drawable);
+            DataFieldMapper<NativeBool> mapper = getDataFieldMapperBool(field, drawable);
             //  returning the state true when open or false when unselected
             //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
             mapper.setNativeFromField();

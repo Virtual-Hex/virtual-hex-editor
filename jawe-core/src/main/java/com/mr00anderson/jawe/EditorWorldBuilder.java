@@ -6,9 +6,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.drawables.JaweClazzDrawer;
-import com.mr00anderson.jawe.drawables.JaweText;
-import com.mr00anderson.jawe.drawables.JaweWindow;
+import com.mr00anderson.jawe.drawables.*;
 import com.mr00anderson.jawe.types.WorldWrapper;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.flag.JImSelectableFlags;
@@ -17,6 +15,7 @@ public class EditorWorldBuilder {
 
 
     public static final String WORLD_EDITOR_WINDOW = "This Jawe Editor";
+    public static final String WINDOW_DEBUG = "Debug Window";
 
     public final WorldWrapper worldWrapper;
     public final JaweJImGui imGui;
@@ -30,9 +29,63 @@ public class EditorWorldBuilder {
         this.worldWrapper = worldWrapper;
         this.imGui = imGui;
 
+        JaweWindow debugWindow = new JaweWindow(WINDOW_DEBUG, true, 0, new JaweDrawables(new JaweText("TODO: Debug Window")));
+
+        JaweWindow worldsWindow = new JaweWindow(
+                WORLD_EDITOR_WINDOW,
+                true,
+                0,
+                new JaweDrawables(
+                    new JaweColumnSet(
+                        new JaweColumnSetHeader("Worlds", true,
+                                "World", "Location Type", "Location Path"),
+                        new JaweColumnSetBody(
+                                new JaweColumnSetRow(
+                                        new Object[]{
+                                                new JaweWorldSelectable(
+                                                        worldWrapper.name,
+                                                        false,
+                                                        JImSelectableFlags.SpanAllColumns
+                                                ),
+                                                new JaweText(worldWrapper.someLocation.type.toString()),
+                                                new JaweText(worldWrapper.someLocation.path)
+                                        }
+                                )
+                        )
+                    )
+                )
+        );
+
+        JaweWindow inputWindow = new JaweWindow(
+                "Input Int",
+                true,
+                0,
+            new JaweDrawables(
+            new JaweInputInt()
+            )
+        );
+
+        // Register custom drawers
+        JaweClazzDrawer clazzDrawer = new JaweClazzDrawer(true, "DEFAULT");
+        clazzDrawer.typeDrawers.put(JaweColumnSet.class, EditorWorldBuilder::columnSet);
+        clazzDrawer.typeDrawers.put(JaweColumnSetHeader.class, EditorWorldBuilder::columnSetHeader);
+        clazzDrawer.typeDrawers.put(JaweColumnSetBody.class, EditorWorldBuilder::columnSetBody);
+        clazzDrawer.typeDrawers.put(JaweColumnSetRow.class, EditorWorldBuilder::columnSetBodyRow);
+        clazzDrawer.typeDrawers.put(JaweWorldSelectable.class, JaweClazzDrawer::selectable);
 
 
-        buildMainMenu();
+
+        jaweDrawableArcheType = new ArchetypeBuilder().add(JaweRenderComponent.class).build(worldWrapper.world);
+        renderMapper = worldWrapper.world.getMapper(JaweRenderComponent.class);
+        groupManager = worldWrapper.world.getSystem(GroupManager.class);
+        tagManager = worldWrapper.world.getSystem(TagManager.class);
+
+        addToWorld(debugWindow.label, clazzDrawer, debugWindow);
+        addToWorld(worldsWindow.label, clazzDrawer, worldsWindow);
+        addToWorld(inputWindow.label, clazzDrawer, inputWindow);
+
+        // TODO add project load with worlds, worldWrapper settings
+
 
 //        Drawable clearColor;
 //        Drawable mainMenuBar;
@@ -65,36 +118,6 @@ public class EditorWorldBuilder {
         // TODO Load default editor but load saved worlds
 
 //        // TODO Move this worldWrapper into the main menu for editing
-        JaweColumnSet columnSet = new JaweColumnSet(
-                new JaweColumnSetHeader("Worlds - C", true,
-                        "Worlds", "Location Type", "Location Path"),
-                new JaweColumnSetBody(
-                        new JaweColumnSetRow(
-                                new Object[]{
-                                        new JaweWorldSelectable(
-                                                worldWrapper.name,
-                                                false,
-                                                JImSelectableFlags.SpanAllColumns
-                                        ),
-                                        new JaweText(worldWrapper.someLocation.type.toString()),
-                                        new JaweText(worldWrapper.someLocation.path)
-                                }
-                        )
-                )
-        );
-
-        // Register custom drawers
-        JaweClazzDrawer clazzDrawer = new JaweClazzDrawer(true, "DEFAULT");
-        clazzDrawer.typeDrawers.put(JaweColumnSet.class, EditorWorldBuilder::columnSet);
-        clazzDrawer.typeDrawers.put(JaweColumnSetHeader.class, EditorWorldBuilder::columnSetHeader);
-        clazzDrawer.typeDrawers.put(JaweColumnSetBody.class, EditorWorldBuilder::columnSetBody);
-        clazzDrawer.typeDrawers.put(JaweColumnSetRow.class, EditorWorldBuilder::columnSetBodyRow);
-        clazzDrawer.typeDrawers.put(JaweWorldSelectable.class, JaweClazzDrawer::selectable);
-
-        // TODO add project load with worlds, worldWrapper settings
-
-        Object[] jaweDefaultBuildEntities = {
-                columnSet,
 
 //                new JaweWindow("Window",
 //                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
@@ -102,35 +125,20 @@ public class EditorWorldBuilder {
 //                ),
 
 
-                // DISABLED debug due to complexity, want to keep it simple for first worldWrapper edit testing and need for update use wit this libs api
+        // DISABLED debug due to complexity, want to keep it simple for first worldWrapper edit testing and need for update use wit this libs api
 //                debugWindow,
 
 
 //                new MainMenuBarComponent(),// TODO dont forget debug window enable disable
-                // Debug Window
+        // Debug Window
 
-                // Project browser ? This will be something eventually
-                // World edit window - Selectable Worlds (project parents)
-                // File browser (project parent), components, entities, prefabs can be loaded into a worldWrapper or (STAGING Area)
-        };
-
-
-        jaweDrawableArcheType = new ArchetypeBuilder().add(JaweRenderComponent.class).build(worldWrapper.world);
-        renderMapper = worldWrapper.world.getMapper(JaweRenderComponent.class);
-        groupManager = worldWrapper.world.getSystem(GroupManager.class);
-        tagManager = worldWrapper.world.getSystem(TagManager.class);
-        for (int i = 0; i < jaweDefaultBuildEntities.length; i++) {
-            Object drawer = jaweDefaultBuildEntities[i];
-            addAllEditorDrawableExtensions(clazzDrawer);
-            addToWorld(WORLD_EDITOR_WINDOW, clazzDrawer, jaweDefaultBuildEntities[i]);
-        }
-
-    }
-
-    private void addAllEditorDrawableExtensions(JaweClazzDrawer drawer) {
+        // Project browser ? This will be something eventually
+        // World edit window - Selectable Worlds (project parents)
+        // File browser (project parent), components, entities, prefabs can be loaded into a worldWrapper or (STAGING Area)
 
 
     }
+
 
     public int addToWorld(String tag, JaweClazzDrawer jaweClazzDrawer, Object drawable){
         int entityId =  worldWrapper.world.create(jaweDrawableArcheType);
@@ -155,16 +163,10 @@ public class EditorWorldBuilder {
         }
     }
 
-    private void buildMainMenu() {
-
-    }
-
-
     private static void columnSet(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
         JaweColumnSet drawable = (JaweColumnSet) drawable0;
         columnSetHeader(imGui, drawable.header, parentDrawer);
         columnSetBody(imGui, drawable.body, parentDrawer);
-
     }
 
     public static void columnSetHeader(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){

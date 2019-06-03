@@ -18,7 +18,7 @@ import java.util.function.IntConsumer;
 
 public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 
-    public static transient Map<String, Object> worldsCache = new HashMap<>();
+    public static transient Map<String, JaweWindow> worldsCache = new HashMap<>();
 
     public JaweWorldSelectable() {
         super();
@@ -49,7 +49,7 @@ public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 
          // Build entity and drop into worldWrapper or remove it
         if (objectActivated.selected) {
-            Object drawable = worldsCache.computeIfAbsent(
+            JaweWindow drawable = worldsCache.computeIfAbsent(
                     objectActivated.label,
                     s -> {
 
@@ -131,16 +131,19 @@ public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 
                                 for (int i = 0; i < components.size(); i++) {
                                     Component component = components.get(i);
+                                    // This could cause bigger serialization as this is loaded as a window, while
+                                    // fields should be data mappers?
                                     componentsTree.drawables.add(new JaweTreeNodeEx(
                                             String.format("Component %s", component),
                                             0,
-                                            new JaweDrawables() // We want to draw non transient, public fields // TODO methods to be used to transform
+                                            new JaweDrawables(
+                                                    new JaweColumnSet(
+                                                            new JaweColumnSetHeader("", true, "Value & Field Name", "Type", "Size (b)"),
+                                                            new JaweColumnSetBody()
+                                                    )
+                                            ) // We want to draw non transient, public fields // TODO methods to be used to transform
 
-                                            // We can use the clazz drawer and register editable types?, should have a default
-                                            // editable lay out
-                                            // lets not use column based ?
-
-                                            // TODO INSERT CLAZZ REFLECTIVE DRAWING
+                                            // We can use the clazz drawer and register editable types?
                                     ));
                                 }
 

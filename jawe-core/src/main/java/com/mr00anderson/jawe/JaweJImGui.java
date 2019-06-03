@@ -34,7 +34,7 @@ public class JaweJImGui extends JImGui {
 //    public static final Drawable JAWE_SPACING = new JaweSpacing();
 
 
-    public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = imGuiDrawable -> {};
+    public static final ActivationHandler<?> EMPTY_ACTIVATION_HANDLER = (imGuiDrawable, parentDrawable) -> {};
 
     protected DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 

@@ -2,7 +2,7 @@ package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.handlers.ActivationHandler;
 
-public class JaweSelectable {
+public class JaweSelectable<T extends JaweSelectable> {
 
     public String label;
     public boolean selected;
@@ -13,7 +13,7 @@ public class JaweSelectable {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<JaweSelectable> onActivation = imGuiDrawable -> {};
+    public ActivationHandler<T> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public JaweSelectable() {
     }
@@ -27,24 +27,24 @@ public class JaweSelectable {
         this.flags = flags;
     }
 
-    public JaweSelectable(String label, ActivationHandler<JaweSelectable> onActivation) {
+    public JaweSelectable(String label, ActivationHandler<T> onActivation) {
         this.label = label;
         this.onActivation = onActivation;
     }
 
-    public JaweSelectable(String label, int flags, ActivationHandler<JaweSelectable> onActivation) {
+    public JaweSelectable(String label, int flags, ActivationHandler<T> onActivation) {
         this.label = label;
         this.flags = flags;
         this.onActivation = onActivation;
     }
 
-    public JaweSelectable(String label, boolean selected, ActivationHandler<JaweSelectable> onActivation) {
+    public JaweSelectable(String label, boolean selected, ActivationHandler<T> onActivation) {
         this.label = label;
         this.selected = selected;
         this.onActivation = onActivation;
     }
 
-    public JaweSelectable(String label, boolean selected, int flags, ActivationHandler<JaweSelectable> onActivation) {
+    public JaweSelectable(String label, boolean selected, int flags, ActivationHandler<T> onActivation) {
         this.label = label;
         this.selected = selected;
         this.flags = flags;

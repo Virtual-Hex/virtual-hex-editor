@@ -45,7 +45,7 @@
 //
 //
 //    @Override
-//    public void draw(JImGui imGui, World world) {
+//    public void draw(JImGui imGui, World worldWrapper) {
 //            if (showAppMetrics.accessValue()) imGui.showMetricsWindow(showAppMetrics);
 //            if (showAppStyleEditor.accessValue()) {
 //                imGui.begin("Style Editor", showAppStyleEditor);

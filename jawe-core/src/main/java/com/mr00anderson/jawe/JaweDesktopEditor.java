@@ -10,12 +10,13 @@ import com.mr00anderson.jawe.json.JaweJsonArtemisSerializer;
 import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import com.mr00anderson.jawe.types.BasicApp;
 import com.mr00anderson.jawe.types.WorldWrapper;
-import com.mr00anderson.jawe.types.Worlds;
 import com.mr00anderson.jawe.utils.ArtemisIoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
 
@@ -51,7 +52,10 @@ public final class JaweDesktopEditor implements BasicApp {
     private World world;
     private boolean running = true;
     private EditorWorldBuilder editorWorldBuilder;
-    private Worlds worlds = new Worlds();
+//    private Worlds worlds = new Worlds();
+
+    // Todo need a central place for worlds for the editor only
+    public static final Map<String, WorldWrapper> WORLDS = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         // TODO jimgui.ini loading so users can import layouts
@@ -77,7 +81,7 @@ public final class JaweDesktopEditor implements BasicApp {
                 // TODO Profiler Plugin For Editor ?
                 .build();
 
-        // Entities in this world will be generally entities with Drawable components
+        // Entities in this worldWrapper will be generally entities with Drawable components
         world = new World(worldConfig);
 
         // TODO BACKEND OPTION - LOADING HERE
@@ -88,11 +92,11 @@ public final class JaweDesktopEditor implements BasicApp {
         JaweRenderingSystem jaweRenderingSystem = world.getSystem(JaweRenderingSystem.class);
         jaweRenderingSystem.setMainApp(this, "JImGui Artemis obd World Editor (Jawe)");
 
-        // TODO Optional load editor project, to allow editing a separate world for making a new version of the editor
+        // TODO Optional load editor project, to allow editing a separate worldWrapper for making a new version of the editor
         // this one will be serialized
 
         WorldWrapper worldWrapper = new WorldWrapper(EditorWorldBuilder.WORLD_EDITOR_WINDOW, new SomeLocation(CODE, ""), world, jaweRenderingSystem);
-        worlds.worlds.put(EditorWorldBuilder.WORLD_EDITOR_WINDOW, worldWrapper);
+        WORLDS.put(EditorWorldBuilder.WORLD_EDITOR_WINDOW, worldWrapper);
 
         // TODO Setup or load from a save file
         final boolean load = false;
@@ -104,7 +108,7 @@ public final class JaweDesktopEditor implements BasicApp {
         }
 
         // We need to loop here, maybe allow a loop type to be chosen
-        // The Imgui will be rendered through the main world view.
+        // The Imgui will be rendered through the main worldWrapper view.
         while (running){
             world.process();
         }

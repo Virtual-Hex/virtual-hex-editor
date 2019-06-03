@@ -22,7 +22,7 @@ public class JaweWindow {
     public String label;
 
     /**
-     * A native boolean which will be converted to a java boolean before world serialization
+     * A native boolean which will be converted to a java boolean before worldWrapper serialization
      */
     public boolean open;
 
@@ -42,7 +42,7 @@ public class JaweWindow {
      *
      *  @See https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L245
      */
-    public ActivationHandler<JaweWindow> onActivation = imGuiDrawable -> {};
+    public ActivationHandler<JaweWindow> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public JaweWindow() {
     }

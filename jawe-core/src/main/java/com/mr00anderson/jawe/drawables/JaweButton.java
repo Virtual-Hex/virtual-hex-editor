@@ -18,7 +18,7 @@ public class JaweButton {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<JaweButton> onActivation = imGuiDrawable -> {};
+    public ActivationHandler<JaweButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public JaweButton() {
     }

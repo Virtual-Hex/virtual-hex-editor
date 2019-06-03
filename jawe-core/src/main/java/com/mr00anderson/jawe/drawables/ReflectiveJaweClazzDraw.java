@@ -13,7 +13,7 @@ import static org.ice1000.jimgui.JImGui.separator;
 
 
 /**
- * Per world instance, This must be disposed of, this draws fields on an object
+ * Per worldWrapper instance, This must be disposed of, this draws fields on an object
  */
 public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePurge {
 
@@ -21,7 +21,7 @@ public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePu
 
     // Should turn this into a proper drawable? if i did then it would need to have a instance for each entity
     // TODO
-    // world reference
+    // worldWrapper reference
     // entity reference
     //  Would have to make the nativeData types elevated and this into a manager of worlds, entities,
     // then this could be a proper drawable that can be encapsulated into a window for

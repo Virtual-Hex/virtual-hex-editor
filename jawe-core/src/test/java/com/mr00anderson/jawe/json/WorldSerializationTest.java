@@ -37,7 +37,7 @@ public class WorldSerializationTest implements BasicApp {
 //    @Disabled
     @Test
     public void worldSerTest(){
-        // Create the world
+        // Create the worldWrapper
         final WorldSerializationManager manager = new WorldSerializationManager();
         final TagManager tagManager = new TagManager();
 
@@ -70,7 +70,7 @@ public class WorldSerializationTest implements BasicApp {
         world.process();
 
 
-        // Modifications after test because of world must process and start Jimgui
+        // Modifications after test because of worldWrapper must process and start Jimgui
         testComponentNative.nativeBool = new NativeBool();
         testComponentNative.nativeBool.modifyValue(true);
 
@@ -114,7 +114,7 @@ public class WorldSerializationTest implements BasicApp {
 
 
     public static void main(String[] args) {
-        // Create the world
+        // Create the worldWrapper
         WorldSerializationManager manager = new WorldSerializationManager();
         TagManager tagManager = new TagManager();
 
@@ -162,21 +162,21 @@ public class WorldSerializationTest implements BasicApp {
     }
 
 //    public static void main(String[] args) throws IOException {
-//        // Setup the world and serializer
+//        // Setup the worldWrapper and serializer
 //        final WorldSerializationManager manager = new WorldSerializationManager();
 //        final TagManager tagManager = new TagManager();
 //
-//        World world = new World(new WorldConfiguration().setSystem(manager).setSystem(tagManager));
-//        JsonArtemisSerializer jsonArtemisSerializer = new JsonArtemisSerializer(world);
+//        World worldWrapper = new World(new WorldConfiguration().setSystem(manager).setSystem(tagManager));
+//        JsonArtemisSerializer jsonArtemisSerializer = new JsonArtemisSerializer(worldWrapper);
 //        jsonArtemisSerializer.prettyPrint(true);
 //
 //        manager.setSerializer(jsonArtemisSerializer);
 //
 //
 //        // Create various simple and complex entities
-//        int simple1 = world.create();
-//        int simple2 = world.create();
-//        int simple3 = world.create();
+//        int simple1 = worldWrapper.create();
+//        int simple2 = worldWrapper.create();
+//        int simple3 = worldWrapper.create();
 //
 //        // Add some test tags
 //        tagManager.register("TestTag1", simple1);
@@ -185,10 +185,10 @@ public class WorldSerializationTest implements BasicApp {
 //
 //
 //        // Process once
-//        world.process();
+//        worldWrapper.process();
 //
 //        // Collect the entities
-//        EntitySubscription entitySubscription = world.getAspectSubscriptionManager().get(Aspect.all());
+//        EntitySubscription entitySubscription = worldWrapper.getAspectSubscriptionManager().get(Aspect.all());
 //        IntBag entities = entitySubscription.getEntities();
 //
 //        // Write to String

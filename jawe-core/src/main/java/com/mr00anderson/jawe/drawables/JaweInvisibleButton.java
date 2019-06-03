@@ -20,7 +20,7 @@ public class JaweInvisibleButton {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<JaweInvisibleButton> onActivation = imGuiDrawable -> {};
+    public ActivationHandler<JaweInvisibleButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public JaweInvisibleButton() {
     }

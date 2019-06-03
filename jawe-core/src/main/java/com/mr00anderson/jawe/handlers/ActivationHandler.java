@@ -1,5 +1,7 @@
 package com.mr00anderson.jawe.handlers;
 
+import com.mr00anderson.jawe.drawables.JaweClazzDrawer;
+
 /**
  * We want to pass through the handling to custom implementations, so we created ActivationHandler
  * to allow connecting of the handling, The caller is fed in, so that the person can access the
@@ -13,7 +15,7 @@ public interface ActivationHandler<T> {
      * The drawable that was activated
      * @param objectActivated
      */
-    void handle(T objectActivated);
+    void handle(T objectActivated, JaweClazzDrawer parentDrawer);
 }
 
 

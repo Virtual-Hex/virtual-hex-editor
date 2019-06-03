@@ -40,11 +40,11 @@ public class JaweRenderingSystem extends BaseEntitySystem {
         System.out.println(jaweRenderComponent.jaweClazzDrawer);
 
         // Components need to be injected but we want a functional interface for drawbles
-        // Some worldsHeader care about the world and some do not
+        // Some worldsHeader care about the worldWrapper and some do not
 
 
         // This is used for post construction logic, used to construct complex transient types
-//        jaweRenderComponent.locationType.init(world);
+//        jaweRenderComponent.locationType.init(worldWrapper);
     }
 
     // TODO This should be cleaned up at some interval
@@ -59,7 +59,7 @@ public class JaweRenderingSystem extends BaseEntitySystem {
 //        JImGuiUtil.setStringToBytes(s -> cachedStrings.computeIfAbsent(s, s1 -> s1.getBytes(StandardCharsets.UTF_8)));
         imGui.initBeforeMainLoop();
 
-        // TODO Clear color, should be a drawable saved in the world
+        // TODO Clear color, should be a drawable saved in the worldWrapper
     }
 
     @Override

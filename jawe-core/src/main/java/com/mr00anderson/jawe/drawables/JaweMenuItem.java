@@ -1,7 +1,6 @@
 package com.mr00anderson.jawe.drawables;
 
 import com.mr00anderson.jawe.handlers.ActivationHandler;
-import org.ice1000.jimgui.JImGui;
 
 public class JaweMenuItem  {
 
@@ -31,13 +30,13 @@ public class JaweMenuItem  {
     public ActivationHandler<JaweMenuItem> onActivation;
 
 
-    public void draw(JImGui imGui) {
-        // Returns true on activation + toggle
-        // @see https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L535
-        if(imGui.menuItem(label, shortcut, selected, enabled) && onActivation != null){
-            onActivation.handle(this);
-        }
-    }
+//    public void draw(JImGui imGui) {
+//        // Returns true on activation + toggle
+//        // @see https://github.com/ocornut/imgui/blob/70d9f79312233622a4f9e683177105a226b27b8c/imgui.h#L535
+//        if(imGui.menuItem(label, shortcut, selected, enabled) && onActivation != null){
+//            onActivation.handle(this);
+//        }
+//    }
 
     public static final class JaweMenuItemBuilder {
         public String label;

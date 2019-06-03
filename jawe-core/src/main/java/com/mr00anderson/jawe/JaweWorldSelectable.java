@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 
 public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 
-    public static transient Map<String, JaweClazzDrawer> worldsCache = new HashMap<>();
+    public static transient Map<String, Object> worldsCache = new HashMap<>();
 
     public JaweWorldSelectable() {
         super();
@@ -50,7 +50,7 @@ public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 
          // Build entity and drop into worldWrapper or remove it
         if (objectActivated.selected) {
-            JaweClazzDrawer clazzDrawer = worldsCache.computeIfAbsent(
+            Object drawable = worldsCache.computeIfAbsent(
                     objectActivated.label,
                     s -> {
 
@@ -163,41 +163,38 @@ public class JaweWorldSelectable extends JaweSelectable<JaweWorldSelectable> {
 //                                        }
 //                                    });
                         });
-
-                        return parentDrawer.newFromParent(
-                                new JaweWindow(
-                                        worldWrapper.name,
-                                        true,
-                                        0,
-                                        new JaweDrawables(
-                                                new JaweText("TODO - World Meta Data"),
-                                                new JaweTabBar("World Editing", 0,
-                                                        new JaweDrawables(
-                                                                new JaweBeginTabItem(
-                                                                        "Systems",
-                                                                        new JaweDrawables(systemColumns)
-                                                                ),
-                                                                new JaweColumns("", 1, false),
-                                                                new JaweBeginTabItem(
-                                                                        "Component Types",
-                                                                        new JaweDrawables(componentColumns)
-                                                                ),
-                                                                new JaweColumns("", 1, false),
-                                                                new JaweBeginTabItem(
-                                                                        "Entities",
-                                                                        new JaweDrawables(
-                                                                                entityDrawables
-                                                                        )
-                                                                ),
-                                                                new JaweColumns("", 1, false)
-                                                        )
+                        return new JaweWindow(
+                                worldWrapper.name,
+                                true,
+                                0,
+                                new JaweDrawables(
+                                        new JaweText("TODO - World Meta Data"),
+                                        new JaweTabBar("World Editing", 0,
+                                                new JaweDrawables(
+                                                        new JaweBeginTabItem(
+                                                                "Systems",
+                                                                new JaweDrawables(systemColumns)
+                                                        ),
+                                                        new JaweColumns("", 1, false),
+                                                        new JaweBeginTabItem(
+                                                                "Component Types",
+                                                                new JaweDrawables(componentColumns)
+                                                        ),
+                                                        new JaweColumns("", 1, false),
+                                                        new JaweBeginTabItem(
+                                                                "Entities",
+                                                                new JaweDrawables(
+                                                                        entityDrawables
+                                                                )
+                                                        ),
+                                                        new JaweColumns("", 1, false)
                                                 )
                                         )
                                 )
                         );
                     }
             );
-            jaweDesktopEditor.getEditorWorldBuilder().addToWorld(worldWrapper.name, clazzDrawer);
+            jaweDesktopEditor.getEditorWorldBuilder().addToWorld(worldWrapper.name, parentDrawer, drawable);
         } else {
             jaweDesktopEditor.getEditorWorldBuilder().removeFromWorld(worldWrapper.name);
         }

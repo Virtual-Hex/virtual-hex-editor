@@ -116,7 +116,8 @@ public final class JaweDesktopEditor implements BasicApp {
 
         // Clean it up
         try {
-
+            // TODO Save Worlds, mbut serializer as apart of the wrapper, the wrappers should be serialized seperatly, with
+            // reference to its file output
             ArtemisIoUtils.saveAllFile(world, "jawe-cache-test.json");
         } catch (IOException e) {
             e.printStackTrace();

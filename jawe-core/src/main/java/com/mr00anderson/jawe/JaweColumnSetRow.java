@@ -5,12 +5,13 @@ import com.mr00anderson.jawe.drawables.JaweText;
 public class JaweColumnSetRow {
 
     // this must be divisible by the JaweColumnSetHeader
+    // TODO should be a drawbles, need to have safty for adding
     public Object[] columns;
 
     public JaweColumnSetRow() {
     }
 
-    public JaweColumnSetRow( String... columns) {
+    public JaweColumnSetRow(String... columns) {
         this.columns = new Object[columns.length];
         for (int i = 0; i < columns.length; i++) {
             this.columns[i] = new JaweText(columns[i]);

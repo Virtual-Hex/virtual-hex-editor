@@ -6,11 +6,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.TagManager;
 import com.mr00anderson.jawe.components.JaweRenderComponent;
-import com.mr00anderson.jawe.drawables.*;
+import com.mr00anderson.jawe.drawables.JaweClazzDrawer;
+import com.mr00anderson.jawe.drawables.JaweText;
+import com.mr00anderson.jawe.drawables.JaweWindow;
 import com.mr00anderson.jawe.types.WorldWrapper;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.flag.JImSelectableFlags;
-import org.ice1000.jimgui.flag.JImWindowFlags;
 
 public class EditorWorldBuilder {
 
@@ -45,6 +46,7 @@ public class EditorWorldBuilder {
 //
 
         // TODAY
+
         // Entity re-work
         // SO loop
 
@@ -81,14 +83,18 @@ public class EditorWorldBuilder {
                 )
         );
 
-        JaweClazzDrawer clazzDrawer = new JaweClazzDrawer(true, "DEFAULT",
-                new JaweWindow("Worlds", true, JImWindowFlags.Nothing,
-                        new JaweDrawables(columnSet)));
+        // Register custom drawers
+        JaweClazzDrawer clazzDrawer = new JaweClazzDrawer(true, "DEFAULT");
+        clazzDrawer.typeDrawers.put(JaweColumnSet.class, EditorWorldBuilder::columnSet);
+        clazzDrawer.typeDrawers.put(JaweColumnSetHeader.class, EditorWorldBuilder::columnSetHeader);
+        clazzDrawer.typeDrawers.put(JaweColumnSetBody.class, EditorWorldBuilder::columnSetBody);
+        clazzDrawer.typeDrawers.put(JaweColumnSetRow.class, EditorWorldBuilder::columnSetBodyRow);
+        clazzDrawer.typeDrawers.put(JaweWorldSelectable.class, JaweClazzDrawer::selectable);
 
         // TODO add project load with worlds, worldWrapper settings
 
-        JaweClazzDrawer[] jaweDefaultBuildEntities = {
-                clazzDrawer,
+        Object[] jaweDefaultBuildEntities = {
+                columnSet,
 
 //                new JaweWindow("Window",
 //                        new JaweColorText("Test", new JImVec4(.5f,.5f,.5f,.5f)),
@@ -114,29 +120,26 @@ public class EditorWorldBuilder {
         groupManager = worldWrapper.world.getSystem(GroupManager.class);
         tagManager = worldWrapper.world.getSystem(TagManager.class);
         for (int i = 0; i < jaweDefaultBuildEntities.length; i++) {
-            JaweClazzDrawer drawer = jaweDefaultBuildEntities[i];
-            addAllEditorDrawableExtensions(drawer);
-            addToWorld(WORLD_EDITOR_WINDOW, jaweDefaultBuildEntities[i]);
+            Object drawer = jaweDefaultBuildEntities[i];
+            addAllEditorDrawableExtensions(clazzDrawer);
+            addToWorld(WORLD_EDITOR_WINDOW, clazzDrawer, jaweDefaultBuildEntities[i]);
         }
 
     }
 
     private void addAllEditorDrawableExtensions(JaweClazzDrawer drawer) {
-        drawer.typeDrawers.put(JaweColumnSet.class, this::columnSet);
-        drawer.typeDrawers.put(JaweColumnSetHeader.class, this::columnSetHeader);
-        drawer.typeDrawers.put(JaweColumnSetBody.class, this::columnSetBody);
-        drawer.typeDrawers.put(JaweColumnSetRow.class, this::columnSetBodyRow);
-        drawer.typeDrawers.put(JaweWorldSelectable.class, drawer::selectable);
+
 
     }
 
-    public int addToWorld(String tag, JaweClazzDrawer jaweClazzDrawer){
+    public int addToWorld(String tag, JaweClazzDrawer jaweClazzDrawer, Object drawable){
         int entityId =  worldWrapper.world.create(jaweDrawableArcheType);
         JaweRenderComponent component = renderMapper.create(entityId);
         groupManager.add(entityId, "Drawable");
         tagManager.register(tag, entityId);
         component.active = true;
         component.jaweClazzDrawer = jaweClazzDrawer;
+        component.drawable = drawable;
         return entityId;
     }
 
@@ -157,14 +160,14 @@ public class EditorWorldBuilder {
     }
 
 
-    private void columnSet(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
+    private static void columnSet(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
         JaweColumnSet drawable = (JaweColumnSet) drawable0;
         columnSetHeader(imGui, drawable.header, parentDrawer);
         columnSetBody(imGui, drawable.body, parentDrawer);
 
     }
 
-    public void columnSetHeader(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
+    public static void columnSetHeader(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer){
         JaweColumnSetHeader drawable = (JaweColumnSetHeader) drawable0;
         int length = drawable.columns.length;
         imGui.columns(length, drawable.stringId, drawable.border);
@@ -177,7 +180,7 @@ public class EditorWorldBuilder {
         if(drawable.headerSeparatorBottom) imGui.separator();
     }
 
-    private void columnSetBody(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
+    private static void columnSetBody(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
         JaweColumnSetBody drawable = (JaweColumnSetBody) drawable0;
         int length = drawable.rows.length;
         for (int i = 0; i < length; i++) {
@@ -186,7 +189,7 @@ public class EditorWorldBuilder {
         }
     }
 
-    private void columnSetBodyRow(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
+    private static void columnSetBodyRow(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
         JaweColumnSetRow drawable = (JaweColumnSetRow) drawable0;
         int length = drawable.columns.length;
         for (int i = 0; i < length; i++) {

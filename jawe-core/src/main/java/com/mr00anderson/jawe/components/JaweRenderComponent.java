@@ -2,7 +2,6 @@ package com.mr00anderson.jawe.components;
 
 import com.artemis.Component;
 import com.mr00anderson.jawe.drawables.JaweClazzDrawer;
-import com.mr00anderson.jawe.JaweJImGui;
 
 /**
  * This can be anything that draws, but this is for uniform
@@ -22,12 +21,11 @@ public class JaweRenderComponent extends Component {
      */
     public JaweClazzDrawer jaweClazzDrawer;
 
+    /**
+     * Cannot nest this in the JaweClazzDrawerWrapper because of the infinite recursion on serialization
+     */
+    public Object drawable;
+
     public JaweRenderComponent() {
     }
-
-    public void draw(JaweJImGui imGui){
-        if(active) jaweClazzDrawer.draw(imGui);
-    }
-
-
 }

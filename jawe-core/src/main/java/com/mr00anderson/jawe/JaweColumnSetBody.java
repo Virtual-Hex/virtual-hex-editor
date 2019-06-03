@@ -5,6 +5,9 @@ public class JaweColumnSetBody {
     // this must be divisible by the JaweColumnSetHeader
     public JaweColumnSetRow[] rows;
 
+    // TODO horizontal seps
+    public boolean seperators;
+
     public JaweColumnSetBody() {
     }
 

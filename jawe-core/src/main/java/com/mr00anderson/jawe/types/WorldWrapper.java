@@ -5,6 +5,11 @@ import com.mr00anderson.jawe.components.SomeLocation;
 import com.mr00anderson.jawe.systems.JaweRenderingSystem;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Serialize this at the editor level
+ *
+ * Need name, location. The editor will load the world, based on the saved location information?
+ */
 public class WorldWrapper implements Comparable<WorldWrapper>{
 
     public String name;

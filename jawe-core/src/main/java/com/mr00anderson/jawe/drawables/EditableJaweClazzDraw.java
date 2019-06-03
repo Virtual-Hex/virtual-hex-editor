@@ -15,7 +15,10 @@ import static org.ice1000.jimgui.JImGui.separator;
 /**
  * Per worldWrapper instance, This must be disposed of, this draws fields on an object
  */
-public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePurge {
+public class EditableJaweClazzDraw extends JaweDrawables implements InstancePurge {
+
+    // Reflective class drawer
+
 
     // Should make this an entity drawers instead, with a prescan of fields for type handling?
 
@@ -35,7 +38,7 @@ public class ReflectiveJaweClazzDraw extends JaweDrawables implements InstancePu
 
 
     // Serialization can be on a class bases for drawing with this, but then alot of new refernces, similar to the static final issue
-    public ReflectiveJaweClazzDraw() {
+    public EditableJaweClazzDraw() {
         init();
     }
 

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
 
 import static com.mr00anderson.jawe.components.SomeLocation.Type.CODE;
 
@@ -114,14 +115,24 @@ public final class JaweDesktopEditor implements BasicApp {
         }
 
 
-        // Clean it up
-        try {
-            // TODO Save Worlds, mbut serializer as apart of the wrapper, the wrappers should be serialized seperatly, with
-            // reference to its file output
-            ArtemisIoUtils.saveAllFile(world, "jawe-cache-test.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // TODO
+        // Editor Projects (Consist of a collection of stuff (Worlds being one of them)
+        //
+        // TODO This saving is temporary and will be apart of editor level projects
+        WORLDS.forEach(new BiConsumer<String, WorldWrapper>() {
+            @Override
+            public void accept(String worldName, WorldWrapper worldWrapper) {
+                try {
+                    ArtemisIoUtils.saveAllFile(world, worldName + ".json");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
 
         world.dispose();
         JaweStaticDeallocateManager.deallocateNativeObject0();

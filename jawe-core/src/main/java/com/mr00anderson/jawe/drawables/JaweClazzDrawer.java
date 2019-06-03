@@ -77,7 +77,6 @@ public class JaweClazzDrawer {
         typeDrawers.put(JaweSpacing.class, JaweClazzDrawer::spacing);
         typeDrawers.put(JaweText.class, JaweClazzDrawer::text);
         typeDrawers.put(JaweTreeNodeEx.class, JaweClazzDrawer::treeNodeEx);
-        typeDrawers.put(JaweTreeNodeExNoPop.class, JaweClazzDrawer::treeNodeExNoPop);
         typeDrawers.put(JaweWindow.class, JaweClazzDrawer::window);
 
         // This will stay because its needed to structured the drawing
@@ -269,14 +268,6 @@ public class JaweClazzDrawer {
         if(open){
             jaweDrawableProcess(imGui, drawable.drawables, parentDrawer);
             imGui.treePop();
-        }
-    }
-
-    public static void treeNodeExNoPop(JImGui imGui, Object drawable0, JaweClazzDrawer parentDrawer) {
-        JaweTreeNodeEx drawable = (JaweTreeNodeEx) drawable0;
-        boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
-        if(open){
-            jaweDrawableProcess(imGui, drawable.drawables, parentDrawer);
         }
     }
 

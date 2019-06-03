@@ -7,7 +7,7 @@ public class JaweTreeNodeEx {
 
     public String label;
     public int flags;
-    public JaweDrawables drawables;
+    public JaweDrawables drawables; // TODO Look at this, this could be and in a lot of cases be singular ? is it a peformance issue probably not for now
 
     public JaweTreeNodeEx() {
     }

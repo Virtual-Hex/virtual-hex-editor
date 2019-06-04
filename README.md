@@ -1,5 +1,5 @@
-# jimgui-artemis-odb-world-editor (jawe)
-This editor runs on artemis obd and rendered by ImGUi through JImGui
+# Virtual Hex Editor
+An editor that runs on ImGUi through JImGui.
 
 Currently in early development. The purpose of this library is to allow rapid development of game nativeData. This library extends [JImGui](https://github.com/ice1000/jimgui) and [artemis-obd](https://github.com/junkdog/artemis-odb) to tie them together.
 
@@ -8,13 +8,15 @@ The app launches into a editor. This editor will contain menu, option to see the
 
 Estimated time until arrival: TBD, in the works while working on college.
 
-Goals(Incomplete, not all inclusive)
+- Project Layout (TBD)
+data-core (Should be named other then Jawe / These are not dependant on any lib)
+data-ext (Independant set of classes used to extend data by adding helper methods)
+jimgui-ext (Project is for creating and drawing a serialized tree, independant of artemis)
+// Load a project type which has extensions
 
-- [ ] Project Layout (TBD)
-    - [ ] data-core (Should be named other then Jawe / These are not dependant on any lib)
-    - [ ] data-ext (Independant set of classes used to extend data by adding helper methods)
-    - [ ] jimgui-ext (Project is for creating and drawing a serialized tree, independant of artemis)
-    - [ ] // Load a project type which has extensions
+
+
+Goals(Incomplete, not all inclusive)
 
 - [ ] Ability to edit worlds
   - [ ] World Selection Window

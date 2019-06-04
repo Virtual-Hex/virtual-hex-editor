@@ -1,10 +1,14 @@
-rootProject.name = 'jimgui-artemis-odb-world-jawe'
+rootProject.name = 'virtual-hex-editor'
+
 
 include 'desktop-editor'
 
-
-
-include 'data-core'
-include 'data-ext'
+include 'jimgui-drawing-ext'
 include 'jimgui-drawing'
+
+include 'data-ext'
+include 'data-core'
+
+
+
 

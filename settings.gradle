@@ -1,4 +1,10 @@
 rootProject.name = 'jimgui-artemis-odb-world-jawe'
 
-include 'jawe-core'
+include 'desktop-editor'
+
+
+
+include 'data-core'
+include 'data-ext'
+include 'jimgui-drawing'
 

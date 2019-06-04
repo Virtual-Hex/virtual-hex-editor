@@ -1,0 +1,14 @@
+group 'com.mr00anderson'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+test.useJUnitPlatform()

@@ -3,13 +3,13 @@ package com.virtual_hex.data;
 /**
  *  // call to mark popup as open (don't call every frame!). popups are closed when user click outside, or if CloseCurrentPopup() is called within a BeginPopup()/EndPopup() block. By default, Selectable()/MenuItem() are calling CloseCurrentPopup(). Popup identifiers are relative to the current ID-stack (so OpenPopup and BeginPopup needs to be at the same level).
  */
-public class OpenPopup implements UIData {
+public class OpenPopup extends UIData {
 
     // THIS CLASS needs to manage a state so it does not recall open popup, maybe leeave this to the user
 
 //    public String stringId;
 //    public int flags;
-//    public uiDataList uiDataList;
+//    public uiDataArray uiDataArray;
 //    public State state = State.REQUEST_CLOSE;
 //
 //    public OpenPopup() {
@@ -33,7 +33,7 @@ public class OpenPopup implements UIData {
 //            }
 //            case OPEN:
 //                // Do nothing here but draw contents
-//                uiDataList.draw(imGui);
+//                uiDataArray.draw(imGui);
 //                break;
 //            case CLOSED:
 //

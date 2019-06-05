@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class Openable implements UIData{
+public class Openable extends UIData{
 
     /**
      * Labels are unique see
@@ -15,17 +15,17 @@ public class Openable implements UIData{
     /**
      * The window contents which can be any other Drawable, it will serialize like this class
      */
-    public UIDataList uiDataList;
+    public UIDataArray uiDataArray;
 
     public Type type;
 
     public Openable() {
     }
 
-    public Openable(String label, boolean open, UIDataList uiDataList, Type type) {
+    public Openable(String label, boolean open, UIDataArray uiDataArray, Type type) {
         this.label = label;
         this.open = open;
-        this.uiDataList = uiDataList;
+        this.uiDataArray = uiDataArray;
         this.type = type;
     }
 
@@ -38,7 +38,7 @@ public class Openable implements UIData{
 
         if (open != openable.open) return false;
         if (label != null ? !label.equals(openable.label) : openable.label != null) return false;
-        if (uiDataList != null ? !uiDataList.equals(openable.uiDataList) : openable.uiDataList != null) return false;
+        if (uiDataArray != null ? !uiDataArray.equals(openable.uiDataArray) : openable.uiDataArray != null) return false;
         return type == openable.type;
     }
 
@@ -46,7 +46,7 @@ public class Openable implements UIData{
     public int hashCode() {
         int result = label != null ? label.hashCode() : 0;
         result = 31 * result + (open ? 1 : 0);
-        result = 31 * result + (uiDataList != null ? uiDataList.hashCode() : 0);
+        result = 31 * result + (uiDataArray != null ? uiDataArray.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }

@@ -60,6 +60,9 @@ public final class VirtualHexDesktopEditor {
         // Load Editor
         // Load Projects
 
+
+
+        // TODO Setup Menu bar next 06/05/2019
         Object editorLoader = null;
         if(editorLoader != null){
             uiApp = new UIApp(
@@ -70,7 +73,7 @@ public final class VirtualHexDesktopEditor {
                             new UIDeserializerWrapper(
                                     JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER,
                                     new OpenableFlags("Debug", true,
-                                            new UIDataList(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
+                                            new UIDataArray(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
                             );
         }
 

@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class Vec4  implements UIData {
+public class Vec4 extends UIData {
 
     public float x, y, z, w;
 

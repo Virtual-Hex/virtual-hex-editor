@@ -8,8 +8,8 @@ public class OpenableFlags extends Openable  {
     public OpenableFlags() {
     }
 
-    public OpenableFlags(String label, boolean open, UIDataList uiDataList, Type type, int flags) {
-        super(label, open, uiDataList, type);
+    public OpenableFlags(String label, boolean open, UIDataArray uiDataArray, Type type, int flags) {
+        super(label, open, uiDataArray, type);
         this.flags = flags;
     }
 

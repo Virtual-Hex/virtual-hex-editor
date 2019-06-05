@@ -3,7 +3,7 @@ package com.virtual_hex.data.ext;
 import com.virtual_hex.data.Text;
 import com.virtual_hex.data.UIData;
 
-public class ColumnSetRow implements UIData {
+public class ColumnSetRow extends UIData {
 
     // this must be divisible by the ColumnSetHeader
     // TODO should be a drawbles, need to have safty for adding

@@ -8,13 +8,17 @@ import com.virtual_hex.data.ext.ColumnSetHeader;
 import com.virtual_hex.data.ext.ColumnSetRow;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import org.apache.commons.lang.ArrayUtils;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
 
 
 /**
@@ -155,7 +159,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
 
         // This will stay because its needed to structured the drawing
-        typeDrawers.put(UIDataList.class, JImGuiUIDataDeserializer::jaweDrawables);
+        typeDrawers.put(UIDataArray.class, JImGuiUIDataDeserializer::jaweDrawables);
 
 
         typeDrawers.put(UIApp.class, JImGuiUIDataDeserializer::uiApp);
@@ -374,7 +378,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     // Not clipped or collapsed
                     boolean visible = imGui.begin(openable.label);
                     if(visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                     }
                     imGui.end();
                 }
@@ -388,7 +392,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     boolean visible = imGui.begin(openable.label, value, openable.flags);
                     openable.open = value.accessValue();
                     if (visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                     }
                     imGui.end();
                 }
@@ -399,7 +403,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     // Not clipped or collapsed
                     boolean visible = imGui.begin(openable.label);
                     if (visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                         // We want to let the type specific know its time to pop out
                         imGui.endTabBar();
                     }
@@ -411,7 +415,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     // Not clipped or collapsed
                     boolean visible = imGui.begin(openable.label);
                     if (visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                         // We want to let the type specific know its time to pop out
                         imGui.endTabItem();
                     }
@@ -426,7 +430,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     boolean visible = imGui.begin(openable.label, value, openable.flags);
                     openable.open = value.accessValue();
                     if(visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                         // We want to let the type specific know its time to pop out
                         imGui.endTabItem();
                     }
@@ -439,7 +443,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     // Not clipped or collapsed
                     boolean visible = imGui.begin(openable.label);
                     if (visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                         // We want to let the type specific know its time to pop out
                     }
                 }
@@ -453,7 +457,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                     boolean visible = imGui.begin(openable.label, value, openable.flags);
                     openable.open = value.accessValue();
                     if(visible) { // TODO Maybe remove this open check
-                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        processUiDataList(imGui, openable.uiDataArray, parentDrawer);
                         // We want to let the type specific know its time to pop out
                     }
                 }
@@ -574,7 +578,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         TreeNodeEx drawable = (TreeNodeEx) uiData;
         boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
         if(open){
-            processUiDataList(imGui, drawable.UIDataList, parentDrawer);
+            processUiDataList(imGui, drawable.UIDataArray, parentDrawer);
             imGui.treePop();
         }
     }
@@ -614,24 +618,28 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         imGui.newLine();
     }
 
-    public static void processUiDataList(JImGui imGui, UIDataList drawable, JImGuiUIDataDeserializer parentDrawer) {
+    private static void processUiDataList(JImGui imGui, UIDataArray drawable, JImGuiUIDataDeserializer parentDrawer) {
         processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
-    public static void processUiDataList(JImGui imGui, List<UIData> drawables, Queue<UIData> addWindowQueue, Queue<UIData> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
+    private static void processUiDataList(JImGui imGui, UIData[] drawables, Queue<UIData> addWindowQueue, Queue<UIData> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
         for (UIData element; (element = addWindowQueue.poll()) != null;){
-            drawables.add(element);
+            ArrayUtils.add(drawables, element);
         }
 
         for (UIData element; (element = removeWindowQueue.poll()) != null;){
-            drawables.remove(element);
+            ArrayUtils.removeElement(drawables, element);
         }
-
-        drawables.forEach((nestedDrawable) -> parentDrawer.draw(imGui, nestedDrawable, parentDrawer));
+        for (int i = 0; i < drawables.length; i++) {
+            UIData drawable = drawables[i];
+            if(drawable != null){
+                parentDrawer.draw(imGui, drawable, parentDrawer);
+            }
+        }
     }
 
     public static void jaweDrawables(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        UIDataList drawable = (UIDataList) uiData;
+        UIDataArray drawable = (UIDataArray) uiData;
         processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 

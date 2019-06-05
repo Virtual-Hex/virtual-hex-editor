@@ -3,7 +3,7 @@ package com.virtual_hex.data.ext;
 import com.virtual_hex.data.Text;
 import com.virtual_hex.data.UIData;
 
-public class ShowHelpMarker implements UIData {
+public class ShowHelpMarker extends UIData {
 
     public UIData helpMarker;
     public UIData data;

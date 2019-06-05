@@ -9,7 +9,7 @@ package com.virtual_hex.data;
  *
  *   button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
  */
-public class InvisibleButton implements UIData{
+public class InvisibleButton extends UIData{
 
     public String label;
     public int width;

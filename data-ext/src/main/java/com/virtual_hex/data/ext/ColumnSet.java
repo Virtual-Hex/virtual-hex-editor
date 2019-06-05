@@ -2,7 +2,7 @@ package com.virtual_hex.data.ext;
 
 import com.virtual_hex.data.UIData;
 
-public class ColumnSet implements UIData {
+public class ColumnSet extends UIData {
 
     public ColumnSetHeader header;
     public ColumnSetBody body;

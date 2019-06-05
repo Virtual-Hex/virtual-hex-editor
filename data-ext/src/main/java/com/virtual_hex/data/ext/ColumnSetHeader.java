@@ -4,7 +4,7 @@ package com.virtual_hex.data.ext;
 import com.virtual_hex.data.Text;
 import com.virtual_hex.data.UIData;
 
-public class ColumnSetHeader implements UIData {
+public class ColumnSetHeader extends UIData {
 
     public String stringId;
     public UIData[] columns;

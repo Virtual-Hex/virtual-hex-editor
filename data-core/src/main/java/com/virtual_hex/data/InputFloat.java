@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class InputFloat implements UIData {
+public class InputFloat extends UIData {
 
     public String label = "";
     public float value;

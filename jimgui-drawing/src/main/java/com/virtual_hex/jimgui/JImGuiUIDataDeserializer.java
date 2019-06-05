@@ -6,7 +6,6 @@ import com.virtual_hex.data.ext.ColumnSet;
 import com.virtual_hex.data.ext.ColumnSetBody;
 import com.virtual_hex.data.ext.ColumnSetHeader;
 import com.virtual_hex.data.ext.ColumnSetRow;
-import com.virtual_hex.jimgui.wrappers.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.ice1000.jimgui.*;
@@ -22,6 +21,9 @@ import java.util.*;
  * Depends on JImGui
  *
  * This is used to loop and can be multiple nested to create specialized drawing
+ *
+ *
+ * // Each serializer needs to be disposed of
  */
 public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implements UIDataDeserializer<JImGui, T> {
 
@@ -33,49 +35,52 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(JImGuiUIDataDeserializer.class);
 
-
     protected transient final DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 
     /**
      * These get cached first cycle through
      */
-    protected transient Map<Class<?>, Int2ObjectMap<Map<String, DataFieldMapper<NativeBool>>>> cachedMappersBool = new HashMap<>();
+    protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeBool>>> cachedBools = new HashMap<>();
 
 
     /**
      * These get cached first cycle through
      */
-    protected transient Map<Class<?>, Int2ObjectMap<Map<String, DataFieldMapper<NativeInt>>>> cachedMappersInt = new HashMap<>();
+    protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeInt>>> cachedInts = new HashMap<>();
 
     /**
      * These get cached first cycle through
      */
-    protected transient Map<Class<?>, Int2ObjectMap<Map<String, DataFieldMapper<NativeFloat>>>> cachedMappersFloat = new HashMap<>();
+    protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeFloat>>> cachedFloats = new HashMap<>();
 
     /**
      * These get cached first cycle through
      */
-    protected transient Map<Class<?>, Int2ObjectMap<Map<String, DataFieldMapper<NativeDouble>>>> cachedMappersDouble = new HashMap<>();
+    protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeDouble>>> cachedDoubles = new HashMap<>();
 
     /**
      * These get cached first cycle through
      */
-    protected transient Map<Class<?>, Int2ObjectMap<Map<String, DataFieldMapper<byte[]>>>> cachedMappersBytes = new HashMap<>();
+    protected transient Map<Class<?>, Int2ObjectMap<Map<String, byte[]>>> cachedBytes = new HashMap<>();
 
     protected transient Int2ObjectMap<JImVec4> cachedjimVec = new Int2ObjectOpenHashMap<>();
 
+    // TODO String cache
+
+    //TODO Make sure that these maps are full proof on fetching cached values
     protected Map[] maps = {
-            cachedMappersBool,
-            cachedMappersInt,
-            cachedMappersFloat,
-            cachedMappersDouble,
-            cachedMappersBytes,
-            cachedjimVec
+            cachedjimVec,
+            cachedBools,
+            cachedInts,
+            cachedFloats,
+            cachedDoubles
     };
 
     public Map<Class<?>, TypeDrawer<JImGui, T>> typeDrawers;
     public String name;
 
+    // THE INTENTION IS TO ALLOW NESTING OF HANDLING, BUT WE NEED TO FIRST SOLVE THE ISSUE WITH, DEALLOCATIONS,
+    // With only serializer being used at the moment it is already dereference,
 
     public JImGuiUIDataDeserializer() {
         this.name = "";
@@ -119,12 +124,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
         typeDrawers.put(BeginMenu.class, JImGuiUIDataDeserializer::beginMenu);
 
-        typeDrawers.put(TabBar.class, JImGuiUIDataDeserializer::beginTabBar);
-        typeDrawers.put(BeginTabItem.class, JImGuiUIDataDeserializer::beginTabItem);
-        typeDrawers.put(BeginTabItemExitable.class, JImGuiUIDataDeserializer::beginTabItemExitable);
         typeDrawers.put(Button.class, JImGuiUIDataDeserializer::button);
         typeDrawers.put(CheckBox.class, JImGuiUIDataDeserializer::checkbox);
-        typeDrawers.put(CollapsingHeader.class, JImGuiUIDataDeserializer::collapsingHeader);
         typeDrawers.put(ColorText.class, JImGuiUIDataDeserializer::colorText);
         typeDrawers.put(Columns.class, JImGuiUIDataDeserializer::columns);
         typeDrawers.put(Dummy.class, JImGuiUIDataDeserializer::dummy);
@@ -150,18 +151,12 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         typeDrawers.put(Text.class, JImGuiUIDataDeserializer::text);
         typeDrawers.put(TextInput.class, JImGuiUIDataDeserializer::inputText);
         typeDrawers.put(TreeNodeEx.class, JImGuiUIDataDeserializer::treeNodeEx);
-        typeDrawers.put(Window.class, JImGuiUIDataDeserializer::window);
+        typeDrawers.put(OpenableFlags.class, JImGuiUIDataDeserializer::drawOpenableFlags);
+
 
         // This will stay because its needed to structured the drawing
         typeDrawers.put(UIDataList.class, JImGuiUIDataDeserializer::jaweDrawables);
 
-        typeDrawers.put(ArrayList.class, JImGuiUIDataDeserializer::list);
-        typeDrawers.put(LinkedList.class, JImGuiUIDataDeserializer::list);
-
-        // Todo determine way to get subtypes, look at serialization libs, so we dont have to register everything
-        // when we can just register a subtype
-
-        typeDrawers.put(List.class, JImGuiUIDataDeserializer::list);
 
         typeDrawers.put(UIApp.class, JImGuiUIDataDeserializer::uiApp);
         typeDrawers.put(UIDeserializerWrapper.class, JImGuiUIDataDeserializer::uiDeserializeWrapper);
@@ -170,22 +165,15 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         // Editable
     }
 
-
-    private static <T extends JImGuiUIDataDeserializer> void uiDeserializeWrapper(JImGui imGui, UIData drawable, JImGuiUIDataDeserializer parentDeserializer) {
-        UIDeserializerWrapper wrapper = (UIDeserializerWrapper) drawable;
-        UIDataDeserializer deserializer = wrapper.deserializer;
-        wrapper.deserializer.draw(deserializer, ((UIDeserializerWrapper) drawable).uiData, deserializer);
+    private static <T extends JImGuiUIDataDeserializer> void uiDeserializeWrapper(JImGui imGui, UIData uiData, T parentDeserializer) {
+        UIDeserializerWrapper drawable = (UIDeserializerWrapper) uiData;
+        UIDataDeserializer deserializer = drawable.deserializer;
+        deserializer.draw(imGui, drawable.uiData, deserializer);
     }
 
-
-    private static <T extends JImGuiUIDataDeserializer> void uiApp(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDeserializer) {
+    private static <T extends JImGuiUIDataDeserializer> void uiApp(JImGui imGui, UIData uiData, T parentDeserializer) {
         UIApp drawable = (UIApp) uiData;
-        parentDeserializer.draw(imGui, drawable.deserializerWrapper.uiData, parentDeserializer);
-    }
-
-    @Override
-    public void close() {
-        deallocatableObjectManager.close();
+        uiDeserializeWrapper(imGui, drawable.deserializerWrapper, parentDeserializer);
     }
 
     @Override
@@ -203,71 +191,60 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
-     * @param value
      * @return
      */
-    public NativeBool createBool(boolean value){
+    public NativeBool createBool(){
         NativeBool nativeValue = new NativeBool();
-        nativeValue.modifyValue(value);
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
-     * @param value
      * @return
      */
-    public NativeShort createShort(short value){
+    public NativeShort createShort(){
         NativeShort nativeValue = new NativeShort();
-        nativeValue.modifyValue(value);
+        deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
-     * @param value
      * @return
      */
-    public NativeInt createInt(int value){
+    public NativeInt createInt(){
         NativeInt nativeValue = new NativeInt();
-        nativeValue.modifyValue(value);
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
-     * @param value
      * @return
      */
-    public NativeLong createLong(long value){
+    public NativeLong createLong(){
         NativeLong nativeValue = new NativeLong();
-        nativeValue.modifyValue(value);
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
 
     /**
      * Will be deallocated after this deallocateNativeObject0() is called
-     * @param value
      * @return
      */
-    public NativeFloat createFloat(float value){
+    public NativeFloat createFloat(){
         NativeFloat nativeValue = new NativeFloat();
-        nativeValue.modifyValue(value);
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
 
     /**
      * Will be deallocated after this deallocateNativeObject0() is called
-     * @param value
      * @return
      */
-    public NativeDouble createDouble(double value){
+    public NativeDouble createDouble(){
         NativeDouble nativeValue = new NativeDouble();
-        nativeValue.modifyValue(value);
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
     }
@@ -276,18 +253,15 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
      * Will be deallocated after this deallocateNativeObject0() is called
      * @return
      */
+    @NativeExchange
     public JImVec4 createJImVec4(float x, float y, float z, float w){
         JImVec4 jImVec4 = new JImVec4(x, y, z, w);
         deallocatableObjectManager.add(jImVec4);
         return jImVec4;
     }
 
-    public void deallocateNativeObject0() {
-        deallocatableObjectManager.close();
-    }
-
     // TODO Register method
-
+    @NativeExchange
     public void drawReflectiveInputColumns(JImGui imGui, Object drawable, JImGuiUIDataDeserializer parentDrawer){
         Class<?> aClass = drawable.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
@@ -302,7 +276,6 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         int declaredFieldsLength = declaredFields.length;
         for (int i = 0; i < declaredFieldsLength; i++) {
             Field field = declaredFields[i];
-
 
             try {
 
@@ -328,11 +301,6 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         objectDrawer.draw(imGui, uiData, (T) parentDeserializer);
     }
 
-    public static void list(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        List<UIData> list = (List<UIData>) uiData;
-        list.forEach(d -> parentDrawer.draw(imGui, d, parentDrawer));
-    }
-
     // Check iterations and sub-typing through testing
     public TypeDrawer<JImGui, T> checkSubtype(Class<?> aSubTypeClazz) {
         // Try as a subtype instead later for this for generics
@@ -340,77 +308,40 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         return biConsumer == null ? JImGuiUIDataDeserializer::emptyDrawable : biConsumer;
     }
 
-    public static void beginTabBar(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        TabBar drawable = (TabBar) uiData;
-        boolean selected = imGui.beginTabBar(drawable.label, drawable.flags);
-        if(selected){
-            jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-            imGui.endTabBar();
-        }
-    }
 
-    public static void beginTabItem(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        BeginTabItem drawable = (BeginTabItem) uiData;
-        boolean selected = imGui.beginTabItem(drawable.label);
-        if(selected){
-            jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-            imGui.endTabItem();
-        }
-    }
-
-    public static void beginTabItemExitable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        BeginTabItemExitable drawable = (BeginTabItemExitable) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper =  parentDrawer.getDataFieldMapperBool(field, drawable);
-            mapper.setNativeFromField();
-            boolean selected = imGui.beginTabItem(drawable.label, mapper.getNativeData(), drawable.flags);
-            if(selected){
-                jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-                imGui.endTabItem();
-            }
-            // make sure the field is updated at the end
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public DataFieldMapper<NativeBool> getDataFieldMapperBool(Field field, Object object){
-        return cachedMappersBool
+    public NativeBool getNativeBool(String fieldName, Object object){
+        return cachedBools
                 .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
-                .computeIfAbsent(field.getName(), name -> new NativeBooleanDataFieldMapper(createBool(true), field, object));
+                .computeIfAbsent(fieldName, name -> createBool());
     }
 
-    public DataFieldMapper<NativeInt> getDataFieldMapperInt(Field field, Object object){
-        return cachedMappersInt
-                .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
+    public NativeInt getNativeInt(String fieldName, Object object){
+        return cachedInts
+                .computeIfAbsent(object.getClass(),  aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
-                .computeIfAbsent(field.getName(), name -> new NativeIntDataFieldMapper(createInt(0), field, object));
+                .computeIfAbsent(fieldName, name -> createInt());
     }
 
-    public DataFieldMapper<NativeFloat> getDataFieldMapperFloat(Field field, Object object){
-        return cachedMappersFloat
+    public NativeFloat getNativeFloat(String fieldName, Object object){
+        return cachedFloats
                 .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
-                .computeIfAbsent(field.getName(), name -> new NativeFloatDataFieldMapper(createFloat(0f), field, object));
+                .computeIfAbsent(fieldName, name -> createFloat());
     }
 
-    public DataFieldMapper<NativeDouble> getDataFieldMapperDouble(Field field, Object object){
-        return cachedMappersDouble
+    public NativeDouble getNativeDouble(String fieldName, Object object){
+        return cachedDoubles
                 .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
-                .computeIfAbsent(field.getName(), name -> new NativeDoubleDataFieldMapper(createDouble(0d), field, object));
+                .computeIfAbsent(fieldName, name -> createDouble());
     }
 
-    public DataFieldMapper<byte[]> getDataFieldMapperString(Field field, Object object){
-        return cachedMappersBytes
+    public byte[] getStringByteCache(String fieldName, Object object, int bufferSize){
+        return cachedBytes
                 .computeIfAbsent(object.getClass(), aClass -> new Int2ObjectOpenHashMap<>())
                 .computeIfAbsent(object.hashCode(), value -> new HashMap<>())
-                .computeIfAbsent(field.getName(), name -> new StringDataFieldMapper(field, object));
+                .computeIfAbsent(fieldName, name -> new byte[bufferSize]);
     }
 
     public static void endTabBar(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
@@ -435,136 +366,188 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         imGui.columns(drawable.count, drawable.stringId, drawable.border);
     }
 
-    public static void window(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        Window drawable = (Window) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper = parentDrawer.getDataFieldMapperBool(field, drawable);
-            mapper.setNativeFromField();
-            if(imGui.begin(drawable.label, mapper.getNativeData(), drawable.flags)) {
-                mapper.setFieldFromNative();
-                jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-                drawable.onActivation.handle(drawable, parentDrawer);
-                imGui.end();// May need to be moved up into the if loop
+    public static void drawOpenableFlags(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
+        OpenableFlags openable = (OpenableFlags) uiData;
+        switch (openable.type) {
+            case WINDOW: {
+                if(openable.open){
+                    // Not clipped or collapsed
+                    boolean visible = imGui.begin(openable.label);
+                    if(visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                    }
+                    imGui.end();
+                }
+                break;
             }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            case WINDOW_EXITABLE: {
+                if (openable.open) {
+                    NativeBool value = parentDrawer.getNativeBool("open", openable);
+                    // Not clipped or collapsed
+                    value.modifyValue(openable.open);
+                    boolean visible = imGui.begin(openable.label, value, openable.flags);
+                    openable.open = value.accessValue();
+                    if (visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                    }
+                    imGui.end();
+                }
+                break;
+            }
+            case TAB_BAR: {
+                if (openable.open) {
+                    // Not clipped or collapsed
+                    boolean visible = imGui.begin(openable.label);
+                    if (visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        // We want to let the type specific know its time to pop out
+                        imGui.endTabBar();
+                    }
+                }
+                break;
+            }
+            case TAB_ITEM: {
+                if (openable.open) {
+                    // Not clipped or collapsed
+                    boolean visible = imGui.begin(openable.label);
+                    if (visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        // We want to let the type specific know its time to pop out
+                        imGui.endTabItem();
+                    }
+                }
+                break;
+            }
+            case TAB_ITEM_EXITABLE: {
+                if(openable.open){
+                    NativeBool value = parentDrawer.getNativeBool("open", openable);
+                    // Not clipped or collapsed
+                    value.modifyValue(openable.open);
+                    boolean visible = imGui.begin(openable.label, value, openable.flags);
+                    openable.open = value.accessValue();
+                    if(visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        // We want to let the type specific know its time to pop out
+                        imGui.endTabItem();
+                    }
+                }
+                break;
+
+            }
+            case COLLAPSABLE_HEADER: {
+                if (openable.open) {
+                    // Not clipped or collapsed
+                    boolean visible = imGui.begin(openable.label);
+                    if (visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        // We want to let the type specific know its time to pop out
+                    }
+                }
+                break;
+            }
+            case COLLAPSABLE_HEADER_EXITABLE: {
+                if(openable.open){
+                    NativeBool value = parentDrawer.getNativeBool("open", openable);
+                    // Not clipped or collapsed
+                    value.modifyValue(openable.open);
+                    boolean visible = imGui.begin(openable.label, value, openable.flags);
+                    openable.open = value.accessValue();
+                    if(visible) { // TODO Maybe remove this open check
+                        processUiDataList(imGui, openable.uiDataList, parentDrawer);
+                        // We want to let the type specific know its time to pop out
+                    }
+                }
+                break;
+            }
         }
     }
 
     // This wraps a field mapper
     public static void checkbox(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
         CheckBox drawable = (CheckBox) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeBool> mapper =  parentDrawer.getDataFieldMapperBool(field, drawable);
-            mapper.setNativeFromField();
-            imGui.checkbox(drawable.label, mapper.getNativeData());
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeBool value =  parentDrawer.getNativeBool("value", drawable);
+        imGui.checkbox(drawable.label, value);
+        drawable.value = value.accessValue();
     }
 
+    @NativeExchange
     public static void inputText(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         TextInput drawable = (TextInput) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<byte[]> mapper =  parentDrawer.getDataFieldMapperString(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputText(drawable.label, mapper.getNativeData(), drawable.flags);
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        byte[] value =  parentDrawer.getStringByteCache("value", drawable, drawable.bufferSize);
+        copyStringIntoBuffer(drawable.label, value);
+        imGui.inputText(drawable.label, value, drawable.flags);
+        drawable.value = new String(value, 0, bufferEndIndex(value)); // TODO Cache changes to prevent string being re referenced at end?
     }
 
+
+    protected static void copyStringIntoBuffer(String textInput, byte[] stringBuffer){
+        Arrays.fill(stringBuffer, (byte) 0);
+        System.arraycopy(textInput.getBytes(), 0, stringBuffer, 0, textInput.length());
+    }
+
+    public static int getBufferEndIndex(byte[] stringBuffer){
+        return bufferEndIndex(stringBuffer);
+    }
+
+    public static int bufferEndIndex(byte[] data){
+        for(int i = 0; i < data.length; i++) {
+            if (data[i] == 0) return i;
+        }
+        return 0;
+    }
+
+    @NativeExchange
     public static void inputInt(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         InputInt drawable = (InputInt) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeInt> mapper =  parentDrawer.getDataFieldMapperInt(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputInt(drawable.label, mapper.getNativeData());
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeInt value =  parentDrawer.getNativeInt("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputInt(drawable.label, value);
+        drawable.value = value.accessValue();
     }
 
+    @NativeExchange
     public static void inputIntStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         InputIntStepped drawable = (InputIntStepped) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeInt> mapper =  parentDrawer.getDataFieldMapperInt(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputInt(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast, drawable.flags);
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeInt value =  parentDrawer.getNativeInt("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputInt(drawable.label, value, drawable.step, drawable.stepFast, drawable.flags);
+        drawable.value = value.accessValue();
     }
 
+    @NativeExchange
     public static void inputFloat(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         InputFloat drawable = (InputFloat) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeFloat> mapper =  parentDrawer.getDataFieldMapperFloat(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputFloat(drawable.label, mapper.getNativeData());
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeFloat value =  parentDrawer.getNativeFloat("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputFloat(drawable.label, value);
+        drawable.value = value.accessValue();
     }
 
+    @NativeExchange
     public static void inputFloatStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         InputFloatStepped drawable = (InputFloatStepped) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeFloat> mapper =  parentDrawer.getDataFieldMapperFloat(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputFloat(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast);// TODO Format
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeFloat value =  parentDrawer.getNativeFloat("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputFloat(drawable.label, value, drawable.step, drawable.stepFast);// TODO Format
+        drawable.value = value.accessValue();
     }
 
-
+    @NativeExchange
     public static void inputDouble(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         InputDouble drawable = (InputDouble) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeDouble> mapper =  parentDrawer.getDataFieldMapperDouble(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputDouble(drawable.label, mapper.getNativeData());
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        NativeDouble value =  parentDrawer.getNativeDouble("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputDouble(drawable.label, value);
+        drawable.value = value.accessValue();
     }
 
+    @NativeExchange
     public static void inputDoubleStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputFloatStepped drawable = (InputFloatStepped) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("value");
-            DataFieldMapper<NativeDouble> mapper =  parentDrawer.getDataFieldMapperDouble(field, drawable);
-            mapper.setNativeFromField();
-            imGui.inputDouble(drawable.label, mapper.getNativeData(), drawable.step, drawable.stepFast);// TODO Format
-            mapper.setFieldFromNative();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        InputDoubleStepped drawable = (InputDoubleStepped) uiData;
+        NativeDouble value =  parentDrawer.getNativeDouble("value", drawable);
+        value.modifyValue(drawable.value);
+        imGui.inputDouble(drawable.label, value, drawable.step, drawable.stepFast);// TODO Format
+        drawable.value = value.accessValue();
     }
 
     public static void button(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
@@ -573,6 +556,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
             drawable.onActivation.handle(drawable, parentDrawer);
         }
     }
+
     public static void beginMenu(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
         // Returns true on activation
 //        if(imGui.beginMenu(label, enabled)){
@@ -586,41 +570,16 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
     public static void emptyDrawable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {}
 
-    public static void collapsingHeaderExitable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        CollapsingHeaderExitable drawable = (CollapsingHeaderExitable) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("open");
-            DataFieldMapper<NativeBool> mapper =  parentDrawer.getDataFieldMapperBool(field, drawable);
-
-            mapper.setNativeFromField();
-            boolean isOpen = imGui.collapsingHeader(drawable.label, mapper.getNativeData(), drawable.flags);
-            mapper.setFieldFromNative();
-            if(isOpen){
-                jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void collapsingHeader(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        CollapsingHeader drawable = (CollapsingHeader) uiData;
-        boolean isOpen = imGui.collapsingHeader(drawable.label);
-        if(isOpen){
-            jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
-        }
-    }
-
     public static void treeNodeEx(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
         TreeNodeEx drawable = (TreeNodeEx) uiData;
         boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
         if(open){
-            jaweDrawableProcess(imGui, drawable.UIDataList, parentDrawer);
+            processUiDataList(imGui, drawable.UIDataList, parentDrawer);
             imGui.treePop();
         }
     }
 
+    @NativeExchange
     public static void colorText(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         ColorText drawable = (ColorText) uiData;
         Vec4 color = drawable.color;
@@ -633,22 +592,17 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         imGui.text(drawable.text);
     }
 
+    @NativeExchange
     public static void selectable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
         Selectable drawable = (Selectable) uiData;
-        Field field;
-        try {
-            field = drawable.getClass().getField("selected");
-            DataFieldMapper<NativeBool> mapper =  parentDrawer.getDataFieldMapperBool(field, drawable);
-            //  returning the state true when open or false when unselected
-            //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
-            mapper.setNativeFromField();
-            if(imGui.selectable(drawable.label, mapper.getNativeData(), drawable.flags, drawable.width, drawable.height)){
-                mapper.setFieldFromNative();
-                drawable.onActivation.handle(drawable, parentDrawer);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+        NativeBool value =  parentDrawer.getNativeBool("selected", drawable);
+        //  returning the state true when open or false when unselected
+        //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
+        value.modifyValue(drawable.selected);
+        if(imGui.selectable(drawable.label, value, drawable.flags, drawable.width, drawable.height)){
+            drawable.onActivation.handle(drawable, parentDrawer);
         }
+        drawable.selected = value.accessValue();
     }
 
     public static void sameLine(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
@@ -660,11 +614,11 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         imGui.newLine();
     }
 
-    public static void jaweDrawableProcess(JImGui imGui, UIDataList drawable, JImGuiUIDataDeserializer parentDrawer) {
-        jaweDrawableProcess(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
+    public static void processUiDataList(JImGui imGui, UIDataList drawable, JImGuiUIDataDeserializer parentDrawer) {
+        processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
-    public static void jaweDrawableProcess(JImGui imGui, List<UIData> drawables, Queue<UIData> addWindowQueue, Queue<UIData> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
+    public static void processUiDataList(JImGui imGui, List<UIData> drawables, Queue<UIData> addWindowQueue, Queue<UIData> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
         for (UIData element; (element = addWindowQueue.poll()) != null;){
             drawables.add(element);
         }
@@ -678,7 +632,7 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
     public static void jaweDrawables(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
         UIDataList drawable = (UIDataList) uiData;
-        jaweDrawableProcess(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
+        processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
     public static void dummy(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {

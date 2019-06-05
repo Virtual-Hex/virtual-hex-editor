@@ -7,7 +7,6 @@ public interface UIDataDeserializer<T, D extends UIDataDeserializer> extends Typ
     Map<Class<?>, TypeDrawer<T, D>> getTypeDrawers();
     String getName();
     void init();
-    void close();
     void deallocateAll();
     void clearCache();
 }

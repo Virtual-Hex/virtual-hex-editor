@@ -1,10 +1,16 @@
 package com.virtual_hex;
 
 import com.virtual_hex.data.*;
-import com.virtual_hex.jimgui.JImGuiApp;
 import com.virtual_hex.jimgui.JImGuiUIDataDeserializer;
+import org.ice1000.jimgui.JImGui;
+import org.ice1000.jimgui.util.JniLoader;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * TODO: Will need some reflective nativeData entities to be able to render IDs to names, ect since
@@ -35,7 +41,9 @@ public final class VirtualHexDesktopEditor {
 
     public static VirtualHexDesktopEditor INSTANCE;
 
-    public JImGuiApp imGuiApp;
+    public UIApp uiApp;
+
+    public transient Map<String, byte[]> cachedStrings = new HashMap<>();
 
     public static void main(String[] args) {
         // TODO jimgui.ini loading so users can import layouts
@@ -52,34 +60,68 @@ public final class VirtualHexDesktopEditor {
         // Load Editor
         // Load Projects
 
-
         Object editorLoader = null;
         if(editorLoader != null){
-            imGuiApp = new JImGuiApp(
+            uiApp = new UIApp(
                 // TODO
             );
         } else {
-            imGuiApp = new JImGuiApp(
-                    new UIApp("Virtual Hex Editor", 1280, 720,
+            uiApp = new UIApp("Virtual Hex Editor", 1280, 720,
                             new UIDeserializerWrapper(
                                     JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER,
-                                    new Window("Debug", true, 0, new UIDataList(new Text("Todo")))
-                            )
-                    )
-            );
+                                    new OpenableFlags("Debug", true,
+                                            new UIDataList(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
+                            );
         }
 
-        // Initialize JImGui Instance
-        imGuiApp.init();
+        JniLoader.load();
 
-        imGuiApp.loop();
+        // TODO Ensure that data types all be rechecked for proper hashcoding
+        // TODO CHECK THIS, CAUSING STUTTERING
+//        JImGuiUtil.setStringToBytes(s -> cachedStrings.computeIfAbsent(s, s1 -> s1.getBytes(StandardCharsets.UTF_8)));
+        runPer(0,
+                uiApp.width,
+                uiApp.height,
+                uiApp.title,
+                new Consumer<JImGui>() {
+                    @Override
+                    public void accept(JImGui imGui) {
+                        JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER.draw(
+                                        imGui,
+                                        uiApp,
+                                        null
+                        );
+                    }
+                }
+        );
 
         // Save Projects
         // Save Editor
 
         // Release editor resources
-        if(imGuiApp != null) {
-            imGuiApp.close();
+        uiApp.deserializerWrapper.deserializer.deallocateAll();
+    }
+
+
+    // TODO Pull request for JIMGUI to have title only in constructor
+    public static void runPer(long millis, int width, int height, String title,  @NotNull Consumer<@NotNull JImGui> runnable) {
+        try (JImGui imGui = new JImGui(width, height, title)) {
+            long latestRefresh = System.currentTimeMillis();
+            imGui.initBeforeMainLoop();
+            while (!imGui.windowShouldClose()) {
+                long currentTimeMillis = System.currentTimeMillis();
+                long deltaTime = currentTimeMillis - latestRefresh;
+                Thread.sleep(deltaTime / 2);
+                if (deltaTime > millis) {
+                    imGui.initNewFrame();
+                    runnable.accept(imGui);
+                    imGui.render();
+                    latestRefresh = currentTimeMillis;
+                }
+            }
+        } catch (@NotNull InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
+
 }

@@ -9,15 +9,20 @@ The app launches into a editor. This editor will contain menu, option to see the
 Estimated time until arrival: TBD, in the works while working on college.
 
 - Project Layout (TBD)
-data-core (Should be named other then Jawe / These are not dependant on any lib)
-data-ext (Independant set of classes used to extend data by adding helper methods)
-jimgui-ext (Project is for creating and drawing a serialized tree, independant of artemis)
-// Load a project type which has extensions
-
 
 
 Goals(Incomplete, not all inclusive)
+- [ ] Editor Project(s)
+- [ ] Plugins
+  - [ ] Drawing
+        - [ ] Artemis
+  -[ ] Output
+        - [ ] Artemis world serializer / bundler (Seperate interface lib of course)
 
+- [ ] Class and Asset Dependency Loading - Child First Class Loading
+
+
+TODO After intial editor is able to manage projects
 - [ ] Ability to edit worlds
   - [ ] World Selection Window
   - [ ] Todo - List all Artemis parts - All API will be exposed in the editor

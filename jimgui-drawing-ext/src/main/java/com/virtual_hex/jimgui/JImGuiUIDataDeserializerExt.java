@@ -85,6 +85,16 @@ public class JImGuiUIDataDeserializerExt<T extends JImGuiUIDataDeserializerExt> 
             imGui.nextColumn();
         }
     }
+
+    @Override
+    public void deallocateAll() {
+        super.deallocateAll();
+    }
+
+    @Override
+    public void clearCache() {
+        super.clearCache();
+    }
 }
 
 

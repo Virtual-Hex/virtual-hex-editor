@@ -9,7 +9,7 @@ public class OpenPopup implements UIData {
 
 //    public String stringId;
 //    public int flags;
-//    public UIDataList UIDataList;
+//    public uiDataList uiDataList;
 //    public State state = State.REQUEST_CLOSE;
 //
 //    public OpenPopup() {
@@ -33,7 +33,7 @@ public class OpenPopup implements UIData {
 //            }
 //            case OPEN:
 //                // Do nothing here but draw contents
-//                UIDataList.draw(imGui);
+//                uiDataList.draw(imGui);
 //                break;
 //            case CLOSED:
 //

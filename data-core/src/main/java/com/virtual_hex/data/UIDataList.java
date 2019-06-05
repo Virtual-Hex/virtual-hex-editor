@@ -8,6 +8,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * If no list is provided linked list will be used
+ *
+ * This represents a collection of drawables. You must use the queues to add or remove from this list.
+ * - This is due to concurrent modification of any drawables wanting to make changes to its parents
  */
 public class UIDataList implements UIData {
 
@@ -88,7 +91,7 @@ public class UIDataList implements UIData {
         Collections.addAll(drawables, drawableElements);
     }
 
-    // TODO Convert from one type of UIDataList to another,
+    // TODO Convert from one type of uiDataList to another,
     //  or allow list changing for performance and ordering changing
 
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 @TestOnly
-public class PlatformWindowTest {
+public class PlatformWindowExitableTest {
 	@BeforeAll
 	public static void setup() {
 		JImGuiTest.useAlternativeJniLibAndCheckHeadless();
@@ -23,9 +23,9 @@ public class PlatformWindowTest {
 		NativeFloat nativeFloat = new NativeFloat();
 		JImGuiUtil.runWithinPer(10000, 16, gui -> {
 			gui.sliderFloat("Value", nativeFloat, 0, 1000);
-			if (gui.button("Set Window X"))
+			if (gui.button("Set WindowExitable X"))
 				gui.setPlatformWindowSizeX(nativeFloat.accessValue());
-			if (gui.button("Set Window Y"))
+			if (gui.button("Set WindowExitable Y"))
 				gui.setPlatformWindowSizeY(nativeFloat.accessValue());
 		});
 		nativeFloat.deallocateNativeObject();

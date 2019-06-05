@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-public class MultiWindowTest {
+public class MultiWindowExitableTest {
 	@BeforeAll
 	public static void setup() {
 		JImGuiTest.useAlternativeJniLibAndCheckHeadless();

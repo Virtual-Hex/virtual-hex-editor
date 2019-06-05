@@ -5,14 +5,16 @@ public class TextInput implements UIData {
     public String label = "";
     public int flags;
     public String value;
+    public int bufferSize;
 
     public TextInput() {
     }
 
-    public TextInput(String label, int flags, String value) {
+    public TextInput(String label, int flags, String value, int bufferSize) {
         this.label = label;
         this.flags = flags;
         this.value = value;
+        this.bufferSize = bufferSize;
     }
 
     @Override
@@ -20,11 +22,12 @@ public class TextInput implements UIData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TextInput that = (TextInput) o;
+        TextInput textInput = (TextInput) o;
 
-        if (flags != that.flags) return false;
-        if (label != null ? !label.equals(that.label) : that.label != null) return false;
-        return value != null ? value.equals(that.value) : that.value == null;
+        if (flags != textInput.flags) return false;
+        if (bufferSize != textInput.bufferSize) return false;
+        if (label != null ? !label.equals(textInput.label) : textInput.label != null) return false;
+        return value != null ? value.equals(textInput.value) : textInput.value == null;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class TextInput implements UIData {
         int result = label != null ? label.hashCode() : 0;
         result = 31 * result + flags;
         result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + bufferSize;
         return result;
     }
 }

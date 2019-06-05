@@ -1,5 +1,9 @@
 package com.virtual_hex.jimgui.wrappers;
 
+/**
+ * TODO A Cached version where no reflection is pushed to native or to field based on local if not changed
+ * @param <T>
+ */
 public interface DataFieldMapper<T> extends Disposable {
     /**
      *

@@ -147,7 +147,7 @@ public class Demo {
 				imGui.text("USER GUIDE:");
 				showUserGuide(imGui);
 			}
-			if (imGui.collapsingHeader("Window options")) {
+			if (imGui.collapsingHeader("WindowExitable options")) {
 				imGui.checkbox("No titlebar", noTitlebar);
 				imGui.sameLine(150);
 				imGui.checkbox("No scrollbar", noScrollbar);

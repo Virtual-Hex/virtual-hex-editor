@@ -3,7 +3,7 @@ package com.virtual_hex.data;
 /**
  * Must be registered with ClazzDrawer
  */
-public class UIApp extends UIData {
+public class UIApp extends UIComponent {
 
     public String title;
     public int width;

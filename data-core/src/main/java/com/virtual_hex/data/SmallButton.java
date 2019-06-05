@@ -8,7 +8,7 @@ package com.virtual_hex.data;
  * returning true when pressed and triggers activation handler
  *
  */
-public class SmallButton extends UIData {
+public class SmallButton extends UIComponent {
 
     public String label;
 

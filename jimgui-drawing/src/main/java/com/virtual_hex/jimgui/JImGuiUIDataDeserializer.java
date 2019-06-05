@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Function;
 
 
 /**
@@ -29,10 +30,10 @@ import java.util.Queue;
  *
  * // Each serializer needs to be disposed of
  */
-public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implements UIDataDeserializer<JImGui, T> {
+public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
     public static final JImGuiUIDataDeserializer DEFAULT_UI_DATA_DESERIALIZER
-            = new JImGuiUIDataDeserializer(true, "DEFAULT");
+            = new JImGuiUIDataDeserializer("DEFAULT", new DeserializerMapFunction());
 
     /**
      * Simply a Logger Reference
@@ -80,112 +81,64 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
             cachedDoubles
     };
 
-    public Map<Class<?>, TypeDrawer<JImGui, T>> typeDrawers;
-    public String name;
-
     // THE INTENTION IS TO ALLOW NESTING OF HANDLING, BUT WE NEED TO FIRST SOLVE THE ISSUE WITH, DEALLOCATIONS,
     // With only serializer being used at the moment it is already dereference,
 
     public JImGuiUIDataDeserializer() {
-        this.name = "";
-        this.typeDrawers = new HashMap<>();
+        super("Anonymous");
     }
 
-    public JImGuiUIDataDeserializer(boolean useDefaultDrawer, String name) {
-        this.typeDrawers = new HashMap<>();
-        if(useDefaultDrawer){
-            init();
-        } else {
-
-        }
-        this.name = name;
+    public JImGuiUIDataDeserializer(String name) {
+        super(name);
     }
 
-    /**
-     *
-     * @return a new JImGuiUIDataDeserializer with the same typeDrawers as the parents
-     */
-    @Override
-    public UIDataDeserializer<JImGui, T> newFromParent(){
-        JImGuiUIDataDeserializer clazzDrawer = new JImGuiUIDataDeserializer();
-        clazzDrawer.typeDrawers.putAll(this.typeDrawers);
-        return clazzDrawer;
+    public JImGuiUIDataDeserializer(String name, Map<Class<?>, TypeDrawer<JImGui>> typeDrawers) {
+        super(name, typeDrawers);
     }
 
-    @Override
-    public Map<Class<?>, TypeDrawer<JImGui, T>> getTypeDrawers() {
-        return typeDrawers;
+    public JImGuiUIDataDeserializer(Map<Class<?>, TypeDrawer<JImGui>> typeDrawers) {
+        super("Anonymous", typeDrawers);
     }
 
-    @Override
-    public String getName() {
-        return name;
+    public JImGuiUIDataDeserializer(Function<Map<Class<?>, TypeDrawer<JImGui>>, Map<Class<?>, TypeDrawer<JImGui>>> typeDrawers) {
+        super(typeDrawers);
     }
 
-    @Override
-    public void init() {
-        // TODO All items
-
-        typeDrawers.put(BeginMenu.class, JImGuiUIDataDeserializer::beginMenu);
-
-        typeDrawers.put(Button.class, JImGuiUIDataDeserializer::button);
-        typeDrawers.put(CheckBox.class, JImGuiUIDataDeserializer::checkbox);
-        typeDrawers.put(ColorText.class, JImGuiUIDataDeserializer::colorText);
-        typeDrawers.put(Columns.class, JImGuiUIDataDeserializer::columns);
-        typeDrawers.put(Dummy.class, JImGuiUIDataDeserializer::dummy);
-        // TODO COMBO
-        typeDrawers.put(InputDouble.class, JImGuiUIDataDeserializer::inputDouble);
-        typeDrawers.put(InputDoubleStepped.class, JImGuiUIDataDeserializer::inputDoubleStepped);
-        typeDrawers.put(InputFloat.class, JImGuiUIDataDeserializer::inputFloat);
-        typeDrawers.put(InputFloatStepped.class, JImGuiUIDataDeserializer::inputFloatStepped);
-        typeDrawers.put(InputInt.class, JImGuiUIDataDeserializer::inputInt);
-        typeDrawers.put(InputIntStepped.class, JImGuiUIDataDeserializer::inputIntStepped);
-
-        typeDrawers.put(InvisibleButton.class, JImGuiUIDataDeserializer::invisibleButton);
-        // TODO MENU
-        // TODO MENU ITEM
-        typeDrawers.put(NewLine.class, JImGuiUIDataDeserializer::newLine);
-        typeDrawers.put(NextColumn.class, JImGuiUIDataDeserializer::nextColumn);
-        // TODO OPEN POPUP
-        typeDrawers.put(SameLine.class, JImGuiUIDataDeserializer::sameLine);
-        typeDrawers.put(Selectable.class, JImGuiUIDataDeserializer::selectable);
-        typeDrawers.put(Separator.class, JImGuiUIDataDeserializer::seperator);
-        typeDrawers.put(SmallButton.class, JImGuiUIDataDeserializer::smallButton);
-        typeDrawers.put(Spacing.class, JImGuiUIDataDeserializer::spacing);
-        typeDrawers.put(Text.class, JImGuiUIDataDeserializer::text);
-        typeDrawers.put(TextInput.class, JImGuiUIDataDeserializer::inputText);
-        typeDrawers.put(TreeNodeEx.class, JImGuiUIDataDeserializer::treeNodeEx);
-        typeDrawers.put(OpenableFlags.class, JImGuiUIDataDeserializer::drawOpenableFlags);
-
-
-        // This will stay because its needed to structured the drawing
-        typeDrawers.put(UIDataArray.class, JImGuiUIDataDeserializer::jaweDrawables);
-
-
-        typeDrawers.put(UIApp.class, JImGuiUIDataDeserializer::uiApp);
-        typeDrawers.put(UIDeserializerWrapper.class, JImGuiUIDataDeserializer::uiDeserializeWrapper);
-
-
-        // Editable
+    public JImGuiUIDataDeserializer(String name, Function<Map<Class<?>, TypeDrawer<JImGui>>, Map<Class<?>, TypeDrawer<JImGui>>> typeDrawers) {
+        super(name, typeDrawers);
     }
 
-    private static <T extends JImGuiUIDataDeserializer> void uiDeserializeWrapper(JImGui imGui, UIData uiData, T parentDeserializer) {
-        UIDeserializerWrapper drawable = (UIDeserializerWrapper) uiData;
+
+//    /**
+//     *
+//     * @return a new JImGuiUIDataDeserializer with the same typeDrawers as the parents
+//     */
+//    public UIDataDeserializer<JImGui, T> newFromParent(){
+//        JImGuiUIDataDeserializer clazzDrawer = new JImGuiUIDataDeserializer();
+//        clazzDrawer.typeDrawers.putAll(this.typeDrawers);
+//        return clazzDrawer;
+//    }
+//
+//
+//    public Map<Class<?>, TypeDrawer<JImGui, T>> getTypeDrawers() {
+//        return typeDrawers;
+//    }
+
+
+
+    private static <T extends JImGuiUIDataDeserializer> void uiDeserializeWrapper(JImGui imGui, UIComponent uiComponent, T parentDeserializer) {
+        UIDeserializerWrapper drawable = (UIDeserializerWrapper) uiComponent;
         UIDataDeserializer deserializer = drawable.deserializer;
-        deserializer.draw(imGui, drawable.uiData, deserializer);
+        deserializer.draw(imGui, drawable.uiComponent, deserializer);
     }
 
-    private static <T extends JImGuiUIDataDeserializer> void uiApp(JImGui imGui, UIData uiData, T parentDeserializer) {
-        UIApp drawable = (UIApp) uiData;
-        uiDeserializeWrapper(imGui, drawable.deserializerWrapper, parentDeserializer);
-    }
 
-    @Override
+
     public void deallocateAll() {
         deallocatableObjectManager.deallocateAll();
     }
 
-    @Override
+
     public void clearCache(){
         deallocatableObjectManager.deallocateAll();
         for (int i = 0; i < maps.length; i++) {
@@ -266,11 +219,11 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 
     // TODO Register method
     @NativeExchange
-    public void drawReflectiveInputColumns(JImGui imGui, Object drawable, JImGuiUIDataDeserializer parentDrawer){
+    public void drawReflectiveInputColumns(JImGui imGui, Object drawable, UIDataDeserializer<JImGui> parentDrawer){
         Class<?> aClass = drawable.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
 
-        UIData[] columns = new UIData[declaredFields.length];
+        UIComponent[] columns = new UIComponent[declaredFields.length];
         ColumnSet columnSet = new ColumnSet(
                 new ColumnSetHeader(aClass + " - hc:" + drawable.hashCode(), true,
                         "Value & Field Name", "Type", "Size (b)"),
@@ -293,25 +246,6 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
 //            });
         }
     }
-
-    @Override
-    public void draw(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDeserializer) {
-        Class<?> aClass = uiData.getClass();
-        TypeDrawer<JImGui, T> objectDrawer = typeDrawers.get(aClass);
-        if (objectDrawer == null) {
-            objectDrawer = checkSubtype(aClass.getSuperclass());
-        }
-//        LOGGER.debug("Drawing a class {}, type {}", drawable, aClass);
-        objectDrawer.draw(imGui, uiData, (T) parentDeserializer);
-    }
-
-    // Check iterations and sub-typing through testing
-    public TypeDrawer<JImGui, T> checkSubtype(Class<?> aSubTypeClazz) {
-        // Try as a subtype instead later for this for generics
-        TypeDrawer<JImGui, T> biConsumer = typeDrawers.get(aSubTypeClazz);
-        return biConsumer == null ? JImGuiUIDataDeserializer::emptyDrawable : biConsumer;
-    }
-
 
     public NativeBool getNativeBool(String fieldName, Object object){
         return cachedBools
@@ -348,30 +282,30 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
                 .computeIfAbsent(fieldName, name -> new byte[bufferSize]);
     }
 
-    public static void endTabBar(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
+    public static void endTabBar(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
         imGui.endTabBar();
     }
 
-    public static void endTabItem(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
+    public static void endTabItem(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
         imGui.endTabItem();
     }
 
-    public static void seperator(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
+    public static void seperator(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
         imGui.separator();
     }
 
 
-    public static void nextColumn(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
+    public static void nextColumn(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
         imGui.nextColumn();
     }
 
-    public static void columns(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        Columns drawable = (Columns) uiData;
+    public static void columns(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        Columns drawable = (Columns) uiComponent;
         imGui.columns(drawable.count, drawable.stringId, drawable.border);
     }
 
-    public static void drawOpenableFlags(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        OpenableFlags openable = (OpenableFlags) uiData;
+    public static void drawOpenableFlags(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        OpenableFlags openable = (OpenableFlags) uiComponent;
         switch (openable.type) {
             case WINDOW: {
                 if(openable.open){
@@ -467,16 +401,16 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     // This wraps a field mapper
-    public static void checkbox(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        CheckBox drawable = (CheckBox) uiData;
+    public static void checkbox(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        CheckBox drawable = (CheckBox) uiComponent;
         NativeBool value =  parentDrawer.getNativeBool("value", drawable);
         imGui.checkbox(drawable.label, value);
         drawable.value = value.accessValue();
     }
 
     @NativeExchange
-    public static void inputText(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        TextInput drawable = (TextInput) uiData;
+    public static void inputText(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        TextInput drawable = (TextInput) uiComponent;
         byte[] value =  parentDrawer.getStringByteCache("value", drawable, drawable.bufferSize);
         copyStringIntoBuffer(drawable.label, value);
         imGui.inputText(drawable.label, value, drawable.flags);
@@ -501,8 +435,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputInt(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputInt drawable = (InputInt) uiData;
+    public static void inputInt(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputInt drawable = (InputInt) uiComponent;
         NativeInt value =  parentDrawer.getNativeInt("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputInt(drawable.label, value);
@@ -510,8 +444,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputIntStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputIntStepped drawable = (InputIntStepped) uiData;
+    public static void inputIntStepped(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputIntStepped drawable = (InputIntStepped) uiComponent;
         NativeInt value =  parentDrawer.getNativeInt("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputInt(drawable.label, value, drawable.step, drawable.stepFast, drawable.flags);
@@ -519,8 +453,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputFloat(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputFloat drawable = (InputFloat) uiData;
+    public static void inputFloat(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputFloat drawable = (InputFloat) uiComponent;
         NativeFloat value =  parentDrawer.getNativeFloat("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputFloat(drawable.label, value);
@@ -528,8 +462,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputFloatStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputFloatStepped drawable = (InputFloatStepped) uiData;
+    public static void inputFloatStepped(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputFloatStepped drawable = (InputFloatStepped) uiComponent;
         NativeFloat value =  parentDrawer.getNativeFloat("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputFloat(drawable.label, value, drawable.step, drawable.stepFast);// TODO Format
@@ -537,8 +471,8 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputDouble(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputDouble drawable = (InputDouble) uiData;
+    public static void inputDouble(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputDouble drawable = (InputDouble) uiComponent;
         NativeDouble value =  parentDrawer.getNativeDouble("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputDouble(drawable.label, value);
@@ -546,36 +480,36 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void inputDoubleStepped(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        InputDoubleStepped drawable = (InputDoubleStepped) uiData;
+    public static void inputDoubleStepped(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        InputDoubleStepped drawable = (InputDoubleStepped) uiComponent;
         NativeDouble value =  parentDrawer.getNativeDouble("value", drawable);
         value.modifyValue(drawable.value);
         imGui.inputDouble(drawable.label, value, drawable.step, drawable.stepFast);// TODO Format
         drawable.value = value.accessValue();
     }
 
-    public static void button(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        Button drawable = (Button) uiData;
+    public static void button(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        Button drawable = (Button) uiComponent;
         if(imGui.button(drawable.label, drawable.width, drawable.height)){
             drawable.onActivation.handle(drawable, parentDrawer);
         }
     }
 
-    public static void beginMenu(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
+    public static void beginMenu(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
         // Returns true on activation
 //        if(imGui.beginMenu(label, enabled)){
 //          TODO
 //        }
     }
 
-    public static void beginMenuItem(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
+    public static void beginMenuItem(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
         //TODO
     }
 
-    public static void emptyDrawable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {}
+    public static void emptyDrawable(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {}
 
-    public static void treeNodeEx(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        TreeNodeEx drawable = (TreeNodeEx) uiData;
+    public static void treeNodeEx(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        TreeNodeEx drawable = (TreeNodeEx) uiComponent;
         boolean open = imGui.treeNodeEx(drawable.label, drawable.flags);
         if(open){
             processUiDataList(imGui, drawable.UIDataArray, parentDrawer);
@@ -584,21 +518,21 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
     }
 
     @NativeExchange
-    public static void colorText(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        ColorText drawable = (ColorText) uiData;
+    public static void colorText(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        ColorText drawable = (ColorText) uiComponent;
         Vec4 color = drawable.color;
         JImVec4 jImVec4 = (JImVec4) parentDrawer.cachedjimVec.computeIfAbsent(color.hashCode(), value -> parentDrawer.createJImVec4(color.x, color.y, color.z, color.w));
         imGui.textColored(jImVec4, drawable.text);
     }
 
-    public static void text(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        Text drawable = (Text) uiData;
+    public static void text(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        Text drawable = (Text) uiComponent;
         imGui.text(drawable.text);
     }
 
     @NativeExchange
-    public static void selectable(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        Selectable drawable = (Selectable) uiData;
+    public static void selectable(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        Selectable drawable = (Selectable) uiComponent;
         NativeBool value =  parentDrawer.getNativeBool("selected", drawable);
         //  returning the state true when open or false when unselected
         //  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L504
@@ -609,60 +543,60 @@ public class JImGuiUIDataDeserializer<T extends JImGuiUIDataDeserializer> implem
         drawable.selected = value.accessValue();
     }
 
-    public static void sameLine(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer){
-        SameLine drawable = (SameLine) uiData;
+    public static void sameLine(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer){
+        SameLine drawable = (SameLine) uiComponent;
         imGui.sameLine(drawable.positionX, drawable.spacingWidth);
     }
 
-    public static void newLine(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
+    public static void newLine(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
         imGui.newLine();
     }
 
-    private static void processUiDataList(JImGui imGui, UIDataArray drawable, JImGuiUIDataDeserializer parentDrawer) {
+    private static void processUiDataList(JImGui imGui, UIComponentArray drawable, JImGuiUIDataDeserializer parentDrawer) {
         processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
-    private static void processUiDataList(JImGui imGui, UIData[] drawables, Queue<UIData> addWindowQueue, Queue<UIData> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
-        for (UIData element; (element = addWindowQueue.poll()) != null;){
+    private static void processUiDataList(JImGui imGui, UIComponent[] drawables, Queue<UIComponent> addWindowQueue, Queue<UIComponent> removeWindowQueue, JImGuiUIDataDeserializer parentDrawer) {
+        for (UIComponent element; (element = addWindowQueue.poll()) != null;){
             ArrayUtils.add(drawables, element);
         }
 
-        for (UIData element; (element = removeWindowQueue.poll()) != null;){
+        for (UIComponent element; (element = removeWindowQueue.poll()) != null;){
             ArrayUtils.removeElement(drawables, element);
         }
         for (int i = 0; i < drawables.length; i++) {
-            UIData drawable = drawables[i];
+            UIComponent drawable = drawables[i];
             if(drawable != null){
                 parentDrawer.draw(imGui, drawable, parentDrawer);
             }
         }
     }
 
-    public static void jaweDrawables(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        UIDataArray drawable = (UIDataArray) uiData;
+    public static void jaweDrawables(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        UIComponentArray drawable = (UIComponentArray) uiComponent;
         processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
-    public static void dummy(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        Dummy drawable = (Dummy) uiData;
+    public static void dummy(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        Dummy drawable = (Dummy) uiComponent;
         imGui.dummy(drawable.width, drawable.height);
     }
 
-    public static void invisibleButton(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        InvisibleButton drawable = (InvisibleButton) uiData;
+    public static void invisibleButton(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        InvisibleButton drawable = (InvisibleButton) uiComponent;
         if(imGui.invisibleButton(drawable.label, drawable.width, drawable.height)){
             drawable.onActivation.handle(drawable, parentDrawer);
         }
     }
 
-    public static void smallButton(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
-        SmallButton drawable = (SmallButton) uiData;
+    public static void smallButton(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
+        SmallButton drawable = (SmallButton) uiComponent;
         if(imGui.smallButton(drawable.label)){
             drawable.onActivation.handle(drawable, parentDrawer);
         }
     }
 
-    public static void spacing(JImGui imGui, UIData uiData, JImGuiUIDataDeserializer parentDrawer) {
+    public static void spacing(JImGui imGui, UIComponent uiComponent, JImGuiUIDataDeserializer parentDrawer) {
         imGui.spacing();
     }
 

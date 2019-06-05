@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class Selectable<T extends Selectable> extends UIData {
+public class Selectable<T extends Selectable> extends UIComponent {
 
     public String label;
     public boolean selected;

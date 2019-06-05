@@ -85,6 +85,11 @@ dependencies {
     compile "org.ice1000.jimgui:core:v0.8" // basic functionality
 
 //    compile "org.ice1000.jimgui:kotlin-dsl:$jimgui_version" // kotlin dsl wrapper
+
+
+    // Temp serialization testing
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 }
 
 

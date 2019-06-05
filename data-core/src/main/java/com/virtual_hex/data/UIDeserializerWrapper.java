@@ -3,16 +3,16 @@ package com.virtual_hex.data;
 /**
  * Must be registered with ClazzDrawer
  */
-public class UIDeserializerWrapper extends UIData {
+public class UIDeserializerWrapper extends UIComponent {
 
     public UIDataDeserializer deserializer;
-    public UIData uiData;
+    public UIComponent uiComponent;
 
     public UIDeserializerWrapper() {
     }
 
-    public UIDeserializerWrapper(UIDataDeserializer deserializer, UIData uiData) {
+    public UIDeserializerWrapper(UIDataDeserializer deserializer, UIComponent uiComponent) {
         this.deserializer = deserializer;
-        this.uiData = uiData;
+        this.uiComponent = uiComponent;
     }
 }

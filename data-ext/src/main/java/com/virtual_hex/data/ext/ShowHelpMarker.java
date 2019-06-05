@@ -1,12 +1,12 @@
 package com.virtual_hex.data.ext;
 
 import com.virtual_hex.data.Text;
-import com.virtual_hex.data.UIData;
+import com.virtual_hex.data.UIComponent;
 
-public class ShowHelpMarker extends UIData {
+public class ShowHelpMarker extends UIComponent {
 
-    public UIData helpMarker;
-    public UIData data;
+    public UIComponent helpMarker;
+    public UIComponent data;
 
     public ShowHelpMarker() {
     }
@@ -16,7 +16,7 @@ public class ShowHelpMarker extends UIData {
         this.data = new Text(data);
     }
 
-    public ShowHelpMarker(UIData helpMarker, UIData data) {
+    public ShowHelpMarker(UIComponent helpMarker, UIComponent data) {
         this.helpMarker = helpMarker;
         this.data = data;
     }

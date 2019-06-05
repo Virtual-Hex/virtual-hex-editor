@@ -3,16 +3,16 @@ package com.virtual_hex.data;
 /**
  * TreeNode functions return true when the node is open, in which case you need to also call TreePop() when you are finished displaying the tree node contents.
  */
-public class TreeNodeEx extends UIData {
+public class TreeNodeEx extends UIComponent {
 
     public String label;
     public int flags;
-    public UIDataArray UIDataArray; // TODO Look at this, this could be and in a lot of cases be singular ? is it a peformance issue probably not for now
+    public UIComponentArray UIDataArray; // TODO Look at this, this could be and in a lot of cases be singular ? is it a peformance issue probably not for now
 
     public TreeNodeEx() {
     }
 
-    public TreeNodeEx(String label, int flags, UIDataArray UIDataArray) {
+    public TreeNodeEx(String label, int flags, UIComponentArray UIDataArray) {
         this.label = label;
         this.flags = flags;
         this.UIDataArray = UIDataArray;

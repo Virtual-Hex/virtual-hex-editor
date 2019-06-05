@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class InputInt extends UIData {
+public class InputInt extends UIComponent {
 
     public String label = "";
     public int value;

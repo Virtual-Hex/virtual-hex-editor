@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class Menu extends UIData{
+public class Menu extends UIComponent {
 
     // This class probably should be a any menu builder, essentially a linked list od worldsHeader
 

@@ -1,5 +1,5 @@
 package com.virtual_hex.data;
 
-public class TreePop extends UIData {
+public class TreePop extends UIComponent {
 
 }

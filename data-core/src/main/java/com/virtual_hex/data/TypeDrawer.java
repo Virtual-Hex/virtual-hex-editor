@@ -1,5 +1,5 @@
 package com.virtual_hex.data;
 
-public interface TypeDrawer<T, D> {
-    void draw(T ui, UIData uiData, D parentDeserializer);
+public interface TypeDrawer<T> {
+    void draw(T ui, UIComponent uiComponent, UIDataDeserializer parentDeserializer);
 }

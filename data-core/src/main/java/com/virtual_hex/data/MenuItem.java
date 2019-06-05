@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class MenuItem extends UIData {
+public class MenuItem extends UIComponent {
 
     /**
      * Menu item name

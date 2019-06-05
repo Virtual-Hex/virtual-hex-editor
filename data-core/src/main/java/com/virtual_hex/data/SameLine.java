@@ -7,7 +7,7 @@ package com.virtual_hex.data;
  * call between widgets or groups to layout them horizontally. X position given in window coordinates.
  *
  */
-public class SameLine extends UIData {
+public class SameLine extends UIComponent {
 
     public float positionX;
     public float spacingWidth = -1;

@@ -2,7 +2,7 @@ package com.virtual_hex.data;
 
 // Using native types in the editor means these types cannot be reused for anything else, maybe
 // maybe create a parent JImGui
-public class CheckBox extends UIData {
+public class CheckBox extends UIComponent {
 
     public String label;
     public boolean value;

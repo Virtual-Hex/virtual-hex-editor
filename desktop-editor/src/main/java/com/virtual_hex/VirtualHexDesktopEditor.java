@@ -1,13 +1,17 @@
 package com.virtual_hex;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.virtual_hex.data.*;
 import com.virtual_hex.jimgui.JImGuiUIDataDeserializer;
+import com.virtual_hex.jimgui.handlers.OpenableFlagDrawer;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -73,7 +77,7 @@ public final class VirtualHexDesktopEditor {
                             new UIDeserializerWrapper(
                                     JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER,
                                     new OpenableFlags("Debug", true,
-                                            new UIDataArray(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
+                                            new UIComponentArray(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
                             );
         }
 
@@ -102,7 +106,28 @@ public final class VirtualHexDesktopEditor {
         // Save Editor
 
         // Release editor resources
-        uiApp.deserializerWrapper.deserializer.deallocateAll();
+        OpenableFlagDrawer.INSTANCE.deallocatableObjectManager.deallocateAll();
+
+        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).setPrettyPrinting().create();
+        String s = gson.toJson(uiApp);
+        System.out.println(s);
+
+        UIApp uiApp2 = gson.fromJson(s, UIApp.class);
+        runPer(0,
+                uiApp.width,
+                uiApp.height,
+                uiApp.title,
+                new Consumer<JImGui>() {
+                    @Override
+                    public void accept(JImGui imGui) {
+                        JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER.draw(
+                                imGui,
+                                uiApp2,
+                                null
+                        );
+                    }
+                }
+        );
     }
 
 

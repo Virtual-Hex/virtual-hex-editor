@@ -1,6 +1,6 @@
 package com.virtual_hex.data;
 
-public class Openable extends UIData{
+public class Openable extends UIComponent {
 
     /**
      * Labels are unique see
@@ -15,14 +15,14 @@ public class Openable extends UIData{
     /**
      * The window contents which can be any other Drawable, it will serialize like this class
      */
-    public UIDataArray uiDataArray;
+    public UIComponentArray uiDataArray;
 
     public Type type;
 
     public Openable() {
     }
 
-    public Openable(String label, boolean open, UIDataArray uiDataArray, Type type) {
+    public Openable(String label, boolean open, UIComponentArray uiDataArray, Type type) {
         this.label = label;
         this.open = open;
         this.uiDataArray = uiDataArray;

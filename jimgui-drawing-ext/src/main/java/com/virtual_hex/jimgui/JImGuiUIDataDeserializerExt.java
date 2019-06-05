@@ -1,6 +1,6 @@
 package com.virtual_hex.jimgui;
 
-import com.virtual_hex.data.UIData;
+import com.virtual_hex.data.UIComponent;
 import com.virtual_hex.data.UIDataDeserializer;
 import com.virtual_hex.data.ext.*;
 import org.ice1000.jimgui.JImGui;
@@ -33,11 +33,11 @@ public class JImGuiUIDataDeserializerExt<T extends JImGuiUIDataDeserializerExt> 
      * is displayed on it, such as a Text and a Text. new HelpMarker("?", - "This is a help marker");
      *
      * @param imGui
-     * @param uiData
+     * @param uiComponent
      * @param parentDrawer
      */
-    public static void showHelpMarker(JImGui imGui, UIData uiData, UIDataDeserializer parentDrawer) {
-        ShowHelpMarker drawable = (ShowHelpMarker) uiData;
+    public static void showHelpMarker(JImGui imGui, UIComponent uiComponent, UIDataDeserializer parentDrawer) {
+        ShowHelpMarker drawable = (ShowHelpMarker) uiComponent;
         parentDrawer.draw(imGui, drawable.helpMarker, parentDrawer);
         if (imGui.isItemHovered()) {
             imGui.beginTooltip();
@@ -48,39 +48,39 @@ public class JImGuiUIDataDeserializerExt<T extends JImGuiUIDataDeserializerExt> 
         }
     }
 
-    private static void columnSet(JImGui imGui, UIData uiData, UIDataDeserializer parentDrawer) {
-        ColumnSet drawable = (ColumnSet) uiData;
+    private static void columnSet(JImGui imGui, UIComponent uiComponent, UIDataDeserializer parentDrawer) {
+        ColumnSet drawable = (ColumnSet) uiComponent;
         columnSetHeader(imGui, drawable.header, parentDrawer);
         columnSetBody(imGui, drawable.body, parentDrawer);
     }
 
-    public static void columnSetHeader(JImGui imGui, UIData uiData, UIDataDeserializer parentDrawer){
-        ColumnSetHeader drawable = (ColumnSetHeader) uiData;
+    public static void columnSetHeader(JImGui imGui, UIComponent uiComponent, UIDataDeserializer parentDrawer){
+        ColumnSetHeader drawable = (ColumnSetHeader) uiComponent;
         int length = drawable.columns.length;
         imGui.columns(length, drawable.stringId, drawable.border);
         if(drawable.headerSeparatorTop) imGui.separator();
         for (int i = 0; i < length; i++) {
-            UIData column = drawable.columns[i];
+            UIComponent column = drawable.columns[i];
             parentDrawer.draw(imGui, column, parentDrawer);
             imGui.nextColumn();
         }
         if(drawable.headerSeparatorBottom) imGui.separator();
     }
 
-    private static void columnSetBody(JImGui imGui, UIData uiData, UIDataDeserializer parentDrawer) {
-        ColumnSetBody drawable = (ColumnSetBody) uiData;
+    private static void columnSetBody(JImGui imGui, UIComponent uiComponent, UIDataDeserializer parentDrawer) {
+        ColumnSetBody drawable = (ColumnSetBody) uiComponent;
         int length = drawable.rows.length;
         for (int i = 0; i < length; i++) {
-            UIData column = drawable.rows[i];
+            UIComponent column = drawable.rows[i];
             parentDrawer.draw(imGui, column, parentDrawer);
         }
     }
 
-    private static void columnSetBodyRow(JImGui imGui, UIData uiData, UIDataDeserializer parentDrawer) {
-        ColumnSetRow drawable = (ColumnSetRow) uiData;
+    private static void columnSetBodyRow(JImGui imGui, UIComponent uiComponent, UIDataDeserializer parentDrawer) {
+        ColumnSetRow drawable = (ColumnSetRow) uiComponent;
         int length = drawable.columns.length;
         for (int i = 0; i < length; i++) {
-            UIData column = drawable.columns[i];
+            UIComponent column = drawable.columns[i];
             parentDrawer.draw(imGui, column, parentDrawer);
             imGui.nextColumn();
         }

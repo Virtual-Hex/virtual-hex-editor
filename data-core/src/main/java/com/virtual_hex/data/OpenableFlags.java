@@ -8,7 +8,7 @@ public class OpenableFlags extends Openable  {
     public OpenableFlags() {
     }
 
-    public OpenableFlags(String label, boolean open, UIDataArray uiDataArray, Type type, int flags) {
+    public OpenableFlags(String label, boolean open, UIComponentArray uiDataArray, Type type, int flags) {
         super(label, open, uiDataArray, type);
         this.flags = flags;
     }

@@ -3,7 +3,7 @@ package com.virtual_hex.data;
 /**
  * simple formatted text
  */
-public class Text extends UIData {
+public class Text extends UIComponent {
 
     public String text;
 

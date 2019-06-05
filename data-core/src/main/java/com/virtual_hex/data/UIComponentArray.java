@@ -3,22 +3,22 @@ package com.virtual_hex.data;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class UIDataArray extends UIData {
+public class UIComponentArray extends UIComponent {
 
     // Change to array and add helper utils to insert, remove, move since this will modify less
-    public UIData[] drawables;
-    public ConcurrentLinkedQueue<UIData> addWindowQueue = new ConcurrentLinkedQueue<>();
-    public ConcurrentLinkedQueue<UIData> removeWindowQueue = new ConcurrentLinkedQueue<>();
+    public UIComponent[] drawables;
+    public ConcurrentLinkedQueue<UIComponent> addWindowQueue = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<UIComponent> removeWindowQueue = new ConcurrentLinkedQueue<>();
 
-    public UIDataArray() {
-        this.drawables = new UIData[0];
+    public UIComponentArray() {
+        this.drawables = new UIComponent[0];
     }
 
     /**
      *
      * @param drawables List of items to draw
      */
-    public UIDataArray(UIData... drawables) {
+    public UIComponentArray(UIComponent... drawables) {
         this.drawables = drawables;
     }
 
@@ -33,7 +33,7 @@ public class UIDataArray extends UIData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UIDataArray that = (UIDataArray) o;
+        UIComponentArray that = (UIComponentArray) o;
 
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(drawables, that.drawables)) return false;

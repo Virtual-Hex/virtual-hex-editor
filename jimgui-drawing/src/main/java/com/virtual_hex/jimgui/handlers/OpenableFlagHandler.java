@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-public enum OpenableFlagDrawer implements TypeDrawer<JImGui> {
+public enum OpenableFlagHandler implements ComponentHandler<JImGui> {
     INSTANCE;
 
     /**

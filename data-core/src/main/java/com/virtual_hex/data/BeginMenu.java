@@ -4,6 +4,6 @@ public class BeginMenu extends UIComponent {
 
     public String label;
     public boolean enabled;
-    public ActivationHandler<BeginMenu> onActivation;
+    public UiActivationHandler<BeginMenu> onActivation;
 
 }

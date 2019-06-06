@@ -25,7 +25,7 @@ public class MenuItem extends UIComponent {
     /**
      *
      */
-    public ActivationHandler<MenuItem> onActivation;
+    public UiActivationHandler<MenuItem> onActivation;
 
 
 //    public void draw(JImGui imGui) {
@@ -41,7 +41,7 @@ public class MenuItem extends UIComponent {
         public String shortcut;
         public boolean selected;
         public boolean enabled;
-        public ActivationHandler<MenuItem> activationHandler;
+        public UiActivationHandler<MenuItem> uiActivationHandler;
 
         private JaweMenuItemBuilder() {
         }
@@ -70,15 +70,15 @@ public class MenuItem extends UIComponent {
             return this;
         }
 
-        public JaweMenuItemBuilder activationHandler(ActivationHandler<MenuItem> activationHandler) {
-            this.activationHandler = activationHandler;
+        public JaweMenuItemBuilder activationHandler(UiActivationHandler<MenuItem> uiActivationHandler) {
+            this.uiActivationHandler = uiActivationHandler;
             return this;
         }
 
         public MenuItem build() {
             MenuItem menuItem = new MenuItem();
             menuItem.selected = this.selected;
-            menuItem.onActivation = this.activationHandler;
+            menuItem.onActivation = this.uiActivationHandler;
             menuItem.label = this.label;
             menuItem.shortcut = this.shortcut;
             menuItem.enabled = this.enabled;

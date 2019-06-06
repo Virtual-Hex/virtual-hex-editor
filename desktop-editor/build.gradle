@@ -82,7 +82,7 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-stb:3.2.2:natives-windows"
 
     // JImGui
-    compile "org.ice1000.jimgui:core:v0.8" // basic functionality
+    compile "org.ice1000.jimgui:core:v0.9" // basic functionality
 
 //    compile "org.ice1000.jimgui:kotlin-dsl:$jimgui_version" // kotlin dsl wrapper
 

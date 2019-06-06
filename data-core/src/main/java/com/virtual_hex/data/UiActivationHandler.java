@@ -1,14 +1,16 @@
 package com.virtual_hex.data;
 
 /**
- * We want to pass through the handling to custom implementations, so we created ActivationHandler
+ * We want to pass through the handling to custom implementations, so we created UiActivationHandler
  * to allow connecting of the handling, The caller is fed in, so that the person can access the
  * object that triggered the activation
  *
  * @param <T>
  */
-public interface ActivationHandler<T> {
+@Deprecated // TODO verify usage and if needed
+public interface UiActivationHandler<T> {
 
+    // Not sure if this is really needed
     /**
      * The drawable that was activated
      * @param objectActivated

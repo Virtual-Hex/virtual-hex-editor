@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.virtual_hex.data.*;
 import com.virtual_hex.jimgui.JImGuiUIDataDeserializer;
-import com.virtual_hex.jimgui.handlers.OpenableFlagDrawer;
+import com.virtual_hex.jimgui.handlers.OpenableFlagHandler;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
 import org.jetbrains.annotations.NotNull;
@@ -106,7 +106,7 @@ public final class VirtualHexDesktopEditor {
         // Save Editor
 
         // Release editor resources
-        OpenableFlagDrawer.INSTANCE.deallocatableObjectManager.deallocateAll();
+        OpenableFlagHandler.INSTANCE.deallocatableObjectManager.deallocateAll();
 
         Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).setPrettyPrinting().create();
         String s = gson.toJson(uiApp);

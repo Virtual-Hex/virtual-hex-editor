@@ -16,7 +16,7 @@ public class Button extends UIComponent {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<Button> onActivation = (imGuiDrawable, parentDrawable) -> {};
+    public UiActivationHandler<Button> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public Button() {
     }
@@ -31,12 +31,12 @@ public class Button extends UIComponent {
         this.height = height;
     }
 
-    public Button(String label, ActivationHandler<Button> onActivation) {
+    public Button(String label, UiActivationHandler<Button> onActivation) {
         this.label = label;
         this.onActivation = onActivation;
     }
 
-    public Button(String label, int width, int height, ActivationHandler<Button> onActivation) {
+    public Button(String label, int width, int height, UiActivationHandler<Button> onActivation) {
         this.label = label;
         this.width = width;
         this.height = height;

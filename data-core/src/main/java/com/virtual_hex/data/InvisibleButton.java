@@ -18,7 +18,7 @@ public class InvisibleButton extends UIComponent {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<InvisibleButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
+    public UiActivationHandler<InvisibleButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public InvisibleButton() {
     }

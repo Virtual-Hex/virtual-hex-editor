@@ -11,7 +11,7 @@ public class Selectable<T extends Selectable> extends UIComponent {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<T> onActivation = (imGuiDrawable, parentDrawable) -> {};
+    public UiActivationHandler<T> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public Selectable() {
     }
@@ -25,24 +25,24 @@ public class Selectable<T extends Selectable> extends UIComponent {
         this.flags = flags;
     }
 
-    public Selectable(String label, ActivationHandler<T> onActivation) {
+    public Selectable(String label, UiActivationHandler<T> onActivation) {
         this.label = label;
         this.onActivation = onActivation;
     }
 
-    public Selectable(String label, int flags, ActivationHandler<T> onActivation) {
+    public Selectable(String label, int flags, UiActivationHandler<T> onActivation) {
         this.label = label;
         this.flags = flags;
         this.onActivation = onActivation;
     }
 
-    public Selectable(String label, boolean selected, ActivationHandler<T> onActivation) {
+    public Selectable(String label, boolean selected, UiActivationHandler<T> onActivation) {
         this.label = label;
         this.selected = selected;
         this.onActivation = onActivation;
     }
 
-    public Selectable(String label, boolean selected, int flags, ActivationHandler<T> onActivation) {
+    public Selectable(String label, boolean selected, int flags, UiActivationHandler<T> onActivation) {
         this.label = label;
         this.selected = selected;
         this.flags = flags;

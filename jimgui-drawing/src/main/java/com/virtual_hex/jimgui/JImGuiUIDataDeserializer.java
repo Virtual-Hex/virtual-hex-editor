@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 
 /**
@@ -30,10 +30,12 @@ import java.util.function.Function;
  *
  * // Each serializer needs to be disposed of
  */
+// This can go away, supply the functions to the UIDataDeserializer
+@Deprecated
 public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
     public static final JImGuiUIDataDeserializer DEFAULT_UI_DATA_DESERIALIZER
-            = new JImGuiUIDataDeserializer("DEFAULT", new DeserializerMapFunction());
+            = new JImGuiUIDataDeserializer("DEFAULT", new JImGuiDeserializerMapFunction());
 
     /**
      * Simply a Logger Reference
@@ -85,27 +87,22 @@ public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
     // With only serializer being used at the moment it is already dereference,
 
     public JImGuiUIDataDeserializer() {
-        super("Anonymous");
     }
 
     public JImGuiUIDataDeserializer(String name) {
         super(name);
     }
 
-    public JImGuiUIDataDeserializer(String name, Map<Class<?>, TypeDrawer<JImGui>> typeDrawers) {
+    public JImGuiUIDataDeserializer(String name, Map<Class<?>, ComponentHandler<JImGui>> typeDrawers) {
         super(name, typeDrawers);
     }
 
-    public JImGuiUIDataDeserializer(Map<Class<?>, TypeDrawer<JImGui>> typeDrawers) {
-        super("Anonymous", typeDrawers);
+    public JImGuiUIDataDeserializer(Consumer<Map<Class<?>, ComponentHandler<JImGui>>> typeDrawersConsumer) {
+        super(typeDrawersConsumer);
     }
 
-    public JImGuiUIDataDeserializer(Function<Map<Class<?>, TypeDrawer<JImGui>>, Map<Class<?>, TypeDrawer<JImGui>>> typeDrawers) {
-        super(typeDrawers);
-    }
-
-    public JImGuiUIDataDeserializer(String name, Function<Map<Class<?>, TypeDrawer<JImGui>>, Map<Class<?>, TypeDrawer<JImGui>>> typeDrawers) {
-        super(name, typeDrawers);
+    public JImGuiUIDataDeserializer(String name, Consumer<Map<Class<?>, ComponentHandler<JImGui>>> typeDrawersConsumer) {
+        super(name, typeDrawersConsumer);
     }
 
 
@@ -120,7 +117,7 @@ public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 //    }
 //
 //
-//    public Map<Class<?>, TypeDrawer<JImGui, T>> getTypeDrawers() {
+//    public Map<Class<?>, ComponentHandler<JImGui, T>> getTypeDrawers() {
 //        return typeDrawers;
 //    }
 

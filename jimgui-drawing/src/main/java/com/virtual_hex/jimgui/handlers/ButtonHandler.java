@@ -1,12 +1,12 @@
 package com.virtual_hex.jimgui.handlers;
 
 import com.virtual_hex.data.Button;
-import com.virtual_hex.data.TypeDrawer;
+import com.virtual_hex.data.ComponentHandler;
 import com.virtual_hex.data.UIComponent;
 import com.virtual_hex.data.UIDataDeserializer;
 import org.ice1000.jimgui.JImGui;
 
-public enum ButtonDrawer implements TypeDrawer<JImGui> {
+public enum ButtonHandler implements ComponentHandler<JImGui> {
     INSTANCE;
 
     @Override

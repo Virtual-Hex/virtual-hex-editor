@@ -15,7 +15,7 @@ public class SmallButton extends UIComponent {
     /**
      * This will be triggered when open or deselected
      */
-    public ActivationHandler<SmallButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
+    public UiActivationHandler<SmallButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public SmallButton() {
     }

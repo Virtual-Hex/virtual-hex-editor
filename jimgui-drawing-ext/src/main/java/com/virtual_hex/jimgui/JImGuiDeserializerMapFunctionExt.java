@@ -1,29 +1,27 @@
 package com.virtual_hex.jimgui;
 
+import com.virtual_hex.data.ComponentHandler;
 import com.virtual_hex.data.UIComponent;
 import com.virtual_hex.data.UIDataDeserializer;
 import com.virtual_hex.data.ext.*;
 import org.ice1000.jimgui.JImGui;
 
-public class JImGuiUIDataDeserializerExt<T extends JImGuiUIDataDeserializerExt> extends JImGuiUIDataDeserializer<T> {
+import java.util.Map;
+import java.util.function.Consumer;
 
-    public JImGuiUIDataDeserializerExt() {
-    }
-
-    public JImGuiUIDataDeserializerExt(boolean useDefaultDrawer, String name) {
-        super(useDefaultDrawer, name);
-    }
+public class JImGuiDeserializerMapFunctionExt implements Consumer<Map<Class<?>, ComponentHandler<JImGui>>> {
 
     @Override
-    public void init() {
-        super.init();
-        typeDrawers.put(ShowHelpMarker.class, JImGuiUIDataDeserializerExt::showHelpMarker);
-        typeDrawers.put(ColumnSet.class, JImGuiUIDataDeserializerExt::columnSet);
-        typeDrawers.put(ColumnSetHeader.class, JImGuiUIDataDeserializerExt::columnSetHeader);
-        typeDrawers.put(ColumnSetBody.class, JImGuiUIDataDeserializerExt::columnSetBody);
-        typeDrawers.put(ColumnSetRow.class, JImGuiUIDataDeserializerExt::columnSetBodyRow);
+    public void accept(Map<Class<?>, ComponentHandler<JImGui>> typeDrawers) {
 
-        // This is for pulling up to world level
+        typeDrawers.put(ColumnSet.class, JImGuiDeserializerMapFunctionExt::columnSet);
+        typeDrawers.put(ColumnSetHeader.class, JImGuiDeserializerMapFunctionExt::columnSetHeader);
+        typeDrawers.put(ColumnSetBody.class, JImGuiDeserializerMapFunctionExt::columnSetBody);
+        typeDrawers.put(ColumnSetRow.class, JImGuiDeserializerMapFunctionExt::columnSetBodyRow);
+
+        typeDrawers.put(ShowHelpMarker.class, JImGuiDeserializerMapFunctionExt::showHelpMarker);
+
+        // TODO Remove This is for pulling up to world level through a plugin for Artemis, but here for a reminder
 //        typeDrawers.typeDrawers.put(WorldSelectable.class, JImGuiUIDataDeserializer::selectable);
     }
 
@@ -86,15 +84,4 @@ public class JImGuiUIDataDeserializerExt<T extends JImGuiUIDataDeserializerExt> 
         }
     }
 
-    @Override
-    public void deallocateAll() {
-        super.deallocateAll();
-    }
-
-    @Override
-    public void clearCache() {
-        super.clearCache();
-    }
 }
-
-

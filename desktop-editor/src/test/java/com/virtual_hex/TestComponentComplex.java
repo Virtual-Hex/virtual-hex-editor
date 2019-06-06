@@ -2,7 +2,7 @@ package com.virtual_hex;
 
 import com.artemis.Component;
 import com.virtual_hex.components.DictionaryComponent;
-import com.virtual_hex.data.ActivationHandler;
+import com.virtual_hex.data.UiActivationHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class TestComponentComplex extends Component {
     public TestComponentComplex() {
     }
 
-    public ActivationHandler activationHandler;
+    public UiActivationHandler uiActivationHandler;
 
     public boolean booleanPrim = true;
 //        public Boolean aBoolean = true;

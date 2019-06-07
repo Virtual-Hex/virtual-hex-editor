@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+// Is a root component
 public class UIDataDeserializer<T> implements ComponentHandler<T> {
 
+
     public String name;
+    // This should be an injected value
     public Map<Class<?>, ComponentHandler<T>> typeDrawers;
+    public UIComponent uiComponent;
 
     public UIDataDeserializer() {
         this.name = "Anonymous";

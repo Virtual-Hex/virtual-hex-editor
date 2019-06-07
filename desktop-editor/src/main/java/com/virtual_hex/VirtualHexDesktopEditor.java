@@ -108,7 +108,7 @@ public final class VirtualHexDesktopEditor {
         // Release editor resources
         OpenableFlagHandler.INSTANCE.deallocatableObjectManager.deallocateAll();
 
-        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting().create();
         String s = gson.toJson(uiApp);
         System.out.println(s);
 

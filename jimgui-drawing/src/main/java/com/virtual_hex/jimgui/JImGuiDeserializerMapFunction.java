@@ -62,7 +62,7 @@ public class JImGuiDeserializerMapFunction implements Consumer<Map<Class<?>, Com
 
 
 // Editable
-        return typeDrawers;
+
     }
 }
 // TODO All items

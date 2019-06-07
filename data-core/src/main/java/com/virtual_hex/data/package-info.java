@@ -1,5 +1,5 @@
 /**
- * uiDataArray are JImGui drawing code and is serializable without Artemis OBD, though the methods take a World,
+ * uiDataArray are JImGui handling code and is serializable without Artemis OBD, though the methods take a World,
  * this may not be needed, TODO TBD
  *
  * Artemis OBD does serialize the layers found in worldsHeader.

@@ -1,6 +1,10 @@
 package com.virtual_hex.jimgui.handlers;
 
-import com.virtual_hex.data.*;
+import com.virtual_hex.data.OpenableFlags;
+import com.virtual_hex.data.UIComponent;
+import com.virtual_hex.data.UIComponentArray;
+import com.virtual_hex.handling.ComponentHandler;
+import com.virtual_hex.handling.UIDeserializer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang.ArrayUtils;
@@ -12,15 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-public enum OpenableFlagHandler implements ComponentHandler<JImGui> {
-    INSTANCE;
+public class OpenableFlagHandler implements ComponentHandler<JImGui> {
 
     /**
      * These get cached first cycle through
      */
     protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeBool>>> cachedBools = new HashMap<>();
 
-    public transient DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
+    public static transient DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
@@ -33,7 +36,7 @@ public enum OpenableFlagHandler implements ComponentHandler<JImGui> {
     }
 
     @Override
-    public void draw(JImGui ui, UIComponent uiComponent, UIDataDeserializer parentDeserializer) {
+    public void draw(JImGui ui, UIComponent uiComponent, UIDeserializer parentDeserializer) {
         OpenableFlags openable = (OpenableFlags) uiComponent;
         switch (openable.type) {
             case WINDOW: {
@@ -136,11 +139,11 @@ public enum OpenableFlagHandler implements ComponentHandler<JImGui> {
                 .computeIfAbsent(fieldName, name -> createBool());
     }
 
-    private static void processUiDataList(JImGui imGui, UIComponentArray drawable, UIDataDeserializer parentDrawer) {
+    private static void processUiDataList(JImGui imGui, UIComponentArray drawable, UIDeserializer parentDrawer) {
         processUiDataList(imGui, drawable.drawables, drawable.addWindowQueue, drawable.removeWindowQueue, parentDrawer);
     }
 
-    private static void processUiDataList(JImGui imGui, UIComponent[] drawables, Queue<UIComponent> addWindowQueue, Queue<UIComponent> removeWindowQueue, UIDataDeserializer parentDrawer) {
+    private static void processUiDataList(JImGui imGui, UIComponent[] drawables, Queue<UIComponent> addWindowQueue, Queue<UIComponent> removeWindowQueue, UIDeserializer parentDrawer) {
         for (UIComponent element; (element = addWindowQueue.poll()) != null;){
             ArrayUtils.add(drawables, element);
         }
@@ -151,7 +154,7 @@ public enum OpenableFlagHandler implements ComponentHandler<JImGui> {
         for (int i = 0; i < drawables.length; i++) {
             UIComponent drawable = drawables[i];
             if(drawable != null){
-                parentDrawer.draw(imGui, drawable, parentDrawer);
+                parentDrawer.draw(imGui, drawable);
             }
         }
     }

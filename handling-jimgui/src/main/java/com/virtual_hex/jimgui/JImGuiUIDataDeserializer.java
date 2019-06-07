@@ -25,12 +25,12 @@ import java.util.function.Consumer;
 /**
  * Depends on JImGui
  *
- * This is used to loop and can be multiple nested to create specialized drawing
+ * This is used to loop and can be multiple nested to create specialized handling
  *
  *
  * // Each serializer needs to be disposed of
  */
-// This can go away, supply the functions to the UIDataDeserializer
+// This can go away, supply the functions to the UIDeserializer
 @Deprecated
 public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
@@ -108,17 +108,17 @@ public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
 //    /**
 //     *
-//     * @return a new JImGuiUIDataDeserializer with the same typeDrawers as the parents
+//     * @return a new JImGuiUIDataDeserializer with the same classComponentHandlers as the parents
 //     */
-//    public UIDataDeserializer<JImGui, T> newFromParent(){
+//    public UIDeserializer<JImGui, T> newFromParent(){
 //        JImGuiUIDataDeserializer clazzDrawer = new JImGuiUIDataDeserializer();
-//        clazzDrawer.typeDrawers.putAll(this.typeDrawers);
+//        clazzDrawer.classComponentHandlers.putAll(this.classComponentHandlers);
 //        return clazzDrawer;
 //    }
 //
 //
 //    public Map<Class<?>, ComponentHandler<JImGui, T>> getTypeDrawers() {
-//        return typeDrawers;
+//        return classComponentHandlers;
 //    }
 
 

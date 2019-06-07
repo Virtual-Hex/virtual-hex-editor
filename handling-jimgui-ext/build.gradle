@@ -1,0 +1,35 @@
+group 'com.virtual-hex.editor'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+test.useJUnitPlatform()
+
+dependencies {
+    compile project(":data-core")
+    compile project(":data-ext")
+    compile project(":handling-common")
+    compile project(":handling-jimgui")
+
+
+    // Logging
+    compile "org.slf4j:slf4j-api:1.7.25"
+
+    // Testing
+    testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
+    testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
+
+    // JImGui
+    compile "org.ice1000.jimgui:core:v0.9" // basic functionality
+
+    // Fast collections and random numbers, may or may not keep // TBD They could be and should use to extend the com.mr00anderson.core.core types
+    compile "it.unimi.dsi:fastutil:8.2.2"
+    compile "it.unimi.dsi:dsiutils:2.5.4"
+}

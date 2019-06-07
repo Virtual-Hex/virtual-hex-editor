@@ -7,16 +7,10 @@ package com.virtual_hex.data;
  *
  *  https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L394
  */
-public class Button extends UIComponent {
+public class Button extends Label {
 
-    public String label;
     public int width;
     public int height;
-
-    /**
-     * This will be triggered when open or deselected
-     */
-    public UiActivationHandler<Button> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public Button() {
     }
@@ -31,33 +25,26 @@ public class Button extends UIComponent {
         this.height = height;
     }
 
-    public Button(String label, UiActivationHandler<Button> onActivation) {
-        this.label = label;
-        this.onActivation = onActivation;
-    }
-
-    public Button(String label, int width, int height, UiActivationHandler<Button> onActivation) {
-        this.label = label;
-        this.width = width;
-        this.height = height;
-        this.onActivation = onActivation;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        Button that = (Button) o;
+        Button button = (Button) o;
 
-        if (label != null ? !label.equals(that.label) : that.label != null) return false;
-        return onActivation != null ? onActivation.equals(that.onActivation) : that.onActivation == null;
+        if (width != button.width) return false;
+        if (height != button.height) return false;
+        return label != null ? label.equals(button.label) : button.label == null;
     }
 
     @Override
     public int hashCode() {
-        int result = label != null ? label.hashCode() : 0;
-        result = 31 * result + (onActivation != null ? onActivation.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (label != null ? label.hashCode() : 0);
+        result = 31 * result + width;
+        result = 31 * result + height;
         return result;
     }
 }

@@ -1,9 +1,6 @@
 package com.virtual_hex.data;
 
-public class BeginMenu extends UIComponent {
+public class BeginMenu extends Label {
 
-    public String label;
     public boolean enabled;
-    public UiActivationHandler<BeginMenu> onActivation;
-
 }

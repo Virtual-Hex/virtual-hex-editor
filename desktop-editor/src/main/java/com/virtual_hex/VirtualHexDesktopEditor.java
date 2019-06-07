@@ -3,7 +3,7 @@ package com.virtual_hex;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.virtual_hex.data.*;
-import com.virtual_hex.jimgui.JImGuiUIDataDeserializer;
+import com.virtual_hex.handling.UIDeserializer;
 import com.virtual_hex.jimgui.handlers.OpenableFlagHandler;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.util.JniLoader;
@@ -74,12 +74,15 @@ public final class VirtualHexDesktopEditor {
             );
         } else {
             uiApp = new UIApp("Virtual Hex Editor", 1280, 720,
-                            new UIDeserializerWrapper(
-                                    JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER,
-                                    new OpenableFlags("Debug", true,
-                                            new UIComponentArray(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0))
+                                    new UIComponentArray(
+                                        new OpenableFlags("Debug", true,
+                                            new UIComponentArray(new Text("Todo")), Openable.Type.WINDOW_EXITABLE, 0)
+                                    )
                             );
         }
+
+        // Load a deserializer
+        UIDeserializer<JImGui> dataDeserializer = new UIDeserializer<>();
 
         JniLoader.load();
 
@@ -93,11 +96,7 @@ public final class VirtualHexDesktopEditor {
                 new Consumer<JImGui>() {
                     @Override
                     public void accept(JImGui imGui) {
-                        JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER.draw(
-                                        imGui,
-                                        uiApp,
-                                        null
-                        );
+                        dataDeserializer.draw(imGui, uiApp);
                     }
                 }
         );
@@ -106,9 +105,11 @@ public final class VirtualHexDesktopEditor {
         // Save Editor
 
         // Release editor resources
-        OpenableFlagHandler.INSTANCE.deallocatableObjectManager.deallocateAll();
+        OpenableFlagHandler.deallocatableObjectManager.deallocateAll();
 
-        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+                .setPrettyPrinting().create();
         String s = gson.toJson(uiApp);
         System.out.println(s);
 
@@ -120,11 +121,7 @@ public final class VirtualHexDesktopEditor {
                 new Consumer<JImGui>() {
                     @Override
                     public void accept(JImGui imGui) {
-                        JImGuiUIDataDeserializer.DEFAULT_UI_DATA_DESERIALIZER.draw(
-                                imGui,
-                                uiApp2,
-                                null
-                        );
+                        dataDeserializer.draw(imGui, uiApp2);
                     }
                 }
         );

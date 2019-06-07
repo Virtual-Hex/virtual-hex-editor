@@ -5,10 +5,9 @@ import java.util.UUID;
 public class UIComponent {
 
     /**
-     * For now we just need a way to reference drawables in arrays without hashcode overkill on nested tree
-     *
+     * Used for lookups
      */
-    public transient UUID id = UUID.randomUUID();
+    public UUID id = UUID.randomUUID();
 
     public UIComponent() {
     }

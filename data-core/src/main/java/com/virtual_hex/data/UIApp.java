@@ -8,7 +8,7 @@ public class UIApp extends UIComponent {
     public String title;
     public int width;
     public int height;
-    public UIDeserializerWrapper deserializerWrapper;
+    public UIComponentArray uiComponentArray;
 
     public UIApp() {
     }
@@ -19,10 +19,10 @@ public class UIApp extends UIComponent {
         this.height = height;
     }
 
-    public UIApp(String title, int width, int height, UIDeserializerWrapper deserializerWrapper) {
+    public UIApp(String title, int width, int height, UIComponentArray uiComponentArray) {
         this.title = title;
         this.width = width;
         this.height = height;
-        this.deserializerWrapper = deserializerWrapper;
+        this.uiComponentArray = uiComponentArray;
     }
 }

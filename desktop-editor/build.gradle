@@ -1,4 +1,4 @@
-group 'com.mr00anderson'
+group 'com.virtual-hex'
 version '1.0.0-SNAPSHOT'
 
 repositories {
@@ -32,8 +32,9 @@ test.useJUnitPlatform()
 dependencies {
     compile project(":data-core")
     compile project(":data-ext")
-    compile project(":jimgui-drawing")
-    compile project(":jimgui-drawing-ext")
+    compile project(":handling-common")
+    compile project(":handling-jimgui")
+    compile project(":handling-jimgui-ext")
 
     // Logging
     compile "org.slf4j:slf4j-api:1.7.25"

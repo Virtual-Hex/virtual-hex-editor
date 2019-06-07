@@ -3,29 +3,13 @@ package com.virtual_hex.data;
 /**
  * simple formatted text
  */
-public class Text extends UIComponent {
-
-    public String text;
-
+public class Text extends Label {
     public Text() {
     }
 
-    public Text(String text) {
-        this.text = text;
+    public Text(String label) {
+        super(label);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Text text = (Text) o;
-
-        return this.text != null ? this.text.equals(text.text) : text.text == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return text != null ? text.hashCode() : 0;
-    }
 }

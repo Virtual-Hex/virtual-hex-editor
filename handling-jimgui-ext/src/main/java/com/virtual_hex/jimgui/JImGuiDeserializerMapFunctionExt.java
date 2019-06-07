@@ -1,8 +1,6 @@
 package com.virtual_hex.jimgui;
 
-import com.virtual_hex.data.ComponentHandler;
 import com.virtual_hex.data.UIComponent;
-import com.virtual_hex.data.UIDataDeserializer;
 import com.virtual_hex.data.ext.*;
 import org.ice1000.jimgui.JImGui;
 
@@ -22,7 +20,7 @@ public class JImGuiDeserializerMapFunctionExt implements Consumer<Map<Class<?>, 
         typeDrawers.put(ShowHelpMarker.class, JImGuiDeserializerMapFunctionExt::showHelpMarker);
 
         // TODO Remove This is for pulling up to world level through a plugin for Artemis, but here for a reminder
-//        typeDrawers.typeDrawers.put(WorldSelectable.class, JImGuiUIDataDeserializer::selectable);
+//        classComponentHandlers.classComponentHandlers.put(WorldSelectable.class, JImGuiUIDataDeserializer::selectable);
     }
 
     /**

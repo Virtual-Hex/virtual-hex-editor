@@ -1,4 +1,4 @@
-group 'com.virtual-hex.editor'
+group 'com.virtual-hex'
 version '1.0.0-SNAPSHOT'
 
 repositories {
@@ -15,7 +15,7 @@ test.useJUnitPlatform()
 dependencies {
     compile project(":data-core")
     compile project(":data-ext")
-    compile project(":jimgui-drawing")
+    compile project(":handling-common")
 
     // Logging
     compile "org.slf4j:slf4j-api:1.7.25"

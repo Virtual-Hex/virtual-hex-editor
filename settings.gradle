@@ -1,14 +1,13 @@
 rootProject.name = 'virtual-hex-editor'
 
 
-include 'desktop-editor'
-
-include 'jimgui-drawing-ext'
-include 'jimgui-drawing'
-
-include 'data-ext'
 include 'data-core'
+include 'data-ext'
+
+include 'handling-common'
+
+include 'handling-jimgui-ext'
+include 'handling-jimgui'
 
 
-
-
+include 'desktop-editor'

@@ -13,4 +13,9 @@ public class UIAppHandler implements ComponentHandler<JImGui> {
         UIApp drawable = (UIApp) uiComponent;
         parentDeserializer.draw(ui, drawable.uiComponentArray);
     }
+
+    @Override
+    public void dispose() {
+        // Nothing Intended
+    }
 }

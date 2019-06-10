@@ -2,7 +2,6 @@ package com.virtual_hex.data;
 
 public class Selectable<T extends Selectable> extends Label {
 
-
     public boolean selected;
     public int flags;
     public int width;
@@ -10,6 +9,7 @@ public class Selectable<T extends Selectable> extends Label {
 
     public Selectable() {
     }
+
 
     public Selectable(boolean selected, int flags, int width, int height) {
         this.selected = selected;

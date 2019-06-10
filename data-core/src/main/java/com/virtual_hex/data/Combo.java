@@ -9,7 +9,7 @@ public class Combo extends UIComponent {
     public String label;
     public int flags = 0;
     public UIComponentArray jaweSelectables;
-    public Selectable currentSelectable = new Selectable("");
+    public Selectable currentSelectable;
 
     public Combo() {
     }

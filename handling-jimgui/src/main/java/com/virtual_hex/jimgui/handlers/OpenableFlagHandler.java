@@ -23,7 +23,7 @@ public class OpenableFlagHandler implements ComponentHandler<JImGui> {
      */
     protected transient Map<Class<?>, Int2ObjectMap<Map<String, NativeBool>>> cachedBools = new HashMap<>();
 
-    public static transient DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
+    public transient DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
 
     /**
      * Automatically will deallocate this when the JawImGui is disposed of
@@ -157,5 +157,11 @@ public class OpenableFlagHandler implements ComponentHandler<JImGui> {
                 parentDrawer.draw(imGui, drawable);
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        deallocatableObjectManager.deallocateAll();
+        cachedBools.clear();
     }
 }

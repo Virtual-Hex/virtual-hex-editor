@@ -9,39 +9,26 @@ package com.virtual_hex.data;
  *
  *   button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
  */
-public class InvisibleButton extends UIComponent {
+public class InvisibleButton extends Label {
 
-    public String label;
     public int width;
     public int height;
-
-    /**
-     * This will be triggered when open or deselected
-     */
-    public UiActivationHandler<InvisibleButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
 
     public InvisibleButton() {
     }
 
     public InvisibleButton(String label) {
-        this.label = label;
+        super(label);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        InvisibleButton that = (InvisibleButton) o;
-
-        if (label != null ? !label.equals(that.label) : that.label != null) return false;
-        return onActivation != null ? onActivation.equals(that.onActivation) : that.onActivation == null;
+    public InvisibleButton(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
-    @Override
-    public int hashCode() {
-        int result = label != null ? label.hashCode() : 0;
-        result = 31 * result + (onActivation != null ? onActivation.hashCode() : 0);
-        return result;
+    public InvisibleButton(String label, int width, int height) {
+        super(label);
+        this.width = width;
+        this.height = height;
     }
 }

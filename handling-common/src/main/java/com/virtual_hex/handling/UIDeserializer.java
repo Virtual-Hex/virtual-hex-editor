@@ -69,6 +69,12 @@ public class UIDeserializer<T>  {
         return componentHandler;
     }
 
+    /**
+     * This is used to take action on widget activation, like a button or selection
+     *
+     * @param uiComponent
+     * @param parentDeserializer
+     */
     public void handle(UIComponent uiComponent, UIDeserializer parentDeserializer) {
         ActivationHandler<?> activationHandler = activationHandlers.get(uiComponent);
         if(activationHandler != null){
@@ -77,4 +83,15 @@ public class UIDeserializer<T>  {
     }
 
     // TODO Register handlers
+
+
+    /**
+     * Dispose of resources here, WE may have a cache clear method for memory management if needed
+     */
+    public void disopse(){
+        uuidSpecificTypeHandlers.forEach((k, v) -> v.dispose());
+        classComponentHandlers.forEach((k, v) -> v.dispose());
+        activationHandlers.forEach((k, v) -> v.dispose());
+    }
+
 }

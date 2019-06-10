@@ -6,6 +6,8 @@ import com.virtual_hex.data.ext.ColumnSet;
 import com.virtual_hex.data.ext.ColumnSetBody;
 import com.virtual_hex.data.ext.ColumnSetHeader;
 import com.virtual_hex.data.ext.ColumnSetRow;
+import com.virtual_hex.handling.ComponentHandler;
+import com.virtual_hex.handling.UIDeserializer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang.ArrayUtils;
@@ -32,7 +34,7 @@ import java.util.function.Consumer;
  */
 // This can go away, supply the functions to the UIDeserializer
 @Deprecated
-public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
+public class JImGuiUIDataDeserializer extends UIDeserializer<JImGui> {
 
     public static final JImGuiUIDataDeserializer DEFAULT_UI_DATA_DESERIALIZER
             = new JImGuiUIDataDeserializer("DEFAULT", new JImGuiDeserializerMapFunction());
@@ -123,13 +125,6 @@ public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
 
 
-    private static <T extends JImGuiUIDataDeserializer> void uiDeserializeWrapper(JImGui imGui, UIComponent uiComponent, T parentDeserializer) {
-        UIDeserializerWrapper drawable = (UIDeserializerWrapper) uiComponent;
-        UIDataDeserializer deserializer = drawable.deserializer;
-        deserializer.draw(imGui, drawable.uiComponent, deserializer);
-    }
-
-
 
     public void deallocateAll() {
         deallocatableObjectManager.deallocateAll();
@@ -216,7 +211,7 @@ public class JImGuiUIDataDeserializer extends UIDataDeserializer<JImGui> {
 
     // TODO Register method
     @NativeExchange
-    public void drawReflectiveInputColumns(JImGui imGui, Object drawable, UIDataDeserializer<JImGui> parentDrawer){
+    public void drawReflectiveInputColumns(JImGui imGui, Object drawable, UIDeserializer<JImGui> parentDrawer){
         Class<?> aClass = drawable.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
 

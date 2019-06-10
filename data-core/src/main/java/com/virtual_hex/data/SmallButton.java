@@ -8,37 +8,12 @@ package com.virtual_hex.data;
  * returning true when pressed and triggers activation handler
  *
  */
-public class SmallButton extends UIComponent {
-
-    public String label;
-
-    /**
-     * This will be triggered when open or deselected
-     */
-    public UiActivationHandler<SmallButton> onActivation = (imGuiDrawable, parentDrawable) -> {};
+public class SmallButton extends Label {
 
     public SmallButton() {
     }
 
     public SmallButton(String label) {
-        this.label = label;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SmallButton that = (SmallButton) o;
-
-        if (label != null ? !label.equals(that.label) : that.label != null) return false;
-        return onActivation != null ? onActivation.equals(that.onActivation) : that.onActivation == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = label != null ? label.hashCode() : 0;
-        result = 31 * result + (onActivation != null ? onActivation.hashCode() : 0);
-        return result;
+        super(label);
     }
 }

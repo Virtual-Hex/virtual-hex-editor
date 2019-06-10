@@ -9,4 +9,5 @@ public interface ActivationHandler<T> {
      * @param objectActivated
      */
     void handle(UIComponent objectActivated, UIDeserializer<T> parentDrawer);
+    void dispose();
 }

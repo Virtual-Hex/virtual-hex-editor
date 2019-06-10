@@ -17,4 +17,9 @@ public class ButtonHandler implements ComponentHandler<JImGui> {
         }
 
     }
+
+    @Override
+    public void dispose() {
+        // Nothing Intended
+    }
 }

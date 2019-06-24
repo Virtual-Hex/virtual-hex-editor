@@ -2,7 +2,7 @@ package com.virtual_hex.editor.data;
 
 /**
  * Widgets: Combo BoxInt
- * - The new BeginCombo()/EndCombo() api allows you to manage your contents and value state however you want it, by creating e.g. Selectable() items.
+ * - The new BeginCombo()/EndCombo() api allows you to manage your contents and buffer state however you want it, by creating e.g. Selectable() items.
  */
 public class Combo extends LabeledComponents {
 

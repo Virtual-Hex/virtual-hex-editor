@@ -17,7 +17,7 @@ public class CheckBoxWriter extends NativeBoolComponentWriter {
 
         // getting a Boolean
         NativeBool value = getNative("checked", component);
-        // Modify it to reflect the components value
+        // Modify it to reflect the components buffer
         value.modifyValue(component.checked);
         // Write
         boolean changed = out.checkbox(component.label, value);

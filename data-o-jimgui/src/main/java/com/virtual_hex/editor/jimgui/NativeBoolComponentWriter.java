@@ -6,9 +6,13 @@ import org.ice1000.jimgui.NativeBool;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 @NativeExchange
 public abstract class NativeBoolComponentWriter extends NativeAllocComponentWriter {
+
+    public final UUIDMappingFunction UUID_MAPPING_FUNCTION = new UUIDMappingFunction();
+    public final StringMappingFunction STRING_MAPPING_FUNCTION = new StringMappingFunction();
 
     /**
      * These get cached first cycle through
@@ -23,8 +27,8 @@ public abstract class NativeBoolComponentWriter extends NativeAllocComponentWrit
 
     protected NativeBool getNative(String fieldName, UIComponent object) {
         return cachedBools
-                .computeIfAbsent(object.id, value -> new HashMap<>())
-                .computeIfAbsent(fieldName, value -> create());
+                .computeIfAbsent(object.id, UUID_MAPPING_FUNCTION)
+                .computeIfAbsent(fieldName, STRING_MAPPING_FUNCTION);
     }
 
     /**
@@ -36,5 +40,20 @@ public abstract class NativeBoolComponentWriter extends NativeAllocComponentWrit
         NativeBool nativeValue = new NativeBool();
         deallocatableObjectManager.add(nativeValue);
         return nativeValue;
+    }
+
+    private class UUIDMappingFunction implements Function<UUID, Map<String, NativeBool>> {
+        @Override
+        public Map<String, NativeBool> apply(UUID uuid) {
+            return new HashMap<>();
+        }
+    }
+
+    private class StringMappingFunction implements Function<String, NativeBool> {
+
+        @Override
+        public NativeBool apply(String s) {
+            return create();
+        }
     }
 }

@@ -3,14 +3,14 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.io.UIComponentWriter;
 import org.ice1000.jimgui.JImGui;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
 
 public abstract class ByteArrayComponentWriter implements UIComponentWriter<JImGui> {
 
-    protected Map<UUID, Map<String, byte[]>> cachedBytes = new HashMap<>();
+    public final UUIDMappingFunction UUID_MAPPING_FUNCTION = new UUIDMappingFunction();
+
+    protected Map<UUID, Map<String, byte[]>> cachedBytes = new WeakHashMap<>();
 
     public static int bufferEndIndex(byte[] data) {
         for (int i = 0; i < data.length; i++) {
@@ -19,12 +19,29 @@ public abstract class ByteArrayComponentWriter implements UIComponentWriter<JImG
         return 0;
     }
 
-    protected byte[] getCachedBuffer(UUID id, String label, int bufferSize) {
-        return cachedBytes.computeIfAbsent(id, value -> new HashMap<>())
-                .computeIfAbsent(label, value -> new byte[bufferSize]);
+    public byte[] getCachedBufferCopyTo(UUID id, String label, String textInput, int bufferSize) {
+        Map<String, byte[]> map = cachedBytes.computeIfAbsent(id, UUID_MAPPING_FUNCTION);
+        byte[] buffer = map.get(label);
+        if(buffer == null){
+            buffer = new byte[bufferSize];
+            map.put(label, buffer);
+        }
+        Arrays.fill(buffer, (byte) 0);
+        System.arraycopy(textInput.getBytes(), 0, buffer, 0, textInput.length());
+        return buffer;
     }
 
-    protected void copyStringIntoBuffer(String textInput, byte[] buffer) {
+    public byte[] getCachedBuffer(UUID id, String label, int bufferSize) {
+        Map<String, byte[]> map = cachedBytes.computeIfAbsent(id, UUID_MAPPING_FUNCTION);
+        byte[] buffer = map.get(label);
+        if(buffer == null){
+            buffer = new byte[bufferSize];
+            map.put(label, buffer);
+        }
+        return buffer;
+    }
+
+    public void copyStringIntoBuffer(String textInput, byte[] buffer) {
         Arrays.fill(buffer, (byte) 0);
         System.arraycopy(textInput.getBytes(), 0, buffer, 0, textInput.length());
     }
@@ -36,5 +53,12 @@ public abstract class ByteArrayComponentWriter implements UIComponentWriter<JImG
     @Override
     public void dispose() {
         cachedBytes.clear();
+    }
+
+    private class UUIDMappingFunction implements Function<UUID, Map<String,byte[]>> {
+        @Override
+        public Map<String, byte[]> apply(UUID uuid) {
+            return new HashMap<>();
+        }
     }
 }

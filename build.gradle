@@ -25,7 +25,7 @@ subprojects {
         testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
 
         // Logging
-        compile "org.slf4j:slf4j-api:1.7.25"
+        compile "org.slf4j:slf4j-api:1.7.26"
     }
 
     test.useJUnitPlatform()

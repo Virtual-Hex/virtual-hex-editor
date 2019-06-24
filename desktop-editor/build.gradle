@@ -19,6 +19,9 @@ dependencies {
 
     // Test serialization gson - TODO Break into separate plugin
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
 }
 
 // TODO Add jar packaging light/api and full runnable

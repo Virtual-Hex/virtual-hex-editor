@@ -1,7 +1,6 @@
 package com.virtual_hex.editor;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import ch.qos.logback.classic.Level;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.io.UIWriter;
 import com.virtual_hex.editor.jimgui.utils.JImGuiFailedWriteBiConsumer;
@@ -15,11 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import static com.virtual_hex.editor.data.FieldNames.OPEN;
 
@@ -55,14 +57,12 @@ public final class VirtualHexDesktopEditor extends UIComponent {
     /**
      * Simply a Logger Reference
      */
-    private static final Logger L = LoggerFactory.getLogger(VirtualHexDesktopEditor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VirtualHexDesktopEditor.class);
 
     public static VirtualHexDesktopEditor INSTANCE;
 
     public UIComponents uiComponents;
     public boolean shouldClose;
-
-    public transient Map<String, byte[]> cachedStrings = new HashMap<>();
 
     public static void main(String[] args) throws URISyntaxException {
 
@@ -84,6 +84,9 @@ public final class VirtualHexDesktopEditor extends UIComponent {
     }
 
     public void run(int width, int height) throws URISyntaxException {
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+        root.setLevel(Level.ALL);
+
         // Deserialize a UIApp here
         // PROJECT FORMAT which will have a new child first loader
         // Project will have a a child first loader as well
@@ -95,6 +98,7 @@ public final class VirtualHexDesktopEditor extends UIComponent {
         ScanResult scanResult1 = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor.jimgui").scan();
         UIWriter<JImGui> uiWriter = new UIWriter<>(true, scanResult1);
 
+        ChildFirstClassLoader editorClassLoader = new ChildFirstClassLoader(new URL[]{}, this.getClass().getClassLoader());
 
         Object editorLoader = null;
         if (editorLoader != null) {
@@ -109,7 +113,7 @@ public final class VirtualHexDesktopEditor extends UIComponent {
 
             Collections.addAll(uiComponents.uiComponents,
                     uiWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                            new ClassLoaderUIComponent("Test API", this.getClass().getClassLoader())
+                            new ClassLoaderUIComponent("Test API", editorClassLoader)
                     )),
 
                     uiWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
@@ -122,13 +126,17 @@ public final class VirtualHexDesktopEditor extends UIComponent {
 
         // TODO Ensure that data types all be rechecked for proper hashcoding
         // TODO CHECK THIS, CAUSING STUTTERING
-//        JImGuiUtil.setStringToBytes(s -> cachedStrings.computeIfAbsent(s, s1 -> s1.getBytes(StandardCharsets.UTF_8)));
+
+
+
+//        JImGuiUtil.setStringToBytes(new StringCaching());
 
         DeallocatableObjectManager manager = new DeallocatableObjectManager();
         NativeBool bool = new NativeBool();
         manager.add(bool);
         bool.modifyValue(true);
 
+        JImGuiFailedWriteBiConsumer failedWriteBiConsumer = new JImGuiFailedWriteBiConsumer();
 
         // TODO Not properly exiting in some cases
         long millis = 0;
@@ -142,7 +150,7 @@ public final class VirtualHexDesktopEditor extends UIComponent {
                 if (deltaTime > millis) {
                     imGui.initNewFrame();
 
-                    uiWriter.write(imGui, uiComponents, new JImGuiFailedWriteBiConsumer());
+                    uiWriter.write(imGui, uiComponents, failedWriteBiConsumer);
 
                     imGui.render();
                     latestRefresh = currentTimeMillis;
@@ -160,12 +168,12 @@ public final class VirtualHexDesktopEditor extends UIComponent {
         // Save Editor
 
 
-        Gson gson = new GsonBuilder()
-
-                .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
-                .setPrettyPrinting().create();
-        String s = gson.toJson(uiComponents);
-        System.out.println(s);
+//        Gson gson = new GsonBuilder()
+//
+//                .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+//                .setPrettyPrinting().create();
+//        String s = gson.toJson(uiComponents);
+//        System.out.println(s);
 
 //        UIApp uiApp2 = gson.fromJson(s, UIApp.class);
 
@@ -198,4 +206,24 @@ public final class VirtualHexDesktopEditor extends UIComponent {
         manager.deallocateAll();
     }
 
+
+    public class StringCaching implements Function<String, byte[]> {
+
+        private final Map<String, byte[]> cachedStrings = new HashMap<>();
+        private final byte[] EMPTY_ARRAY = {};
+
+        @Override
+        public byte[] apply(String s) {
+            if(s == null) return EMPTY_ARRAY;
+            byte[] buffer = cachedStrings.get(s);
+            if(buffer == null) {
+                buffer = s.getBytes(StandardCharsets.UTF_8);
+                cachedStrings.put(s, buffer);
+                System.arraycopy(s.getBytes(), 0, buffer, 0, s.length());
+                LOGGER.error("String caching check. Not Cached - String: \"{}\", Bytes: \"{}\", Reconstructed \"{}\".", s, Arrays.toString(buffer), new String(buffer));
+            }
+            LOGGER.debug("String caching check. String: \"{}\", Bytes: \"{}\", Reconstructed \"{}\".", s, Arrays.toString(buffer), new String(buffer));
+            return buffer;
+        }
+    }
 }

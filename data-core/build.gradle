@@ -1,6 +1,4 @@
 group 'com.virtual-hex.editor'
 version '1.0.0-SNAPSHOT'
 
-apply plugin: 'java'
-
 sourceCompatibility = 1.8

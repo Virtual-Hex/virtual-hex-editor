@@ -1,10 +1,6 @@
 group 'com.virtual-hex.editor'
 version '1.0.0-SNAPSHOT'
 
-repositories {
-    jcenter()
-}
-
 sourceCompatibility = 1.8
 
 project.ext {
@@ -13,49 +9,16 @@ project.ext {
 }
 
 dependencies {
-    compile project(":data-core")
-    compile project(":data-ext")
-    compile project(":data-io")
-    compile project(":data-o-jimgui")
     compile project(":data-o-jimgui-ext")
-    compile project(":data-io-netty")
 
-    compile project(":editor-engine-api")
-    compile project(":editor-engine-impl")
+    compile project(":engine-o-jimgui")
+    compile project(path: ':engine-o-jimgui', configuration: 'compile')
 
-    // Fast collections and random numbers, may or may not keep // TBD They could be and should use to extend the com.mr00anderson.core.core types
-    compile "it.unimi.dsi:fastutil:8.2.2"
-    compile "it.unimi.dsi:dsiutils:2.5.4"
+    // Test serialization netty - TODO Break into separate plugin
+//    compile project(":data-io-netty")
 
-    // https://mvnrepository.com/artifact/io.netty/netty-buffer
-    compile group: 'io.netty', name: 'netty-buffer', version: '4.1.36.Final'
-
-    // Open GL
-//    compile "org.lwjgl:lwjgl:3.2.2"
-//    compile "org.lwjgl:lwjgl-assimp:3.2.2"
-//    compile "org.lwjgl:lwjgl-glfw:3.2.2"
-//    compile "org.lwjgl:lwjgl-openal:3.2.2"
-//    compile "org.lwjgl:lwjgl-opengl:3.2.2"
-//    compile "org.lwjgl:lwjgl-stb:3.2.2"
-//
-//
-//    runtimeOnly "org.lwjgl:lwjgl:3.2.2:natives-windows"
-//    runtimeOnly "org.lwjgl:lwjgl-assimp:3.2.2:natives-windows"
-//    runtimeOnly "org.lwjgl:lwjgl-glfw:3.2.2:natives-windows"
-//    runtimeOnly "org.lwjgl:lwjgl-openal:3.2.2:natives-windows"
-//    runtimeOnly "org.lwjgl:lwjgl-opengl:3.2.2:natives-windows"
-//    runtimeOnly "org.lwjgl:lwjgl-stb:3.2.2:natives-windows"
-
-    // JImGui
-    compile "org.ice1000.jimgui:core:v0.9" // basic functionality
-
-//    compile "org.ice1000.jimgui:kotlin-dsl:$jimgui_version" // kotlin dsl wrapper
-
-
-    // Temp serialization testing
+    // Test serialization gson - TODO Break into separate plugin
     implementation 'com.google.code.gson:gson:2.8.5'
-
 }
-
 
 // TODO Add jar packaging light/api and full runnable

@@ -1,4 +1,0 @@
-group 'com.virtual-hex.editor'
-version '1.0.0-SNAPSHOT'
-
-sourceCompatibility = 1.8

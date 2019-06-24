@@ -1,23 +1,12 @@
 group 'com.virtual-hex.editor'
 version '1.0.0-SNAPSHOT'
 
-repositories {
-    jcenter()
-}
-
-apply plugin: 'java'
-
 sourceCompatibility = 1.8
 
 dependencies {
-    compile project(":data-core")
-    compile project(":data-ext")
     compile project(":data-io")
+    compile project(path: ':data-io', configuration: 'compile')
 
     // JImGui
     compile "org.ice1000.jimgui:core:v0.9" // basic functionality
-
-    // Fast collections and random numbers, may or may not keep // TBD They could be and should use to extend the com.mr00anderson.core.core types
-    compile "it.unimi.dsi:fastutil:8.2.2"
-    compile "it.unimi.dsi:dsiutils:2.5.4"
 }

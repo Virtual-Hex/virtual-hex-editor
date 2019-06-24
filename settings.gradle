@@ -16,9 +16,15 @@ include 'data-io-netty'
 include 'data-o-jimgui'
 include 'data-o-jimgui-ext'
 
+// Has data for drawing
+include 'engine-api'
+include 'engine-impl'
+
+// Drawing library for engine api & impl
+include 'engine-o-jimgui'
+
 // The desktop runnable editor
 include 'desktop-editor'
-include 'editor-engine-api'
-include 'editor-engine-impl'
-include 'engine-o-jimgui'
+
+
 

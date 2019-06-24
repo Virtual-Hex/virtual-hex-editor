@@ -17,7 +17,7 @@ public class ColorPicker4Writer extends NativeJImVec4ComponentWriter {
         ColorPicker4 component = (ColorPicker4) uiComponent;
 
         Vec4 color = component.color;
-        JImVec4 jImVec4 = cachedjimVec.computeIfAbsent(color.hashCode(), value -> create(color.x, color.y, color.z, color.w));
+        JImVec4 jImVec4 = getCachedOrCreate(color);
 
         boolean stateChange = out.colorPicker4(component.label, jImVec4, component.flags);
         if(stateChange){

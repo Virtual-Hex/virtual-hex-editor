@@ -1,7 +1,6 @@
 package com.virtual_hex.editor.io;
 
 import com.virtual_hex.editor.data.UIComponent;
-import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
@@ -20,21 +19,22 @@ public class UIReader<T> {
     public final int version;
     public Map<Class<?>, UIComponentReader<T>> classComponentHandlers;
 
-    public UIReader(boolean scanForHandlers, String fullPackagePath) {
-        this(0, scanForHandlers, fullPackagePath);
+    public UIReader(boolean scanForHandlers, ScanResult... scanResults) {
+        this(0, scanForHandlers, scanResults);
     }
 
     // TODO Scans being provided to provide more app level configuration
-    public UIReader(int version, boolean scanForHandlers, String fullPackagePath) {
+    public UIReader(int version, boolean scanForHandlers, ScanResult... sca) {
         this.version = version;
         setMaps();
         if (scanForHandlers) {
-            scanForHandlers(fullPackagePath);
+            scanForHandlers(sca);
         }
     }
 
-    private void scanForHandlers(String fullPackagePath) {
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().whitelistPackages(fullPackagePath).scan()) {
+    private void scanForHandlers(ScanResult... scanResults) {
+        for (int i = 0; i < scanResults.length; i++) {
+            ScanResult scanResult = scanResults[i];
             ClassInfoList componentHandlerRegister = scanResult.getClassesWithAnnotation("com.virtual_hex.editor.io.ComponentRegister");
             for (ClassInfo compClassInfo : componentHandlerRegister) {
                 boolean extendsSuperclass = compClassInfo.implementsInterface("com.virtual_hex.editor.io.UIComponentReader");
@@ -55,9 +55,6 @@ public class UIReader<T> {
                     // TODO Logging that annotation exist but not a subclass of CompHandler
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Todo logging and check on scan results or just have scan results provided by the application Loader
         }
     }
 

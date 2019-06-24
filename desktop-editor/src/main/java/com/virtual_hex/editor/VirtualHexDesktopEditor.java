@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.io.UIWriter;
 import com.virtual_hex.editor.jimgui.utils.JImGuiFailedWriteBiConsumer;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
@@ -89,7 +91,9 @@ public final class VirtualHexDesktopEditor extends UIComponent {
         // Load Projects
 
         // Load a writer, here we want to load all of the component writers for this writer from the provided package
-        UIWriter<JImGui> uiWriter = new UIWriter<>(true, "com.virtual_hex.editor.jimgui");
+
+        ScanResult scanResult1 = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor.jimgui").scan();
+        UIWriter<JImGui> uiWriter = new UIWriter<>(true, scanResult1);
 
 
         Object editorLoader = null;
@@ -105,17 +109,9 @@ public final class VirtualHexDesktopEditor extends UIComponent {
 
             Collections.addAll(uiComponents.uiComponents,
                     uiWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                        new Image<String>("Cupboard", 500, 250, "D:\\dropbox\\cupboard-portal-obama-is-missing.png"),
-                        new Popup("PopTest", "Hey a pop up bros"),
-                        uiWriter.createAction(new ImageButton<String>("Enter", 64,64, "D:\\Business\\OneDrive - Free Universe Games\\Free Universe Games Shared\\Company Asset Pool\\virtual-hex\\splash\\64-no-alpha.png"),
-                                (out, objectActivated, parentDrawer) -> out.openPopup("PopTest")
-                        )
+                            new ClassLoaderUIComponent("Test API", this.getClass().getClassLoader())
                     )),
 
-                    new ListBox("Only one selectable", 2, uiWriter.cSingleToggleGroup("selected", "listbox", new Selectable("Test1"),  new Selectable("test2"),  new Selectable("Test 3"))),
-                    new ListBox0("List 2", "Test11", "test22", "Test 33"),
-                    new ListBox0("List 3", 50, 50, "selected", "lb", "Test111", "test222", "Test 333"),
-                    new Child("Test Child", true, 0,50, 50, "Test"),
                     uiWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
                     uiWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
                     uiWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())

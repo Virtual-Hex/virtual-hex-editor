@@ -16,7 +16,7 @@ public class ColorTextWriter extends NativeJImVec4ComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, UIWriter<JImGui> writer) {
         ColorText component = (ColorText) uiComponent;
         Vec4 color = component.color;
-        JImVec4 jImVec4 = cachedjimVec.computeIfAbsent(color.hashCode(), value -> create(color.x, color.y, color.z, color.w));
+        JImVec4 jImVec4 = getCachedOrCreate(color);
         out.textColored(jImVec4, component.label);
 
     }

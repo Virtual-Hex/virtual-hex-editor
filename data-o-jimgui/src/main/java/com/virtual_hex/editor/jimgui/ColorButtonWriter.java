@@ -17,7 +17,7 @@ public class ColorButtonWriter extends NativeJImVec4ComponentWriter {
         ColorButton component = (ColorButton) uiComponent;
 
         Vec4 color = component.color;
-        JImVec4 jImVec4 = cachedjimVec.computeIfAbsent(color.hashCode(), value -> create(color.x, color.y, color.z, color.w));
+        JImVec4 jImVec4 = getCachedOrCreate(color);
 
         boolean pressed = out.colorButton(component.label, jImVec4, component.flags, component.width, component.height);
         if(pressed) writer.handleActivation(out, uiComponent, writer);

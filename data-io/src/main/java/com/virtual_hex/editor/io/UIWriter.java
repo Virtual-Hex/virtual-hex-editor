@@ -1,7 +1,6 @@
 package com.virtual_hex.editor.io;
 
 import com.virtual_hex.editor.data.UIComponent;
-import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
@@ -33,15 +32,15 @@ public class UIWriter<T> {
     public Map<String, WeakHashMap<UIComponent, String>> toggleGroup;
 
     // Scans could be provided to provide more app level configuration
-    public UIWriter(boolean scanForHandlers, String fullPackagePath) {
-        this(0, scanForHandlers, fullPackagePath);
+    public UIWriter(boolean scanForHandlers, ScanResult... scanResults) {
+        this(0, scanForHandlers, scanResults);
     }
 
-    public UIWriter(int version, boolean scanForHandlers, String fullPackagePath) {
+    public UIWriter(int version, boolean scanForHandlers, ScanResult... scanResults) {
         this.version = version;
         setMaps();
         if (scanForHandlers) {
-            scanForHandlers(fullPackagePath);
+            scanForHandlers(scanResults);
         }
     }
 
@@ -241,12 +240,10 @@ public class UIWriter<T> {
         return fieldFrom;
     }
 
-    /**
-     *
-     * @param fullPackagePath of where to find UiComponentWriters
-     */
-    private void scanForHandlers(String fullPackagePath) {
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().whitelistPackages(fullPackagePath).scan()) {
+    private void scanForHandlers(ScanResult... scanResults) {
+        for (int i = 0; i < scanResults.length; i++) {
+            ScanResult scanResult = scanResults[i];
+
             ClassInfoList componentHandlerRegister = scanResult.getClassesWithAnnotation("com.virtual_hex.editor.io.ComponentRegister");
             for (ClassInfo compClassInfo : componentHandlerRegister) {
                 boolean extendsSuperclass = compClassInfo.implementsInterface("com.virtual_hex.editor.io.UIComponentWriter");
@@ -267,9 +264,6 @@ public class UIWriter<T> {
                     // TODO Logging that annotation exist but not a subclass of CompHandler
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Todo logging and check on scan results or just have scan results provided by the application Loader
         }
     }
 

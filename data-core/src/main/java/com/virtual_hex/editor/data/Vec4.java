@@ -1,5 +1,8 @@
 package com.virtual_hex.editor.data;
 
+/**
+ * This class overrides hashcode and equals from its parent UIComponent
+ */
 public class Vec4 extends UIComponent {
 
     public float x, y, z, w;

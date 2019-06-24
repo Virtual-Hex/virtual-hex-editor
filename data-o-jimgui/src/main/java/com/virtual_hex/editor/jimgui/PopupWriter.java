@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.Popup;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
@@ -17,7 +18,7 @@ public class PopupWriter extends JImGuiComponentWriter {
         // Not clipped or collapsed
         boolean visible = out.beginPopup(component.label, component.flags);
         if (visible) {
-            UIComponentsWriter.processUiDataList(out, component, writer);
+            UIComponentsUtils.processUiDataList(out, component, writer);
             JImGuiGen.endPopup();
         }
     }

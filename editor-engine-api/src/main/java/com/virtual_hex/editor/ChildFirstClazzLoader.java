@@ -5,20 +5,18 @@ import java.net.URLClassLoader;
 import java.util.List;
 
 /**
- * A parent-last classloader that will try the child classloader first and then the parent.
- * This takes a fair bit of doing because java really prefers parent-first.
- * <p>
- * For those not familiar with class loading trickery, be wary
+ * This class loader will try to load classes from itself then parent
+ * rather the parent first, then self
  */
-public class ParentLastClazzLoader extends ClassLoader {
+public class ChildFirstClazzLoader extends ClassLoader {
 
     private ChildURLClassLoader childClassLoader;
 
-    public ParentLastClazzLoader(List<URL> classpath) {
+    public ChildFirstClazzLoader(List<URL> classpath) {
         this(classpath.toArray(new URL[classpath.size()]));
     }
 
-    public ParentLastClazzLoader(URL[] classpath) {
+    public ChildFirstClazzLoader(URL[] classpath) {
         super(Thread.currentThread().getContextClassLoader());
         childClassLoader = new ChildURLClassLoader(classpath, new FindClassClassLoader(this.getParent()));
     }

@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.TabItemDecorated;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
@@ -21,7 +22,7 @@ public class TabItemDecoratedWriter extends NativeBoolComponentWriter {
             boolean visible = out.beginTabItem(component.label, value, component.flags);
             component.open = value.accessValue();
             if (visible) { // TODO Maybe remove this open check
-                UIComponentsWriter.processUiDataList(out, component, writer);
+                UIComponentsUtils.processUiDataList(out, component, writer);
                 JImGuiGen.endTabItem();
             }
         }

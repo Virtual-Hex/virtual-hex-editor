@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.TabBar;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
@@ -17,7 +18,7 @@ public class TabBarWriter extends JImGuiComponentWriter {
             // Not clipped or collapsed
             boolean visible = out.beginTabBar(component.label);
             if (visible) { // TODO Maybe remove this open check
-                UIComponentsWriter.processUiDataList(out, component, writer);
+                UIComponentsUtils.processUiDataList(out, component, writer);
                 JImGuiGen.endTabBar();
             }
         }

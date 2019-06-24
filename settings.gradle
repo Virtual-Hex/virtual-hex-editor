@@ -20,4 +20,5 @@ include 'data-o-jimgui-ext'
 include 'desktop-editor'
 include 'editor-engine-api'
 include 'editor-engine-impl'
+include 'engine-o-jimgui'
 

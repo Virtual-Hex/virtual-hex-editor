@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.ListBox;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 
@@ -17,7 +18,7 @@ public class ListBoxWriter extends JImGuiComponentWriter {
         boolean draw = out.listBoxHeader(component.label, component.itemsCount, component.heightInItems);
         if(draw){
             // TODO Into Selectables Group
-            UIComponentsWriter.processUiDataList(out, component, writer);
+            UIComponentsUtils.processUiDataList(out, component, writer);
             out.listBoxFooter();
         }
     }

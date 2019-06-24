@@ -4,5 +4,9 @@ version '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 dependencies {
+    compile project(":data-core")
+    compile project(":data-ext")
+    compile project(":data-io")
     compile project(":editor-engine-api")
+    compile project(":editor-engine-impl")
 }

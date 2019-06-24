@@ -5,6 +5,7 @@ import com.virtual_hex.editor.data.UIComponents;
 import com.virtual_hex.editor.data.ColumnExt;
 import com.virtual_hex.editor.data.ColumnExtRow;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 
@@ -31,7 +32,7 @@ public class ColumnExtWriter extends JImGuiComponentWriter {
 
         // Draw rows
         UIComponents rows = component.rows;
-        UIComponentsWriter.processAddRemoveComponent(rows);
+        UIComponentsUtils.processAddRemoveComponent(rows);
 
         // Loop through the rows here
         List<UIComponent> componentsList = component.rows.uiComponents;
@@ -40,7 +41,7 @@ public class ColumnExtWriter extends JImGuiComponentWriter {
         int index = size - 1;
         for (int i = 0; i < size; i++) {
             ColumnExtRow cRow = (ColumnExtRow) componentsList.get(i);
-            UIComponentsWriter.processAddRemoveComponent(cRow);
+            UIComponentsUtils.processAddRemoveComponent(cRow);
             // Loop through each cell of the row
             List<UIComponent> cells = cRow.uiComponents;
             for (UIComponent cell : cells) {

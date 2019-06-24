@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.ToolTip;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 
@@ -14,7 +15,7 @@ public class ToolTipWriter extends JImGuiComponentWriter {
         ToolTip component = (ToolTip) uiComponent;
         if(out.isItemHovered()) {
             out.beginTooltip();
-            UIComponentsWriter.processUiDataList(out, component, writer);
+            UIComponentsUtils.processUiDataList(out, component, writer);
             out.endTooltip();
         }
     }

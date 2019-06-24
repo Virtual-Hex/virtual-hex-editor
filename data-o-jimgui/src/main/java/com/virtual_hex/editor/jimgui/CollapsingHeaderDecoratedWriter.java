@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.CollapsingHeaderDecorated;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
@@ -20,7 +21,7 @@ public class CollapsingHeaderDecoratedWriter extends NativeBoolComponentWriter {
         boolean open = out.collapsingHeader(component.label, value, component.flags);
         component.open = value.accessValue();
         if (open) { // TODO Maybe remove this open check
-            UIComponentsWriter.processUiDataList(out, component, writer);
+            UIComponentsUtils.processUiDataList(out, component, writer);
         }
         // Trigger handler only when X is pressed on collapsing header
         if (!component.open) {

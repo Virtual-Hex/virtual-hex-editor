@@ -9,3 +9,23 @@ buildscript{
 //        classpath "net.onedaybeard.artemis:artemis-odb-gradle-plugin:2.2.0"
     }
 }
+
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // Testing
+        testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
+        testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
+
+        // Logging
+        compile "org.slf4j:slf4j-api:1.7.25"
+    }
+
+    test.useJUnitPlatform()
+}

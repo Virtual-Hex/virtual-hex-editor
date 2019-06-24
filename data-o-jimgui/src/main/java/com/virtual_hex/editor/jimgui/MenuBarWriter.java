@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.data.MenuBar;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
+import com.virtual_hex.editor.io.UIComponentsUtils;
 import com.virtual_hex.editor.io.UIWriter;
 import org.ice1000.jimgui.JImGui;
 
@@ -14,7 +15,7 @@ public class MenuBarWriter extends JImGuiComponentWriter {
         MenuBar component = (MenuBar) uiComponent;
         boolean value = out.beginMenuBar();
         if (value) {
-            UIComponentsWriter.processUiDataList(out, component, writer);
+            UIComponentsUtils.processUiDataList(out, component, writer);
             out.endMenuBar();
         }
 

@@ -4,15 +4,3 @@ version '1.0.0-SNAPSHOT'
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-test.useJUnitPlatform()
-
-dependencies {
-    // Testing
-    testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-M1"
-    testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-M1"
-}

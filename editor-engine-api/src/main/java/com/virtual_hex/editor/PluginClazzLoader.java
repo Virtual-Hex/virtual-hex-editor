@@ -3,7 +3,7 @@ package com.virtual_hex.editor;
 import java.net.URL;
 import java.util.List;
 
-public class PluginClazzLoader extends ParentLastClazzLoader {
+public class PluginClazzLoader extends ChildFirstClazzLoader {
 
     public PluginClazzLoader(List<URL> classpath) {
         super(classpath);

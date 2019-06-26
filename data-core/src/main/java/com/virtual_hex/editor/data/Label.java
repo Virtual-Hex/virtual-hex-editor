@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class Label extends UIComponent {
+public class Label extends AbstractUIComponent {
 
     public static final String EMPTY = "";
 

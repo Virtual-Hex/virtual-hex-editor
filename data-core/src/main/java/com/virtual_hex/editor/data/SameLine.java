@@ -5,7 +5,7 @@ package com.virtual_hex.editor.data;
  * <p>
  * call between widgets or groups to layout them horizontally. X position given in window coordinates.
  */
-public class SameLine extends UIComponent {
+public class SameLine extends AbstractUIComponent {
 
     public float positionX;
     public float spacingWidth = -1;

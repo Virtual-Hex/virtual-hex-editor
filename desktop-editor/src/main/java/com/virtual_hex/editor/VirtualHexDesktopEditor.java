@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ import static com.virtual_hex.editor.data.FieldNames.OPEN;
  * <p>
  * TODO- Replace linked list with fixed but resizable array to reduced linked list garbage
  */
-public final class VirtualHexDesktopEditor extends UIComponent {
+public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
     public static final String EDITOR_ALL_WINDOWS = "emm-0";
     public static final String W_PROJECTS = "w-projects";
@@ -61,6 +62,7 @@ public final class VirtualHexDesktopEditor extends UIComponent {
 
     public static VirtualHexDesktopEditor INSTANCE;
 
+    public PluginManager pluginManager;
     public UIComponents uiComponents;
     public boolean shouldClose;
 
@@ -89,16 +91,18 @@ public final class VirtualHexDesktopEditor extends UIComponent {
 
         // Deserialize a UIApp here
         // PROJECT FORMAT which will have a new child first loader
-        // Project will have a a child first loader as well
+        // EditorProject will have a a child first loader as well
         // Load Editor
         // Load Projects
 
         // Load a writer, here we want to load all of the component writers for this writer from the provided package
 
+        // Basic writer using the defaults
         ScanResult scanResult1 = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor.jimgui").scan();
         UIWriter<JImGui> uiWriter = new UIWriter<>(true, scanResult1);
 
         ChildFirstClassLoader editorClassLoader = new ChildFirstClassLoader(new URL[]{}, this.getClass().getClassLoader());
+        pluginManager = new EnhancedPluginManager(Paths.get("plugins"), "virtual-hex-editor");
 
         Object editorLoader = null;
         if (editorLoader != null) {

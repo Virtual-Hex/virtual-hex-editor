@@ -1,13 +1,12 @@
 package com.virtual_hex.editor;
 
+import com.virtual_hex.editor.utils.ClassUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A parent-last classloader that will try the child classloader first and then the parent.
@@ -123,4 +122,9 @@ public class ChildFirstClassLoader extends URLClassLoader {
         }
         return null;
     }
+
+    public Vector<Class> getClasses() throws NoSuchFieldException, IllegalAccessException {
+        return ClassUtils.getClasses(this);
+    }
+
 }

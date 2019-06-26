@@ -27,7 +27,7 @@ public abstract class NativeBoolComponentWriter extends NativeAllocComponentWrit
 
     protected NativeBool getNative(String fieldName, UIComponent object) {
         return cachedBools
-                .computeIfAbsent(object.id, UUID_MAPPING_FUNCTION)
+                .computeIfAbsent(object.getId(), UUID_MAPPING_FUNCTION)
                 .computeIfAbsent(fieldName, STRING_MAPPING_FUNCTION);
     }
 

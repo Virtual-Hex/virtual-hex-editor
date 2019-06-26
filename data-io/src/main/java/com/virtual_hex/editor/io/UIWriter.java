@@ -20,7 +20,6 @@ import java.util.function.BiConsumer;
 public class UIWriter<T> {
 
     public static final UIComponentWriter EMPTY_WRITER = new EmptyComponentReader();
-    public static final UIComponent EMPTY_COMPONENT = new UIComponent();
 
     public final int version;
     public Map<UUID, UIComponentWriter<T>> uuidSpecificTypeHandlers;
@@ -53,7 +52,7 @@ public class UIWriter<T> {
      * @return
      */
     public <C extends UIComponent> C createAction(C component, ActivationHandler<T> activationHandler) {
-        activationHandlers.computeIfAbsent(component.id, uuid -> new ArrayList<>()).add(activationHandler);
+        activationHandlers.computeIfAbsent(component.getId(), uuid -> new ArrayList<>()).add(activationHandler);
         return component;
     }
 
@@ -77,7 +76,7 @@ public class UIWriter<T> {
         }
 
         // We want to know if a state changes
-        stateChangeHandlers.computeIfAbsent(uiComponent.id, uuid -> new ArrayList<>())
+        stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
                 .add(new StateChangeHandler<T>() {
                     @Override
                     public void handle(T out, UIComponent objectChanged, UIWriter<T> parentDrawer) {
@@ -112,7 +111,7 @@ public class UIWriter<T> {
             toggleGroup.computeIfAbsent(group, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
 
             // We want to know if a state changes
-            stateChangeHandlers.computeIfAbsent(uiComponent.id, uuid -> new ArrayList<>())
+            stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
                     .add(new StateChangeHandler<T>() {
                         @Override
                         public void handle(T out, UIComponent objectChanged, UIWriter<T> parentDrawer) {
@@ -148,7 +147,7 @@ public class UIWriter<T> {
         toggleGroup.computeIfAbsent(primaryGroup, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
 
         // We want to know if a state changes
-        stateChangeHandlers.computeIfAbsent(uiComponent.id, uuid -> new ArrayList<>())
+        stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
                 .add(new StateChangeHandler<T>() {
                     @Override
                     public void handle(T out, UIComponent objectChanged, UIWriter<T> parentDrawer) {
@@ -172,7 +171,7 @@ public class UIWriter<T> {
      * @param value the value to set the for each value field of the group
      */
     public void toggleGroup(String group, boolean value){
-        toggleGroup(group, EMPTY_COMPONENT, value);
+        toggleGroup(group, UIComponent.EMPTY_COMPONENT, value);
     }
 
     /**
@@ -207,7 +206,7 @@ public class UIWriter<T> {
      * @param writer
      */
     public void handleStateChange(T out, UIComponent uiComponent, UIWriter<T> writer) {
-        List<StateChangeHandler<T>> stateChangeHandlerList = stateChangeHandlers.getOrDefault(uiComponent.id, Collections.emptyList());
+        List<StateChangeHandler<T>> stateChangeHandlerList = stateChangeHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
         for (StateChangeHandler<T> stateChangeHandler : stateChangeHandlerList) {
             stateChangeHandler.handle(out, uiComponent, writer);
         }
@@ -289,7 +288,7 @@ public class UIWriter<T> {
     public void write(T out, UIComponent uiComponent, BiConsumer<T, UIComponent> writeFailHandler) {
         UIComponentWriter<T> componentWriter = null;
 
-        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).id);
+        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).getId());
 
         if (componentWriter == null) {
             componentWriter = checkType(uiComponent);
@@ -312,7 +311,7 @@ public class UIWriter<T> {
     public boolean write(T out, UIComponent uiComponent) {
         UIComponentWriter<T> componentWriter = null;
 
-        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).id);
+        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).getId());
 
         if (componentWriter == null) {
             componentWriter = checkType(uiComponent);
@@ -359,7 +358,7 @@ public class UIWriter<T> {
      * @param writer
      */
     public void handleActivation(T out, UIComponent uiComponent, UIWriter<T> writer) {
-        List<ActivationHandler<T>> activationHandlerList = activationHandlers.getOrDefault(uiComponent.id, Collections.emptyList());
+        List<ActivationHandler<T>> activationHandlerList = activationHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
         for (ActivationHandler<T> activationHandler : activationHandlerList) {
             activationHandler.handle(out, uiComponent, writer);
         }

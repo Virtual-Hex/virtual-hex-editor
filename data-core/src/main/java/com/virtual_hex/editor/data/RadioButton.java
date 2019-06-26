@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class RadioButton extends UIComponent {
+public class RadioButton extends AbstractUIComponent {
 
     public int value;
     public Label[] labels;

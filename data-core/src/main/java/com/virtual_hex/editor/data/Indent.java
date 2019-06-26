@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class Indent extends UIComponent {
+public class Indent extends AbstractUIComponent {
 
     public float value;
 

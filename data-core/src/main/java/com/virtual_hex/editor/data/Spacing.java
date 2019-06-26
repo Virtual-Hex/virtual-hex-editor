@@ -5,5 +5,5 @@ package com.virtual_hex.editor.data;
  * <p>
  * add vertical spacing.
  */
-public class Spacing extends UIComponent {
+public class Spacing extends AbstractUIComponent {
 }

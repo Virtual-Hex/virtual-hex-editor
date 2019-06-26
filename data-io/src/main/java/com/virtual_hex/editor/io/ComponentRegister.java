@@ -8,8 +8,7 @@ import java.lang.annotation.*;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface ComponentRegister {
     int version() default 0;
-
     Class<?> typeKey();
-
+    String name() default "Default";
     ComponentOperation operation() default ComponentOperation.READ_WRITE;
 }

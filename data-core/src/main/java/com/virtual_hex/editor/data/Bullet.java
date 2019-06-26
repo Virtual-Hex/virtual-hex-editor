@@ -1,6 +1,4 @@
 package com.virtual_hex.editor.data;
 
-public class Bullet extends UIComponent {
-
-
+public class Bullet extends AbstractUIComponent {
 }

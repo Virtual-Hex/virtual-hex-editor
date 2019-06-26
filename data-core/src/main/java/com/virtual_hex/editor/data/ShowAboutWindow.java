@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ShowAboutWindow extends UIComponent {
+public class ShowAboutWindow extends AbstractUIComponent {
 
     public boolean open;
 

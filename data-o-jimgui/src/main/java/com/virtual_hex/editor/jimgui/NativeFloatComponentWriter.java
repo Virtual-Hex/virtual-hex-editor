@@ -23,7 +23,7 @@ public abstract class NativeFloatComponentWriter extends NativeAllocComponentWri
 
     protected NativeFloat getNative(String fieldName, UIComponent object) {
         return cachedFloats
-                .computeIfAbsent(object.id, value -> new HashMap<>())
+                .computeIfAbsent(object.getId(), value -> new HashMap<>())
                 .computeIfAbsent(fieldName, aClass -> create());
     }
 

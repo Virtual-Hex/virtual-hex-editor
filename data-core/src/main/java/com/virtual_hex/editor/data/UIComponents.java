@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @param > generally UIComponents can be mixed, but sometimes the types should be restricted
  */
-public class UIComponents extends UIComponent {
+public class UIComponents extends AbstractUIComponent {
 
     // Change to array and add helper utils to insert, remove, move since this will modify less
     public List<UIComponent> uiComponents;

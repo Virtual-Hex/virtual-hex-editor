@@ -5,6 +5,7 @@ import com.virtual_hex.editor.data.InputText;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.io.ComponentRegister;
 import com.virtual_hex.editor.io.UIWriter;
+import com.virtual_hex.editor.utils.ClassUtils;
 import org.ice1000.jimgui.JImGui;
 
 import java.lang.reflect.Field;
@@ -12,7 +13,7 @@ import java.util.Vector;
 import java.util.WeakHashMap;
 
 // todo once we start the plugin manager
-@ComponentRegister(typeKey = ClassLoaderUIComponent.class)
+@ComponentRegister(typeKey = ClassLoaderUIComponent.class, name = "Style 1")
 public class ClassLoaderUIComponentWriter extends JImGuiComponentWriter {
 
     private transient InputText inputText = new InputText("Filter", 255);
@@ -33,9 +34,7 @@ public class ClassLoaderUIComponentWriter extends JImGuiComponentWriter {
 
         Field f = null;
         try {
-            f = ClassLoader.class.getDeclaredField("classes");
-            f.setAccessible(true);
-            Vector<Class> classes =  (Vector<Class>) f.get(classLoader);
+            Vector<Class> classes = ClassUtils.getClasses(component.classLoader);
             boolean begin = out.listBoxHeader("Classes", classes.size(), 10);
             if(begin) {
                 for (int i = 0; i < classes.size(); i++) {

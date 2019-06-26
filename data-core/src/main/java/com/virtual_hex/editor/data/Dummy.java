@@ -5,7 +5,7 @@ package com.virtual_hex.editor.data;
  * <p>
  * add a dummy item of given size. unlike InvisibleButton(), Dummy() won't take the mouse click or be navigable into.
  */
-public class Dummy extends UIComponent {
+public class Dummy extends AbstractUIComponent {
 
     public float width;
     public float height;

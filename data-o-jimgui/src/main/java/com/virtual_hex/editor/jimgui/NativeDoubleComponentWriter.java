@@ -23,7 +23,7 @@ public abstract class NativeDoubleComponentWriter extends NativeAllocComponentWr
 
     protected NativeDouble getNative(String fieldName, UIComponent object) {
         return cachedDoubles
-                .computeIfAbsent(object.id, value -> new HashMap<>())
+                .computeIfAbsent(object.getId(), value -> new HashMap<>())
                 .computeIfAbsent(fieldName, aClass -> create());
     }
 

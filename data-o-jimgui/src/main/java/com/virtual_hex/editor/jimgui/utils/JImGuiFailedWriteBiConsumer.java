@@ -9,7 +9,7 @@ public class JImGuiFailedWriteBiConsumer implements BiConsumer<JImGui, UICompone
 
     @Override
     public void accept(JImGui imGui, UIComponent uiComponent) {
-        String format = String.format("Cannot find a data writer. Class: %s, Id: %s", uiComponent.getClass(), uiComponent.id);
+        String format = String.format("Cannot find a data writer. Class: %s, Id: %s", uiComponent.getClass(), uiComponent.getId());
         imGui.text(format);
     }
 }

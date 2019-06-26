@@ -33,7 +33,7 @@ public @interface PluginManifest {
     String name();
 
     /**
-     * Complex: @see com.freeuniversegames.meta.ComplexVersion
+     * Complex: @see com.virtual_hex.editor.ComplexVersion
      * {
      *   "type": "ComplexVersion",
      *   "major": 1,
@@ -43,16 +43,15 @@ public @interface PluginManifest {
      *   "timestamp": 0
      * }
      *
-     * Simple: @see com.freeuniversegames.meta.SimpleVersion
+     * Simple: @see com.virtual_hex.editor.SimpleVersion
      * {
      *   "type": "SimpleVersion",
      *   "version": 1
      * }
-     * @return String representation of @see Version as @see com..freeuniversegames.JsonString
+     * @return String representation of
      */
     @Required
     String version();
-
 
     /**
      *
@@ -119,7 +118,9 @@ public @interface PluginManifest {
      */
     String[] dependencies() default "";
 
-//    boolean unloadable() default true;
+    boolean canBeStopped() default true;
+
+    boolean canBeUnloaded() default true;
 
     String[] permissions() default {};
 
@@ -131,15 +132,4 @@ public @interface PluginManifest {
     String[] jarExtracts() default {};
 
     String help() default "Awaiting future implementation";
-
-    enum PlatformType {
-        CENTRAL_SERVER,
-        END_USER_SERVER,
-        END_USER_CLIENT,
-        CENTRAL_SERVER__END_USER_SERVER,
-        END_USER_SERVER__END_USER_CLIENT,
-        ALL
-    }
-
-
 }

@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ProgressBar extends UIComponent{
+public class ProgressBar extends AbstractUIComponent {
 
     public float fraction;
     public float width;

@@ -30,7 +30,7 @@ public interface Plugin {
      * @param pluginWrapper PluginWrapper with application resources
      */
     default void setPluginWrapper(PluginWrapper pluginWrapper){
-
     }
+
 }
 

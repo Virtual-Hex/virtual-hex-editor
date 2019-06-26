@@ -3,28 +3,55 @@ package com.virtual_hex.editor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface PluginManager {
-
+    /**
+     *
+     * @param directory directory to scan for plugins
+     * @return List of all the PluginHolder
+     * @throws IOException
+     */
     List<PluginHolder> loadPlugins(File directory) throws IOException;
 
+    /**
+     *
+     * @param directory directory to scan for plugins
+     * @return List of all the PluginHolder
+     * @throws IOException
+     */
     List<PluginHolder> loadPlugins(Path directory) throws IOException;
 
     /**
      *
-     * @param files File files that should be loaded as plugins
-     * @return List the list of plugins
+     * @param files list of Files to load as plugins
+     * @return List of all the PluginHolder
      */
     List<PluginHolder> loadPlugins(File... files);
 
-    // Insert Directory Load
+    /**
+     *
+     * @param files list of Files to load as plugins
+     * @return List of all the PluginHolder
+     */
+    List<PluginHolder> loadPlugins(Path... files);
+
+    PluginHolder loadPlugin(Path file);
 
     PluginHolder loadPlugin(File file);
 
-
     PluginHolder startPlugin(PluginHolder pluginHolder);
+
+    PluginHolder[] startPlugins(PluginHolder... pluginHolders);
+
+    PluginHolder stopPlugin(PluginHolder pluginHolder);
+
+    PluginHolder[] stopPlugins(PluginHolder... pluginHolders);
+
+    PluginHolder unloadPlugin(PluginHolder pluginHolder);
+
+    PluginHolder[] unloadPlugins(PluginHolder... pluginHolders);
 
     /**
      *
@@ -33,11 +60,8 @@ public interface PluginManager {
      */
     PluginHolder getPlugin(String name);
 
-    /**
-     *
-     * @return List returns a list of plugins
-     */
-    Collection<PluginHolder> getPlugins();
+    
+    Map<String, PluginHolder> getPlugins();
 
     /**
      *
@@ -50,10 +74,6 @@ public interface PluginManager {
      * @param filename String removes a file name from the blocked from loading list
      */
     void removeFromBlacklist(String filename);
-
-    <T> T getExtraResource(String name);
-
-    void addExtraResource(String name, Object resources);
 
     /**
      *

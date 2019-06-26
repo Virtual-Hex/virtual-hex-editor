@@ -6,7 +6,7 @@ package com.virtual_hex.editor.data;
  * - You can also use SameLine(pos_x) to mimic simplified rows.
  * - The rows API is work-in-progress and rather lacking (rows are arguably the worst part of dear imgui at the moment!)
  */
-public class Columns extends UIComponent {
+public class Columns extends AbstractUIComponent {
 
     public String stringId;
     public int count;

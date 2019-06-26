@@ -11,6 +11,5 @@ public class SpacingWriter extends JImGuiComponentWriter {
     @Override
     public void write(JImGui out, UIComponent uiComponent, UIWriter<JImGui> writer) {
         JImGuiGen.spacing();
-
     }
 }

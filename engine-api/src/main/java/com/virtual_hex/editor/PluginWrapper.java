@@ -3,6 +3,10 @@ package com.virtual_hex.editor;
 import java.nio.file.Path;
 import java.util.jar.JarFile;
 
+/**
+ * This class is a wrapper that holds, the plugin manager, and resources related to the plugin as well as available
+ * for use.
+ */
 public class PluginWrapper {
 
     /**

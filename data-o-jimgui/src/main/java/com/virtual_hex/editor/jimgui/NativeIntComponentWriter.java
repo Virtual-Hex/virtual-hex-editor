@@ -23,7 +23,7 @@ public abstract class NativeIntComponentWriter extends NativeAllocComponentWrite
 
     protected NativeInt getNative(String fieldName, UIComponent object) {
         return cachedInts
-                .computeIfAbsent(object.id, value -> new HashMap<>())
+                .computeIfAbsent(object.getId(), value -> new HashMap<>())
                 .computeIfAbsent(fieldName, aClass -> create());
     }
 

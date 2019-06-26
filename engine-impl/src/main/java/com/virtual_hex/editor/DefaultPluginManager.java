@@ -32,21 +32,14 @@ public class DefaultPluginManager implements PluginManager {
      */
     private static final Logger L = LoggerFactory.getLogger(DefaultPluginManager.class);
 
-    private final Class<?> parentClazz;
     private final Path pluginDataPath;
     private final String target;
-    private final String targetLower;
     private final Map<String, PluginHolder> plugins;
-    private final Map<String, Object> extraResources;
 
-    public DefaultPluginManager(Class parentClazz, Path pluginDataPath, String target) {
-        this.parentClazz = parentClazz;
+    public DefaultPluginManager(Path pluginDataPath, String target) {
         this.pluginDataPath = pluginDataPath;
         this.target = target;
-        this.targetLower = target.toLowerCase();
-        // TODO
         this.plugins = new ConcurrentHashMap<>(16, 0.75f,1);
-        extraResources = new ConcurrentHashMap<>(8, 1.0f, 1);
     }
 
     @Override
@@ -64,8 +57,6 @@ public class DefaultPluginManager implements PluginManager {
         return loadPlugins(filesList.toArray(files));
     }
 
-
-
     @Override
     public List<PluginHolder> loadPlugins(File... files) {
         int length = files.length;
@@ -78,13 +69,27 @@ public class DefaultPluginManager implements PluginManager {
         return plugins;
     }
 
+    @Override
+    public List<PluginHolder> loadPlugins(Path... files) {
+        int length = files.length;
+        List<PluginHolder> plugins = new ArrayList<>(length);
+        for (int i = 0; i < length; i++) {
+            Path file = files[i];
+            PluginHolder pluginHolder = loadPlugin(file.toFile());
+            plugins.add(pluginHolder);
+        }
+        return plugins;
+    }
 
+    @Override
+    public PluginHolder loadPlugin(Path file){
+        return loadPlugin(file.toFile());
+    }
 
     @Override
     public PluginHolder loadPlugin(File file){
         // TODO Plugin Manager Name and Application for Debugging
-        PluginLoadCode pl;
-
+        PluginHolder.StatusCode pl;
 
         final String pluginFileString = file.toString();
 
@@ -94,7 +99,7 @@ public class DefaultPluginManager implements PluginManager {
         try {
             pluginJarFile = new JarFile(file);
         } catch (IOException e) {
-            pl = PluginLoadCode.JAR_FILE_IO_EXCEPTION;
+            pl = PluginHolder.StatusCode.JAR_FILE_IO_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
@@ -103,20 +108,20 @@ public class DefaultPluginManager implements PluginManager {
         try {
             pluginJarManifest = pluginJarFile.getManifest();
         } catch (IOException e) {
-            pl = PluginLoadCode.JAR_MANIFEST_IO_EXCEPTION;
+            pl = PluginHolder.StatusCode.JAR_MANIFEST_IO_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
 
         if (pluginJarManifest == null) {
-            pl = PluginLoadCode.NO_JAR_MANIFEST;
+            pl = PluginHolder.StatusCode.NO_JAR_MANIFEST;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "META-INF/MANIFEST.MF");
         }
 
         final String pluginClassString = pluginJarManifest.getMainAttributes().getValue("Plugin-Class");
         if (pluginClassString == null) {
-            pl = PluginLoadCode.NO_JAR_MANIFEST_VALUE;
+            pl = PluginHolder.StatusCode.NO_JAR_MANIFEST_VALUE;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "Plugin-Class");
         }
@@ -125,7 +130,7 @@ public class DefaultPluginManager implements PluginManager {
         String entryName = entryNameTemp.endsWith(".class") ? entryNameTemp : entryNameTemp + ".class";
         JarEntry jarEntry = pluginJarFile.getJarEntry(entryName);
         if (jarEntry == null) {
-            pl = PluginLoadCode.CANNOT_FIND_CLASS_JAR_ENTRY;
+            pl = PluginHolder.StatusCode.CANNOT_FIND_CLASS_JAR_ENTRY;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, entryName);
         }
@@ -134,7 +139,7 @@ public class DefaultPluginManager implements PluginManager {
         try {
             pluginClazzLoader = new PluginClazzLoader(new URL[]{file.toURI().toURL()});
         } catch (MalformedURLException e) {
-            pl = PluginLoadCode.MALFORMED_URL;
+            pl = PluginHolder.StatusCode.MALFORMED_URL;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
@@ -143,27 +148,27 @@ public class DefaultPluginManager implements PluginManager {
         try {
             pluginClazz = pluginClazzLoader.loadClass(pluginClassString);
         } catch (ClassNotFoundException e) {
-            pl = PluginLoadCode.CANNOT_FIND_CLASS_EXCEPTION;
+            pl = PluginHolder.StatusCode.CANNOT_FIND_CLASS_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
 
         if (!Plugin.class.isAssignableFrom(pluginClazz)) {
-            pl = PluginLoadCode.CLASS_PLUGIN_INHERITANCE;
+            pl = PluginHolder.StatusCode.CLASS_PLUGIN_INHERITANCE;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "Must inherit interface \"Plugin\"");
         }
 
         PluginManifest pluginManifest = pluginClazz.getAnnotation(PluginManifest.class);
         if(pluginManifest == null){
-            pl = PluginLoadCode.MISSING_ANNOTATION;
+            pl = PluginHolder.StatusCode.MISSING_ANNOTATION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "Plugin class is missing the annotation \"PluginManifest\"");
         }
 
         String[] targets = pluginManifest.targets();
         if (targets.length == 0) {
-            pl = PluginLoadCode.NO_TARGET;
+            pl = PluginHolder.StatusCode.NO_TARGET;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "The plugin must designate a target");
         }
@@ -173,7 +178,7 @@ public class DefaultPluginManager implements PluginManager {
         for (int i = 0; i < targetsLength; i++) {
             String target = targets[i];
             if(target != null){
-                if(!Objects.equals(this.targetLower, target.toLowerCase())){
+                if(!Objects.equals(this.target, target)){
                     targetMatch = true;
                     break;
                 }
@@ -181,7 +186,7 @@ public class DefaultPluginManager implements PluginManager {
         }
 
         if (!targetMatch) {
-            pl = PluginLoadCode.TARGET_MISS_MATCH;
+            pl = PluginHolder.StatusCode.TARGET_MISS_MATCH;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, "The target for this plugin does not match this application");
         }
@@ -199,16 +204,16 @@ public class DefaultPluginManager implements PluginManager {
                 try {
                     nullOrEmpty = ReflectionUtils.isNullOrEmpty(pluginManifest, pluginDetailsMethod);
                 } catch (IllegalAccessException e) {
-                    pl = PluginLoadCode.ANNOTATION_METHOD_ILLEGAL_ACCESS_EXCEPTION;
+                    pl = PluginHolder.StatusCode.ANNOTATION_METHOD_ILLEGAL_ACCESS_EXCEPTION;
                     L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
                     return new PluginHolder(pl, pluginFileString, e.getMessage());
                 } catch (InvocationTargetException e) {
-                    pl = PluginLoadCode.ANNOTATION_METHOD_INVOCATION_TARGET_EXCEPTION;
+                    pl = PluginHolder.StatusCode.ANNOTATION_METHOD_INVOCATION_TARGET_EXCEPTION;
                     L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
                     return new PluginHolder(pl, pluginFileString, e.getMessage());
                 }
                 if(nullOrEmpty) {
-                    pl = PluginLoadCode.MISSING_ANNOTATION_VALUE;
+                    pl = PluginHolder.StatusCode.MISSING_ANNOTATION_VALUE;
                     L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
                     return new PluginHolder(pl, pluginFileString, pluginDetailsMethod.getName());
                 }
@@ -220,7 +225,6 @@ public class DefaultPluginManager implements PluginManager {
 
         int version = Integer.parseInt(versionString);
 
-
         // TODO Dependency check
         // TODO Version check
 
@@ -228,11 +232,11 @@ public class DefaultPluginManager implements PluginManager {
         try {
             plugin = (Plugin) pluginClazz.newInstance();
         } catch (InstantiationException e) {
-            pl = PluginLoadCode.PLUGIN_INSTANTIATION_EXCEPTION;
+            pl = PluginHolder.StatusCode.PLUGIN_INSTANTIATION_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         } catch (IllegalAccessException e) {
-            pl = PluginLoadCode.PLUGIN_ILLEGAL_ACCESS_EXCEPTION;
+            pl = PluginHolder.StatusCode.PLUGIN_ILLEGAL_ACCESS_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
@@ -243,7 +247,7 @@ public class DefaultPluginManager implements PluginManager {
         try {
             pluginSize = Files.size(pluginFilePath);
         } catch (IOException e) {
-            pl = PluginLoadCode.PLUGIN_FILE_SIZE_IO_EXCEPTION;
+            pl = PluginHolder.StatusCode.PLUGIN_FILE_SIZE_IO_EXCEPTION;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
@@ -253,7 +257,7 @@ public class DefaultPluginManager implements PluginManager {
         try {
             Files.createDirectories(pluginDataDirectory);
         } catch (IOException e) {
-            pl = PluginLoadCode.PLUGIN_DATA_DIRECTORY_CREATE_ERROR;
+            pl = PluginHolder.StatusCode.PLUGIN_DATA_DIRECTORY_CREATE_ERROR;
             L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pl);
             return new PluginHolder(pl, pluginFileString, e.getMessage());
         }
@@ -269,7 +273,7 @@ public class DefaultPluginManager implements PluginManager {
                 pluginSize);
         plugin.setPluginWrapper(pluginWrapper);
 
-        pl = PluginLoadCode.SUCCESS_LOAD;
+        pl = PluginHolder.StatusCode.SUCCESS_LOAD;
         return new PluginHolder(pl, pluginFileString, "Success Load");
     }
 
@@ -280,29 +284,67 @@ public class DefaultPluginManager implements PluginManager {
         try {
             boolean enable = plugin.onEnable();
             if(!enable){
-                pluginHolder.setLoadCodeAndStatus(PluginLoadCode.PLUGIN_ON_ENABLE_RETURNED_FALSE,
+                pluginHolder.setLoadCodeAndStatus(PluginHolder.StatusCode.PLUGIN_ON_ENABLE_RETURNED_FALSE,
                         "Plugin on enable returned false; plugin cannot be loaded as per plugin");
                 L.warn("Plugin Manager: A plugin needs further configuration then reloaded from location {}.",
-                        pluginFileString, pluginHolder.getPluginLoadCode());
+                        pluginFileString, pluginHolder.getStatusCode());
                 return pluginHolder;
             }else {
-                pluginHolder.setLoadCodeAndStatus(PluginLoadCode.SUCCESS_ON_ENABLE, "Plugin enabled");
+                pluginHolder.setLoadCodeAndStatus(PluginHolder.StatusCode.SUCCESS_ON_ENABLE, "Plugin enabled");
                 L.debug("Plugin Manager: Loading plugin success from location {}. Error: {}", pluginFileString,
-                        pluginHolder.getPluginLoadCode());
+                        pluginHolder.getStatusCode());
                 plugins.put(pluginHolder.getPluginWrapper().getPluginDetails().getPluginManifest().name(), pluginHolder);
                 return pluginHolder;
             }
         } catch (Exception e) {
-            pluginHolder.setLoadCodeAndStatus(PluginLoadCode.PLUGIN_ON_ENABLE_EXCEPTION, "Exception from Plugin" +
+            pluginHolder.setLoadCodeAndStatus(PluginHolder.StatusCode.PLUGIN_ON_ENABLE_EXCEPTION, "Exception from Plugin" +
                     ".onEnable()");
-            L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pluginHolder.getPluginLoadCode());
+            L.warn("Plugin Manager: Loading plugin error from location {}. Error: {}", pluginFileString, pluginHolder.getStatusCode());
         }
         return pluginHolder;
     }
 
-    // TODO Stop plugin
+    @Override
+    public PluginHolder[] startPlugins(PluginHolder... pluginHolders) {
+        for (int i = 0; i < pluginHolders.length; i++) {
+            PluginHolder pluginHolder = pluginHolders[i];
+            startPlugin(pluginHolder);
+        }
+        return pluginHolders;
+    }
 
-    // Unload Plugins
+    @Override
+    public PluginHolder stopPlugin(PluginHolder pluginHolder) {
+        pluginHolder.getPluginWrapper().getPlugin().onDisable();
+        return pluginHolder;
+    }
+
+    @Override
+    public PluginHolder[] stopPlugins(PluginHolder... pluginHolders) {
+        for (int i = 0; i < pluginHolders.length; i++) {
+            PluginHolder pluginHolder = pluginHolders[i];
+
+            pluginHolder.getPluginWrapper().getPlugin().onDisable();
+        }
+        return pluginHolders;
+    }
+
+    @Override
+    public PluginHolder unloadPlugin(PluginHolder pluginHolder) {
+        stopPlugins(pluginHolder);
+        plugins.remove(pluginHolder.getPluginWrapper().getPluginDetails().getPluginManifest().name());
+        return pluginHolder;
+    }
+
+    @Override
+    public PluginHolder[] unloadPlugins(PluginHolder... pluginHolders) {
+        for (int i = 0; i < pluginHolders.length; i++) {
+            PluginHolder pluginHolder = pluginHolders[i];
+            stopPlugins(pluginHolder);
+            plugins.remove(pluginHolder.getPluginWrapper().getPluginDetails().getPluginManifest().name());
+        }
+        return pluginHolders;
+    }
 
     @Override
     public PluginHolder getPlugin(String name) {
@@ -310,10 +352,9 @@ public class DefaultPluginManager implements PluginManager {
     }
 
     @Override
-    public Collection<PluginHolder> getPlugins() {
-        return plugins.values();
+    public Map<String, PluginHolder> getPlugins() {
+        return plugins;
     }
-
 
     @Override
     public void addToBlacklist(String filename) {
@@ -323,16 +364,6 @@ public class DefaultPluginManager implements PluginManager {
     @Override
     public void removeFromBlacklist(String filename) {
         // TODO
-    }
-
-    @Override
-    public <T> T getExtraResource(String name) {
-        return (T) extraResources.get(name);
-    }
-
-    @Override
-    public void addExtraResource(String name, Object resources) {
-        extraResources.put(name, resources);
     }
 
     @Override

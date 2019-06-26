@@ -5,5 +5,5 @@ package com.virtual_hex.editor.data;
  * <p>
  * separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
  */
-public class Separator extends UIComponent {
+public class Separator extends AbstractUIComponent {
 }

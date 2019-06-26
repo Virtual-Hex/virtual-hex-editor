@@ -1,9 +1,6 @@
 package com.virtual_hex.editor.data;
 
-import com.virtual_hex.editor.data.Text;
-import com.virtual_hex.editor.data.UIComponent;
-
-public class ShowHelpMarker extends UIComponent {
+public class ShowHelpMarker extends AbstractUIComponent {
 
     public UIComponent helpMarker;
     public UIComponent data;

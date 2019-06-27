@@ -5,4 +5,5 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile project(":engine-api")
+    compile project(path: ':engine-api', configuration: 'compile')
 }

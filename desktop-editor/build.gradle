@@ -9,10 +9,9 @@ project.ext {
 }
 
 dependencies {
-    compile project(":data-o-jimgui-ext")
-
-    compile project(":engine-o-jimgui")
-    compile project(path: ':engine-o-jimgui', configuration: 'compile')
+    compile project(":imgui-w-jimgui")
+    compile project(path: ':imgui-w-jimgui', configuration: 'compile')
+    
 
     // Test serialization netty - TODO Break into separate plugin
 //    compile project(":data-io-netty")
@@ -22,6 +21,8 @@ dependencies {
 
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'ch.qos.logback:logback-core:1.2.3'
+    
+    
 }
 
 // TODO Add jar packaging light/api and full runnable

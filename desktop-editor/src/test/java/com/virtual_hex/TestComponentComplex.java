@@ -1,7 +1,7 @@
 package com.virtual_hex;
 
 
-import com.virtual_hex.editor.io.ActivationHandler;
+import com.virtual_hex.editor.ActivationHandler;
 
 public class TestComponentComplex {
 

@@ -1,10 +1,11 @@
 package com.virtual_hex.editor;
 
 import ch.qos.logback.classic.Level;
-import com.virtual_hex.editor.data.*;
-import com.virtual_hex.editor.io.UIWriter;
+import com.virtual_hex.editor.data.AbstractUIComponent;
+import com.virtual_hex.editor.data.UIComponents;
 import com.virtual_hex.editor.jimgui.utils.JImGuiFailedWriteBiConsumer;
 import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.NativeBool;
@@ -17,14 +18,8 @@ import org.slf4j.LoggerFactory;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-
-import static com.virtual_hex.editor.data.FieldNames.OPEN;
 
 /**
  * TODO: Will need some reflective nativeData entities to be able to render IDs to names, ect since
@@ -50,6 +45,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
     public static final String EDITOR_ALL_WINDOWS = "emm-0";
     public static final String W_PROJECTS = "w-projects";
+    public static final String W_UI_PLUGINS = "w-ui-plugins";
     public static final String W_IMGUI_ABOUT = "w-imgui-about";
     public static final String W_IMGUI_DEMO = "w-imgui-demo";
     public static final String W_IMGUI_METRICS = "w-imgui-metrics";
@@ -65,6 +61,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
     public PluginManager pluginManager;
     public UIComponents uiComponents;
     public boolean shouldClose;
+    private List<UIWriter> tempList = new ArrayList<>();
 
     public static void main(String[] args) throws URISyntaxException {
 
@@ -97,34 +94,90 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
         // Load a writer, here we want to load all of the component writers for this writer from the provided package
 
-        // Basic writer using the defaults
-        ScanResult scanResult1 = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor.jimgui").scan();
-        UIWriter<JImGui> uiWriter = new UIWriter<>(true, scanResult1);
+        // Look for settings, to load previous writers and data
+        // Load basic UIWriter, show window if no previous stuff, to allow extending of the launcher
+        EditorConfiguration editorConfiguration = null;// This will be just a file
+        if(editorConfiguration == null){
+            editorConfiguration = new EditorConfiguration();
+            // Scan for internal data types
+            ScanResult editorPackageScan = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor").scan();
 
-        ChildFirstClassLoader editorClassLoader = new ChildFirstClassLoader(new URL[]{}, this.getClass().getClassLoader());
-        pluginManager = new EnhancedPluginManager(Paths.get("plugins"), "virtual-hex-editor");
+            // Lets grab the ui components
+            ClassInfoList uiComponents = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.data.UIComponent");
 
-        Object editorLoader = null;
-        if (editorLoader != null) {
-            uiComponents = null; // TODO
+            // Lets grab the io component writers
+            ClassInfoList uiComponentWriters = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIComponentWriter").filter(classInfo -> classInfo.hasAnnotation("com.virtual_hex.editor.ComponentRegister"));
+
+            // Lets grab all the writers
+            ClassInfoList uiWriters = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIWriter");
+
+            // Lets grab all the readers // TODO
+            ClassInfoList uiReaders = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIReader");
+
+            // Combine them into a child first class loader
+            List<URL> classesToLoad = new ArrayList<>();
+            uiComponents.forEach(classInfo -> classesToLoad.add(classInfo.getClasspathElementURL()));
+            uiComponentWriters.forEach(classInfo -> classesToLoad.add(classInfo.getClasspathElementURL()));
+            uiWriters.forEach(classInfo -> classesToLoad.add(classInfo.getClasspathElementURL()));
+            ChildFirstClazzLoader childURLClassLoader = new ChildFirstClazzLoader(classesToLoad);
+
+            // Find and load the writers
+            ScanResult childClassLoaderScan = new ClassGraph().overrideClassLoaders(childURLClassLoader).enableAllInfo().whitelistPackages("com.virtual_hex.editor").scan();
+            ClassInfoList uiWritersToLoad = childClassLoaderScan.getClassesImplementing("com.virtual_hex.editor.UIWriter");
+
+            uiWritersToLoad.forEach(ci -> {
+                Class<?> aClass = ci.loadClass();
+
+                try {
+                    UIWriter newInstance = (UIWriter) aClass.newInstance();
+                    tempList.add(newInstance);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            // Fall out of block and process JImGui UI.
+
+            System.out.println(uiComponents);
+
+
+//            ClassInfoList componentHandlerRegister = scanResult.getClassesWithAnnotation("com.virtual_hex.editor.io.ComponentRegister");
+//            for (ClassInfo compClassInfo : componentHandlerRegister) {
+//                boolean extendsSuperclass = compClassInfo.implementsInterface("com.virtual_hex.editor.io.UIComponentWriter");
+//                if (extendsSuperclass) {
+//                    // New handler, should be registered
+//                    Class<UIComponentWriter> aClass = (Class<UIComponentWriter>) compClassInfo.loadClass();
+//                    try {
+//                        UIComponentWriter componentWriter = aClass.newInstance();
+//                        ComponentRegister annotation = componentWriter.getClass().getAnnotation(ComponentRegister.class);
+//                        if (annotation.operation() == ComponentOperation.WRITE || annotation.operation() == ComponentOperation.READ_WRITE) {
+//                            classComponentHandlers.put(annotation.typeKey(), componentWriter);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        // Todo Logging for failed class loading
+//                    }
+//                } else {
+//                    // TODO Logging that annotation exist but not a subclass of CompHandler
+//                }
+//            }
+
+
         } else {
-            // TODO Window Settings
-            uiComponents = new UIComponents();
-            // Anything we draw here will go to the debug window if its a widget type that cannot interact
-            // directly with JImGui, like a new Text();  would open a debug window and draw text on it
-            // Using a menu, window, some settings and options will draw it correctly in its own area
-            uiComponents.uiComponents.add(new EditorMainMenu(this, uiWriter));
-
-            Collections.addAll(uiComponents.uiComponents,
-                    uiWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                            new ClassLoaderUIComponent("Test API", editorClassLoader)
-                    )),
-
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())
-            );
+            LOGGER.warn("Editor configuration loading is not currently supported yet (Soon) TM :D.");
         }
+
+
+        // OLD Outdated method of loading, to be converted to default writer
+//
+//
+//        // Basic writer using the defaults
+//        ScanResult scanResult1 = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor.jimgui").scan();
+//        DefaultUIWriter uiWriter = new DefaultUIWriter(true, scanResult1);
+//
+//        ChildFirstClassLoader editorClassLoader = new ChildFirstClassLoader(new URL[]{}, this.getClass().getClassLoader());
+//        pluginManager = new EnhancedPluginManager(Paths.get("plugins"), "virtual-hex-editor");
+//
 
         JniLoader.load();
 
@@ -154,7 +207,16 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                 if (deltaTime > millis) {
                     imGui.initNewFrame();
 
-                    uiWriter.write(imGui, uiComponents, failedWriteBiConsumer);
+                    // Write out the basic user interface here.
+//                    uiWriter.write(imGui);
+                    for (UIWriter uiWriter : tempList) {
+                        uiWriter.write(imGui);
+                    }
+
+
+                    // Iterate over plugins and draw them, they can compile the base libraries into them, or just
+                    // let it default to parent after child load attempt.
+
 
                     imGui.render();
                     latestRefresh = currentTimeMillis;
@@ -206,7 +268,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 //        );
 
         // Release editor resources
-        uiWriter.disopse();
+//        uiWriter.disopse(); // TODO
         manager.deallocateAll();
     }
 

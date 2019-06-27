@@ -1,27 +1,22 @@
 rootProject.name = 'virtual-hex-editor'
 
 // Core Data (ImGui/JImGui) - Persistence - Simple, basic widgets
-include 'data-core'
+include 'imgui-data'
 
 // Extensions - Complex widgets composed of simple and complex widgets
-include 'data-ext'
-
-// Read and Write interfaces
-include 'data-io'
+include 'imgui-data-ext'
 
 // Read and Write Library
-include 'data-io-netty'
+include 'netty-rw-ext'
 
 // Writing Libraries Only
-include 'data-o-jimgui'
-include 'data-o-jimgui-ext'
+include 'imgui-w-jimgui'
+include 'imgui-w-jimgui-ext'
 
 // Has data for drawing
 include 'engine-api'
 include 'engine-impl'
-
-// Drawing library for engine api & impl
-include 'engine-o-jimgui'
+//include 'engine-imgui-default'
 
 // The desktop runnable editor
 include 'desktop-editor'

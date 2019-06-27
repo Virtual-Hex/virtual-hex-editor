@@ -1,19 +1,19 @@
 package com.virtual_hex.editor;
 
 import com.virtual_hex.editor.data.*;
-import com.virtual_hex.editor.io.RunnableActivationHandler;
-import com.virtual_hex.editor.io.UIWriter;
+import com.virtual_hex.editor.jimgui.DefaultUIWriter;
 
 import static com.virtual_hex.editor.VirtualHexDesktopEditor.*;
 
 public class EditorMainMenu extends MainMenuBar {
 
-    public EditorMainMenu(VirtualHexDesktopEditor editor, UIWriter writer) {
+    public EditorMainMenu(VirtualHexDesktopEditor editor, DefaultUIWriter writer) {
         super(
                 new Menu("File", writer.createAction(new MenuItem("Exit"), new RunnableActivationHandler<>(() -> editor.shouldClose  = true))),
                 new Menu("Tools",
-                            writer.cToggleGroup(FieldNames.SELECTED, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable("Projects"))
-                        ),
+                        writer.cToggleGroup(FieldNames.SELECTED, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable("UI Plugins")),
+                        writer.cToggleGroup(FieldNames.SELECTED, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable("Projects"))
+                    ),
                 new Menu("Quick Task", writer.createAction(new MenuItem("Clear all windows"), new RunnableActivationHandler<>(() -> writer.toggleGroup(EDITOR_ALL_WINDOWS, false)))),
                 new Menu("Help",
                         new Text("Coming soon..."),

@@ -4,25 +4,11 @@ package com.virtual_hex.editor;
 
 public class VersionUtils {
 
-    public static SomeVersion parseUnknown(String version){
-        if(version.contains(".")){
-            return parseComplex(version);
-        } else {
-            return parseSimple(version);
-        }
+    public static Version parse(String versionString) {
+        return parse(versionString, 0);
     }
 
-    public static SimpleVersion parseSimple(String versionString){
-        int i = Integer.parseInt(versionString);
-        return new SimpleVersion(i);
-    }
-
-
-    public static ComplexVersion parseComplex(String versionString) {
-        return parseComplex(versionString, 0);
-    }
-
-    public static ComplexVersion parseComplex(String versionString, long version) {
+    public static Version parse(String versionString, long version) {
         long versionBuildTime = 0;
         String[] versionStrings = versionString.split("-");
         // Set release by default because if only version number then we are a release.
@@ -53,6 +39,6 @@ public class VersionUtils {
         int major = versionNumberStrings.length >= 1 ? Integer.parseInt(versionNumberStrings[0]) : 0;
         int minor = versionNumberStrings.length >= 2 ? Integer.parseInt(versionNumberStrings[1]) : 0;
         int patch = versionNumberStrings.length >= 3 ? Integer.parseInt(versionNumberStrings[2]) : 0;
-        return new ComplexVersion(major, minor, patch, state, versionBuildTime);
+        return new Version(major, minor, patch, state, versionBuildTime);
     }
 }

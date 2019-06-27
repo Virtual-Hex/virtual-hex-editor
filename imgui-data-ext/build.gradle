@@ -1,0 +1,14 @@
+group 'com.virtual-hex.editor'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile project(":imgui-data")
+}
+
+
+
+// This is a plugin and will need to have 
+// Jar packaging, and be released and consumed 
+//  by the editor

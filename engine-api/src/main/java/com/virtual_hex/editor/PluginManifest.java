@@ -33,9 +33,9 @@ public @interface PluginManifest {
     String name();
 
     /**
-     * Complex: @see com.virtual_hex.editor.ComplexVersion
+     * Complex: @see com.virtual_hex.editor.Version
      * {
-     *   "type": "ComplexVersion",
+     *   "type": "Version",
      *   "major": 1,
      *   "minor": 0,
      *   "patch": 0,

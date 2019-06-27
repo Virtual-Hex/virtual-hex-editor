@@ -7,5 +7,8 @@ The app launches into a editor. This editor will contain menu, option to see the
 
 Estimated time until arrival: TBD, in the works while working on college.
 
-Goals(Incomplete, not all inclusive)
+Incomplete, not all inclusive goals
+[Discord](https://discord.gg/2rqnrSu)
 [Virtual Hex Editor on Trello](https://trello.com/b/PDO1o8Xo/game-virtual-hex-editor)
+
+

@@ -27,4 +27,6 @@ public interface UIWriter<T> {
     // Need a way to pass properties?
     Object setProperty(String key, Object property);
     <T2> T2 getProperty(String key);
+
+    void dispose();
 }

@@ -1,4 +1,4 @@
-package com.virtual_hex.editor.jimgui;
+package com.virtual_hex.editor;
 
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.data.WindowDecorated;

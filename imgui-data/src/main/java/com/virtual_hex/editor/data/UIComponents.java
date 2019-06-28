@@ -22,7 +22,7 @@ public class UIComponents extends AbstractUIComponent {
     }
 
     /**
-     * @param uiComponents String of items to draw which are converted to new Text(string)
+     * @param uiComponents String of items to show which are converted to new Text(string)
      */
     public UIComponents(String... uiComponents) {
         this.uiComponents = new ArrayList<>();
@@ -32,7 +32,7 @@ public class UIComponents extends AbstractUIComponent {
     }
 
     /**
-     * @param uiComponents List of items to draw
+     * @param uiComponents List of items to show
      */
     public UIComponents(UIComponents... uiComponents) {
         this.uiComponents = new ArrayList<>();
@@ -40,7 +40,7 @@ public class UIComponents extends AbstractUIComponent {
     }
 
     /**
-     * @param uiComponents List of items to draw
+     * @param uiComponents List of items to show
      */
     public UIComponents(UIComponent... uiComponents) {
         this.uiComponents = new ArrayList<>();

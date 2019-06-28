@@ -24,16 +24,8 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     public static final UIComponentWriter EMPTY_WRITER = new EmptyComponentReader();
 
-    public static final String EDITOR_ALL_WINDOWS = "emm-0";
-    public static final String W_PROJECTS = "w-projects";
-    public static final String W_UI_PLUGINS = "w-ui-plugins";
-    public static final String W_IMGUI_ABOUT = "w-imgui-about";
-    public static final String W_IMGUI_DEMO = "w-imgui-demo";
-    public static final String W_IMGUI_METRICS = "w-imgui-metrics";
-    public static final String OPEN = "open";
-
     public int version;
-    private UIComponents root;
+    public UIComponents root;
     public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
     public Map<Class<?>, UIComponentWriter<JImGui, DefaultUIWriter>> classComponentHandlers;
     public Map<UUID, List<ActivationHandler<JImGui>>> activationHandlers;
@@ -63,55 +55,6 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                 // Todo Logging for failed class loading
             }
         }
-
-        // Here we need a default menu so we can load the correct project format/project
-
-        // TODO Move to a plugin, it should be the?? data i dunno but not a writer.
-        // TODO needs to be updated as well, this is from the editor but didnt belong there so much in the final app
-        Object editorLoader = null;
-        if (editorLoader != null) {
-            root = null; // TODO
-        } else {
-            // TODO Window Settings
-            root = new UIComponents();
-            // Anything we draw here will go to the debug window if its a widget type that cannot interact
-            // directly with JImGui, like a new Text();  would open a debug window and draw text on it
-            // Using a menu, window, some settings and options will draw it correctly in its own area
-
-            Collections.addAll(root.uiComponents,
-                    // New User Window
-
-                    // The editor menu will turn into a slightly dif component, well have helper methods to extend
-                    // add to editor
-                    new EditorMainMenu(this),
-
-
-                    // UI Plugin Window, UI needs to be remember in case the user completely replaces it
-
-                    cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-
-                    )),
-
-                    cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                            // Here we need to show what is loaded by default , We need to create a child first classloader
-                            // where these will be loaded, this way same class can be overridden due to isolation
-                            new MainMenuBar("")
-
-
-
-
-                    )),
-
-
-                    cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
-                    cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
-                    cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())
-            );
-        }
-
-
-
-
     }
 
 //    public DefaultUIWriter(UIComponents root, int version, boolean scanForHandlers, ScanResult... scanResults) {
@@ -482,6 +425,12 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     @Override
     public <T> T getProperty(String key) {
         return (T) properties.get(key);
+    }
+
+    @Override
+    public void dispose() {
+        uuidSpecificTypeHandlers.forEach((uuid, uic) -> uic.dispose());
+        classComponentHandlers.forEach((uuid, uic) -> uic.dispose());
     }
 
     private static class EmptyComponentReader implements UIComponentWriter {

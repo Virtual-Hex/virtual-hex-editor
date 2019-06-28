@@ -12,6 +12,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -23,6 +24,14 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     public static final UIComponentWriter EMPTY_WRITER = new EmptyComponentReader();
 
+    public static final String EDITOR_ALL_WINDOWS = "emm-0";
+    public static final String W_PROJECTS = "w-projects";
+    public static final String W_UI_PLUGINS = "w-ui-plugins";
+    public static final String W_IMGUI_ABOUT = "w-imgui-about";
+    public static final String W_IMGUI_DEMO = "w-imgui-demo";
+    public static final String W_IMGUI_METRICS = "w-imgui-metrics";
+    public static final String OPEN = "open";
+
     public int version;
     private UIComponents root;
     public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
@@ -30,12 +39,14 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public Map<UUID, List<ActivationHandler<JImGui>>> activationHandlers;
     public Map<UUID, List<StateChangeHandler<JImGui>>> stateChangeHandlers;
     public Map<String, WeakHashMap<UIComponent, String>> toggleGroup;
+    public ConcurrentHashMap<String, Object> properties;
     private Path pluginDirectory;
 
     // TODO update since api change
     // Scans could be provided to provide more app level configuration
     public DefaultUIWriter() {
         setMaps();
+
         // Needs to load by a setting or use default settings much like the UIWriter
 
         ScanResult editorPackageScan = new ClassGraph().enableAllInfo().whitelistPackages("com.virtual_hex.editor").scan();
@@ -53,7 +64,9 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
             }
         }
 
+        // Here we need a default menu so we can load the correct project format/project
 
+        // TODO Move to a plugin, it should be the?? data i dunno but not a writer.
         // TODO needs to be updated as well, this is from the editor but didnt belong there so much in the final app
         Object editorLoader = null;
         if (editorLoader != null) {
@@ -70,16 +83,16 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
                     // The editor menu will turn into a slightly dif component, well have helper methods to extend
                     // add to editor
-                    new EditorMainMenu(this, uiWriter),
+                    new EditorMainMenu(this),
 
 
                     // UI Plugin Window, UI needs to be remember in case the user completely replaces it
 
-                    uiWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                            new ClassLoaderUIComponent("Test API", editorClassLoader)
+                    cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
+
                     )),
 
-                    uiWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
+                    cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
                             // Here we need to show what is loaded by default , We need to create a child first classloader
                             // where these will be loaded, this way same class can be overridden due to isolation
                             new MainMenuBar("")
@@ -90,9 +103,9 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                     )),
 
 
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
-                    uiWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())
+                    cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
+                    cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
+                    cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())
             );
         }
 
@@ -340,6 +353,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
         this.activationHandlers = new HashMap<>();
         this.toggleGroup = new HashMap<>();
         this.stateChangeHandlers = new HashMap<>();
+        this.properties = new ConcurrentHashMap<>(16, 1.0f, 2);
     }
 
     @Override
@@ -458,6 +472,16 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     @Override
     public Path getPluginDataPath(String folder) {
         return pluginDirectory.resolve(folder);
+    }
+
+    @Override
+    public Object setProperty(String key, Object property) {
+        return properties.put(key, property);
+    }
+
+    @Override
+    public <T> T getProperty(String key) {
+        return (T) properties.get(key);
     }
 
     private static class EmptyComponentReader implements UIComponentWriter {

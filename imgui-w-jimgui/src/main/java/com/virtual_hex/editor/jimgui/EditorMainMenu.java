@@ -1,15 +1,20 @@
-package com.virtual_hex.editor;
+package com.virtual_hex.editor.jimgui;
 
+import com.virtual_hex.editor.RunnableActivationHandler;
 import com.virtual_hex.editor.data.*;
-import com.virtual_hex.editor.jimgui.DefaultUIWriter;
 
-import static com.virtual_hex.editor.VirtualHexDesktopEditor.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.virtual_hex.editor.jimgui.DefaultUIWriter.*;
 
 public class EditorMainMenu extends MainMenuBar {
 
-    public EditorMainMenu(VirtualHexDesktopEditor editor, DefaultUIWriter writer) {
+    public EditorMainMenu(DefaultUIWriter writer) {
         super(
-                new Menu("File", writer.createAction(new MenuItem("Exit"), new RunnableActivationHandler<>(() -> editor.shouldClose  = true))),
+                new Menu("File", writer.createAction(new MenuItem("Exit"), new RunnableActivationHandler<>(() -> {
+                    AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
+                    atomicBoolean.set(true);
+                }))),
                 new Menu("Tools",
                         writer.cToggleGroup(FieldNames.SELECTED, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable("UI Plugins")),
                         writer.cToggleGroup(FieldNames.SELECTED, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable("Projects"))

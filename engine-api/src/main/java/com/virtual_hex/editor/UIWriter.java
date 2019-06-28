@@ -23,4 +23,8 @@ public interface UIWriter<T> {
 
     void setPluginDataPath(Path path);
     Path getPluginDataPath(String folder);
+
+    // Need a way to pass properties?
+    Object setProperty(String key, Object property);
+    <T2> T2 getProperty(String key);
 }

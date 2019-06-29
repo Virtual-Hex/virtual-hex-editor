@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class Window extends Openable {
+public class Window extends OpenableStringLabel {
 
     public Window() {
     }

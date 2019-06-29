@@ -9,16 +9,16 @@ package com.virtual_hex.editor.data;
  * <p>
  * button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
  */
-public class InvisibleButton extends Button {
+public class InvisibleButton<LABEL> extends Button<LABEL> {
 
     public InvisibleButton() {
     }
 
-    public InvisibleButton(String label) {
+    public InvisibleButton(LABEL label) {
         super(label);
     }
 
-    public InvisibleButton(String label, int width, int height) {
+    public InvisibleButton(LABEL label, int width, int height) {
         super(label, width, height);
     }
 }

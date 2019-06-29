@@ -6,6 +6,7 @@ import com.virtual_hex.editor.data.WindowDecorated;
 import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
+import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.NativeBool;
 
 @NativeExchange
@@ -14,7 +15,7 @@ public class WindowDecoratedWriter extends NativeBoolComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        WindowDecorated component = (WindowDecorated) uiComponent;
+        WindowDecorated<JImStr> component = (WindowDecorated) uiComponent;
         if (component.open) {
             NativeBool value = getNative("open", component);
             // Not clipped or collapsed

@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ShowFontSelector<T> extends OptimizedLabel<T>{
+public class ShowFontSelector<T> extends Label<T> {
 
 
 

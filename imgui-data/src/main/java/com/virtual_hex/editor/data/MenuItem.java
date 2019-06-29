@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class MenuItem extends Label {
+public class MenuItem extends StringLabel {
 
     /**
      * These are not currently processed by ImGui, JImGui or Jawe

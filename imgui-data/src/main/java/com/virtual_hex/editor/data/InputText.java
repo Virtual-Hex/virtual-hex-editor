@@ -2,7 +2,7 @@ package com.virtual_hex.editor.data;
 
 import java.nio.charset.StandardCharsets;
 
-public class InputText extends Label{
+public class InputText extends StringLabel {
 
     public int flags;
     public byte[] buffer;

@@ -4,7 +4,7 @@ package com.virtual_hex.editor.data;
  * Widgets: Combo BoxInt
  * - The new BeginCombo()/EndCombo() api allows you to manage your contents and buffer state however you want it, by creating e.g. Selectable() items.
  */
-public class Combo extends LabeledComponents {
+public class Combo<LABEL> extends LabeledComponents<LABEL> {
 
     public int flags = 0;
     public Selectable currentSelectable;
@@ -20,7 +20,7 @@ public class Combo extends LabeledComponents {
      * @param flags
      * @param components
      */
-    public Combo(String label, int currentSelectedIndex, int flags, String... components) {
+    public Combo(LABEL label, int currentSelectedIndex, int flags, String... components) {
         super(label, components);
         this.flags = flags;
         this.currentSelectable = (Selectable) uiComponents.get(currentSelectedIndex);
@@ -34,7 +34,7 @@ public class Combo extends LabeledComponents {
      * @param flags
      * @param components
      */
-    public Combo(String label, int currentSelectedIndex, int flags, UIComponents... components) {
+    public Combo(LABEL label, int currentSelectedIndex, int flags, UIComponents... components) {
         super(label, components);
         this.flags = flags;
         this.currentSelectable = (Selectable) uiComponents.get(currentSelectedIndex);
@@ -48,9 +48,11 @@ public class Combo extends LabeledComponents {
      * @param flags
      * @param components
      */
-    public Combo(String label, int currentSelectedIndex, int flags, UIComponent... components) {
+    public Combo(LABEL label, int currentSelectedIndex, int flags, UIComponent... components) {
         super(label, components);
         this.flags = flags;
         this.currentSelectable = (Selectable) uiComponents.get(currentSelectedIndex);
     }
+
+
 }

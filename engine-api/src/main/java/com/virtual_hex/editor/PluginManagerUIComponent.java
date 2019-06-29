@@ -1,9 +1,9 @@
 package com.virtual_hex.editor;
 
-import com.virtual_hex.editor.data.Label;
+import com.virtual_hex.editor.data.StringLabel;
 import com.virtual_hex.editor.data.UIComponent;
 
-public class PluginManagerUIComponent extends Label {
+public class PluginManagerUIComponent extends StringLabel {
 
     public boolean open;
     public UIComponent pluginManager;

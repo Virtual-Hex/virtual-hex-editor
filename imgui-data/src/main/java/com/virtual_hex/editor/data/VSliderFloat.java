@@ -6,20 +6,20 @@ package com.virtual_hex.editor.data;
  * djust format string to decorate the value with a prefix, a suffix, or adapt the editing and display precision e.g.
  * "%.3f" -> 1.234; "%5.2f secs" -> 01.23 secs; "Biscuit: %.0f" -> Biscuit: 1; etc.
  */
-public class VSliderFloat extends InputFloat {
+public class VSliderFloat<LABEL> extends InputFloat<LABEL> {
 
     public float width;
     public float height;
     public float valueMin;
     public float valueMax;
-    public String format;
+    public LABEL format;
     public float power;
 
     public VSliderFloat() {
         this.power = 1.0f;
     }
 
-    public VSliderFloat(String label, float width, float height, float valueMin, float valueMax) {
+    public VSliderFloat(LABEL label, float width, float height, float valueMin, float valueMax) {
         super(label);
         this.height = height;
         this.width = width;
@@ -28,7 +28,7 @@ public class VSliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public VSliderFloat(String label, float width, float height, float value, float valueMin, float valueMax) {
+    public VSliderFloat(LABEL label, float width, float height, float value, float valueMin, float valueMax) {
         super(label, value);
         this.height = height;
         this.width = width;
@@ -37,7 +37,7 @@ public class VSliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public VSliderFloat(String label, float width, float height, float valueMin, float valueMax, String format) {
+    public VSliderFloat(LABEL label, float width, float height, float valueMin, float valueMax, LABEL format) {
         super(label);
         this.height = height;
         this.width = width;
@@ -47,7 +47,7 @@ public class VSliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public VSliderFloat(String label, float width, float height, float value, float valueMin, float valueMax, String format) {
+    public VSliderFloat(LABEL label, float width, float height, float value, float valueMin, float valueMax, LABEL format) {
         super(label, value);
         this.height = height;
         this.width = width;
@@ -57,7 +57,7 @@ public class VSliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public VSliderFloat(String label, float width, float height, float valueMin, float valueMax, String format, float power) {
+    public VSliderFloat(LABEL label, float width, float height, float valueMin, float valueMax, LABEL format, float power) {
         super(label);
         this.height = height;
         this.width = width;
@@ -67,7 +67,7 @@ public class VSliderFloat extends InputFloat {
         this.power = power;
     }
 
-    public VSliderFloat(String label, float width, float height, float value, float valueMin, float valueMax, String format, float power) {
+    public VSliderFloat(LABEL label, float width, float height, float value, float valueMin, float valueMax, LABEL format, float power) {
         super(label, value);
         this.height = height;
         this.width = width;

@@ -6,32 +6,32 @@ package com.virtual_hex.editor.data;
  * djust format string to decorate the value with a prefix, a suffix, or adapt the editing and display precision e.g.
  * "%.3f" -> 1.234; "%5.2f secs" -> 01.23 secs; "Biscuit: %.0f" -> Biscuit: 1; etc.
  */
-public class SliderFloat extends InputFloat {
+public class SliderFloat<LABEL> extends InputFloat<LABEL> {
 
     public float valueMin;
     public float valueMax;
-    public String format;
+    public LABEL format;
     public float power;
 
     public SliderFloat() {
         this.power = 1.0f;
     }
 
-    public SliderFloat(String label, float valueMin, float valueMax) {
+    public SliderFloat(LABEL label, float valueMin, float valueMax) {
         super(label);
         this.valueMin = valueMin;
         this.valueMax = valueMax;
         this.power = 1.0f;
     }
 
-    public SliderFloat(String label, float value, float valueMin, float valueMax) {
+    public SliderFloat(LABEL label, float value, float valueMin, float valueMax) {
         super(label, value);
         this.valueMin = valueMin;
         this.valueMax = valueMax;
         this.power = 1.0f;
     }
 
-    public SliderFloat(String label, float valueMin, float valueMax, String format) {
+    public SliderFloat(LABEL label, float valueMin, float valueMax, LABEL format) {
         super(label);
         this.valueMin = valueMin;
         this.valueMax = valueMax;
@@ -39,7 +39,7 @@ public class SliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public SliderFloat(String label, float value, float valueMin, float valueMax, String format) {
+    public SliderFloat(LABEL label, float value, float valueMin, float valueMax, LABEL format) {
         super(label, value);
         this.valueMin = valueMin;
         this.valueMax = valueMax;
@@ -47,7 +47,7 @@ public class SliderFloat extends InputFloat {
         this.power = 1.0f;
     }
 
-    public SliderFloat(String label, float valueMin, float valueMax, String format, float power) {
+    public SliderFloat(LABEL label, float valueMin, float valueMax, LABEL format, float power) {
         super(label);
         this.valueMin = valueMin;
         this.valueMax = valueMax;
@@ -55,7 +55,7 @@ public class SliderFloat extends InputFloat {
         this.power = power;
     }
 
-    public SliderFloat(String label, float value, float valueMin, float valueMax, String format, float power) {
+    public SliderFloat(LABEL label, float value, float valueMin, float valueMax, LABEL format, float power) {
         super(label, value);
         this.valueMin = valueMin;
         this.valueMax = valueMax;

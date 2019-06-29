@@ -11,7 +11,7 @@ public class CollapsingHeaderWriter extends JImGuiComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        CollapsingHeader component = (CollapsingHeader) uiComponent;
+        CollapsingHeader<String> component = (CollapsingHeader) uiComponent;
         boolean open = out.collapsingHeader(component.label);
         if (open) { // TODO Maybe remove this open check
             UIComponentsUtils.processUiDataList(out, component, writer);

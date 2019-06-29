@@ -1,19 +1,15 @@
 package com.virtual_hex.editor.data;
 
-public class ColorPicker3 extends ColorLabelFlags {
+public class ColorPicker3<LABEL, COLOR> extends ColorLabelFlags<LABEL, COLOR> {
 
     public ColorPicker3() {
     }
 
-    public ColorPicker3(String label) {
-        super(label, new Vec4());
-    }
-
-    public ColorPicker3(String label, Vec4 color) {
+    public ColorPicker3(LABEL label, COLOR color) {
         super(label, color);
     }
 
-    public ColorPicker3(String label, Vec4 color, int flags) {
+    public ColorPicker3(LABEL label, COLOR color, int flags) {
         super(label, color, flags);
     }
 }

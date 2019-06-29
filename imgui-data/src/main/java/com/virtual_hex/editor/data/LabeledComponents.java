@@ -1,27 +1,27 @@
 package com.virtual_hex.editor.data;
 
-public class LabeledComponents extends UIComponents {
+public class LabeledComponents<LABEL> extends UIComponents {
 
-    public String label;
+    public LABEL label;
 
     public LabeledComponents() {
     }
 
-    public LabeledComponents(String label) {
+    public LabeledComponents(LABEL label) {
         this.label = label;
     }
 
-    public LabeledComponents(String label, String... components) {
+    public LabeledComponents(LABEL label, String... components) {
         super(components);
         this.label = label;
     }
 
-    public LabeledComponents(String label, UIComponents... components) {
+    public LabeledComponents(LABEL label, UIComponents... components) {
         super(components);
         this.label = label;
     }
 
-    public LabeledComponents(String label, UIComponent... components) {
+    public LabeledComponents(LABEL label, UIComponent... components) {
         super(components);
         this.label = label;
     }

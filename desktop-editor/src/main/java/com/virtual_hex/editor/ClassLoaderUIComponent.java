@@ -1,8 +1,8 @@
 package com.virtual_hex.editor;
 
-import com.virtual_hex.editor.data.Label;
+import com.virtual_hex.editor.data.StringLabel;
 
-public class ClassLoaderUIComponent extends Label {
+public class ClassLoaderUIComponent extends StringLabel {
 
     // todo once we start the plugin manager
 

@@ -5,6 +5,7 @@ import com.virtual_hex.editor.data.CollapsingHeaderDecorated;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
+import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.NativeBool;
 
 @NativeExchange
@@ -13,7 +14,7 @@ public class CollapsingHeaderDecoratedWriter extends NativeBoolComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        CollapsingHeaderDecorated component = (CollapsingHeaderDecorated) uiComponent;
+        CollapsingHeaderDecorated<JImStr> component = (CollapsingHeaderDecorated) uiComponent;
         NativeBool value = getNative("open", component);
         // Not clipped or collapsed
         value.modifyValue(component.open);

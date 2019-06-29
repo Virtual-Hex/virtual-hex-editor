@@ -12,11 +12,11 @@ public class InputIntWriter extends NativeIntComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        InputInt component = (InputInt) uiComponent;
+        InputInt<String> component = (InputInt) uiComponent;
         NativeInt nativeValue = getNative("value", component);
         nativeValue.modifyValue(component.value);
-        boolean fieldChanged = out.inputInt(component.label, nativeValue);
-        if (fieldChanged) {
+        boolean stateChanged = out.inputInt(component.label, nativeValue);
+        if (stateChanged) {
             // Only set id valid, will use filter handler
             component.value = nativeValue.accessValue();
             writer.handleStateChange(out, component, writer);

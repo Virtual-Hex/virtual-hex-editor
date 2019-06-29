@@ -6,6 +6,7 @@ import com.virtual_hex.editor.data.Window;
 import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
+import org.ice1000.jimgui.JImStr;
 
 @ComponentRegister(typeKey = Window.class)
 public class WindowWriter extends JImGuiComponentWriter {

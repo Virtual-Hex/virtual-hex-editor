@@ -4,35 +4,35 @@ package com.virtual_hex.editor.data;
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L535
  */
-public class MenuItemSelectable extends MenuItem {
+public class MenuItemSelectable<LABEL> extends Label<LABEL> {
 
     /**
      * If the menu item is open or not
      */
     public boolean selected;
+    public LABEL shortcut;
+    public boolean enabled;
 
     public MenuItemSelectable() {
     }
-    public MenuItemSelectable(String label) {
+    public MenuItemSelectable(LABEL label, LABEL shortcut) {
         super(label);
         this.selected = false;
+        this.shortcut = shortcut;
         this.enabled = true;
     }
 
-
-    public MenuItemSelectable(String label, boolean selected) {
+    public MenuItemSelectable(LABEL label, boolean selected, LABEL shortcut) {
         super(label);
         this.selected = selected;
+        this.shortcut = shortcut;
         this.enabled = true;
     }
 
-    public MenuItemSelectable(String label, boolean enabled, boolean selected) {
-        super(label, enabled);
+    public MenuItemSelectable(LABEL label, boolean selected, LABEL shortcut, boolean enabled) {
+        super(label);
         this.selected = selected;
-    }
-
-    public MenuItemSelectable(String label, String shortcut, boolean enabled, boolean selected) {
-        super(label, shortcut, enabled);
-        this.selected = selected;
+        this.shortcut = shortcut;
+        this.enabled = enabled;
     }
 }

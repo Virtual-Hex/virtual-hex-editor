@@ -3,14 +3,14 @@ package com.virtual_hex.editor.data;
 /**
  * simple formatted text
  */
-public class LabelText extends Label {
+public class LabelText<LABEL> extends Label<LABEL> {
 
-    public String text;
+    public LABEL text;
 
     public LabelText() {
     }
 
-    public LabelText(String label, String text) {
+    public LabelText(LABEL label, LABEL text) {
         super(label);
         this.text = text;
     }

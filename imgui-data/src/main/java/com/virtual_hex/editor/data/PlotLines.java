@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class PlotLines extends Label {
+public class PlotLines extends StringLabel {
 
     public float[] values;
     public int valueOffset;

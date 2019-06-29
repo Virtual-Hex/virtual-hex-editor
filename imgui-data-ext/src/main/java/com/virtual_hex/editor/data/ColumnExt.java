@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ColumnExt extends Label {
+public class ColumnExt extends StringLabel {
 
     public boolean hSeparatorTop;
     public boolean hSeparatorBottom;

@@ -1,15 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class Label extends AbstractUIComponent {
+public class Label<T> extends AbstractUIComponent {
 
-    public static final String EMPTY = "";
-
-    public String label = EMPTY;
+    public T label;
 
     public Label() {
     }
 
-    public Label(String label) {
+    public Label(T label) {
         this.label = label;
     }
 

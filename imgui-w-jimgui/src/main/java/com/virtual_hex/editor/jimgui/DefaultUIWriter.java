@@ -7,6 +7,8 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
+import org.ice1000.jimgui.JImVec4;
+import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -25,6 +27,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public static final UIComponentWriter EMPTY_WRITER = new EmptyComponentReader();
 
     public int version;
+    public DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
     public UIComponents root;
     public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
     public Map<Class<?>, UIComponentWriter<JImGui, DefaultUIWriter>> classComponentHandlers;
@@ -431,6 +434,21 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public void dispose() {
         uuidSpecificTypeHandlers.forEach((uuid, uic) -> uic.dispose());
         classComponentHandlers.forEach((uuid, uic) -> uic.dispose());
+        deallocatableObjectManager.deallocateAll();
+    }
+
+    public Object getJIVec4() {
+        return getJIVec4(0, 0, 0, 0);
+    }
+
+    public Object getJIVec4(int x, int y, int z) {
+        return getJIVec4(x, y, z, 0);
+    }
+
+    public Object getJIVec4(int x, int y, int z, int w) {
+        JImVec4 jImVec4 = new JImVec4(x, y, z, w);
+        deallocatableObjectManager.add(jImVec4);
+        return jImVec4;
     }
 
     private static class EmptyComponentReader implements UIComponentWriter {

@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ListBox extends LabeledComponents  {
+public class ListBox<LABEL> extends LabeledComponents<LABEL>  {
 
     public int itemsCount;
     public int heightInItems;
@@ -8,25 +8,25 @@ public class ListBox extends LabeledComponents  {
     public ListBox() {
     }
 
-    public ListBox(String label, int heightInItems, String... components) {
+    public ListBox(LABEL label, int heightInItems, String... components) {
         super(label, Selectable.fromStrings(components));
         this.itemsCount = components.length;
         this.heightInItems = heightInItems;
     }
 
-    public ListBox(String label, int itemsCount, int heightInItems, String... components) {
+    public ListBox(LABEL label, int itemsCount, int heightInItems, String... components) {
         super(label, Selectable.fromStrings(components));
         this.itemsCount = itemsCount;
         this.heightInItems = heightInItems;
     }
 
-    public ListBox(String label, int heightInItems, Selectable... components) {
+    public ListBox(LABEL label, int heightInItems, Selectable... components) {
         super(label, components);
         this.itemsCount = components.length;
         this.heightInItems = heightInItems;
     }
 
-    public ListBox(String label, int itemsCount, int heightInItems, Selectable... components) {
+    public ListBox(LABEL label, int itemsCount, int heightInItems, Selectable... components) {
         super(label, components);
         this.itemsCount = itemsCount;
         this.heightInItems = heightInItems;

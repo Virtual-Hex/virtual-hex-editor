@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class Openable extends LabeledComponents {
+public class Openable<LABEL> extends LabeledComponents<LABEL> {
 
     /**
      * A native boolean which will be converted to a java boolean before worldWrapper serialization
@@ -10,22 +10,22 @@ public class Openable extends LabeledComponents {
     public Openable() {
     }
 
-    public Openable(String label, boolean open) {
+    public Openable(LABEL label, boolean open) {
         super(label);
         this.open = open;
     }
 
-    public Openable(String label, boolean open, String... components) {
+    public Openable(LABEL label, boolean open, String... components) {
         super(label, components);
         this.open = open;
     }
 
-    public Openable(String label, boolean open, UIComponents... components) {
+    public Openable(LABEL label, boolean open, UIComponents... components) {
         super(label, components);
         this.open = open;
     }
 
-    public Openable(String label, boolean open, UIComponent... components) {
+    public Openable(LABEL label, boolean open, UIComponent... components) {
         super(label, components);
         this.open = open;
     }

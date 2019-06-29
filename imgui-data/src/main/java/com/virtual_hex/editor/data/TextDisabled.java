@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class TextDisabled extends Text {
+public class TextDisabled extends TextString {
 
     public TextDisabled() {
     }

@@ -84,7 +84,7 @@ import java.util.Map;
  *       "y": 1
  *     }
  *   }}</pre>
- * Both the type field id ({@code "type"}) and the type labels ({@code
+ * Both the type field id ({@code "type"}) and the type stringLabels ({@code
  * "Rectangle"}) are configurable.
  *
  * <h3>Registering Types</h3>
@@ -168,7 +168,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
             throw new NullPointerException();
         }
         if (subtypeToLabel.containsKey(type) || labelToSubtype.containsKey(label)) {
-            throw new IllegalArgumentException("types and labels must be unique");
+            throw new IllegalArgumentException("types and stringLabels must be unique");
         }
         labelToSubtype.put(label, type);
         subtypeToLabel.put(type, label);

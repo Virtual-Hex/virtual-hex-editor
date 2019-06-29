@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class Child extends LabeledComponents {
+public class Child<LABEL> extends LabeledComponents<LABEL> {
 
     public boolean border;
     public int flags;
@@ -10,7 +10,7 @@ public class Child extends LabeledComponents {
     public Child() {
     }
 
-    public Child(String label, boolean border, int flags, int width, int height) {
+    public Child(LABEL label, boolean border, int flags, int width, int height) {
         super(label);
         this.border = border;
         this.flags = flags;
@@ -18,7 +18,7 @@ public class Child extends LabeledComponents {
         this.height = height;
     }
 
-    public Child(String label, boolean border, int flags, int width, int height, String... components) {
+    public Child(LABEL label, boolean border, int flags, int width, int height, String... components) {
         super(label, components);
         this.border = border;
         this.flags = flags;
@@ -26,7 +26,7 @@ public class Child extends LabeledComponents {
         this.height = height;
     }
 
-    public Child(String label, boolean border, int flags, int width, int height, UIComponents... components) {
+    public Child(LABEL label, boolean border, int flags, int width, int height, UIComponents... components) {
         super(label, components);
         this.border = border;
         this.flags = flags;
@@ -34,7 +34,7 @@ public class Child extends LabeledComponents {
         this.height = height;
     }
 
-    public Child(String label, boolean border, int flags, int width, int height, UIComponent... components) {
+    public Child(LABEL label, boolean border, int flags, int width, int height, UIComponent... components) {
         super(label, components);
         this.border = border;
         this.flags = flags;

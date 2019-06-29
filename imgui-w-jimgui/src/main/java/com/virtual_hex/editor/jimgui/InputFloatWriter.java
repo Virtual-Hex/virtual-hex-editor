@@ -12,7 +12,7 @@ public class InputFloatWriter extends NativeFloatComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        InputFloat component = (InputFloat) uiComponent;
+        InputFloat<String> component = (InputFloat) uiComponent;
         NativeFloat nativeValue = getNative("value", component);
         nativeValue.modifyValue(component.value);
         boolean fieldChanged = out.inputFloat(component.label, nativeValue);

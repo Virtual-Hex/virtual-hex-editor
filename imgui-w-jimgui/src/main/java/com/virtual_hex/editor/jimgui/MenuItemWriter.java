@@ -6,7 +6,7 @@ import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
 @ComponentRegister(typeKey = MenuItem.class)
-public class MenuItemWriter extends JImGuiComponentWriter {
+public class MenuItemWriter extends NativeBoolComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {

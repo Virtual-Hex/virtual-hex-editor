@@ -3,9 +3,9 @@ package com.virtual_hex.editor.data;
 /**
  * shortcut for PushStyleColor(ImGuiCol_Text, col); Text(fmt, ...); PopStyleColor();
  */
-public class ColorText extends Text {
+public class ColorText<COLOR> extends StringLabel {
 
-    public Vec4 color;
+    public COLOR color;
 
     public ColorText() {
     }
@@ -14,7 +14,7 @@ public class ColorText extends Text {
         super(label);
     }
 
-    public ColorText(String label, Vec4 color) {
+    public ColorText(String label, COLOR color) {
         super(label);
         this.color = color;
     }

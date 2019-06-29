@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class PushId extends Label {
+public class PushId extends StringLabel {
 
     public PushId() {
     }

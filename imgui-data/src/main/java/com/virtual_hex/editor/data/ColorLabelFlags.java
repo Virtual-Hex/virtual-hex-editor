@@ -1,19 +1,19 @@
 package com.virtual_hex.editor.data;
 
-public class ColorLabelFlags extends Label {
+public class ColorLabelFlags<LABEL, COLOR> extends Label<LABEL> {
 
-    public Vec4 color;
+    public COLOR color;
     public int flags;
 
     public ColorLabelFlags() {
     }
 
-    public ColorLabelFlags(String label, Vec4 color) {
+    public ColorLabelFlags(LABEL label, COLOR color) {
         super(label);
         this.color = color;
     }
 
-    public ColorLabelFlags(String label, Vec4 color, int flags) {
+    public ColorLabelFlags(LABEL label, COLOR color, int flags) {
         super(label);
         this.color = color;
         this.flags = flags;

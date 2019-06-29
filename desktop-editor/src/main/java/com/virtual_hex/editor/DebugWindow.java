@@ -72,8 +72,8 @@
 //            imGui.setNextWindowSize(550, 680, JImCondition.FirstUseEver);
 //            imGui.begin(windowName, pOpen, windowFlags);
 //
-//            //imGui.pushItemWidth(imGui.getWindowWidth() * 0.65f);    // 2/3 of the space for widget and 1/3 for labels
-//            imGui.pushItemWidth(-140);                                 // Right align, keep 140 pixels for labels
+//            //imGui.pushItemWidth(imGui.getWindowWidth() * 0.65f);    // 2/3 of the space for widget and 1/3 for stringLabels
+//            imGui.pushItemWidth(-140);                                 // Right align, keep 140 pixels for stringLabels
 //
 //            imGui.data("dear imgui says hello. (1.61 WIP)");
 //

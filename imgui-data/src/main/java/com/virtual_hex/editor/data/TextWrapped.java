@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.data;
 
-public class TextWrapped extends Text {
+public class TextWrapped<LABEL> extends Text<LABEL> {
 
     public TextWrapped() {
     }
 
-    public TextWrapped(String label) {
+    public TextWrapped(LABEL label) {
         super(label);
     }
 }

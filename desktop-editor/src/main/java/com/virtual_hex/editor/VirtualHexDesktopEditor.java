@@ -55,6 +55,13 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
     public static final String W_IMGUI_STYLE_EDITOR = "w-style-editor";
     public static final String OPEN = "open";
 
+    public static final String INT_FORMAT = "%d";
+    public static final String FLOAT_FORMAT = "%.3f";
+    public static final String DOUBLE_FORMAT = "%.6f";
+
+    public static final JImStr INT_FORMAT_STR = new JImStr(INT_FORMAT);
+    public static final JImStr FLOAT_FORMAT_STR = new JImStr(FLOAT_FORMAT);
+    public static final JImStr DOUBLE_FORMAT_STR = new JImStr(DOUBLE_FORMAT);
 
     public static final String TITLE = "Virtual Hex Editor";
     /**
@@ -94,6 +101,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.ALL);
 
+        JniLoader.load();
+
         // Deserialize a UIApp here
         // PROJECT FORMAT which will have a new child first loader
         // EditorProject will have a a child first loader as well
@@ -116,8 +125,6 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
             // Need to create a merge
         }
 
-
-        JniLoader.load();
 
         // TODO CHECK THIS, CAUSING STUTTERING
 //        JImGuiUtil.setStringToBytes(new StringCaching());
@@ -212,6 +219,12 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
                                         dUIWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
                                                 // Test widgets here
+//                                                new ClassLoaderUIComponent("Test CL", childURLClassLoader)
+                                                new DragVec4<>(new JImStr("Test Dragvec4"), dUIWriter.getJIVec4()),
+                                                new DragInt<>(new JImStr("Drag Int"), INT_FORMAT_STR),
+                                                new DragIntRange<>(new JImStr("Drag Int"), INT_FORMAT_STR),
+                                                new DragFloat<>(new JImStr("Drag float"), FLOAT_FORMAT_STR),
+                                                new DragFloatRange<>(new JImStr("Drag float range"), FLOAT_FORMAT_STR)
 
                                         )),
 
@@ -227,13 +240,13 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
 
                                         dUIWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
-                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated("User Guide", false, 0, new ShowUserGuide())),
+                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated<>(new JImStr("User Guide"), false, 0, new ShowUserGuide())),
                                         dUIWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
                                         dUIWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow()),
 
-                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_FONT_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated("Font Selector", false, 0, new ShowFontSelector<>(new JImStr("Font Selector")))),
-                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated("Style Selector", false, 0, new ShowStyleSelector<>(new JImStr("Style Selector")))),
-                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_EDITOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated("Style Editor", false, 0, new ShowStyleEditor<>(null)))
+                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_FONT_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated<>(new JImStr("Font Selector"), false, 0, new ShowFontSelector<>(new JImStr("Font Selector")))),
+                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated<>(new JImStr("Style Selector"), false, 0, new ShowStyleSelector<>(new JImStr("Style Selector")))),
+                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_EDITOR, new String[]{EDITOR_ALL_WINDOWS}, new WindowDecorated<>(new JImStr("Style Editor"), false, 0, new ShowStyleEditor<>(null)))
 
 
                                 // Style Selector

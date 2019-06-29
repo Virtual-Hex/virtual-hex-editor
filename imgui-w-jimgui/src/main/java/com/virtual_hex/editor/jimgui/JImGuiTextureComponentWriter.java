@@ -13,7 +13,7 @@ public abstract class JImGuiTextureComponentWriter extends JImGuiComponentWriter
 
     public WeakHashMap<Object, JImTextureID> cachedImageReferences = new WeakHashMap<>();
 
-    public JImTextureID getTextureId(Image<?> image, DefaultUIWriter writer){
+    public JImTextureID getTextureId(Image<?, ?> image, DefaultUIWriter writer){
         // TODO Could use a group type handler by name or id and place that into writer, by using
         // the writer to create a cache cleaning mechanism here
 

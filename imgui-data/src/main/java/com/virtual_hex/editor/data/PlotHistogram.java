@@ -20,4 +20,5 @@ public class PlotHistogram extends PlotLines {
     public PlotHistogram(String label, float[] values, int valueOffset, int valuesLength, String overlayText, float scaleMin, float scaleMax, float graphWidth, float graphHeight) {
         super(label, values, valueOffset, valuesLength, overlayText, scaleMin, scaleMax, graphWidth, graphHeight);
     }
+
 }

@@ -1,37 +1,20 @@
 package com.virtual_hex.editor.data;
 
-public class RadioButton extends AbstractUIComponent {
+public class RadioButton<LABEL> extends AbstractUIComponent {
 
     public int value;
-    public Label[] labels;
+    public LABEL[] stringLabels;
 
     public RadioButton() {
     }
 
-    public RadioButton(String... labels) {
-        this(0, getAsLabels(labels));
-    }
-
-    public RadioButton(int value, String... labels) {
-        this(value, getAsLabels(labels));
-    }
-
-    public static Label[] getAsLabels(String... stringLabels) {
-        int arraySize = stringLabels.length;
-        Label[] labels = new Label[arraySize];
-        for (int i = 0; i < arraySize; i++) {
-            labels[i] = new Label(stringLabels[i]);
-        }
-        return labels;
-    }
-
-    public RadioButton(Label... labels) {
+    public RadioButton(LABEL... stringLabels) {
         this.value = 0;
-        this.labels = labels;
+        this.stringLabels = stringLabels;
     }
 
-    public RadioButton(int value, Label[] labels) {
+    public RadioButton(int value, LABEL[] stringLabels) {
         this.value = value;
-        this.labels = labels;
+        this.stringLabels = stringLabels;
     }
 }

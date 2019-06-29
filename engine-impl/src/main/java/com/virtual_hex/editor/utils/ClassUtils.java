@@ -6,7 +6,9 @@ import java.util.Vector;
 public class ClassUtils {
 
     public static Vector<Class> getClasses(ClassLoader classLoader) throws NoSuchFieldException, IllegalAccessException {
-        Field f = classLoader.getClass().getDeclaredField("classes");
+        Class<? extends ClassLoader> aClass = classLoader.getClass();
+        Class<ClassLoader> classLoaderClass = (Class<ClassLoader>) aClass;
+        Field f = classLoaderClass.getDeclaredField("classes");
         boolean originalValue = f.isAccessible();
         f.setAccessible(true);
         Vector<Class> classes = (Vector<Class>) f.get(classLoader);

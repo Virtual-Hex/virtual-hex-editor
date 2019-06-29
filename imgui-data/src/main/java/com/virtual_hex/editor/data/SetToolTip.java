@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.data;
 
-public class SetToolTip extends Text {
+public class SetToolTip<LABEL> extends Text<LABEL> {
 
     public SetToolTip() {
     }
 
-    public SetToolTip(String label) {
+    public SetToolTip(LABEL label) {
         super(label);
     }
 }

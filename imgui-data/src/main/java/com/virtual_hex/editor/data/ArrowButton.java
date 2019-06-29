@@ -1,13 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class ArrowButton extends Label {
+public class ArrowButton<LABEL> extends Label<LABEL> {
 
     public int direction;
 
     public ArrowButton() {
     }
 
-    public ArrowButton(String label, int direction) {
+    public ArrowButton(LABEL label, int direction) {
         super(label);
         this.direction = direction;
     }

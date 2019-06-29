@@ -7,12 +7,12 @@ package com.virtual_hex.editor.data;
  * <p>
  * returning true when pressed and triggers activation handler
  */
-public class SmallButton extends Label {
+public class SmallButton<LABEL> extends Label<LABEL> {
 
     public SmallButton() {
     }
 
-    public SmallButton(String label) {
+    public SmallButton(LABEL label) {
         super(label);
     }
 }

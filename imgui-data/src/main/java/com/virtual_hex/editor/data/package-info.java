@@ -17,7 +17,7 @@
  * <p>
  * This package represent the minimal to implement storage of JImGui state.
  * <p>
- * The classes must have a zero arg constructor. Those with labels must have labels in parameterized constructors.
+ * The classes must have a zero arg constructor. Those with stringLabels must have stringLabels in parameterized constructors.
  * <p>
  * <p>
  * <p>

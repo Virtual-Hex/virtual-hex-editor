@@ -4,6 +4,7 @@ import com.virtual_hex.editor.ComponentRegister;
 import com.virtual_hex.editor.data.InputFloatStepped;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
+import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.NativeFloat;
 
 @NativeExchange
@@ -12,7 +13,7 @@ public class InputFloatSteppedWriter extends NativeFloatComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        InputFloatStepped component = (InputFloatStepped) uiComponent;
+        InputFloatStepped<JImStr> component = (InputFloatStepped) uiComponent;
         NativeFloat nativeValue = getNative("value", component);
         nativeValue.modifyValue(component.value);
         boolean fieldChanged = out.inputFloat(component.label, nativeValue, component.step, component.stepFast, component.format, component.flags);

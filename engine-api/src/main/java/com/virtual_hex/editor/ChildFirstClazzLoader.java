@@ -39,7 +39,7 @@ public class ChildFirstClazzLoader extends ClassLoader {
     /**
      * This class allows me to call findClass on a classloader
      */
-    private static class FindClassClassLoader extends ClassLoader {
+    public static class FindClassClassLoader extends ClassLoader {
         public FindClassClassLoader(ClassLoader parent) {
             super(parent);
         }

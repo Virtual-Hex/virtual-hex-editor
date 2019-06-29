@@ -12,7 +12,7 @@ public class InputDoubleWriter extends NativeDoubleComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        InputDouble component = (InputDouble) uiComponent;
+        InputDouble<String> component = (InputDouble) uiComponent;
         NativeDouble nativeValue = getNative("value", component);
         nativeValue.modifyValue(component.value);
         boolean fieldChanged = out.inputDouble(component.label, nativeValue);

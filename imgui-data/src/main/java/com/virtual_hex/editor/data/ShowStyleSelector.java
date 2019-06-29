@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.data;
 
-public class ShowStyleSelector<T> extends OptimizedLabel<T> {
+public class ShowStyleSelector<T> extends Label<T> {
 
     public ShowStyleSelector() {
     }

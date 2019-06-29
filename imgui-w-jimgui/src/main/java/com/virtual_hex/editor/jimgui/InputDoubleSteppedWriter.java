@@ -12,10 +12,10 @@ public class InputDoubleSteppedWriter extends NativeDoubleComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        InputDoubleStepped component = (InputDoubleStepped) uiComponent;
+        InputDoubleStepped<String> component = (InputDoubleStepped) uiComponent;
         NativeDouble nativeValue = getNative("value", component);
         nativeValue.modifyValue(component.value);
-        boolean fieldChanged = out.inputDouble(component.label, nativeValue);
+        boolean fieldChanged = out.inputDouble(component.label, nativeValue, component.step, component.stepFast, component.format);
         // TODO Activation Handler or filter handler TBD
         if (fieldChanged) {
             // Only set id valid, will use filter handler

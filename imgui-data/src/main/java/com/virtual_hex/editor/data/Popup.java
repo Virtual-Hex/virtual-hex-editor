@@ -14,10 +14,6 @@ public class Popup<LABEL> extends LabeledComponents<LABEL> {
         super(label);
     }
 
-    public Popup(LABEL label, String... components) {
-        super(label, components);
-    }
-
     public Popup(LABEL label, UIComponents... components) {
         super(label, components);
     }
@@ -28,11 +24,6 @@ public class Popup<LABEL> extends LabeledComponents<LABEL> {
 
     public Popup(LABEL label, int flags) {
         super(label);
-        this.flags = flags;
-    }
-
-    public Popup(LABEL label, int flags, String... components) {
-        super(label, components);
         this.flags = flags;
     }
 

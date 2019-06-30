@@ -11,10 +11,6 @@ public class LabeledComponents<LABEL> extends UIComponents {
         this.label = label;
     }
 
-    public LabeledComponents(LABEL label, String... components) {
-        super(components);
-        this.label = label;
-    }
 
     public LabeledComponents(LABEL label, UIComponents... components) {
         super(components);

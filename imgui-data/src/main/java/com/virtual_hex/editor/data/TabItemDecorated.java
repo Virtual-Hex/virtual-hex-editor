@@ -12,11 +12,6 @@ public class TabItemDecorated<LABEL> extends Openable<LABEL> {
         this.flags = flags;
     }
 
-    public TabItemDecorated(LABEL label, boolean open, int flags, String... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
-
     public TabItemDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
         super(label, open, components);
         this.flags = flags;

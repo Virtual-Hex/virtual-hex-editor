@@ -12,10 +12,6 @@ public class CollapsingHeader<LABEL> extends TreeNode<LABEL> {
         super(label, open);
     }
 
-    public CollapsingHeader(LABEL label, boolean open, String... components) {
-        super(label, open, components);
-    }
-
     public CollapsingHeader(LABEL label, boolean open, UIComponents... components) {
         super(label, open, components);
     }

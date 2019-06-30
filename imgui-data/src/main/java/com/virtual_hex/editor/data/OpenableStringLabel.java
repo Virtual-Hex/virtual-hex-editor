@@ -15,11 +15,6 @@ public class OpenableStringLabel extends LabeledComponents<String> {
         this.open = open;
     }
 
-    public OpenableStringLabel(String label, boolean open, String... components) {
-        super(label, components);
-        this.open = open;
-    }
-
     public OpenableStringLabel(String label, boolean open, UIComponents... components) {
         super(label, components);
         this.open = open;

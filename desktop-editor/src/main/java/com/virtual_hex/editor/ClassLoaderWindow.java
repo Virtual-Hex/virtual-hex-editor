@@ -13,9 +13,6 @@ public class ClassLoaderWindow extends WindowDecorated {
         super(label, open, flags);
     }
 
-    public ClassLoaderWindow(String label, boolean open, int flags, String... components) {
-        super(label, open, flags, components);
-    }
 
     public ClassLoaderWindow(String label, boolean open, int flags, UIComponents... components) {
         super(label, open, flags, components);

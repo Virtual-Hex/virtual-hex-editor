@@ -12,10 +12,6 @@ public class CollapsingHeaderDecorated<LABEL> extends TreeNodeEx<LABEL> {
         super(label, open, flags);
     }
 
-    public CollapsingHeaderDecorated(LABEL label, boolean open, int flags, String... components) {
-        super(label, open, flags, components);
-    }
-
     public CollapsingHeaderDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
         super(label, open, flags, components);
     }

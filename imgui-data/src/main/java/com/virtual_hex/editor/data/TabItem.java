@@ -12,10 +12,6 @@ public class TabItem extends OpenableStringLabel {
         super(label, open);
     }
 
-    public TabItem(String label, boolean open, String... components) {
-        super(label, open, components);
-    }
-
     public TabItem(String label, boolean open, UIComponents... components) {
         super(label, open, components);
     }

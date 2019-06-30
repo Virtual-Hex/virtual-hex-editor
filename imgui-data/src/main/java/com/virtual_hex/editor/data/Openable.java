@@ -15,11 +15,6 @@ public class Openable<LABEL> extends LabeledComponents<LABEL> {
         this.open = open;
     }
 
-    public Openable(LABEL label, boolean open, String... components) {
-        super(label, components);
-        this.open = open;
-    }
-
     public Openable(LABEL label, boolean open, UIComponents... components) {
         super(label, components);
         this.open = open;

@@ -5,10 +5,6 @@ public class ToolTip extends UIComponents {
     public ToolTip() {
     }
 
-    public ToolTip(String... uiComponents) {
-        super(uiComponents);
-    }
-
     public ToolTip(UIComponents... uiComponents) {
         super(uiComponents);
     }

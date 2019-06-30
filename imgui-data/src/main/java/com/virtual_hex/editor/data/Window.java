@@ -9,10 +9,6 @@ public class Window extends OpenableStringLabel {
         super(label, open);
     }
 
-    public Window(String label, boolean open, String... components) {
-        super(label, open, components);
-    }
-
     public Window(String label, boolean open, UIComponents... components) {
         super(label, open, components);
     }

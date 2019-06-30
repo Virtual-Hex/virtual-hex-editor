@@ -14,10 +14,6 @@ public class TabBar extends OpenableStringLabel {
         super(label, open);
     }
 
-    public TabBar(String label, boolean open, String... components) {
-        super(label, open, components);
-    }
-
     public TabBar(String label, boolean open, UIComponents... components) {
         super(label, open, components);
     }

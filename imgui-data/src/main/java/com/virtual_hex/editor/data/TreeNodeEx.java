@@ -17,11 +17,6 @@ public class TreeNodeEx<LABEL> extends TreeNode<LABEL> {
         this.flags = flags;
     }
 
-    public TreeNodeEx(LABEL label, boolean open, int flags, String... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
-
     public TreeNodeEx(LABEL label, boolean open, int flags, UIComponents... components) {
         super(label, open, components);
         this.flags = flags;

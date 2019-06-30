@@ -18,14 +18,6 @@ public class Child<LABEL> extends LabeledComponents<LABEL> {
         this.height = height;
     }
 
-    public Child(LABEL label, boolean border, int flags, int width, int height, String... components) {
-        super(label, components);
-        this.border = border;
-        this.flags = flags;
-        this.width = width;
-        this.height = height;
-    }
-
     public Child(LABEL label, boolean border, int flags, int width, int height, UIComponents... components) {
         super(label, components);
         this.border = border;

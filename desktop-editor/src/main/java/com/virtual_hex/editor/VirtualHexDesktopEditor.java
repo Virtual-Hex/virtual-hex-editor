@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
 import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
@@ -53,6 +54,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
     public static final String W_IMGUI_FONT_SELECTOR = "w-font-selector";
     public static final String W_IMGUI_STYLE_SELECTOR = "w-style-selector";
     public static final String W_IMGUI_STYLE_EDITOR = "w-style-editor";
+
+    public static final String W_EDITOR_CONFIGURATION = "w-editor-configuration";
     public static final String OPEN = "open";
 
     public static final String INT_FORMAT = "%d";
@@ -217,26 +220,28 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
                                         // UI Plugin Window, UI needs to be remember in case the user completely replaces it
 
-                                        dUIWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
+                                        dUIWriter.cToggleGroup(OPEN, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS}, new EditorWindow(
+                                                "Editor Configuration",
+                                                new EditorConfigurationHolder("default", editorConfiguration)
+                                        )),
+
+
+                                        dUIWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new EditorWindow(
+                                                "Projects"
                                                 // Test widgets here
 //                                                new ClassLoaderUIComponent("Test CL", childURLClassLoader)
-                                                new DragVec4<>(new JImStr("Test Dragvec4"), dUIWriter.getJIVec4()),
-                                                new DragInt<>(new JImStr("Drag Int"), INT_FORMAT_STR),
-                                                new DragIntRange<>(new JImStr("Drag Int"), INT_FORMAT_STR),
-                                                new DragFloat<>(new JImStr("Drag float"), FLOAT_FORMAT_STR),
-                                                new DragFloatRange<>(new JImStr("Drag float range"), FLOAT_FORMAT_STR)
-
                                         )),
 
-                                        dUIWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new ProjectsWindow(
-                                                // Here we need to show what is loaded by default , We need to create a child first classloader
-                                                // where these will be loaded, this way same class can be overridden due to isolation
-                                                new MainMenuBar("")
-
-
-
-
-                                        )),
+//                                        dUIWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new EditorWindow(
+//                                                "Plugins",
+//                                                // Here we need to show what is loaded by default , We need to create a child first classloader
+//                                                // where these will be loaded, this way same class can be overridden due to isolation
+//                                                new MainMenuBar("")
+//
+//
+//
+//
+//                                        )),
 
 
                                         dUIWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
@@ -260,7 +265,13 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                     // List needs to be converted to a Editor Configuration with ability to change
                     editorConfiguration.uiWriters.add(uiWriter);
 
-                    // Todo set the rest of the Editor Confuration and create a widget for it
+                    for (ClassInfo uiComponent : uiComponents) {
+                        editorConfiguration.uiComponents.add(new ClassHolder(uiComponent.loadClass(), uiComponent.getClasspathElementURL()));
+                    }
+                    for (ClassInfo uiComponentWriter : uiComponentWriters) {
+                        editorConfiguration.uiComponentWriters.add(new ClassHolder(uiComponentWriter.loadClass(), uiComponentWriter.getClasspathElementURL()));
+                    }
+
 
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();

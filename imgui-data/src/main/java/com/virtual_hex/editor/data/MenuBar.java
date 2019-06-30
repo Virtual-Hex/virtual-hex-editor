@@ -15,11 +15,6 @@ public class MenuBar<LABEL> extends LabeledComponents<LABEL> {
         this.enabled = enabled;
     }
 
-    public MenuBar(LABEL label, boolean enabled, String... components) {
-        super(label, components);
-        this.enabled = enabled;
-    }
-
     public MenuBar(LABEL label, boolean enabled, UIComponents... components) {
         super(label, components);
         this.enabled = enabled;

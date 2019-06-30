@@ -9,10 +9,6 @@ public class MainMenuBar extends UIComponents {
     public MainMenuBar() {
     }
 
-    public MainMenuBar(String... components) {
-        super(components);
-    }
-
     public MainMenuBar(UIComponents... components) {
         super(components);
     }

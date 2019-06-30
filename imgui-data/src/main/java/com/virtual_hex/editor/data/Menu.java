@@ -16,11 +16,6 @@ public class Menu<LABEL> extends LabeledComponents<LABEL> {
         this.enabled = true;
     }
 
-    public Menu(LABEL label, String... components) {
-        super(label, components);
-        this.enabled = true;
-    }
-
     public Menu(LABEL label, UIComponents... components) {
         super(label, components);
         this.enabled = true;
@@ -33,11 +28,6 @@ public class Menu<LABEL> extends LabeledComponents<LABEL> {
 
     public Menu(LABEL label, boolean enabled) {
         super(label);
-        this.enabled = enabled;
-    }
-
-    public Menu(LABEL label, boolean enabled, String... components) {
-        super(label, components);
         this.enabled = enabled;
     }
 

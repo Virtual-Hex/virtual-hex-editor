@@ -5,10 +5,6 @@ public class Group extends UIComponents {
     public Group() {
     }
 
-    public Group(String... uiComponents) {
-        super(uiComponents);
-    }
-
     public Group(UIComponents... uiComponents) {
         super(uiComponents);
     }

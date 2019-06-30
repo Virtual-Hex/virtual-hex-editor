@@ -22,16 +22,6 @@ public class UIComponents extends AbstractUIComponent {
     }
 
     /**
-     * @param uiComponents String of items to show which are converted to new Text(string)
-     */
-    public UIComponents(String... uiComponents) {
-        this.uiComponents = new ArrayList<>();
-        for (int i = 0; i < uiComponents.length; i++) {
-            this.uiComponents.add(new Text(uiComponents[i]));
-        }
-    }
-
-    /**
      * @param uiComponents List of items to show
      */
     public UIComponents(UIComponents... uiComponents) {

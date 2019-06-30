@@ -17,6 +17,7 @@ public class EditorMainMenu extends MainMenuBar {
                     atomicBoolean.set(true);
                 }))),
                 new Menu<>(new JImStr("Tools"),
+                        writer.cToggleGroup(FieldNames.SELECTED, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable<>(new JImStr("Editor Configuration"), new JImStr(""))),
                         writer.cToggleGroup(FieldNames.SELECTED, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable<>(new JImStr("UI Plugins"), new JImStr(""))),
                         writer.cToggleGroup(FieldNames.SELECTED, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, new MenuItemSelectable<>(new JImStr("Projects"), new JImStr("")))
                     ),

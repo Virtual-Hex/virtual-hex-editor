@@ -9,10 +9,6 @@ public class TreeNode<LABEL> extends Openable<LABEL> {
         super(label, open);
     }
 
-    public TreeNode(LABEL label, boolean open, String... components) {
-        super(label, open, components);
-    }
-
     public TreeNode(LABEL label, boolean open, UIComponents... components) {
         super(label, open, components);
     }

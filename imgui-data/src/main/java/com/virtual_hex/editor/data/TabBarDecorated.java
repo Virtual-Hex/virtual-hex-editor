@@ -13,11 +13,6 @@ public class TabBarDecorated<LABEL> extends Openable<LABEL> {
         this.flags = flags;
     }
 
-    public TabBarDecorated(LABEL label, boolean open, int flags, String... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
-
     public TabBarDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
         super(label, open, components);
         this.flags = flags;

@@ -7,23 +7,9 @@ package com.virtual_hex.editor.data;
 public class Combo<LABEL> extends LabeledComponents<LABEL> {
 
     public int flags = 0;
-    public Selectable currentSelectable;
+    public Selectable<LABEL> currentSelectable;
 
     public Combo() {
-    }
-
-    /**
-     * Current selected will be automatically added to the list, do not include it int the selectables
-     *
-     * @param label
-     * @param currentSelectedIndex
-     * @param flags
-     * @param components
-     */
-    public Combo(LABEL label, int currentSelectedIndex, int flags, String... components) {
-        super(label, components);
-        this.flags = flags;
-        this.currentSelectable = (Selectable) uiComponents.get(currentSelectedIndex);
     }
 
     /**

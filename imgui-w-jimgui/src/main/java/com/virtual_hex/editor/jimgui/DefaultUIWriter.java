@@ -1,7 +1,9 @@
 package com.virtual_hex.editor.jimgui;
 
 import com.virtual_hex.editor.*;
-import com.virtual_hex.editor.data.*;
+import com.virtual_hex.editor.data.Selectable;
+import com.virtual_hex.editor.data.UIComponent;
+import com.virtual_hex.editor.data.UIComponents;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -449,6 +451,12 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
         JImVec4 jImVec4 = new JImVec4(x, y, z, w);
         deallocatableObjectManager.add(jImVec4);
         return jImVec4;
+    }
+
+
+    public <LABEL> Selectable<LABEL> setStateChangeListener(Selectable<LABEL> selectable, StateChangeHandler<JImGui> stateChangeHandler) {
+        stateChangeHandlers.computeIfAbsent(selectable.id, uuid -> new ArrayList<>()).add(stateChangeHandler);
+        return selectable;
     }
 
     private static class EmptyComponentReader implements UIComponentWriter {

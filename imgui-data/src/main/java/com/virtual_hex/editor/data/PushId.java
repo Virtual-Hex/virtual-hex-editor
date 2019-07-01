@@ -1,11 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class PushId extends StringLabel {
+import lombok.*;
 
-    public PushId() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class PushId extends AbstractUIComponent {
 
-    public PushId(String label) {
-        super(label);
-    }
+    @NonNull
+    public String id;
 }

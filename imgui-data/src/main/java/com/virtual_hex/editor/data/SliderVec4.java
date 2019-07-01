@@ -1,18 +1,19 @@
 package com.virtual_hex.editor.data;
 
-public class SliderVec4<LABEL, VEC4> extends Label<LABEL> {
+import lombok.*;
 
-    public VEC4 vec4;
-    public float min;
-    public float max;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class SliderVec4<LABEL, VEC4> extends AbstractUIComponent{
 
-    public SliderVec4() {
-    }
-
-    public SliderVec4(LABEL label, VEC4 vec4, float min, float max) {
-        super(label);
-        this.vec4 = vec4;
-        this.min = min;
-        this.max = max;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public VEC4 value;
+    @NonNull
+    public float valueMin = Float.MIN_VALUE;
+    @NonNull
+    public float valueMax = Float.MAX_VALUE;
 }

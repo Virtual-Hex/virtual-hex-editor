@@ -1,24 +1,22 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L577
  */
-public class TabBar extends OpenableStringLabel {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TabBar extends AbstractUIComponent {
 
-    public int flags;
-
-    public TabBar() {
-    }
-
-    public TabBar(String label, boolean open) {
-        super(label, open);
-    }
-
-    public TabBar(String label, boolean open, UIComponents... components) {
-        super(label, open, components);
-    }
-
-    public TabBar(String label, boolean open, UIComponent... components) {
-        super(label, open, components);
-    }
+    @NonNull
+    public String label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public UIComponents uiComponents;
 }

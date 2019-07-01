@@ -1,6 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class PopId extends AbstractUIComponent {
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class PopId extends AbstractUIComponent {
 }

@@ -1,15 +1,16 @@
 package com.virtual_hex.editor.data;
 
-public class ColorPicker3<LABEL, COLOR> extends ColorLabelFlags<LABEL, COLOR> {
+import lombok.*;
 
-    public ColorPicker3() {
-    }
-
-    public ColorPicker3(LABEL label, COLOR color) {
-        super(label, color);
-    }
-
-    public ColorPicker3(LABEL label, COLOR color, int flags) {
-        super(label, color, flags);
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ColorPicker3<LABEL, COLOR> extends AbstractUIComponent {
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public COLOR color;
 }

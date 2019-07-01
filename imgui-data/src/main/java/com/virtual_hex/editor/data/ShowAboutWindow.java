@@ -1,13 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class ShowAboutWindow extends AbstractUIComponent {
+import lombok.*;
 
-    public boolean open;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ShowAboutWindow extends AbstractUIComponent {
 
-    public ShowAboutWindow() {
-    }
-
-    public ShowAboutWindow(boolean open) {
-        this.open = open;
-    }
+    @NonNull
+    public boolean open = false;
 }

@@ -1,15 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class Group extends UIComponents {
+import lombok.*;
 
-    public Group() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class Group extends AbstractUIComponent {
 
-    public Group(UIComponents... uiComponents) {
-        super(uiComponents);
-    }
-
-    public Group(UIComponent... uiComponents) {
-        super(uiComponents);
-    }
+    @NonNull
+    public UIComponents uiComponents;
 }

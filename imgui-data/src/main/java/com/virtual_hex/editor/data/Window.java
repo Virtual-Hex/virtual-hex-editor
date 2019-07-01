@@ -1,19 +1,20 @@
 package com.virtual_hex.editor.data;
 
-public class Window extends OpenableStringLabel {
+import lombok.*;
 
-    public Window() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class Window extends AbstractUIComponent {
 
-    public Window(String label, boolean open) {
-        super(label, open);
-    }
+    @NonNull
+    public String label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public UIComponents uiComponents;
 
-    public Window(String label, boolean open, UIComponents... components) {
-        super(label, open, components);
-    }
+    Unindent u = new Unindent();
 
-    public Window(String label, boolean open, UIComponent... components) {
-        super(label, open, components);
-    }
 }

@@ -1,28 +1,19 @@
 package com.virtual_hex.editor.data;
 
-public class ProgressBar extends AbstractUIComponent {
+import lombok.*;
 
-    public float fraction;
-    public float width;
-    public float height;
-    public String overlay;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ProgressBar extends AbstractUIComponent {
 
-    public ProgressBar() {
-    }
+    @NonNull
+    public float fraction = 0f;
+    @NonNull
+    public float width = -1;
+    @NonNull
+    public float height = 0;
+    public String overlay = null;
 
-    public ProgressBar(float fraction) {
-        this.fraction = fraction;
-    }
-
-    public ProgressBar(float fraction, String overlay) {
-        this.fraction = fraction;
-        this.overlay = overlay;
-    }
-
-    public ProgressBar(float fraction, float width, float height, String overlay) {
-        this.fraction = fraction;
-        this.width = width;
-        this.height = height;
-        this.overlay = overlay;
-    }
 }

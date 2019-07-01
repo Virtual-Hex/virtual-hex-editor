@@ -1,22 +1,23 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L498
  */
-public class CollapsingHeaderDecorated<LABEL> extends TreeNodeEx<LABEL> {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class CollapsingHeaderDecorated<LABEL> extends AbstractUIComponent {
 
-    public CollapsingHeaderDecorated() {
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public UIComponents uiComponents;
 
-    public CollapsingHeaderDecorated(LABEL label, boolean open, int flags) {
-        super(label, open, flags);
-    }
-
-    public CollapsingHeaderDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
-        super(label, open, flags, components);
-    }
-
-    public CollapsingHeaderDecorated(LABEL label, boolean open, int flags, UIComponent... components) {
-        super(label, open, flags, components);
-    }
 }

@@ -1,19 +1,18 @@
 package com.virtual_hex.editor.data;
 
-public class TreeNode<LABEL> extends Openable<LABEL> {
+import lombok.*;
 
-    public TreeNode() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TreeNode<LABEL> extends AbstractUIComponent {
 
-    public TreeNode(LABEL label, boolean open) {
-        super(label, open);
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public UIComponents uiComponents = UIComponents.EMPTY;
 
-    public TreeNode(LABEL label, boolean open, UIComponents... components) {
-        super(label, open, components);
-    }
-
-    public TreeNode(LABEL label, boolean open, UIComponent... components) {
-        super(label, open, components);
-    }
 }

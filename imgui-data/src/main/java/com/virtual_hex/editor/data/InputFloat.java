@@ -1,21 +1,18 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L458
  */
-public class InputFloat<LABEL> extends Label<LABEL> {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class InputFloat<LABEL> extends AbstractUIComponent {
 
-    public float value;
-
-    public InputFloat() {
-    }
-
-    public InputFloat(LABEL label) {
-        super(label);
-    }
-
-    public InputFloat(LABEL label, float value) {
-        super(label);
-        this.value = value;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public float value = 0;
 }

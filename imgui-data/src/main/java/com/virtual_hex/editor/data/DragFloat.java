@@ -1,36 +1,25 @@
 package com.virtual_hex.editor.data;
 
-public class DragFloat<LABEL> extends InputFloat<LABEL> {
+import lombok.*;
 
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class DragFloat<LABEL> extends InputFloat<LABEL> {
+
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public float value;
+    @NonNull
     public float valueSpeed = 1;
-    public float valueMax;
-    public float valueMin;
+    @NonNull
+    public float valueMin = Float.MIN_VALUE;
+    @NonNull
+    public float valueMax = Float.MAX_VALUE;
+    @NonNull
     public LABEL format;
-    public float power;
-
-    public DragFloat() {
-    }
-
-    public DragFloat(LABEL label, LABEL format) {
-        super(label);
-        this.format = format;
-    }
-
-
-    public DragFloat(LABEL label, float valueSpeed, float valueMax, float valueMin, LABEL format) {
-        super(label);
-        this.valueSpeed = valueSpeed;
-        this.valueMax = valueMax;
-        this.valueMin = valueMin;
-        this.format = format;
-    }
-
-    public DragFloat(LABEL label, float value, float valueSpeed, float valueMax, float valueMin, LABEL format, float power) {
-        super(label, value);
-        this.valueSpeed = valueSpeed;
-        this.valueMax = valueMax;
-        this.valueMin = valueMin;
-        this.format = format;
-        this.power = power;
-    }
+    @NonNull
+    public float power = 1.0f;
 }

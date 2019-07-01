@@ -1,11 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class TextDisabled extends TextString {
+import lombok.*;
 
-    public TextDisabled() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TextDisabled extends AbstractUIComponent {
 
-    public TextDisabled(String label) {
-        super(label);
-    }
+    @NonNull
+    public String label;
 }

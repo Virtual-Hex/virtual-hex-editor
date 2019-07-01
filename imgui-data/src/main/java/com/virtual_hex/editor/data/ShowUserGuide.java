@@ -1,8 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class ShowUserGuide extends AbstractUIComponent {
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-    public ShowUserGuide() {
-    }
-
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ShowUserGuide extends AbstractUIComponent {
 }

@@ -1,24 +1,28 @@
 package com.virtual_hex.editor.data;
 
-public class PlotHistogram extends PlotLines {
+import lombok.*;
 
-    public PlotHistogram() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class PlotHistogram extends AbstractUIComponent {
 
-    public PlotHistogram(String label, float... values) {
-        super(label, values);
-    }
-
-    public PlotHistogram(String label, String overlayText, float... values) {
-        super(label, overlayText, values);
-    }
-
-    public PlotHistogram(String label, int valueOffset, int valuesLength, String overlayText, float scaleMin, float scaleMax, float graphWidth, float graphHeight, float... values) {
-        super(label, valueOffset, valuesLength, overlayText, scaleMin, scaleMax, graphWidth, graphHeight, values);
-    }
-
-    public PlotHistogram(String label, float[] values, int valueOffset, int valuesLength, String overlayText, float scaleMin, float scaleMax, float graphWidth, float graphHeight) {
-        super(label, values, valueOffset, valuesLength, overlayText, scaleMin, scaleMax, graphWidth, graphHeight);
-    }
-
+    @NonNull
+    public String label;
+    @NonNull
+    public float[] values;
+    @NonNull
+    public int valueOffset;
+    @NonNull
+    public int valuesLength;
+    public String overlayText;
+    @NonNull
+    public float scaleMin = Float.MIN_VALUE;
+    @NonNull
+    public float scaleMax = Float.MAX_VALUE;
+    @NonNull
+    public float graphWidth = 0;
+    @NonNull
+    public float graphHeight = 0;
 }

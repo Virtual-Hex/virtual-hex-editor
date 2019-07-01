@@ -1,12 +1,15 @@
 package com.virtual_hex.editor.data;
 
-public class ShowStyleEditor<T> extends AbstractUIComponent {
-    public T style;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-    public ShowStyleEditor() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ShowStyleEditor<STYLE> extends AbstractUIComponent {
 
-    public ShowStyleEditor( T style) {
-        this.style = style;
-    }
+    public STYLE style;
 }

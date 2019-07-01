@@ -1,15 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class ToolTip extends UIComponents {
+import lombok.*;
 
-    public ToolTip() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ToolTip extends AbstractUIComponent {
 
-    public ToolTip(UIComponents... uiComponents) {
-        super(uiComponents);
-    }
-
-    public ToolTip(UIComponent... uiComponents) {
-        super(uiComponents);
-    }
+    @NonNull
+    public UIComponents uiComponents;
 }

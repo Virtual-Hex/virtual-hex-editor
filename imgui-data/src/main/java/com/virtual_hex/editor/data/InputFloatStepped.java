@@ -1,45 +1,26 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L458
  */
-public class InputFloatStepped<LABEL> extends InputFloat<LABEL> {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class InputFloatStepped<LABEL> extends AbstractUIComponent {
 
-    public float step;
-    public float stepFast;
-    public int flags;
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public float value = 0;
+    @NonNull
+    public float step = 1f;
+    @NonNull
+    public float stepFast = 1f;
+    @NonNull
+    public int flags = 0;
+    @NonNull
     public LABEL format;
-
-    public InputFloatStepped() {
-    }
-
-    public InputFloatStepped(LABEL label, float step, float stepFast, int flags) {
-        super(label);
-        this.step = step;
-        this.stepFast = stepFast;
-        this.flags = flags;
-    }
-
-    public InputFloatStepped(LABEL label, float value, float step, float stepFast, int flags) {
-        super(label, value);
-        this.step = step;
-        this.stepFast = stepFast;
-        this.flags = flags;
-    }
-
-    public InputFloatStepped(LABEL label, float step, float stepFast, int flags, LABEL format) {
-        super(label);
-        this.step = step;
-        this.stepFast = stepFast;
-        this.flags = flags;
-        this.format = format;
-    }
-
-    public InputFloatStepped(LABEL label, float value, float step, float stepFast, int flags, LABEL format) {
-        super(label, value);
-        this.step = step;
-        this.stepFast = stepFast;
-        this.flags = flags;
-        this.format = format;
-    }
 }

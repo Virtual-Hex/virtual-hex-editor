@@ -1,11 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class Unindent extends Indent {
+import lombok.*;
 
-    public Unindent() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class Unindent extends AbstractUIComponent {
 
-    public Unindent(float value) {
-        super(value);
-    }
+    @NonNull
+    public float value;
 }

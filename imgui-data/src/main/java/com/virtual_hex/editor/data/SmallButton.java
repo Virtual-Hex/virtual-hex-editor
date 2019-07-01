@@ -1,5 +1,7 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * button with FramePadding=(0,0) to easily embed within text
  * <p>
@@ -7,12 +9,12 @@ package com.virtual_hex.editor.data;
  * <p>
  * returning true when pressed and triggers activation handler
  */
-public class SmallButton<LABEL> extends Label<LABEL> {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class SmallButton<LABEL> extends AbstractUIComponent {
 
-    public SmallButton() {
-    }
-
-    public SmallButton(LABEL label) {
-        super(label);
-    }
+    @NonNull
+    public LABEL label;
 }

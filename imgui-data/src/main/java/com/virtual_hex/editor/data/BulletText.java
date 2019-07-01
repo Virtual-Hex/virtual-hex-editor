@@ -1,11 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class BulletText<LABEL> extends Text<LABEL> {
+import lombok.*;
 
-    public BulletText() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class BulletText<LABEL> extends AbstractUIComponent {
 
-    public BulletText(LABEL label) {
-        super(label);
-    }
+    @NonNull
+    public LABEL label;
 }

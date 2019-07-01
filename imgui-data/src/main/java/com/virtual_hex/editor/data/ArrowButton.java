@@ -1,14 +1,17 @@
 package com.virtual_hex.editor.data;
 
-public class ArrowButton<LABEL> extends Label<LABEL> {
+import lombok.*;
 
-    public int direction;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ArrowButton<LABEL, DIRECTION> extends AbstractUIComponent {
 
-    public ArrowButton() {
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public DIRECTION direction;
 
-    public ArrowButton(LABEL label, int direction) {
-        super(label);
-        this.direction = direction;
-    }
+    // TODO This field may have to be a translated enum because of boxing/generics
 }

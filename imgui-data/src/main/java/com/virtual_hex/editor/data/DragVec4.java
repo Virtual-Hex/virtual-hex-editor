@@ -1,26 +1,21 @@
 package com.virtual_hex.editor.data;
 
-public class DragVec4<LABEL, VEC4> extends Label<LABEL> {
+import lombok.*;
 
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class DragVec4<LABEL, VEC4> extends AbstractUIComponent {
+
+    @NonNull
+    public LABEL label;
+    @NonNull
     public VEC4 bounds;
+    @NonNull
     public float speed = 1;
-    public float min;
-    public float max;
-
-    public DragVec4() {
-    }
-
-    public DragVec4(LABEL label, VEC4 bounds) {
-        super(label);
-        this.bounds = bounds;
-        this.speed = 1;
-    }
-
-    public DragVec4(LABEL label, VEC4 bounds, float speed, float min, float max) {
-        super(label);
-        this.bounds = bounds;
-        this.speed = speed;
-        this.min = min;
-        this.max = max;
-    }
+    @NonNull
+    public float min = Float.MIN_VALUE;
+    @NonNull
+    public float max = Float.MAX_VALUE;
 }

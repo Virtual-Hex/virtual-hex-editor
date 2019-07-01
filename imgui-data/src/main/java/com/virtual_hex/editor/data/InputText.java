@@ -1,33 +1,15 @@
 package com.virtual_hex.editor.data;
 
-import java.nio.charset.StandardCharsets;
+import lombok.*;
 
-public class InputText extends StringLabel {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class InputText extends AbstractUIComponent {
 
+    @NonNull
     public int flags;
+    @NonNull
     public byte[] buffer;
-    public int bufferSize;
-
-    public InputText() {
-    }
-
-    public InputText(String label) {
-        super(label);
-    }
-
-    public InputText(String label, int bufferSize) {
-        super(label);
-        this.buffer = new byte[bufferSize];
-    }
-
-    public InputText(String label, String buffer) {
-        super(label);
-        this.buffer = buffer.getBytes(StandardCharsets.UTF_8);
-    }
-
-    public InputText(String label, int flags, byte[] buffer) {
-        super(label);
-        this.flags = flags;
-        this.buffer = buffer;
-    }
 }

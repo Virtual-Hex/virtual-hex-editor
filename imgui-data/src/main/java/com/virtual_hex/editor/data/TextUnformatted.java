@@ -1,6 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class TextUnformatted extends TextString {
+import lombok.*;
 
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TextUnformatted extends AbstractUIComponent {
 
+    @NonNull
+    public String label;
 }

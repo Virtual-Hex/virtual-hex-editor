@@ -1,15 +1,17 @@
 package com.virtual_hex.editor.data;
 
-public class ColorEdit4<LABEL, COLOR> extends ColorLabelFlags<LABEL, COLOR> {
+import lombok.*;
 
-    public ColorEdit4() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ColorEdit4<LABEL, COLOR> extends AbstractUIComponent{
 
-    public ColorEdit4(LABEL label, COLOR color) {
-        super(label, color);
-    }
-
-    public ColorEdit4(LABEL label, COLOR color, int flags) {
-        super(label, color, flags);
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public COLOR color;
 }

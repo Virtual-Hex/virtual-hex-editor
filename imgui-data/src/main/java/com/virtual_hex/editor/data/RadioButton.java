@@ -1,20 +1,15 @@
 package com.virtual_hex.editor.data;
 
-public class RadioButton<LABEL> extends AbstractUIComponent {
+import lombok.*;
 
-    public int value;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class RadioButton<LABEL> extends AbstractUIComponent {
+
+    @NonNull
+    public int value = 0;
+    @NonNull
     public LABEL[] stringLabels;
-
-    public RadioButton() {
-    }
-
-    public RadioButton(LABEL... stringLabels) {
-        this.value = 0;
-        this.stringLabels = stringLabels;
-    }
-
-    public RadioButton(int value, LABEL[] stringLabels) {
-        this.value = value;
-        this.stringLabels = stringLabels;
-    }
 }

@@ -1,20 +1,19 @@
 package com.virtual_hex.editor.data;
 
-public class ListBox0<LABEL> extends LabeledComponents<LABEL>  {
+import lombok.*;
 
-    public int width;
-    public int height;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ListBox0<LABEL> extends AbstractUIComponent  {
 
-    public ListBox0() {
-    }
-
-    public ListBox0(LABEL label, Selectable<LABEL>... components) {
-        super(label, components);
-    }
-
-    public ListBox0(LABEL label, int width, int height, Selectable<LABEL>... components) {
-        super(label, components);
-        this.width = width;
-        this.height = height;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public int width = 0;
+    @NonNull
+    public int height = 0;
+    @NonNull
+    public UIComponents uiComponents;
 }

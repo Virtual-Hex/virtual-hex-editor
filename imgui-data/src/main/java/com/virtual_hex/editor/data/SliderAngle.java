@@ -1,25 +1,22 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * https://github.com/ocornut/imgui/blob/cb7ba60d3f7d691c698c4a7499ed64757664d7b8/imgui.h#L441
  */
-public class SliderAngle<LABEL> extends InputFloat<LABEL> {
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class SliderAngle<LABEL> extends AbstractUIComponent {
 
-    public float valueDegreeMin;
-    public float valueDegreeMax;
-
-    public SliderAngle() {
-    }
-
-    public SliderAngle(LABEL label, float valueDegreeMin, float valueDegreeMax) {
-        super(label);
-        this.valueDegreeMin = valueDegreeMin;
-        this.valueDegreeMax = valueDegreeMax;
-    }
-
-    public SliderAngle(LABEL label, float value, float valueDegreeMin, float valueDegreeMax) {
-        super(label, value);
-        this.valueDegreeMin = valueDegreeMin;
-        this.valueDegreeMax = valueDegreeMax;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public float value = 0;
+    @NonNull
+    public float valueDegreeMin = Float.MIN_VALUE;
+    @NonNull
+    public float valueDegreeMax = Float.MAX_VALUE;
 }

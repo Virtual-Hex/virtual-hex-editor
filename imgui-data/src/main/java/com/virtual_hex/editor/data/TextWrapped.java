@@ -1,11 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class TextWrapped<LABEL> extends Text<LABEL> {
+import lombok.*;
 
-    public TextWrapped() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TextWrapped<LABEL> extends AbstractUIComponent {
 
-    public TextWrapped(LABEL label) {
-        super(label);
-    }
+    @NonNull
+    public LABEL label;
 }

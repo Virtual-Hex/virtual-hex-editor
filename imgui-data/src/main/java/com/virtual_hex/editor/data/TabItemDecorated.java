@@ -1,24 +1,19 @@
 package com.virtual_hex.editor.data;
 
-public class TabItemDecorated<LABEL> extends Openable<LABEL> {
+import lombok.*;
 
-    public int flags;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class TabItemDecorated<LABEL> extends AbstractUIComponent {
 
-    public TabItemDecorated() {
-    }
-
-    public TabItemDecorated(LABEL label, boolean open, int flags) {
-        super(label, open);
-        this.flags = flags;
-    }
-
-    public TabItemDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
-
-    public TabItemDecorated(LABEL label, boolean open, int flags, UIComponent... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public UIComponents uiComponents;
 }

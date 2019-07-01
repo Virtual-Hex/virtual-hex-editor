@@ -1,15 +1,16 @@
 package com.virtual_hex.editor.data;
 
+import lombok.*;
+
 /**
  * simple formatted text
  */
-public class Text<LABEL> extends Label<LABEL> {
-    public Text() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class Text<LABEL> extends AbstractUIComponent {
 
-    public Text(LABEL label) {
-        super(label);
-    }
-
-
+    @NonNull
+    public LABEL label;
 }

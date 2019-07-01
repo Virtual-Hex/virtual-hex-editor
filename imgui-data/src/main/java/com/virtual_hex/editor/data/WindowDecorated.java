@@ -1,25 +1,22 @@
 package com.virtual_hex.editor.data;
 
 // TODO New class, in extensions for window scaling
-public class WindowDecorated<LABEL> extends Openable<LABEL> {
 
-    public int flags;
+import lombok.*;
 
-    public WindowDecorated() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class WindowDecorated<LABEL> extends AbstractUIComponent {
 
-    public WindowDecorated(LABEL label, boolean open, int flags) {
-        super(label, open);
-        this.flags = flags;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public boolean open = false;
+    @NonNull
+    public int flags = 0;
+    @NonNull
+    public UIComponents uiComponents;
 
-    public WindowDecorated(LABEL label, boolean open, int flags, UIComponents... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
-
-    public WindowDecorated(LABEL label, boolean open, int flags, UIComponent... components) {
-        super(label, open, components);
-        this.flags = flags;
-    }
 }

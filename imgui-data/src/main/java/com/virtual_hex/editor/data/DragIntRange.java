@@ -1,25 +1,27 @@
 package com.virtual_hex.editor.data;
 
-public class DragIntRange<LABEL> extends DragInt<LABEL> {
+import lombok.*;
 
-    public int value2;
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class DragIntRange<LABEL> extends AbstractUIComponent {
 
-    public DragIntRange(LABEL label, LABEL format) {
-        super(label, format);
-    }
-
-    public DragIntRange(LABEL label, LABEL format, int value2) {
-        super(label, format);
-        this.value2 = value2;
-    }
-
-    public DragIntRange(LABEL label, int valueSpeed, int valueMax, int valueMin, LABEL format, int value2) {
-        super(label, valueSpeed, valueMax, valueMin, format);
-        this.value2 = value2;
-    }
-
-    public DragIntRange(LABEL label, int value, int valueSpeed, int valueMax, int valueMin, LABEL format, int value2) {
-        super(label, value, valueSpeed, valueMax, valueMin, format);
-        this.value2 = value2;
-    }
+    @NonNull
+    public LABEL label;
+    @NonNull
+    public int value = 0;
+    @NonNull
+    public int value2 = 0;
+    @NonNull
+    public int valueSpeed = 1;
+    @NonNull
+    public int valueMin = Integer.MIN_VALUE;
+    @NonNull
+    public int valueMax = Integer.MAX_VALUE;
+    @NonNull
+    public LABEL format;
+    @NonNull
+    public LABEL format2;
 }

@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.data;
 
-public class ShowStyleSelector<T> extends Label<T> {
+import lombok.*;
 
-    public ShowStyleSelector() {
-    }
+@ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor(staticName="of")
+public final class ShowStyleSelector<LABEL> extends AbstractUIComponent {
 
-
-    public ShowStyleSelector(T label) {
-        super(label);
-    }
+    @NonNull
+    public LABEL label;
 }

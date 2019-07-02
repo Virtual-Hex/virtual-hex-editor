@@ -19,5 +19,5 @@ public final class Child<LABEL> extends AbstractUIComponent {
     @NonNull
     public int height = 0;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

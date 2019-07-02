@@ -13,6 +13,6 @@ public final class TreeNode<LABEL> extends AbstractUIComponent {
     @NonNull
     public boolean open = false;
     @NonNull
-    public UIComponents uiComponents = UIComponents.EMPTY;
+    public UIComponent[] uiComponents;
 
 }

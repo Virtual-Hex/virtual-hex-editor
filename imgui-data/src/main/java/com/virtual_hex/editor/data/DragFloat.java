@@ -6,7 +6,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @RequiredArgsConstructor(staticName="of")
-public final class DragFloat<LABEL> extends InputFloat<LABEL> {
+public final class DragFloat<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;

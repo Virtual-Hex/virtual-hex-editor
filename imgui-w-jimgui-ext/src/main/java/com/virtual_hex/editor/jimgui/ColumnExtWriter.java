@@ -6,7 +6,6 @@ import com.virtual_hex.editor.data.ColumnExt;
 import com.virtual_hex.editor.data.ColumnExtRow;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.data.UIComponents;
-import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
 
 import java.util.List;

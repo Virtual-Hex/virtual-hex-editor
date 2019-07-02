@@ -15,6 +15,6 @@ public final class ListBox<LABEL> extends AbstractUIComponent  {
     @NonNull
     public int heightInItems = 0;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 
 }

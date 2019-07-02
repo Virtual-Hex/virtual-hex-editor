@@ -30,7 +30,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     public int version;
     public DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
-    public UIComponents root;
+    public UIComponent[] root;
     public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
     public Map<Class<?>, UIComponentWriter<JImGui, DefaultUIWriter>> classComponentHandlers;
     public Map<UUID, List<ActivationHandler<JImGui>>> activationHandlers;
@@ -111,7 +111,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                         Map<UIComponent, String> groupMap = toggleGroup.get(primaryGroup);
                         String fieldName = groupMap.get(objectChanged);
                         try {
-                            Field field = uiComponent.getClass().getField(fieldName);
+                            Field field = uiComponent.getClass().getDeclaredField(fieldName);
                             boolean aBoolean = field.getBoolean(objectChanged);
                             toggleGroup(primaryGroup, aBoolean);
                         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -146,7 +146,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                             Map<UIComponent, String> groupMap = toggleGroup.get(group);
                             String fieldName = groupMap.get(objectChanged);
                             try {
-                                Field field = objectChanged.getClass().getField(fieldName);
+                                Field field = objectChanged.getClass().getDeclaredField(fieldName);
                                 boolean aBoolean = field.getBoolean(objectChanged);
                                 toggleGroup(group, uiComponent, !aBoolean);
                             } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -182,7 +182,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                         Map<UIComponent, String> groupMap = toggleGroup.get(primaryGroup);
                         String fieldName = groupMap.get(objectChanged);
                         try {
-                            Field field = uiComponent.getClass().getField(fieldName);
+                            Field field = uiComponent.getClass().getDeclaredField(fieldName);
                             boolean aBoolean = field.getBoolean(objectChanged);
                             toggleGroup(primaryGroup, !aBoolean);
                         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -243,7 +243,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     protected Field getFieldByName(UIComponent component, String name){
         Class<? extends UIComponent> componentClass = component.getClass();
         try {
-            return componentClass.getField(name);
+            return componentClass.getDeclaredField(name);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
             return null;

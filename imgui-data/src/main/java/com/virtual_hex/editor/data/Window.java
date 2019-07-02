@@ -13,8 +13,6 @@ public final class Window extends AbstractUIComponent {
     @NonNull
     public boolean open = false;
     @NonNull
-    public UIComponents uiComponents;
-
-    Unindent u = new Unindent();
+    public UIComponent[] uiComponents;
 
 }

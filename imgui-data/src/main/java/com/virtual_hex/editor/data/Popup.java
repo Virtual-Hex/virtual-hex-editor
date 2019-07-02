@@ -18,5 +18,5 @@ public final class Popup<LABEL> extends AbstractUIComponent {
     @NonNull
     public int flags = 0;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

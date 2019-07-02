@@ -5,7 +5,6 @@ import com.virtual_hex.editor.data.Combo;
 import com.virtual_hex.editor.data.Selectable;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.data.UIComponents;
-import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 

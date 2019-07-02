@@ -18,5 +18,5 @@ public final class TabBar extends AbstractUIComponent {
     @NonNull
     public int flags = 0;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

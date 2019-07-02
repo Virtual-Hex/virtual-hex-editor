@@ -16,5 +16,5 @@ public final class MenuBar<LABEL> extends AbstractUIComponent {
     @NonNull
     public boolean enabled = true;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

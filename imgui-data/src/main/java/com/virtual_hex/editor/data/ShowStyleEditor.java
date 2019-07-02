@@ -1,9 +1,6 @@
 package com.virtual_hex.editor.data;
 
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
@@ -11,5 +8,5 @@ import lombok.ToString;
 @RequiredArgsConstructor(staticName="of")
 public final class ShowStyleEditor<STYLE> extends AbstractUIComponent {
 
-    public STYLE style;
+    public STYLE style = null;
 }

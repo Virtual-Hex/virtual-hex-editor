@@ -1,8 +1,7 @@
 package com.virtual_hex.editor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Used to run the editor
@@ -17,12 +16,12 @@ public class EditorConfiguration implements Disposable {
     /**
      * Loaded widgets in this configuration
      */
-    public List<ClassHolder> uiComponents;
+    Map<URL, List<Class<?>>> uiComponents;
 
     /**
      * Loaded UIComponent uiWriters in this configuration
      */
-    public List<ClassHolder> uiComponentWriters;
+    Map<URL, List<Class<?>>>  uiComponentWriters;
 
     /**
      * Active instantiated uiComponentWriters
@@ -31,8 +30,8 @@ public class EditorConfiguration implements Disposable {
 
     public EditorConfiguration(Refreshable refreshable) {
         this.refreshables = new ArrayList<>();
-        this.uiComponents = new ArrayList<>();
-        this.uiComponentWriters = new ArrayList<>();
+        this.uiComponents = new HashMap<>();
+        this.uiComponentWriters = new HashMap<>();
         this.uiWriters = new ArrayList<>();
 
         Collections.addAll(refreshables, refreshable);
@@ -48,8 +47,9 @@ public class EditorConfiguration implements Disposable {
      */
     public EditorConfiguration merge(EditorConfiguration defaultImpl) {
         this.refreshables.addAll(defaultImpl.refreshables);
-        this.uiComponents.addAll(defaultImpl.uiComponents);
-        this.uiComponentWriters.addAll(defaultImpl.uiComponentWriters);
+        // TODO map merging
+
+
         this.uiWriters.addAll(defaultImpl.uiWriters);
         return this;
     }

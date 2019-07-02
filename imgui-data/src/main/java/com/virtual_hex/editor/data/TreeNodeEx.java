@@ -20,6 +20,6 @@ public final class TreeNodeEx<LABEL> extends AbstractUIComponent {
     @NonNull
     public int flags = 0;
     @NonNull
-    public UIComponents uiComponents = UIComponents.EMPTY;
+    public UIComponent[] uiComponents;
 
 }

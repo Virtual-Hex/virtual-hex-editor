@@ -16,5 +16,5 @@ public final class CollapsingHeader<LABEL> extends AbstractUIComponent {
     @NonNull
     public boolean open = false;
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

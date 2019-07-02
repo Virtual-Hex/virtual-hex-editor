@@ -6,12 +6,24 @@ import lombok.*;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @RequiredArgsConstructor(staticName="of")
-public final class ArrowButton<LABEL, DIRECTION> extends AbstractUIComponent {
+public final class ArrowButton<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
     @NonNull
-    public DIRECTION direction;
+    public Direction direction;
 
-    // TODO This field may have to be a translated enum because of boxing/generics
+    public enum Direction{
+        NONE(-1),
+        LEFT(0),
+        RIGHT(1),
+        UP(2),
+        DOWN(3);
+
+        public final int index;
+
+        Direction(int index) {
+            this.index = index;
+        }
+    }
 }

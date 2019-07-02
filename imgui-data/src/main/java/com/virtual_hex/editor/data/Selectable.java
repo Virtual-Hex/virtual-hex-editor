@@ -19,9 +19,9 @@ public final class Selectable<LABEL> extends AbstractUIComponent {
     public int flags = 0;
 
     public static Selectable[] fromStrings(String... strings){
-        Selectable[] selectables = new Selectable[strings.length];
+        Selectable<String>[] selectables = new Selectable[strings.length];
         for (int i = 0; i < strings.length; i++) {
-            selectables[i] = new Selectable(strings[i]);
+            selectables[i] = Selectable.of(strings[i]);
         }
         return selectables;
     }

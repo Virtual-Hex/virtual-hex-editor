@@ -11,8 +11,8 @@ public class ArrowButtonWriter extends JImGuiComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        ArrowButton<JImStr> uiComponent0 = (ArrowButton) uiComponent;
-        boolean pressed = out.arrowButton(uiComponent0.label, ((ArrowButton) uiComponent).direction);
+        ArrowButton<JImStr> component = (ArrowButton) uiComponent;
+        boolean pressed = out.arrowButton(component.label, component.direction.index);
         if (pressed) writer.handleActivation(out, uiComponent, writer);
     }
 }

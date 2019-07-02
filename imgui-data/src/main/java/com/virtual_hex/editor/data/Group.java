@@ -9,5 +9,5 @@ import lombok.*;
 public final class Group extends AbstractUIComponent {
 
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 }

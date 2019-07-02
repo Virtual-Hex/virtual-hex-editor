@@ -3,7 +3,6 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.ComponentRegister;
 import com.virtual_hex.editor.data.TabBar;
 import com.virtual_hex.editor.data.UIComponent;
-import com.virtual_hex.editor.utils.UIComponentsUtils;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
 

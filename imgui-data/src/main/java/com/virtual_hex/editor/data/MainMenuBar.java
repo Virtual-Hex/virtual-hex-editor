@@ -10,9 +10,9 @@ import lombok.*;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @RequiredArgsConstructor(staticName="of")
-public final class MainMenuBar {
+public final class MainMenuBar extends AbstractUIComponent{
 
     @NonNull
-    public UIComponents uiComponents;
+    public UIComponent[] uiComponents;
 
 }

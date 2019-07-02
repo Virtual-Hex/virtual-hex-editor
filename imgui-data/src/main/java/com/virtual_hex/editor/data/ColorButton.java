@@ -11,16 +11,19 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class ColorButton<LABEL, COLOR> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public int width = 0;
-    @NonNull
+    @Builder.Default
     public int height = 0;
+    @Builder.Default
+    public int flags = 0;
     @NonNull
     public COLOR color;
 }

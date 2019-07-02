@@ -17,7 +17,7 @@ public class PopupWriter extends JImGuiComponentWriter {
         // Not clipped or collapsed
         boolean visible = out.beginPopup(component.label, component.flags);
         if (visible) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             JImGuiGen.endPopup();
         }
     }

@@ -14,7 +14,7 @@ public class MenuWriter extends JImGuiComponentWriter {
         Menu<JImStr> component = (Menu) uiComponent;
         boolean open = out.beginMenu(component.label, component.enabled);
         if (open) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.endMenu();
         }
 

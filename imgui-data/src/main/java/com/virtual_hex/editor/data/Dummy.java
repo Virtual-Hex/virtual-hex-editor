@@ -8,13 +8,10 @@ import lombok.*;
  * add a dummy item of given size. unlike InvisibleButton(), Dummy() won't take the mouse click or be navigable into.
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@RequiredArgsConstructor(staticName="of")
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 public final class Dummy extends AbstractUIComponent {
 
-    @NonNull
     public float width;
-    @NonNull
     public float height;
 }

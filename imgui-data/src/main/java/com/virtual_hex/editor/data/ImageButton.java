@@ -4,25 +4,24 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class ImageButton<LABEL, IMAGE_PATH> extends AbstractUIComponent {
     @NonNull
     public LABEL label;
     @NonNull
     public IMAGE_PATH from;
-    @NonNull
     public int width;
-    @NonNull
     public int height;
-    @NonNull
+    @Builder.Default
     public float uv0x = 0;
-    @NonNull
+    @Builder.Default
     public float uv0y = 0;
-    @NonNull
+    @Builder.Default
     public float uv1x = 1;
-    @NonNull
+    @Builder.Default
     public float uv1y = 1;
-    @NonNull
+    @Builder.Default
     public int framePadding = 0;
 }

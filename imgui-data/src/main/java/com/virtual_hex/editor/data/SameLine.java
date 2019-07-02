@@ -8,13 +8,11 @@ import lombok.*;
  * call between widgets or groups to layout them horizontally. X position given in window coordinates.
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@RequiredArgsConstructor(staticName="of")
+
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 public final class SameLine extends AbstractUIComponent {
 
-    @NonNull
     public float positionX = 0;
-    @NonNull
     public float spacingWidth = -1;
 }

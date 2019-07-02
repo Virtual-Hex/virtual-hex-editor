@@ -16,7 +16,7 @@ public class ChildWriter extends JImGuiComponentWriter {
         // Not clipped or collapsed
         boolean visible = out.beginChild0(component.label, component.width, component.height, component.border, component.flags);
         if (visible) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
         }
 
     }

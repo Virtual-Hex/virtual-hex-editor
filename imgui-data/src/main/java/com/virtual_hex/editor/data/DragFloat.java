@@ -4,22 +4,22 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class DragFloat<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
     public float value;
-    @NonNull
+    @Builder.Default
     public float valueSpeed = 1;
-    @NonNull
+    @Builder.Default
     public float valueMin = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float valueMax = Float.MAX_VALUE;
     @NonNull
     public LABEL format;
-    @NonNull
+    @Builder.Default
     public float power = 1.0f;
 }

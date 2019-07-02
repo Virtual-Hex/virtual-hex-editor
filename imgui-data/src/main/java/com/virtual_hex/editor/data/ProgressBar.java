@@ -4,16 +4,17 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
-@RequiredArgsConstructor(staticName="of")
+@NoArgsConstructor(staticName = "of")
+@AllArgsConstructor(staticName="of")
 public final class ProgressBar extends AbstractUIComponent {
 
-    @NonNull
+    @Builder.Default
     public float fraction = 0f;
-    @NonNull
+    @Builder.Default
     public float width = -1;
-    @NonNull
+    @Builder.Default
     public float height = 0;
-    public String overlay = null;
+
+    public String overlay;
 
 }

@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.virtual_hex.editor.VirtualHexDesktopEditor.*;
+import static com.virtual_hex.editor.VirtualHexDesktopEditor.EDITOR_ALL_WINDOWS;
+import static com.virtual_hex.editor.VirtualHexDesktopEditor.W_EDITOR_CONFIGURATION;
 
 
 // TODO NEXT IS Packaging still, also reflection and widget listing interfaces and abstract classes
@@ -23,7 +24,7 @@ import static com.virtual_hex.editor.VirtualHexDesktopEditor.*;
 @ComponentRegister(typeKey = EditorConfigurationHolder.class)
 public class EditorConfigurationHolderWriter extends JImGuiComponentWriter {
 
-    public EditorConfigCache editorConfigCache;
+    public UIComponent[] editorConfigCache;
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
@@ -35,31 +36,32 @@ public class EditorConfigurationHolderWriter extends JImGuiComponentWriter {
             Selectable<JImStr>[] selRefreshables = new Selectable[editorConfig.refreshables.size()];
             for (int i = 0; i < selRefreshables.length; i++) {
                 Refreshable refreshable = editorConfig.refreshables.get(i);
-                selRefreshables[i] = new EditorSelectable(refreshable.getClass().toString());
+                selRefreshables[i] =  Selectable.of(js(refreshable.getClass().toString()));
             }
 
-            List uiComponentSelectables = getSelectables(out, editorConfig.uiComponents);
-            List uiComponentWriterSelectables = getSelectables(out, editorConfig.uiComponentWriters);
-
-            UIComponents uiComponentsUiComponents = new UIComponents(uiComponentSelectables);
-            UIComponents uiComponentsUiComponentWriters = new UIComponents(uiComponentWriterSelectables);
+            UIComponent[] uiComponentsUiComponents = getSelectables(out, editorConfig.uiComponents);
+            UIComponent[] uiComponentsUiComponentWriters = getSelectables(out, editorConfig.uiComponentWriters);
 
 
-            editorConfigCache = new EditorConfigCache(
-                    editorConfigHolder.name,
+            editorConfigCache = new UIComponent[]{
                     writer.cToggleGroup(VirtualHexDesktopEditor.OPEN, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS},
-                        new JImWindowDecorated("Editor Configuration", false, JImWindowFlags.MenuBar,
-                                new JImMenuBar("editor-configuration-menu",
-                                        true,
-                                        new JImMenu("File",
-                                                new MenuItem("Load New"),
-                                                new MenuItem("Load and Merge"),
-                                                new MenuItem("Save")
-                                        )
-                                )
-                        )
+                            WindowDecorated.of(
+                                    js("Editor Configuration"), false, JImWindowFlags.MenuBar, array(
+                                            MenuBar.of(
+                                                    js("editor-configuration-menu"), true, array(
+                                                            Menu.of(
+                                                                    js("File"), array(
+                                                                            MenuItem.of("Load New"),
+                                                                            MenuItem.of("Load and Merge"),
+                                                                            MenuItem.of("Save")
+                                                                    )
+                                                            )
+                                                    )
+                                            )
+                                    )
+                            )
                     )
-            );
+            };
         }
 
 
@@ -73,11 +75,19 @@ public class EditorConfigurationHolderWriter extends JImGuiComponentWriter {
 
 
 
-        UIComponentsUtils.processUiDataList(out, editorConfigCache, writer);
+        processArray(out, editorConfigCache, writer);
+    }
+
+    private UIComponent[] array(UIComponent... uiComponents) {
+        return uiComponents;
+    }
+
+    public static JImStr js(String s) {
+        return new JImStr(s);
     }
 
 
-    protected static List<Selectable<JImStr>> getSelectables(JImGui out, Map<URL, List<Class<?>>> classList){
+    protected static Selectable<JImStr>[] getSelectables(JImGui out, Map<URL, List<Class<?>>> classList){
         List<Selectable<JImStr>> selectables = new ArrayList<>();
         Set<Map.Entry<URL, List<Class<?>>>> entries = classList.entrySet();
         for (Map.Entry<URL, List<Class<?>>> entry : entries) {
@@ -88,11 +98,14 @@ public class EditorConfigurationHolderWriter extends JImGuiComponentWriter {
             if(open){
                 for (int i = 0; i < size; i++) {
                     Class<?> aClass = value.get(i);
-                    selectables.add(new EditorSelectable(aClass.toString(), false, JImSelectableFlags.Nothing));
+                    selectables.add(Selectable.of(js(aClass.toString()) ,false, 0,0, JImSelectableFlags.Nothing));
                 }
             }
         }
 
-        return selectables;
+        Selectable<JImStr>[] selectablesArray = new Selectable[selectables.size()];
+        selectables.toArray(selectablesArray);
+
+        return selectablesArray;
     }
 }

@@ -12,7 +12,7 @@ public class GroupWriter extends JImGuiComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         Group component = (Group) uiComponent;
         out.beginGroup();
-        UIComponentsUtils.processUiDataList(out, component, writer);
+        processArray(out, component.uiComponents, writer);
         out.endGroup();
     }
 }

@@ -13,7 +13,7 @@ public class CollapsingHeaderWriter extends JImGuiComponentWriter {
         CollapsingHeader<String> component = (CollapsingHeader) uiComponent;
         boolean open = out.collapsingHeader(component.label);
         if (open) { // TODO Maybe remove this open check
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
         }
         writer.handleStateChange(out, component, writer);
     }

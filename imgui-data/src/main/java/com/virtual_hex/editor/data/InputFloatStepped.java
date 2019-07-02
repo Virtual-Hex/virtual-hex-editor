@@ -7,19 +7,20 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class InputFloatStepped<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public float value = 0;
-    @NonNull
+    @Builder.Default
     public float step = 1f;
-    @NonNull
+    @Builder.Default
     public float stepFast = 1f;
-    @NonNull
+    @Builder.Default
     public int flags = 0;
     @NonNull
     public LABEL format;

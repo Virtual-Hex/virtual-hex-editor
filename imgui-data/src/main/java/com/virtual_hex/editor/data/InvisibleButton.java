@@ -12,14 +12,13 @@ import lombok.*;
  * button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
+
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class InvisibleButton<LABEL> extends AbstractUIComponent {
     @NonNull
     public LABEL label;
-    @NonNull
     public int width = 0;
-    @NonNull
     public int height = 0;
 }

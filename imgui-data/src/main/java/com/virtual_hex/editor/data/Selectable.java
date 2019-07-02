@@ -7,15 +7,20 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class Selectable<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public boolean selected = false;
-    @NonNull
+    @Builder.Default
+    public int width = 0;
+    @Builder.Default
+    public int height = 0;
+    @Builder.Default
     public int flags = 0;
 
     public static Selectable[] fromStrings(String... strings){
@@ -24,5 +29,21 @@ public final class Selectable<LABEL> extends AbstractUIComponent {
             selectables[i] = Selectable.of(strings[i]);
         }
         return selectables;
+    }
+
+    public enum SelectableFlags {
+        Nothing(0),
+        /** Clicking this don't close parent popup window */
+        DontClosePopups(1),
+        /** Selectable frame can span all columns (text will still fit in current column) */
+        SpanAllColumns(1 << 1),
+        /** Generate press events on double clicks too */
+        AllowDoubleClick(1 << 2);
+
+        public int value;
+
+        SelectableFlags(int value) {
+            this.value = value;
+        }
     }
 }

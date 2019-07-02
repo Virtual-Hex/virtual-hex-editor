@@ -11,6 +11,6 @@ public class PushIdHandlerWriter extends JImGuiComponentWriter {
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         PushId component = (PushId) uiComponent;
-        out.pushID(component.label);
+        out.pushID(component.id);
     }
 }

@@ -6,8 +6,8 @@ import lombok.*;
  * shortcut for PushStyleColor(ImGuiCol_Text, col); Text(fmt, ...); PopStyleColor();
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
+
+@NoArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class ColorText<COLOR> extends AbstractUIComponent {
 

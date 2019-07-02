@@ -9,12 +9,13 @@ import org.ice1000.jimgui.JImVec4;
 
 @NativeExchange
 @ComponentRegister(typeKey = SliderVec4.class)
-public class SliderVec4Writer extends NativeJImVec4ComponentWriter {
+public class SliderVec4Writer extends NativeAllocComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         SliderVec4<JImStr, JImVec4> component = (SliderVec4) uiComponent;
-        out.sliderVec4(component.label, component.vec4, component.min, component.max);
+
+        out.sliderVec4(component.label, component.value, component.valueMin, component.valueMax);
         writer.handleStateChange(out, component, writer);
     }
 }

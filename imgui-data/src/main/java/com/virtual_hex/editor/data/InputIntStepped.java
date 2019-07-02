@@ -7,18 +7,19 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class InputIntStepped<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public int value = 0;
-    @NonNull
+    @Builder.Default
     public int step = 1;
-    @NonNull
+    @Builder.Default
     public int stepFast = 1;
-    @NonNull
+    @Builder.Default
     public int flags = 0;
 }

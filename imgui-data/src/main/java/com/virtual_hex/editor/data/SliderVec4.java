@@ -4,7 +4,8 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class SliderVec4<LABEL, VEC4> extends AbstractUIComponent{
 
@@ -12,8 +13,8 @@ public final class SliderVec4<LABEL, VEC4> extends AbstractUIComponent{
     public LABEL label;
     @NonNull
     public VEC4 value;
-    @NonNull
+    @Builder.Default
     public float valueMin = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float valueMax = Float.MAX_VALUE;
 }

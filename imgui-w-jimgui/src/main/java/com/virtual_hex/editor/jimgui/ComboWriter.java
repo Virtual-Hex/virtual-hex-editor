@@ -4,7 +4,6 @@ import com.virtual_hex.editor.ComponentRegister;
 import com.virtual_hex.editor.data.Combo;
 import com.virtual_hex.editor.data.Selectable;
 import com.virtual_hex.editor.data.UIComponent;
-import com.virtual_hex.editor.data.UIComponents;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
@@ -21,8 +20,6 @@ public class ComboWriter extends JImGuiComponentWriter {
 
         boolean selected = out.beginCombo(component.label, component.currentSelectable.label, component.flags);
         if (selected) {
-            UIComponents uiComponents = component;
-            UIComponentsUtils.processAddRemoveComponent(uiComponents);
             // Loop through selectables here
             List<UIComponent> components = component.uiComponents;
             for (UIComponent uiSelectable : components) {

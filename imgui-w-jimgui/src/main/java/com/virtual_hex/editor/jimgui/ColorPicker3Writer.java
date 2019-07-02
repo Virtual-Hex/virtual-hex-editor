@@ -8,7 +8,7 @@ import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.JImVec4;
 
 @ComponentRegister(typeKey = ColorPicker3.class)
-public class ColorPicker3Writer extends NativeJImVec4ComponentWriter {
+public class ColorPicker3Writer extends NativeAllocComponentWriter {
 
 
     @Override

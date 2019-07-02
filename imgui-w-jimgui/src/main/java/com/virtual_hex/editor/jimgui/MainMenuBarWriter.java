@@ -13,7 +13,7 @@ public class MainMenuBarWriter extends JImGuiComponentWriter {
         MainMenuBar component = (MainMenuBar) uiComponent;
         boolean open = out.beginMainMenuBar();
         if (open) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.endMainMenuBar();
         }
 

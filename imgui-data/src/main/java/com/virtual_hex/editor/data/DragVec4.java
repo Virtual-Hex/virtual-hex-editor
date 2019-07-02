@@ -4,7 +4,8 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class DragVec4<LABEL, VEC4> extends AbstractUIComponent {
 
@@ -12,10 +13,10 @@ public final class DragVec4<LABEL, VEC4> extends AbstractUIComponent {
     public LABEL label;
     @NonNull
     public VEC4 bounds;
-    @NonNull
+    @Builder.Default
     public float speed = 1;
-    @NonNull
+    @Builder.Default
     public float min = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float max = Float.MAX_VALUE;
 }

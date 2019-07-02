@@ -21,7 +21,7 @@ public class ClassLoaderUIComponentWriter extends JImGuiComponentWriter {
     boolean refresh = true;
     String[] list;
 
-    private transient InputText inputText = new InputText("Filter", 255);
+    private transient InputText inputText = InputText.of("Filter", new byte[255]);
     private WeakHashMap<byte[], String> strings = new WeakHashMap<>();
 
     @Override

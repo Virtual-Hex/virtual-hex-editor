@@ -16,7 +16,7 @@ public class TabBarWriter extends JImGuiComponentWriter {
             // Not clipped or collapsed
             boolean visible = out.beginTabBar(component.label);
             if (visible) { // TODO Maybe remove this open check
-                UIComponentsUtils.processUiDataList(out, component, writer);
+                processArray(out, component.uiComponents, writer);
                 JImGuiGen.endTabBar();
             }
         }

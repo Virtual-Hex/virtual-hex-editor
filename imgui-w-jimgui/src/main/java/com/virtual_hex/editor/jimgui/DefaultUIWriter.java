@@ -3,7 +3,6 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.*;
 import com.virtual_hex.editor.data.Selectable;
 import com.virtual_hex.editor.data.UIComponent;
-import com.virtual_hex.editor.data.UIComponents;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -306,18 +305,9 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     @Override
     public void write(JImGui out) {
-        UIComponentWriter<JImGui, DefaultUIWriter> componentWriter = null;
-
-        componentWriter = uuidSpecificTypeHandlers.get((root).getId());
-
-        if (componentWriter == null) {
-            componentWriter = checkType(root);
-        }
-
-        if(componentWriter != null){
-            componentWriter.write(out, root, this);
-        }
+        JImGuiComponentWriter.processArray(out, root, this);
     }
+
 
 
     /**
@@ -372,19 +362,19 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     private UIComponentWriter<JImGui, DefaultUIWriter> checkType(UIComponent uiComponent) {
         Class<?> aClass = uiComponent.getClass();
         UIComponentWriter<JImGui, DefaultUIWriter> componentReader = classComponentHandlers.get(aClass);
-        Class<?> clazzType = null;
-        // TODO This could be cached if need to be faster
-        int depthTries = 3;
-        int tries = 0;
-        while(componentReader == null && tries < depthTries){
-            clazzType = aClass.getSuperclass();
-            componentReader = classComponentHandlers.get(clazzType);
-            tries++;
-            if(clazzType == Object.class) {
-                System.err.println("Could not find a class read, tried " + aClass + " got " + componentReader);
-                break;
-            }
-        }
+//        Class<?> clazzType = null;
+//        // TODO This could be cached if need to be faster
+//        int depthTries = 3;
+//        int tries = 0;
+//        while(componentReader == null && tries < depthTries){
+//            clazzType = aClass.getSuperclass();
+//            componentReader = classComponentHandlers.get(clazzType);
+//            tries++;
+//            if(clazzType == Object.class) {
+//                System.err.println("Could not find a class read, tried " + aClass + " got " + componentReader);
+//                break;
+//            }
+//        }
         return componentReader;
     }
 

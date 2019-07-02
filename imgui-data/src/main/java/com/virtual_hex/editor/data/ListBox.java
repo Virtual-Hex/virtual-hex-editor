@@ -4,15 +4,15 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class ListBox<LABEL> extends AbstractUIComponent  {
 
     @NonNull
     public LABEL label;
-    @NonNull
     public int itemsCount;
-    @NonNull
+    @Builder.Default
     public int heightInItems = 0;
     @NonNull
     public UIComponent[] uiComponents;

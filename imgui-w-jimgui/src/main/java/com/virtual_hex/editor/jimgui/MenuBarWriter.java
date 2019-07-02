@@ -13,7 +13,7 @@ public class MenuBarWriter extends JImGuiComponentWriter {
         MenuBar component = (MenuBar) uiComponent;
         boolean value = out.beginMenuBar();
         if (value) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.endMenuBar();
         }
 

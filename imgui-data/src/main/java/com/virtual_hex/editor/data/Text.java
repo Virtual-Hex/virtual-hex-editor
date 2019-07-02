@@ -6,8 +6,7 @@ import lombok.*;
  * simple formatted text
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class Text<LABEL> extends AbstractUIComponent {
 

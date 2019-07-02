@@ -2,7 +2,6 @@ package com.virtual_hex.editor.data;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -11,8 +10,7 @@ import lombok.ToString;
  * separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@RequiredArgsConstructor(staticName="of")
+
+@NoArgsConstructor(staticName = "of")
 public final class Separator extends AbstractUIComponent {
 }

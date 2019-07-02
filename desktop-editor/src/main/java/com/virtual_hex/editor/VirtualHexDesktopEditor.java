@@ -219,7 +219,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                 // The editor menu will turn into a slightly dif component, well have helper methods to extend
                                 // add to editor
                                 MainMenuBar.of(array(
-                                        Menu.of(js("File"), array(writer.createAction(MenuItem.builder().label("Exit").build(), new RunnableActivationHandler<>(() -> {
+                                        Menu.of(js("File"), array(writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
                                                     AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
                                                     atomicBoolean.set(true);
                                                 })))),
@@ -270,10 +270,10 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 //
 //                                        )),
 
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, new ShowAboutWindow()),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("User Guide"), array(new ShowUserGuide()))),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, new ShowDemoWindow()),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow()),
+                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, ShowAboutWindow.of()),
+                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("User Guide"), array(ShowUserGuide.of()))),
+                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, ShowDemoWindow.of()),
+                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, ShowMetricsWindow.of()),
 
                                                 dUIWriter.cToggleGroup(OPEN, W_IMGUI_FONT_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("Font Selector"), array(ShowFontSelector.of(js("Font Selector"))))),
                                                 dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("Style Selector"), array(ShowStyleSelector.of(js("Style Selector"))))),

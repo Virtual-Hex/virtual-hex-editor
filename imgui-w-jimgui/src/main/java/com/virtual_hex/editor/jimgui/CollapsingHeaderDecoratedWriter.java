@@ -7,6 +7,8 @@ import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.NativeBool;
 
+import static com.virtual_hex.editor.jimgui.JImGuiComponentWriter.processArray;
+
 @NativeExchange
 @ComponentRegister(typeKey = CollapsingHeaderDecorated.class)
 public class CollapsingHeaderDecoratedWriter extends NativeBoolComponentWriter {
@@ -20,7 +22,7 @@ public class CollapsingHeaderDecoratedWriter extends NativeBoolComponentWriter {
         boolean open = out.collapsingHeader(component.label, value, component.flags);
         component.open = value.accessValue();
         if (open) { // TODO Maybe remove this open check
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
         }
         // Trigger handler only when X is pressed on collapsing header
         if (!component.open) {

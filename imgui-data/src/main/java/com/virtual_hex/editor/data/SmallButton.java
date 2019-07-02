@@ -10,8 +10,8 @@ import lombok.*;
  * returning true when pressed and triggers activation handler
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
+
+@NoArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class SmallButton<LABEL> extends AbstractUIComponent {
 

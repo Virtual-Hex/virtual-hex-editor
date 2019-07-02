@@ -4,7 +4,8 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class PlotLines extends AbstractUIComponent {
 
@@ -12,17 +13,15 @@ public final class PlotLines extends AbstractUIComponent {
     public String label;
     @NonNull
     public float[] values;
-    @NonNull
     public int valueOffset;
-    @NonNull
     public int valuesLength;
     public String overlayText;
-    @NonNull
+    @Builder.Default
     public float scaleMin = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float scaleMax = Float.MAX_VALUE;
-    @NonNull
+    @Builder.Default
     public float graphWidth = 0;
-    @NonNull
+    @Builder.Default
     public float graphHeight = 0;
 }

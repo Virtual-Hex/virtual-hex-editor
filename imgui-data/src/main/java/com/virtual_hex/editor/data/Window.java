@@ -4,13 +4,14 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class Window extends AbstractUIComponent {
 
     @NonNull
     public String label;
-    @NonNull
+    @Builder.Default
     public boolean open = false;
     @NonNull
     public UIComponent[] uiComponents;

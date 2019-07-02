@@ -14,7 +14,7 @@ public class TreeNodeWriter extends JImGuiComponentWriter {
         TreeNode<JImStr> component = (TreeNode) uiComponent;
         boolean open = out.treeNode(component.label);
         if (open) {
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.treePop();
         }
         writer.handleStateChange(out, component, writer);

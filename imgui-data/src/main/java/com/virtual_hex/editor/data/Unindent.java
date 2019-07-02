@@ -3,11 +3,10 @@ package com.virtual_hex.editor.data;
 import lombok.*;
 
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@RequiredArgsConstructor(staticName="of")
+
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 public final class Unindent extends AbstractUIComponent {
 
-    @NonNull
     public float value;
 }

@@ -10,20 +10,21 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class SliderFloat<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public float value = 0;
-    @NonNull
+    @Builder.Default
     public float valueMin = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float valueMax = Float.MAX_VALUE;
     @NonNull
     public LABEL format;
-    @NonNull
+    @Builder.Default
     public float power = 1.0f;
 }

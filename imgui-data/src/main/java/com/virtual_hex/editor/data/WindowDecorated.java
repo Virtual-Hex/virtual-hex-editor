@@ -6,15 +6,16 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class WindowDecorated<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public boolean open = false;
-    @NonNull
+    @Builder.Default
     public int flags = 0;
     @NonNull
     public UIComponent[] uiComponents;

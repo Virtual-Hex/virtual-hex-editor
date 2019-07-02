@@ -17,7 +17,7 @@ public class ListBoxWriter extends JImGuiComponentWriter {
         boolean draw = out.listBoxHeader(component.label, component.itemsCount, component.heightInItems);
         if(draw){
             // TODO Into Selectables Group
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.listBoxFooter();
         }
     }

@@ -8,7 +8,8 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class MenuItemSelectable<LABEL> extends AbstractUIComponent {
 
@@ -17,10 +18,10 @@ public final class MenuItemSelectable<LABEL> extends AbstractUIComponent {
     /**
      * If the menu item is open or not
      */
-    @NonNull
+    @Builder.Default
     public boolean selected = false;
     @NonNull
     public LABEL shortcut;
-    @NonNull
+    @Builder.Default
     public boolean enabled = true;
 }

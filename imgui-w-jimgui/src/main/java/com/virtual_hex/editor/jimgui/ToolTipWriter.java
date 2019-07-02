@@ -13,7 +13,7 @@ public class ToolTipWriter extends JImGuiComponentWriter {
         ToolTip component = (ToolTip) uiComponent;
         if(out.isItemHovered()) {
             out.beginTooltip();
-            UIComponentsUtils.processUiDataList(out, component, writer);
+            processArray(out, component.uiComponents, writer);
             out.endTooltip();
         }
     }

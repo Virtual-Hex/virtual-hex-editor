@@ -8,6 +8,8 @@ import org.ice1000.jimgui.JImGuiGen;
 import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.NativeBool;
 
+import static com.virtual_hex.editor.jimgui.JImGuiComponentWriter.processArray;
+
 @NativeExchange
 @ComponentRegister(typeKey = WindowDecorated.class)
 public class WindowDecoratedWriter extends NativeBoolComponentWriter {
@@ -22,7 +24,7 @@ public class WindowDecoratedWriter extends NativeBoolComponentWriter {
             boolean visible = out.begin(component.label, value, component.flags);
             component.open = value.accessValue();
             if (visible) { // TODO Maybe remove this open check
-                UIComponentsUtils.processUiDataList(out, component, writer);
+                processArray(out, component.uiComponents, writer);
             }
             JImGuiGen.end();
         }

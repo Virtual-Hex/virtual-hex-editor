@@ -7,16 +7,17 @@ import lombok.*;
  */
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class SliderAngle<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public float value = 0;
-    @NonNull
+    @Builder.Default
     public float valueDegreeMin = Float.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public float valueDegreeMax = Float.MAX_VALUE;
 }

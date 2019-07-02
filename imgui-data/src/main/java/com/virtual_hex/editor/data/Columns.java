@@ -9,15 +9,14 @@ import lombok.*;
  * - The rows API is work-in-progress and rather lacking (rows are arguably the worst part of dear imgui at the moment!)
  */
 @ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
+
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName = "of")
 @RequiredArgsConstructor(staticName="of")
 public final class Columns extends AbstractUIComponent {
 
     @NonNull
     public String stringId;
-    @NonNull
     public int count;
-    @NonNull
     public boolean border;
 }

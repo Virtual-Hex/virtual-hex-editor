@@ -16,7 +16,7 @@ public class WindowWriter extends JImGuiComponentWriter {
             // Not clipped or collapsed
             boolean visible = out.begin(component.label);
             if (visible) { // TODO Maybe remove this open check
-                UIComponentsUtils.processUiDataList(out, component, writer);
+                processArray(out, component.uiComponents, writer);
             }
             JImGuiGen.end();
         }

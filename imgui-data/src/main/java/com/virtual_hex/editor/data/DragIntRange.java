@@ -4,21 +4,22 @@ import lombok.*;
 
 @ToString
 @Builder(toBuilder = true)
-@NoArgsConstructor
+@NoArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 public final class DragIntRange<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @NonNull
+    @Builder.Default
     public int value = 0;
-    @NonNull
+    @Builder.Default
     public int value2 = 0;
-    @NonNull
+    @Builder.Default
     public int valueSpeed = 1;
-    @NonNull
+    @Builder.Default
     public int valueMin = Integer.MIN_VALUE;
-    @NonNull
+    @Builder.Default
     public int valueMax = Integer.MAX_VALUE;
     @NonNull
     public LABEL format;

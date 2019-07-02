@@ -8,7 +8,7 @@ import org.ice1000.jimgui.JImStr;
 import org.ice1000.jimgui.JImVec4;
 
 @ComponentRegister(typeKey = ColorEdit4.class)
-public class ColorEdit4Writer extends NativeJImVec4ComponentWriter {
+public class ColorEdit4Writer extends NativeAllocComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {

@@ -12,6 +12,5 @@ public class ShowAboutWindowWriter extends NativeBoolComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         ShowAboutWindow component = (ShowAboutWindow) uiComponent;
         if(component.open) out.showAboutWindow();
-        writer.handleStateChange(out, component, writer);
     }
 }

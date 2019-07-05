@@ -3,7 +3,7 @@ package com.virtual_hex.editor;
 import ch.qos.logback.classic.Level;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
-import com.virtual_hex.editor.utils.FieldNames;
+import com.virtual_hex.editor.utils.UIUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * TODO: Will need some reflective nativeData entities to be able to render IDs to names, ect since
@@ -213,7 +214,15 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
                         // TODO Move to a plugin, it should be the?? data i dunno but not a writer.
                         // TODO needs to be updated as well, this is from the editor but didnt belong there so much in the final app
-                        dUIWriter.root = new UIComponent[]{
+                        UIComponent abouts = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_ABOUT, MenuItemSelectable.of(js("About"), EMPTY_STR), ShowAboutWindow.of()));
+                        UIComponent userGuide = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_USER_GUIDE, MenuItemSelectable.of(js("User Guide"), EMPTY_STR), WindowDecorated.of(js("User Guide"), array(ShowUserGuide.of()))));
+                        UIComponent demos = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_DEMO, MenuItemSelectable.of(js("Demo"), EMPTY_STR), ShowDemoWindow.of()));
+                        UIComponent metrics = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_METRICS, MenuItemSelectable.of(js("Metrics"), EMPTY_STR), ShowMetricsWindow.of()));
+                        UIComponent fontSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_FONT_SELECTOR, MenuItemSelectable.of(js("Font Selector"), EMPTY_STR), WindowDecorated.of(js("Font Selector"), array(ShowFontSelector.of(js("Font Selector"))))));
+                        UIComponent styleSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_SELECTOR, MenuItemSelectable.of(js("Style Selector"), EMPTY_STR), WindowDecorated.of(js("Style Selector"), array(ShowStyleSelector.of(js("Style Selector"))))));
+                        UIComponent styleEditor = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_EDITOR, MenuItemSelectable.of(js("Style Editor"), EMPTY_STR), WindowDecorated.of(js("Style Editor"), array(ShowStyleEditor.of()))));
+
+                        dUIWriter.root = UIUtils.merge(dUIWriter.root, new UIComponent[]{
                                 // New User Window
 
                                 // The editor menu will turn into a slightly dif component, well have helper methods to extend
@@ -224,42 +233,42 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                                     atomicBoolean.set(true);
                                                 })))),
                                                 Menu.of(js("Tools"),
-                                                        array(
-                                                                writer.cToggleGroup(FieldNames.SELECTED, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Editor Configuration"), EMPTY_STR)),
-                                                                writer.cToggleGroup(FieldNames.SELECTED, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("UI Plugins"), EMPTY_STR)),
-                                                                writer.cToggleGroup(FieldNames.SELECTED, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Projects"), EMPTY_STR))
-                                                        )
+                                                        Stream.of(
+                                                                writer.bindToggles(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Editor Configuration"), EMPTY_STR)),
+                                                                writer.bindToggles(W_UI_PLUGINS, MenuItemSelectable.of(js("UI Plugins"), EMPTY_STR)),
+                                                                writer.bindToggles(W_PROJECTS, MenuItemSelectable.of(js("Projects"), EMPTY_STR))
+                                                        ).flatMap(Stream::of).toArray(UIComponent[]::new)
                                                 ),
-                                                Menu.of(js("Quick Task"), array(writer.createAction(MenuItem.of("Clear all windows"), new RunnableActivationHandler<>(() -> writer.toggleGroup(EDITOR_ALL_WINDOWS, false))),
-                                                        Menu.of(js("Help"), array(Text.of(js("Coming soon...")), Text.of(js("A Game editor by Virtual Hex Games, development@virtual-hex.com")))),
-                                                        Menu.of(js("ImGui"),
-                                                                array(
-                                                                        // This may seem complicated at first, here we are creating a window and adding it to the root app, when the method
-                                                                        // returns it returns the window, which is used in the write.createOneWayBoolFieldLink to link the value mechanism item to the toggleable
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("About"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("User Guide"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Demo"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Metrics"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_FONT_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Font Selector"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_STYLE_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Style Selector"), EMPTY_STR)),
-                                                                        writer.cToggleGroup(FieldNames.SELECTED, W_IMGUI_STYLE_EDITOR, new String[]{EDITOR_ALL_WINDOWS}, MenuItemSelectable.of(js("Style Editor"), EMPTY_STR))
-                                                                )
-                                                        )
-                                                )),
+                                                Menu.of(js("Quick Task"), array(writer.createAction(MenuItem.of("Clear all windows"), new RunnableActivationHandler<>(() -> writer.toggleGroup(EDITOR_ALL_WINDOWS, false))))),
+                                                Menu.of(js("Help"), array(Text.of("Coming soon..."), Text.of("A Game editor by Virtual Hex Games, development@virtual-hex.com"))),
+                                                Menu.of(js("ImGui"), UIUtils.merge(abouts, userGuide, demos, metrics, fontSelector, styleSelector, styleEditor))
+                                                                // This may seem complicated at first, here we are creating a window and adding it to the root app, when the method
+                                                                // returns it returns the window, which is used in the write.createOneWayBoolFieldLink to link the value mechanism item to the toggleable
+                                        )
+                                ),
+
+
+                                WindowDecorated.of(js("Test"), true, 0, writer.bindToggles("test", CheckBox.of(js("Test 1")), CheckBox.of(js("Test3"))))
+
+
+
+
+
+
+
 
                                                 // UI Plugin Window, UI needs to be remember in case the user completely replaces it
 
-                                                dUIWriter.cToggleGroup(OPEN, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS}, new EditorConfigurationHolder("default", editorConfiguration)),
+                                        //TODO Holder does not have field OPEN
 
+//                                                dUIWriter.addToggleGroup(OPEN, W_PROJECTS, WindowDecorated.of(
+//                                                        js("Projects"),
+//                                                        array()
+//                                                        // Test widgets here
+////                                                new ClassLoaderUIComponent("Test CL", childURLClassLoader)
+//                                                )),
 
-                                                dUIWriter.cToggleGroup(OPEN, W_PROJECTS, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(
-                                                        js("Projects"),
-                                                        array()
-                                                        // Test widgets here
-//                                                new ClassLoaderUIComponent("Test CL", childURLClassLoader)
-                                                )),
-
-//                                        dUIWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new String[]{EDITOR_ALL_WINDOWS}, new EditorWindow(
+//                                        dUIWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new EditorWindow(
 //                                                "Plugins",
 //                                                // Here we need to show what is loaded by default , We need to create a child first classloader
 //                                                // where these will be loaded, this way same class can be overridden due to isolation
@@ -270,19 +279,9 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 //
 //                                        )),
 
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_ABOUT, new String[]{EDITOR_ALL_WINDOWS}, ShowAboutWindow.of()),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("User Guide"), array(ShowUserGuide.of()))),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_DEMO, new String[]{EDITOR_ALL_WINDOWS}, ShowDemoWindow.of()),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, ShowMetricsWindow.of()),
 
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_FONT_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("Font Selector"), array(ShowFontSelector.of(js("Font Selector"))))),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_SELECTOR, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("Style Selector"), array(ShowStyleSelector.of(js("Style Selector"))))),
-                                                dUIWriter.cToggleGroup(OPEN, W_IMGUI_STYLE_EDITOR, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("Style Editor"), array(ShowStyleEditor.of())))
 
-                                                // Style Selector
-//                                        dUIWriter.cToggleGroup(OPEN, W_IMGUI_METRICS, new String[]{EDITOR_ALL_WINDOWS}, new ShowMetricsWindow())
-                                ))
-                        };
+                        });
 
 
                     }

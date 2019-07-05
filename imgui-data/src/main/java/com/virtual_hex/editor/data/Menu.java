@@ -15,10 +15,10 @@ public final class Menu<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-    @Builder.Default
+
     public boolean enabled = true;
-    @Builder.Default
     public int flags = 0;
+
     @NonNull
     public UIComponent[] uiComponents;
 

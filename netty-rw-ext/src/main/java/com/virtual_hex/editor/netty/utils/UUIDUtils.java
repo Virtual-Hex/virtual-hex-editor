@@ -26,6 +26,7 @@
 
 package com.virtual_hex.editor.netty.utils;
 
+import com.virtual_hex.editor.data.UIComponent;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 
@@ -93,7 +94,7 @@ public class UUIDUtils {
      * @param out  ByteBuf representing the b to elementSize written to
      * @param uuid uuid value to elementSize written to the b
      */
-    public static void write(ByteBuf out, UUID uuid) {
+    public static void write(ByteBuf out, UIComponent uuid) {
         out.writeLong(uuid.getMostSignificantBits());
         out.writeLong(uuid.getLeastSignificantBits());
     }

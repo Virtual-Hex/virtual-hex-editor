@@ -15,6 +15,7 @@ public final class MenuBar<LABEL> extends AbstractUIComponent {
     @NonNull
     public LABEL label;
     @Builder.Default
+
     public boolean enabled = true;
     @NonNull
     public UIComponent[] uiComponents;

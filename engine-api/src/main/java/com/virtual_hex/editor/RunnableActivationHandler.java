@@ -2,7 +2,7 @@ package com.virtual_hex.editor;
 
 import com.virtual_hex.editor.data.UIComponent;
 
-public class RunnableActivationHandler<T> implements ActivationHandler<T> {
+public class RunnableActivationHandler<T, E> implements ActivationHandler<T, E> {
 
     public Runnable runnable;
 
@@ -11,7 +11,8 @@ public class RunnableActivationHandler<T> implements ActivationHandler<T> {
     }
 
     @Override
-    public void handle(T out, UIComponent objectActivated, UIWriter<T> parentDrawer) {
+    public void handle(T out, UIComponent objectActivated, E parentDrawer) {
         runnable.run();
     }
+
 }

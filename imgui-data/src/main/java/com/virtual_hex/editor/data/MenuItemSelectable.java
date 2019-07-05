@@ -1,6 +1,7 @@
 package com.virtual_hex.editor.data;
 
 
+import com.virtual_hex.editor.Toggle;
 import lombok.*;
 
 /**
@@ -11,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor(staticName="of")
 @AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
+@Toggle(fieldName = "selected")
 public final class MenuItemSelectable<LABEL> extends AbstractUIComponent {
 
     @NonNull

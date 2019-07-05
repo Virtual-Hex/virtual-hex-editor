@@ -8,8 +8,9 @@ import lombok.*;
 @ToString
 @NoArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
-public final class Text<LABEL> extends AbstractUIComponent {
+
+public final class Text extends AbstractUIComponent {
 
     @NonNull
-    public LABEL label;
+    public String label;
 }

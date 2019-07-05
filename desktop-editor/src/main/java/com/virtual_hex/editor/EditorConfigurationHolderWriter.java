@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.virtual_hex.editor.VirtualHexDesktopEditor.EDITOR_ALL_WINDOWS;
 import static com.virtual_hex.editor.VirtualHexDesktopEditor.W_EDITOR_CONFIGURATION;
 
 
@@ -30,38 +29,40 @@ public class EditorConfigurationHolderWriter extends JImGuiComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         EditorConfigurationHolder editorConfigHolder = (EditorConfigurationHolder) uiComponent;
         EditorConfiguration editorConfig = editorConfigHolder.editorConfiguration;
-        if(editorConfigCache == null){
+        if(editorConfigCache == null) {
             // Goal is to build out loaded/unloaded display of classes with control
 
             Selectable<JImStr>[] selRefreshables = new Selectable[editorConfig.refreshables.size()];
             for (int i = 0; i < selRefreshables.length; i++) {
                 Refreshable refreshable = editorConfig.refreshables.get(i);
-                selRefreshables[i] =  Selectable.of(js(refreshable.getClass().toString()));
+                selRefreshables[i] = Selectable.of(js(refreshable.getClass().toString()));
             }
 
             UIComponent[] uiComponentsUiComponents = getSelectables(out, editorConfig.uiComponents);
             UIComponent[] uiComponentsUiComponentWriters = getSelectables(out, editorConfig.uiComponentWriters);
 
 
-            editorConfigCache = new UIComponent[]{
-                    writer.cToggleGroup(VirtualHexDesktopEditor.OPEN, W_EDITOR_CONFIGURATION, new String[]{EDITOR_ALL_WINDOWS},
-                            WindowDecorated.of(
-                                    js("Editor Configuration"), false, JImWindowFlags.MenuBar, array(
-                                            MenuBar.of(
-                                                    js("editor-configuration-menu"), true, array(
-                                                            Menu.of(
-                                                                    js("File"), array(
-                                                                            MenuItem.of("Load New"),
-                                                                            MenuItem.of("Load and Merge"),
-                                                                            MenuItem.of("Save")
-                                                                    )
-                                                            )
+//            dUIWriter.cToggleGroup(OPEN, W_IMGUI_USER_GUIDE, new String[]{EDITOR_ALL_WINDOWS}, WindowDecorated.of(js("User Guide"), array(ShowUserGuide.of()))),
+
+            editorConfigCache = writer.addToggleGroup(VirtualHexDesktopEditor.EDITOR_ALL_WINDOWS, writer.bindToggles(W_EDITOR_CONFIGURATION,
+                    WindowDecorated.of(js("Editor Configuration"), false, JImWindowFlags.MenuBar, array(
+                            MenuBar.of(
+                                    js("editor-configuration-menu"), true, array(
+                                            Menu.of(
+                                                    js("File"), array(
+                                                            MenuItem.of("Load New"),
+                                                            MenuItem.of("Load and Merge"),
+                                                            MenuItem.of("Save")
                                                     )
                                             )
                                     )
                             )
+                            )
                     )
-            };
+            ));
+
+
+
         }
 
 

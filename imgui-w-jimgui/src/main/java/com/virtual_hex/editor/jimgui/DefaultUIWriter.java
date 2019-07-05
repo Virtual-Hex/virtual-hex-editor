@@ -3,6 +3,7 @@ package com.virtual_hex.editor.jimgui;
 import com.virtual_hex.editor.*;
 import com.virtual_hex.editor.data.Selectable;
 import com.virtual_hex.editor.data.UIComponent;
+import com.virtual_hex.editor.utils.UIUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -10,6 +11,8 @@ import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImVec4;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -17,6 +20,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * Default writer
@@ -25,16 +29,29 @@ import java.util.function.BiConsumer;
  */
 public class DefaultUIWriter implements UIWriter<JImGui> {
 
+    /**
+     * Simply a Logger Reference
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUIWriter.class);
+
+
     public static final UIComponentWriter EMPTY_WRITER = new EmptyComponentReader();
 
     public int version;
     public DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
-    public UIComponent[] root;
+    public UIComponent[] root = {};
     public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
     public Map<Class<?>, UIComponentWriter<JImGui, DefaultUIWriter>> classComponentHandlers;
-    public Map<UUID, List<ActivationHandler<JImGui>>> activationHandlers;
-    public Map<UUID, List<StateChangeHandler<JImGui>>> stateChangeHandlers;
-    public Map<String, WeakHashMap<UIComponent, String>> toggleGroup;
+    public Map<UUID, List<ActivationHandler>> activationHandlers;
+    public Map<UUID, List<StateChangeHandler>> stateChangeHandlers;
+    public Map<UUID, List<AlwaysHandler>> alwaysHandlers;
+
+
+    /**
+     * Implementation here is Weakmap and Weakset, for auto garbage collection
+     */
+    public Map<String, Map<UIComponent, Field>> toggleGroup;
+
     public ConcurrentHashMap<String, Object> properties;
     private Path pluginDirectory;
 
@@ -70,6 +87,22 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 //        }
 //    }
 
+
+//
+//    public <C extends UIComponent> C[] addToRoot(C... uiComponents){
+//        // TODO
+//    }
+//
+//    public <C extends UIComponent> C addToRoot(C uiComponents){
+//        // TODO
+//    }
+
+
+    public <C extends UIComponent> C createAlwaysHandle(C component, ActivationHandler<JImGui, ?> activationHandler) {
+        activationHandlers.computeIfAbsent(component.getId(), uuid -> new ArrayList<>()).add(activationHandler);
+        return component;
+    }
+
     /**
      *
      * @param component UiComponent we want to listen to for changes in, note that some think will need to call
@@ -78,118 +111,122 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param <C>
      * @return
      */
-    public <C extends UIComponent> C createAction(C component, ActivationHandler<JImGui> activationHandler) {
+    public <C extends UIComponent> C createAction(C component, ActivationHandler<JImGui, ?> activationHandler) {
         activationHandlers.computeIfAbsent(component.getId(), uuid -> new ArrayList<>()).add(activationHandler);
         return component;
     }
 
-    /**
-     *
-     * @param fieldName name of the field to used in reflection to get and set values
-     * @param primaryGroup name of the primary group, which when this C UiComponent toggled will set all toggles in this group
-     *                     other widgets may be apart of this group already or in the future
-     * @param otherGroups name of additional groups to add this C UIComponent too, this can allow stuff to be controlled in groups, these groups
-     *                                are not called when the C UiComponent is activated, only the linkStateChangeGroup
-     *                                  other widgets may be apart of this group already or in the future
-     * @param uiComponent the component we want to add to the toggle groups
-     * @param <C>
-     * @returnthe component we added to the groups
-     */
-    public <C extends UIComponent> C cToggleGroup(String fieldName, String primaryGroup, String[] otherGroups, C uiComponent){
-        // We want to be apart of a group that mirrors a state
-        toggleGroup.computeIfAbsent(primaryGroup, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
-        for (String additionalGroup : otherGroups) {
-            toggleGroup.computeIfAbsent(additionalGroup, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
-        }
-
-        // We want to know if a state changes
-        stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
-                .add(new StateChangeHandler<JImGui>() {
-                    @Override
-                    public void handle(JImGui out, UIComponent objectChanged, UIWriter parentDrawer) {
-                        Map<UIComponent, String> groupMap = toggleGroup.get(primaryGroup);
-                        String fieldName = groupMap.get(objectChanged);
-                        try {
-                            Field field = uiComponent.getClass().getDeclaredField(fieldName);
-                            boolean aBoolean = field.getBoolean(objectChanged);
-                            toggleGroup(primaryGroup, aBoolean);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        return uiComponent;
-    }
-
-    /**
-     *
-     * @param fieldName name of the field to used in reflection to get and set values
-     * @param group name to add the UiComponents to
-     * @param uiComponents UiComponents will be all added to the same group, only one in this group can be selected
-     *                     at a time, if an item is selected it will trigger and activation handler to set
-     *                     all the others in the group to false, and the selected to true
-     * @param <C>
-     * @return UiComponent used to set up the single toggle
-     */
-    public <C extends UIComponent> C[] cSingleToggleGroup(String fieldName, String group, C... uiComponents){
+    // boolean if we should include a state handler for this
+    public UIComponent[] addToggleGroup(String group, UIComponent[] uiComponents){
         for (int i = 0; i < uiComponents.length; i++) {
-            C uiComponent = uiComponents[i];
-            // We want to be apart of a group that mirrors a state
-            toggleGroup.computeIfAbsent(group, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
-
-            // We want to know if a state changes
-            stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
-                    .add(new StateChangeHandler<JImGui>() {
-                        @Override
-                        public void handle(JImGui out, UIComponent objectChanged, UIWriter parentDrawer) {
-                            Map<UIComponent, String> groupMap = toggleGroup.get(group);
-                            String fieldName = groupMap.get(objectChanged);
-                            try {
-                                Field field = objectChanged.getClass().getDeclaredField(fieldName);
-                                boolean aBoolean = field.getBoolean(objectChanged);
-                                toggleGroup(group, uiComponent, !aBoolean);
-                            } catch (NoSuchFieldException | IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+            addToggle(toggleGroup.computeIfAbsent(group, g -> new WeakHashMap<>()), uiComponents[i]);
         }
         return uiComponents;
     }
 
-    // should also deselect option for wrapping closed items in reverse calls
+    public UIComponent addToggleGroup(String group, UIComponent uiComponent){
+        addToggle(toggleGroup.computeIfAbsent(group, g -> new WeakHashMap<>()), uiComponent);
+        return uiComponent;
+    }
+
+
 
     /**
+     * Each component when state changes will match the state of the other toggles.
      *
-     * @param fieldName name of the field to used in reflection to get and set values
-     * @param primaryGroup name of the primary group, which when this C UiComponent toggled will set all toggles
-     *                     in this group
-     * @param uiComponent the component we want to add to the toggle groups
-     * @param <C>
-     * @returnthe component we added to the groups
+     * @param mainComponent
+     * @return
      */
-    public <C extends UIComponent> C cToggleGroup(String fieldName, String primaryGroup, C uiComponent){
+    public UIComponent bindTogglesAddRoot(String group, UIComponent mainComponent, UIComponent toRoot){
+        toggleGroup.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
+            @Override
+            public Map<UIComponent, Field> apply(String s) {
+                // We want all the references to be garbage collected in case the UI Widgets are unloaded
+                WeakHashMap<UIComponent, Field> toggles = new WeakHashMap<>();
+                addToggle(toggles, mainComponent);
+                addToggle(toggles, toRoot);
+                addToggleStateChaneHandlers(group, mainComponent, toRoot);
+                root = UIUtils.merge(root, new UIComponent[]{toRoot});
+                return toggles;
+            }
+        });
 
-        // We want to be apart of a group that mirrors a state
-        toggleGroup.computeIfAbsent(primaryGroup, s-> new WeakHashMap<>()).put(uiComponent, fieldName);
+        return mainComponent;
+    }
 
-        // We want to know if a state changes
-        stateChangeHandlers.computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
-                .add(new StateChangeHandler<JImGui>() {
-                    @Override
-                    public void handle(JImGui out, UIComponent objectChanged, UIWriter parentDrawer) {
-                        Map<UIComponent, String> groupMap = toggleGroup.get(primaryGroup);
-                        String fieldName = groupMap.get(objectChanged);
-                        try {
-                            Field field = uiComponent.getClass().getDeclaredField(fieldName);
-                            boolean aBoolean = field.getBoolean(objectChanged);
-                            toggleGroup(primaryGroup, !aBoolean);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        return uiComponent;
+    /**
+     * Each component when state changes will match the state of the other toggles.
+     *
+     * @param uiComponents
+     * @return
+     */
+    public UIComponent[] bindToggles(String group, UIComponent... uiComponents){
+        toggleGroup.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
+            @Override
+            public Map<UIComponent, Field> apply(String s) {
+                // We want all the references to be garbage collected in case the UI Widgets are unloaded
+                WeakHashMap<UIComponent, Field> toggles = new WeakHashMap<>();
+                addToggles(toggles, uiComponents);
+                addToggleStateChaneHandlers(group, uiComponents);
+                return toggles;
+            }
+        });
+
+        return uiComponents;
+    }
+
+    private void addToggleStateChaneHandlers(String group, UIComponent... uiComponents) {
+        for (int i = 0; i < uiComponents.length; i++) {
+            addToggleStateChaneHandlers(group, uiComponents[i]);
+        }
+    }
+
+    private void addToggleStateChaneHandlers(String group, UIComponent uiComponent) {
+        stateChangeHandlers
+                .computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
+                .add(new StateChangeHandler<JImGui, DefaultUIWriter>() {
+            @Override
+            public void handle(JImGui out, UIComponent objectChanged, DefaultUIWriter parentDrawer) {
+                Map<UIComponent, Field> toggles = toggleGroup.get(group);
+                Field field = toggles.get(objectChanged);
+                if(field == null){
+                    LOGGER.error("Error could not find a field for ui component: {} with id of {}", uiComponent, uiComponent.getId());
+                    return;
+                }
+                try {
+                    boolean value = field.getBoolean(objectChanged);
+                    // Exclude object changed from the toggle
+                    toggleGroup(group, objectChanged, value);
+                } catch (IllegalAccessException e) {
+                    LOGGER.error("Error could not get a boolean from field for ui component: {} with id of {}. Stack message {}", uiComponent, uiComponent.getId(), e.getMessage());
+                }
+            }
+        });
+    }
+
+    private static void addToggles(Map<UIComponent, Field> toggles, UIComponent uiComponent, UIComponent... uiComponents){
+        addToggle(toggles, uiComponent);
+        addToggles(toggles, uiComponents);
+    }
+
+    // If it fails it will not do harm and the widget will not be apart of a group
+    private static void addToggles(Map<UIComponent, Field> toggles, UIComponent... uiComponents){
+        for (int i = 0; i < uiComponents.length; i++) {
+            addToggle(toggles, uiComponents[i]);
+        }
+    }
+
+    private static void addToggle(Map<UIComponent, Field> toggles, UIComponent uiComponent){
+        Toggle toggleField = uiComponent.getClass().getAnnotation(Toggle.class);
+        String fieldName = toggleField.fieldName();
+        try {
+            Field field = uiComponent.getClass().getDeclaredField(fieldName);
+            if(field != null){
+                toggles.putIfAbsent(uiComponent, field);
+            }
+        } catch (NoSuchFieldException e) {
+            LOGGER.error("Could not find field name \"{}\" in class \"{}\"", fieldName, uiComponent.getClass(), e);
+        }
     }
 
     /**
@@ -208,17 +245,17 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param value the value to set the for each value field of the group
      */
     public void toggleGroup(String group, UIComponent exclude, boolean value){
-        Map<UIComponent, String> componentStringMap = toggleGroup.get(group);
-        if(componentStringMap != null){
-            for (Map.Entry<UIComponent, String> entry : componentStringMap.entrySet()) {
+        Map<UIComponent, Field> fieldMap = toggleGroup.get(group);
+        if(fieldMap != null){
+            for (Map.Entry<UIComponent, Field> entry : fieldMap.entrySet()) {
                 UIComponent uiComponent = entry.getKey();
                 if(!uiComponent.equals(exclude)) {
-                    String fieldName = entry.getValue();
-                    Field byName = getFieldByName(uiComponent, fieldName);
+                    Field field = entry.getValue();
                     try {
-                        byName.setBoolean(uiComponent, value);
+                        field.set(uiComponent, value);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
+                        LOGGER.error("Could not set field type boolean \"{}\" in class \"{}\"", field, uiComponent.getClass(), e);
                     }
                 }
             }
@@ -233,8 +270,8 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param writer
      */
     public void handleStateChange(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        List<StateChangeHandler<JImGui>> stateChangeHandlerList = stateChangeHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
-        for (StateChangeHandler<JImGui> stateChangeHandler : stateChangeHandlerList) {
+        List<StateChangeHandler> stateChangeHandlerList = stateChangeHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
+        for (StateChangeHandler stateChangeHandler : stateChangeHandlerList) {
             stateChangeHandler.handle(out, uiComponent, writer);
         }
     }
@@ -295,11 +332,12 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * Set up the initial maps
      */
     private void setMaps() {
-        this.uuidSpecificTypeHandlers = new HashMap<>();
+        this.uuidSpecificTypeHandlers = new WeakHashMap<>();
         this.classComponentHandlers = new HashMap<>();
-        this.activationHandlers = new HashMap<>();
-        this.toggleGroup = new HashMap<>();
-        this.stateChangeHandlers = new HashMap<>();
+        this.activationHandlers = new WeakHashMap<>();
+        this.toggleGroup = new HashMap<String, Map<UIComponent, Field>>();
+        this.stateChangeHandlers = new WeakHashMap<>();
+        this.alwaysHandlers = new WeakHashMap<>();
         this.properties = new ConcurrentHashMap<>(16, 1.0f, 2);
     }
 
@@ -387,8 +425,8 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param writer
      */
     public void handleActivation(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        List<ActivationHandler<JImGui>> activationHandlerList = activationHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
-        for (ActivationHandler<JImGui> activationHandler : activationHandlerList) {
+        List<ActivationHandler> activationHandlerList = activationHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
+        for (ActivationHandler activationHandler : activationHandlerList) {
             activationHandler.handle(out, uiComponent, writer);
         }
     }
@@ -444,7 +482,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     }
 
 
-    public <LABEL> Selectable<LABEL> setStateChangeListener(Selectable<LABEL> selectable, StateChangeHandler<JImGui> stateChangeHandler) {
+    public <LABEL> Selectable<LABEL> setStateChangeListener(Selectable<LABEL> selectable, StateChangeHandler stateChangeHandler) {
         stateChangeHandlers.computeIfAbsent(selectable.id, uuid -> new ArrayList<>()).add(stateChangeHandler);
         return selectable;
     }

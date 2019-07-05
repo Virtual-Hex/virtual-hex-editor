@@ -1,5 +1,6 @@
 package com.virtual_hex.editor.data;
 
+import com.virtual_hex.editor.Toggle;
 import lombok.*;
 
 /**
@@ -9,9 +10,11 @@ import lombok.*;
 @NoArgsConstructor(staticName="of")
 @AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
+@Toggle(fieldName = "checked")
 public final class CheckBox<LABEL> extends AbstractUIComponent{
 
     @NonNull
     public LABEL label;
+
     public boolean checked = false;
 }

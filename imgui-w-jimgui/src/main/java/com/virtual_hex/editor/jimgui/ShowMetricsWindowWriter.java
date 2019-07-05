@@ -12,6 +12,5 @@ public class ShowMetricsWindowWriter extends NativeBoolComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         ShowMetricsWindow component = (ShowMetricsWindow) uiComponent;
         if(component.open) out.showMetricsWindow();
-        writer.handleStateChange(out, component, writer);
     }
 }

@@ -12,6 +12,5 @@ public class ShowDemoWindowWriter extends NativeBoolComponentWriter {
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
         ShowDemoWindow component = (ShowDemoWindow) uiComponent;
         if (component.open) out.showDemoWindow();
-        writer.handleStateChange(out, component, writer);
     }
 }

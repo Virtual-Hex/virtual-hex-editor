@@ -6,7 +6,7 @@ import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
 @ComponentRegister(typeKey = InputText.class)
-public class TextInputWriter extends JImGuiComponentWriter {
+public class InputTextWriter extends JImGuiComponentWriter {
 
     @Override
     public void write(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {

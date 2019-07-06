@@ -20,6 +20,5 @@ public class WindowWriter extends JImGuiComponentWriter {
             }
             JImGuiGen.end();
         }
-        writer.handleStateChange(out, component, writer);
     }
 }

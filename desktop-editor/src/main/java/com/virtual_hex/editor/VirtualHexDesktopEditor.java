@@ -3,13 +3,13 @@ package com.virtual_hex.editor;
 import ch.qos.logback.classic.Level;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
-import com.virtual_hex.editor.utils.UIUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
+import org.ice1000.jimgui.flag.JImWindowFlags;
 import org.ice1000.jimgui.util.JniLoader;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -21,7 +21,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
-import java.util.stream.Stream;
+
+import static com.virtual_hex.editor.utils.UIUtils.merge;
 
 /**
  * TODO: Will need some reflective nativeData entities to be able to render IDs to names, ect since
@@ -79,7 +80,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
     public static VirtualHexDesktopEditor INSTANCE;
 
     public PluginManager pluginManager;
-    public UIComponent[] uiComponents;
+
     public AtomicBoolean shouldClose = new AtomicBoolean(false);
     public EditorConfiguration editorConfiguration = null;// This will be just a file essentially as settings, loaded into a full type
 
@@ -93,10 +94,13 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
 
-            switch (arg){
-                case "--w": width = Integer.parseInt(args[i + 1]);
-                case "--h": height = Integer.parseInt(args[i + 1]);
-                case "--d": renderDefault = false; // Turn off default rendering (widgets / reader)
+            switch (arg) {
+                case "--w":
+                    width = Integer.parseInt(args[i + 1]);
+                case "--h":
+                    height = Integer.parseInt(args[i + 1]);
+                case "--d":
+                    renderDefault = false; // Turn off default rendering (widgets / reader)
             }
 
         }
@@ -121,12 +125,12 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         // Look for settings, to load previous uiComponentWriters and data
         // Load basic UIWriter, show window if no previous stuff, to allow extending of the launcher
 
-        if(editorConfiguration == null){
+        if (editorConfiguration == null) {
             editorConfiguration = getDefaultImpl();
         } else {
             LOGGER.warn("Editor configuration loading is not currently supported yet (Soon) TM :D.");
             // This allows users to completely override the UI and editor default widgets or just add additional ones
-            if(renderDefault){
+            if (renderDefault) {
                 editorConfiguration = editorConfiguration.merge(getDefaultImpl());
             }
             // Need to create a merge
@@ -163,11 +167,20 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         }
 
 
-
         // ANYTHING PAST THIS POINT WILL BE EXITING, MEANS THE shouldClose = true;
 
         // Save Projects
         // Save Editor
+
+//
+//        Gson gson = new GsonBuilder().setVersion(1).setPrettyPrinting().create();
+//        String s = gson.toJson(editorConfiguration);
+//        System.out.println(s);
+//
+//
+//        UIComponent[] uiComponents = gson.fromJson(s, UIComponent[].class);
+
+
 
         editorConfiguration.dispose();
     }
@@ -206,8 +219,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                 try {
                     DefaultUIWriter writer = (DefaultUIWriter) aClass.newInstance();
 
-                    if(writer instanceof DefaultUIWriter){
-                        DefaultUIWriter dUIWriter = (DefaultUIWriter) writer;
+                    if (writer instanceof DefaultUIWriter) {
+                        DefaultUIWriter dUIWriter = writer;
                         // Anything we show here will go to the debug window if its a widget type that cannot interact
                         // directly with JImGui, like a new Text();  would open a debug window and show text on it
                         // Using a menu, window, some settings and options will show it correctly in its own area
@@ -215,51 +228,81 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                         // TODO Move to a plugin, it should be the?? data i dunno but not a writer.
                         // TODO needs to be updated as well, this is from the editor but didnt belong there so much in the final app
                         UIComponent abouts = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_ABOUT, MenuItemSelectable.of(js("About"), EMPTY_STR), ShowAboutWindow.of()));
-                        UIComponent userGuide = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_USER_GUIDE, MenuItemSelectable.of(js("User Guide"), EMPTY_STR), WindowDecorated.of(js("User Guide"), array(ShowUserGuide.of()))));
+                        UIComponent userGuide = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_USER_GUIDE, MenuItemSelectable.of(js("User Guide"), EMPTY_STR), WindowDecorated.of(js("User Guide"), merge(ShowUserGuide.of()))));
                         UIComponent demos = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_DEMO, MenuItemSelectable.of(js("Demo"), EMPTY_STR), ShowDemoWindow.of()));
                         UIComponent metrics = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_METRICS, MenuItemSelectable.of(js("Metrics"), EMPTY_STR), ShowMetricsWindow.of()));
-                        UIComponent fontSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_FONT_SELECTOR, MenuItemSelectable.of(js("Font Selector"), EMPTY_STR), WindowDecorated.of(js("Font Selector"), array(ShowFontSelector.of(js("Font Selector"))))));
-                        UIComponent styleSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_SELECTOR, MenuItemSelectable.of(js("Style Selector"), EMPTY_STR), WindowDecorated.of(js("Style Selector"), array(ShowStyleSelector.of(js("Style Selector"))))));
-                        UIComponent styleEditor = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_EDITOR, MenuItemSelectable.of(js("Style Editor"), EMPTY_STR), WindowDecorated.of(js("Style Editor"), array(ShowStyleEditor.of()))));
+                        UIComponent fontSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_FONT_SELECTOR, MenuItemSelectable.of(js("Font Selector"), EMPTY_STR), WindowDecorated.of(js("Font Selector"), merge(ShowFontSelector.of(js("Font Selector"))))));
+                        UIComponent styleSelector = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_SELECTOR, MenuItemSelectable.of(js("Style Selector"), EMPTY_STR), WindowDecorated.of(js("Style Selector"), merge(ShowStyleSelector.of(js("Style Selector"))))));
+                        UIComponent styleEditor = writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_IMGUI_STYLE_EDITOR, MenuItemSelectable.of(js("Style Editor"), EMPTY_STR), WindowDecorated.of(js("Style Editor"), merge(ShowStyleEditor.of()))));
 
-                        dUIWriter.root = UIUtils.merge(dUIWriter.root, new UIComponent[]{
+                        dUIWriter.root = merge(dUIWriter.root, new UIComponent[]{
                                 // New User Window
+
+                                WindowDecorated.of(js("Editor of Editor"), true, JImWindowFlags.MenuBar, new UIComponent[]{
+                                        CollapsingHeader.of("Data Structure", merge(new UIComponentsDataStructure(dUIWriter.root)))
+                                }),
 
                                 // The editor menu will turn into a slightly dif component, well have helper methods to extend
                                 // add to editor
-                                MainMenuBar.of(array(
-                                        Menu.of(js("File"), array(writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
-                                                    AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
-                                                    atomicBoolean.set(true);
-                                                })))),
-                                                Menu.of(js("Tools"),
-                                                        Stream.of(
-                                                                writer.bindToggles(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Editor Configuration"), EMPTY_STR)),
-                                                                writer.bindToggles(W_UI_PLUGINS, MenuItemSelectable.of(js("UI Plugins"), EMPTY_STR)),
-                                                                writer.bindToggles(W_PROJECTS, MenuItemSelectable.of(js("Projects"), EMPTY_STR))
-                                                        ).flatMap(Stream::of).toArray(UIComponent[]::new)
-                                                ),
-                                                Menu.of(js("Quick Task"), array(writer.createAction(MenuItem.of("Clear all windows"), new RunnableActivationHandler<>(() -> writer.toggleGroup(EDITOR_ALL_WINDOWS, false))))),
-                                                Menu.of(js("Help"), array(Text.of("Coming soon..."), Text.of("A Game editor by Virtual Hex Games, development@virtual-hex.com"))),
-                                                Menu.of(js("ImGui"), UIUtils.merge(abouts, userGuide, demos, metrics, fontSelector, styleSelector, styleEditor))
-                                                                // This may seem complicated at first, here we are creating a window and adding it to the root app, when the method
-                                                                // returns it returns the window, which is used in the write.createOneWayBoolFieldLink to link the value mechanism item to the toggleable
+                                MainMenuBar.of(merge(
+                                        Menu.of(js("File"), merge(writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
+                                            AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
+                                            atomicBoolean.set(true);
+                                        })))),
+                                        Menu.of(js("Tools"),
+                                                merge(
+
+                                                        writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Edit Editor"), EMPTY_STR), WindowDecorated.of(js("Edit Editor"), false, JImWindowFlags.MenuBar, merge(
+                                                                MenuBar.of(js("editor-configuration-menu"), true, merge(
+                                                                        Menu.of(
+                                                                                js("File"),
+                                                                                merge(
+                                                                                        MenuItem.of("Load New"),
+                                                                                        MenuItem.of("Load and Merge"),
+                                                                                        MenuItem.of("Save")
+                                                                                )
+                                                                        )
+                                                                        )
+                                                                )
+                                                                )
+                                                        ))),
+
+
+                                                        // we need to implement a look up for if a state is changed, to look up groups and change it
+                                                        writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Editor Configuration"), EMPTY_STR), WindowDecorated.of(js("Editor Configuration"), false, JImWindowFlags.MenuBar, merge(
+                                                                MenuBar.of(js("editor-configuration-menu"), true, merge(
+                                                                                Menu.of(
+                                                                                        js("File"),
+                                                                                        merge(
+                                                                                                MenuItem.of("Load New"),
+                                                                                                MenuItem.of("Load and Merge"),
+                                                                                                MenuItem.of("Save")
+                                                                                        )
+                                                                                )
+                                                                        )
+                                                                )
+                                                                )
+                                                        )))
+//                                                        writer.bindTogglesAddRoot()
+//                                                                writer.bindToggles(W_UI_PLUGINS, MenuItemSelectable.of(js("UI Plugins"), EMPTY_STR)),
+//                                                                writer.bindToggles(W_PROJECTS, MenuItemSelectable.of(js("Projects"), EMPTY_STR))
+                                                )
+                                        ),
+                                        Menu.of(js("Quick Task"), merge(writer.createAction(MenuItem.of("Clear all windows"), new RunnableActivationHandler<>(() -> writer.toggleGroup(EDITOR_ALL_WINDOWS, false))))),
+                                        Menu.of(js("Help"), merge(Text.of("Coming soon..."), Text.of("A Game editor by Virtual Hex Games, development@virtual-hex.com"))),
+                                        Menu.of(js("ImGui"), merge(abouts, userGuide, demos, metrics, fontSelector, styleSelector, styleEditor))
+                                        // This may seem complicated at first, here we are creating a window and adding it to the root app, when the method
+                                        // returns it returns the window, which is used in the write.createOneWayBoolFieldLink to link the value mechanism item to the toggleable
                                         )
                                 ),
 
 
-                                WindowDecorated.of(js("Test"), true, 0, writer.bindToggles("test", CheckBox.of(js("Test 1")), CheckBox.of(js("Test3"))))
+//                                WindowDecorated.of(js("Test"), true, 0, writer.bindToggles("test", CheckBox.of(js("Test 1")), CheckBox.of(js("Test3"))))
 
 
+                                // UI Plugin Window, UI needs to be remember in case the user completely replaces it
 
-
-
-
-
-
-                                                // UI Plugin Window, UI needs to be remember in case the user completely replaces it
-
-                                        //TODO Holder does not have field OPEN
+                                //TODO Holder does not have field OPEN
 
 //                                                dUIWriter.addToggleGroup(OPEN, W_PROJECTS, WindowDecorated.of(
 //                                                        js("Projects"),
@@ -280,13 +323,10 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 //                                        )),
 
 
-
                         });
 
 
                     }
-
-
 
 
                     writer.setProperty("editor-should-close", shouldClose);
@@ -310,10 +350,6 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         return new EditorConfiguration(refreshable);
     }
 
-    public UIComponent[] array(UIComponent... uiComponent) {
-        return uiComponent;
-    }
-
     public JImStr js(String s) {
         return new JImStr(s);
     }
@@ -326,9 +362,9 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
         @Override
         public byte[] apply(String s) {
-            if(s == null) return EMPTY_ARRAY;
+            if (s == null) return EMPTY_ARRAY;
             byte[] buffer = cachedStrings.get(s);
-            if(buffer == null) {
+            if (buffer == null) {
                 buffer = s.getBytes(StandardCharsets.UTF_8);
                 cachedStrings.put(s, buffer);
                 System.arraycopy(s.getBytes(), 0, buffer, 0, s.length());

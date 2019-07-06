@@ -12,11 +12,11 @@ import lombok.*;
 @AllArgsConstructor(staticName="of")
 @RequiredArgsConstructor(staticName="of")
 @Toggle(fieldName = "open")
-public final class CollapsingHeader<LABEL> extends AbstractUIComponent {
+public final class CollapsingHeader extends AbstractUIComponent {
 
     @NonNull
-    public LABEL label;
-
+    public String label;
+    @Builder.Default
     public boolean open = false;
     @NonNull
     public UIComponent[] uiComponents;

@@ -28,6 +28,5 @@ public class WindowDecoratedWriter extends NativeBoolComponentWriter {
             }
             JImGuiGen.end();
         }
-        writer.handleStateChange(out, component, writer);
     }
 }

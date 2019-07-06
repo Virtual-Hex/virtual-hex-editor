@@ -27,4 +27,5 @@ public class CheckBoxWriter extends NativeBoolComponentWriter {
             writer.handleStateChange(out, component, writer);
         }
     }
+
 }

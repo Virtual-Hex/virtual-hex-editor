@@ -40,17 +40,21 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public int version;
     public DeallocatableObjectManager deallocatableObjectManager = new DeallocatableObjectManager();
     public UIComponent[] root = {};
-    public Map<UUID, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
+    public Map<UIComponent, UIComponentWriter<JImGui, DefaultUIWriter>> uuidSpecificTypeHandlers;
     public Map<Class<?>, UIComponentWriter<JImGui, DefaultUIWriter>> classComponentHandlers;
-    public Map<UUID, List<ActivationHandler>> activationHandlers;
-    public Map<UUID, List<StateChangeHandler>> stateChangeHandlers;
-    public Map<UUID, List<AlwaysHandler>> alwaysHandlers;
+    public Map<UIComponent, List<ActivationHandler>> activationHandlers;
+    public Map<UIComponent, List<StateChangeHandler>> stateChangeHandlers;
+    public Map<UIComponent, List<AlwaysHandler>> alwaysHandlers;
+
 
 
     /**
      * Implementation here is Weakmap and Weakset, for auto garbage collection
      */
-    public Map<String, Map<UIComponent, Field>> toggleGroup;
+    public Map<String, Map<UIComponent, Field>> toggleGroups;
+    // Reverse look up for making sure if set from one group, we trigger all groups
+    public Map<UIComponent, List<String>> groupMembership;
+
 
     public ConcurrentHashMap<String, Object> properties;
     private Path pluginDirectory;
@@ -99,7 +103,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
 
     public <C extends UIComponent> C createAlwaysHandle(C component, ActivationHandler<JImGui, ?> activationHandler) {
-        activationHandlers.computeIfAbsent(component.getId(), uuid -> new ArrayList<>()).add(activationHandler);
+        activationHandlers.computeIfAbsent(component, uuid -> new ArrayList<>()).add(activationHandler);
         return component;
     }
 
@@ -112,20 +116,20 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @return
      */
     public <C extends UIComponent> C createAction(C component, ActivationHandler<JImGui, ?> activationHandler) {
-        activationHandlers.computeIfAbsent(component.getId(), uuid -> new ArrayList<>()).add(activationHandler);
+        activationHandlers.computeIfAbsent(component, uuid -> new ArrayList<>()).add(activationHandler);
         return component;
     }
 
     // boolean if we should include a state handler for this
     public UIComponent[] addToggleGroup(String group, UIComponent[] uiComponents){
         for (int i = 0; i < uiComponents.length; i++) {
-            addToggle(toggleGroup.computeIfAbsent(group, g -> new WeakHashMap<>()), uiComponents[i]);
+            addToggle(group, uiComponents[i]);
         }
         return uiComponents;
     }
 
     public UIComponent addToggleGroup(String group, UIComponent uiComponent){
-        addToggle(toggleGroup.computeIfAbsent(group, g -> new WeakHashMap<>()), uiComponent);
+        addToggle(group, uiComponent);
         return uiComponent;
     }
 
@@ -138,13 +142,13 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @return
      */
     public UIComponent bindTogglesAddRoot(String group, UIComponent mainComponent, UIComponent toRoot){
-        toggleGroup.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
+        toggleGroups.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
             @Override
             public Map<UIComponent, Field> apply(String s) {
                 // We want all the references to be garbage collected in case the UI Widgets are unloaded
                 WeakHashMap<UIComponent, Field> toggles = new WeakHashMap<>();
-                addToggle(toggles, mainComponent);
-                addToggle(toggles, toRoot);
+                addToggle(group, mainComponent);
+                addToggle(group, toRoot);
                 addToggleStateChaneHandlers(group, mainComponent, toRoot);
                 root = UIUtils.merge(root, new UIComponent[]{toRoot});
                 return toggles;
@@ -161,12 +165,12 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @return
      */
     public UIComponent[] bindToggles(String group, UIComponent... uiComponents){
-        toggleGroup.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
+        toggleGroups.computeIfAbsent(group, new Function<String, Map<UIComponent, Field>>() {
             @Override
             public Map<UIComponent, Field> apply(String s) {
                 // We want all the references to be garbage collected in case the UI Widgets are unloaded
                 WeakHashMap<UIComponent, Field> toggles = new WeakHashMap<>();
-                addToggles(toggles, uiComponents);
+                addToggles(group, uiComponents);
                 addToggleStateChaneHandlers(group, uiComponents);
                 return toggles;
             }
@@ -183,14 +187,14 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     private void addToggleStateChaneHandlers(String group, UIComponent uiComponent) {
         stateChangeHandlers
-                .computeIfAbsent(uiComponent.getId(), uuid -> new ArrayList<>())
+                .computeIfAbsent(uiComponent, uuid -> new ArrayList<>())
                 .add(new StateChangeHandler<JImGui, DefaultUIWriter>() {
             @Override
             public void handle(JImGui out, UIComponent objectChanged, DefaultUIWriter parentDrawer) {
-                Map<UIComponent, Field> toggles = toggleGroup.get(group);
+                Map<UIComponent, Field> toggles = toggleGroups.get(group);
                 Field field = toggles.get(objectChanged);
                 if(field == null){
-                    LOGGER.error("Error could not find a field for ui component: {} with id of {}", uiComponent, uiComponent.getId());
+                    LOGGER.error("Error could not find a toggle for ui component: {} with id of {} and a group of {}", uiComponent, uiComponent.getId(), group);
                     return;
                 }
                 try {
@@ -198,34 +202,35 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                     // Exclude object changed from the toggle
                     toggleGroup(group, objectChanged, value);
                 } catch (IllegalAccessException e) {
-                    LOGGER.error("Error could not get a boolean from field for ui component: {} with id of {}. Stack message {}", uiComponent, uiComponent.getId(), e.getMessage());
+                    LOGGER.error("Error could not get a boolean from field for ui component: {} with id of {}   and a group of {}.Stack message {}", uiComponent, uiComponent.getId(), group, e.getMessage());
                 }
             }
         });
     }
 
-    private static void addToggles(Map<UIComponent, Field> toggles, UIComponent uiComponent, UIComponent... uiComponents){
-        addToggle(toggles, uiComponent);
-        addToggles(toggles, uiComponents);
+    private void addToggles(String group, UIComponent uiComponent, UIComponent... uiComponents){
+        addToggle(group, uiComponent);
+        addToggles(group, uiComponents);
     }
 
     // If it fails it will not do harm and the widget will not be apart of a group
-    private static void addToggles(Map<UIComponent, Field> toggles, UIComponent... uiComponents){
+    private void addToggles(String group, UIComponent... uiComponents){
         for (int i = 0; i < uiComponents.length; i++) {
-            addToggle(toggles, uiComponents[i]);
+            addToggle(group, uiComponents[i]);
         }
     }
 
-    private static void addToggle(Map<UIComponent, Field> toggles, UIComponent uiComponent){
+    private void addToggle(String group, UIComponent uiComponent){
         Toggle toggleField = uiComponent.getClass().getAnnotation(Toggle.class);
         String fieldName = toggleField.fieldName();
         try {
             Field field = uiComponent.getClass().getDeclaredField(fieldName);
             if(field != null){
-                toggles.putIfAbsent(uiComponent, field);
+                toggleGroups.computeIfAbsent(group, s -> new WeakHashMap<>()).putIfAbsent(uiComponent, field);
+                groupMembership.computeIfAbsent(uiComponent, uuid -> new ArrayList<>()).add(group);
             }
         } catch (NoSuchFieldException e) {
-            LOGGER.error("Could not find field name \"{}\" in class \"{}\"", fieldName, uiComponent.getClass(), e);
+            LOGGER.error("Could not find field name \"{}\" in class \"{}\" and a group of {}", fieldName, uiComponent.getClass(), group, e);
         }
     }
 
@@ -245,7 +250,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param value the value to set the for each value field of the group
      */
     public void toggleGroup(String group, UIComponent exclude, boolean value){
-        Map<UIComponent, Field> fieldMap = toggleGroup.get(group);
+        Map<UIComponent, Field> fieldMap = toggleGroups.get(group);
         if(fieldMap != null){
             for (Map.Entry<UIComponent, Field> entry : fieldMap.entrySet()) {
                 UIComponent uiComponent = entry.getKey();
@@ -255,8 +260,14 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
                         field.set(uiComponent, value);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
-                        LOGGER.error("Could not set field type boolean \"{}\" in class \"{}\"", field, uiComponent.getClass(), e);
+                        LOGGER.error("Could not set field type boolean \"{}\" in class \"{}\" and a group of {}", field, uiComponent.getClass(), group, e);
                     }
+                }
+            }
+            List<String> strings = groupMembership.get(exclude);
+            if(strings != null){
+                for (String string : strings) {
+                    toggleGroup(string, value);
                 }
             }
         }
@@ -335,9 +346,10 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
         this.uuidSpecificTypeHandlers = new WeakHashMap<>();
         this.classComponentHandlers = new HashMap<>();
         this.activationHandlers = new WeakHashMap<>();
-        this.toggleGroup = new HashMap<String, Map<UIComponent, Field>>();
+        this.toggleGroups = new HashMap<>();
         this.stateChangeHandlers = new WeakHashMap<>();
         this.alwaysHandlers = new WeakHashMap<>();
+        this.groupMembership = new WeakHashMap<>();
         this.properties = new ConcurrentHashMap<>(16, 1.0f, 2);
     }
 
@@ -358,7 +370,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public void write(JImGui out, UIComponent uiComponent, BiConsumer<JImGui, UIComponent> writeFailHandler) {
         UIComponentWriter<JImGui, DefaultUIWriter> componentWriter = null;
 
-        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).getId());
+        componentWriter = uuidSpecificTypeHandlers.get(uiComponent);
 
         if (componentWriter == null) {
             componentWriter = checkType(uiComponent);
@@ -381,7 +393,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public void write(JImGui out, UIComponent uiComponent) {
         UIComponentWriter<JImGui, DefaultUIWriter> componentWriter = null;
 
-        componentWriter = uuidSpecificTypeHandlers.get((uiComponent).getId());
+        componentWriter = uuidSpecificTypeHandlers.get(uiComponent);
 
         if (componentWriter == null) {
             componentWriter = checkType(uiComponent);
@@ -425,7 +437,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
      * @param writer
      */
     public void handleActivation(JImGui out, UIComponent uiComponent, DefaultUIWriter writer) {
-        List<ActivationHandler> activationHandlerList = activationHandlers.getOrDefault(uiComponent.getId(), Collections.emptyList());
+        List<ActivationHandler> activationHandlerList = activationHandlers.getOrDefault(uiComponent, Collections.emptyList());
         for (ActivationHandler activationHandler : activationHandlerList) {
             activationHandler.handle(out, uiComponent, writer);
         }
@@ -483,7 +495,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
 
     public <LABEL> Selectable<LABEL> setStateChangeListener(Selectable<LABEL> selectable, StateChangeHandler stateChangeHandler) {
-        stateChangeHandlers.computeIfAbsent(selectable.id, uuid -> new ArrayList<>()).add(stateChangeHandler);
+        stateChangeHandlers.computeIfAbsent(selectable, uuid -> new ArrayList<>()).add(stateChangeHandler);
         return selectable;
     }
 

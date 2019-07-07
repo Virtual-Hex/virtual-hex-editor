@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.InputText;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
-@ComponentRegister(typeKey = InputText.class)
+@UIComponentRegister(typeKey = InputText.class)
 public class InputTextWriter extends JImGuiComponentWriter {
 
     @Override

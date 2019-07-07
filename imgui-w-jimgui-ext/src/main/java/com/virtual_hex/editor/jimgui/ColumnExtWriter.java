@@ -1,7 +1,7 @@
 package com.virtual_hex.editor.jimgui;
 
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.ColumnExt;
 import com.virtual_hex.editor.data.ColumnExtRow;
 import com.virtual_hex.editor.data.UIComponent;
@@ -10,7 +10,7 @@ import org.ice1000.jimgui.JImGui;
 
 import java.util.List;
 
-@ComponentRegister(typeKey = ColumnExt.class)
+@UIComponentRegister(typeKey = ColumnExt.class)
 public class ColumnExtWriter extends JImGuiComponentWriter {
 
     @Override

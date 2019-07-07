@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.UIComponentReader;
 import com.virtual_hex.editor.UIReader;
 import com.virtual_hex.editor.data.UIComponent;
@@ -40,7 +40,7 @@ public class DefaultUIReader<T> implements UIReader<T> {
     private void scanForHandlers(ScanResult... scanResults) {
         for (int i = 0; i < scanResults.length; i++) {
             ScanResult scanResult = scanResults[i];
-            ClassInfoList componentHandlerRegister = scanResult.getClassesWithAnnotation("com.virtual_hex.editor.io.ComponentRegister");
+            ClassInfoList componentHandlerRegister = scanResult.getClassesWithAnnotation("com.virtual_hex.editor.io.UIComponentRegister");
             for (ClassInfo compClassInfo : componentHandlerRegister) {
                 boolean extendsSuperclass = compClassInfo.implementsInterface("com.virtual_hex.editor.io.UIComponentReader");
                 if (extendsSuperclass) {
@@ -48,7 +48,7 @@ public class DefaultUIReader<T> implements UIReader<T> {
                     Class<UIComponentReader> aClass = (Class<UIComponentReader>) compClassInfo.loadClass();
                     try {
                         UIComponentReader componentReader = aClass.newInstance();
-                        ComponentRegister annotation = componentReader.getClass().getAnnotation(ComponentRegister.class);
+                        UIComponentRegister annotation = componentReader.getClass().getAnnotation(UIComponentRegister.class);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -74,7 +74,7 @@ public class DefaultUIReader<T> implements UIReader<T> {
      * Dispose of resources here, WE may have a cache clear method for memory management if needed
      */
     public void disopse() {
-        classComponentHandlers.forEach((k, v) -> v.dispose());
+
 //        activationHandlers.forEach((k, v) -> v.dispose());
     }
 
@@ -86,9 +86,6 @@ public class DefaultUIReader<T> implements UIReader<T> {
             return null;
         }
 
-        @Override
-        public void dispose() {
-            // Nothing Intended
-        }
+
     }
 }

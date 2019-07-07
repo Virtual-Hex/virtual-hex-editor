@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.ShowUserGuide;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
-@ComponentRegister(typeKey = ShowUserGuide.class)
+@UIComponentRegister(typeKey = ShowUserGuide.class)
 public class ShowUserGuideWriter extends JImGuiComponentWriter{
 
     @Override

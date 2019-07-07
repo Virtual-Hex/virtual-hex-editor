@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.TabBar;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
 
-@ComponentRegister(typeKey = TabBar.class)
+@UIComponentRegister(typeKey = TabBar.class)
 public class TabBarWriter extends JImGuiComponentWriter {
 
     @Override
@@ -16,7 +17,7 @@ public class TabBarWriter extends JImGuiComponentWriter {
             // Not clipped or collapsed
             boolean visible = out.beginTabBar(component.label);
             if (visible) { // TODO Maybe remove this open check
-                processArray(out, component.uiComponents, writer);
+                UIComponentWriter.processArray(out, component.uiComponents, writer);
                 JImGuiGen.endTabBar();
             }
         }

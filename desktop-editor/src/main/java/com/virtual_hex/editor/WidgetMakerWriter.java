@@ -4,13 +4,14 @@ import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
 import com.virtual_hex.editor.jimgui.JImGuiComponentWriter;
 import org.ice1000.jimgui.*;
+import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @UIComponentRegister(typeKey = UIComponentsDataStructure.class)
-public class UIComponentsDataStructureWriter extends JImGuiComponentWriter {
+public class WidgetMakerWriter extends JImGuiComponentWriter {
 
     public static final int STRING_SIZE_CAP = 512;
 
@@ -29,6 +30,8 @@ public class UIComponentsDataStructureWriter extends JImGuiComponentWriter {
     private static final JImStr FLOAT_FORMAT = new JImStr("%.3f");
     private static final JImStr DOUBLE_FORMAT = new JImStr("%.6f");
 
+
+    public final DeallocatableObjectManager manager = new DeallocatableObjectManager();
 
     private final Map<Class<?>, JImStr> stringCache = new WeakHashMap<>();
     private final Map<Class<?>, WriteHandler<JImGui, DefaultUIWriter>> writeHandling = new WeakHashMap<>();
@@ -234,8 +237,6 @@ public class UIComponentsDataStructureWriter extends JImGuiComponentWriter {
         return true;
     }
 
-
-
     public static int bufferEndIndex(byte[] data) {
         for (int i = 0; i < data.length; i++) {
             if (data[i] == 0) return i;
@@ -250,6 +251,9 @@ public class UIComponentsDataStructureWriter extends JImGuiComponentWriter {
 
     public int getBufferEndIndex(byte[] buffer) {
         return bufferEndIndex(buffer);
+    }
+    private void dispose() {
+        manager.deallocateAll();
     }
 
     static {

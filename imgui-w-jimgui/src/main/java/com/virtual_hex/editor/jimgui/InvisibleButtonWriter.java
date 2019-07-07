@@ -1,12 +1,12 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.InvisibleButton;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
-@ComponentRegister(typeKey = InvisibleButton.class)
+@UIComponentRegister(typeKey = InvisibleButton.class)
 public class InvisibleButtonWriter extends JImGuiComponentWriter {
 
     @Override

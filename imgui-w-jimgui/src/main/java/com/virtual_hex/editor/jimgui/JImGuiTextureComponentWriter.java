@@ -16,7 +16,7 @@ public abstract class JImGuiTextureComponentWriter extends JImGuiComponentWriter
 
     public JImTextureID getTextureId(ImageButton<?, ?> image, DefaultUIWriter writer){
         // TODO Could use a group type handler by name or id and place that into writer, by using
-        // the writer to create a cache cleaning mechanism here
+        // the writer to createNativeInt a cache cleaning mechanism here
 
         JImTextureID imTextureID = cachedImageReferences.get(image);
         if(imTextureID != null){
@@ -44,7 +44,7 @@ public abstract class JImGuiTextureComponentWriter extends JImGuiComponentWriter
 
     public JImTextureID getTextureId(Image<?, ?> image, DefaultUIWriter writer){
         // TODO Could use a group type handler by name or id and place that into writer, by using
-        // the writer to create a cache cleaning mechanism here
+        // the writer to createNativeInt a cache cleaning mechanism here
 
         JImTextureID imTextureID = cachedImageReferences.get(image);
         if(imTextureID != null){

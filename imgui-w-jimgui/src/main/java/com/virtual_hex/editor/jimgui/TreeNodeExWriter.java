@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.TreeNodeEx;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
-@ComponentRegister(typeKey = TreeNodeEx.class)
+@UIComponentRegister(typeKey = TreeNodeEx.class)
 public class TreeNodeExWriter extends JImGuiComponentWriter {
 
     @Override
@@ -14,7 +15,7 @@ public class TreeNodeExWriter extends JImGuiComponentWriter {
         TreeNodeEx<JImStr> component = (TreeNodeEx) uiComponent;
         boolean open = out.treeNodeEx(component.label, component.flags);
         if (open) {
-            processArray(out, component.uiComponents, writer);
+            UIComponentWriter.processArray(out, component.uiComponents, writer);
             out.treePop();
         }
         writer.handleStateChange(out, component, writer);

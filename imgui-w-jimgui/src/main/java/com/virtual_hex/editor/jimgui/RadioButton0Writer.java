@@ -1,13 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.RadioButton0;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
 // This is actually likely faster then the RadioButton due to the no native interface
-@ComponentRegister(typeKey = RadioButton0.class)
+@UIComponentRegister(typeKey = RadioButton0.class)
 public class RadioButton0Writer extends JImGuiComponentWriter {
 
     @Override

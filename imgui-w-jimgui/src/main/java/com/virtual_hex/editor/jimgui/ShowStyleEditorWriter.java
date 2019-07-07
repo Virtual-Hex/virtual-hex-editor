@@ -1,6 +1,6 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.ShowStyleEditor;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
@@ -8,7 +8,7 @@ import org.ice1000.jimgui.JImStyle;
 
 // / add style editor block (not a window). you can pass in a reference ImGuiStyle structure to compare to,
 // revert to and save to (else it uses the default style)
-@ComponentRegister(typeKey = ShowStyleEditor.class)
+@UIComponentRegister(typeKey = ShowStyleEditor.class)
 public class ShowStyleEditorWriter extends JImGuiComponentWriter {
 
     @Override

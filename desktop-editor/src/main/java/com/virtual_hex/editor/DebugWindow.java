@@ -37,7 +37,7 @@
 //    public NativeBool pOpen = new NativeBool();
 //
 //    public NativeInt clicked = new NativeInt();
-//    public NativeBool check = JaweJImGui.JaweUtils.create(true);
+//    public NativeBool check = JaweJImGui.JaweUtils.createNativeInt(true);
 //    public NativeInt e = new NativeInt();
 //
 //    private static final float DISTANCE = 10.0f;

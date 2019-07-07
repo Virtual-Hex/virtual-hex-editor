@@ -5,15 +5,15 @@ import com.virtual_hex.editor.data.UIComponent;
 
 import java.util.List;
 
-public class UIComponentsDataStructure extends AbstractUIComponent {
+public class WidgetMaker extends AbstractUIComponent {
 
     public UIComponent[] editorRoot;
     public List<UIComponent[]> widgets;
 
-    public UIComponentsDataStructure() {
+    public WidgetMaker() {
     }
 
-    public UIComponentsDataStructure(UIComponent[] editorRoot) {
+    public WidgetMaker(UIComponent[] editorRoot) {
         this.editorRoot = editorRoot;
     }
 

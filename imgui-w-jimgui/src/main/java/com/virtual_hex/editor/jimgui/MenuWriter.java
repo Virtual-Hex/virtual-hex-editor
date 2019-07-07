@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.Menu;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
-@ComponentRegister(typeKey = Menu.class)
+@UIComponentRegister(typeKey = Menu.class)
 public class MenuWriter extends JImGuiComponentWriter {
 
     @Override
@@ -14,7 +15,7 @@ public class MenuWriter extends JImGuiComponentWriter {
         Menu<JImStr> component = (Menu) uiComponent;
         boolean open = out.beginMenu(component.label, component.enabled);
         if (open) {
-            processArray(out, component.uiComponents, writer);
+            UIComponentWriter.processArray(out, component.uiComponents, writer);
             out.endMenu();
         }
 

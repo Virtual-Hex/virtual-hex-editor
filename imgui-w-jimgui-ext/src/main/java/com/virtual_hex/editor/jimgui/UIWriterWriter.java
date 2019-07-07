@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.jimgui;
 
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.UIComponent;
-import com.virtual_hex.editor.ComponentRegister;
 import com.virtual_hex.editor.UIWriter;
 import org.ice1000.jimgui.JImGui;
 
-@ComponentRegister(typeKey = UIWriter.class)
+@UIComponentRegister(typeKey = UIWriter.class)
 public class UIWriterWriter extends JImGuiComponentWriter {
 
 

@@ -13,7 +13,7 @@ import org.ice1000.jimgui.JImStr;
 import java.util.WeakHashMap;
 
 // todo once we start the plugin manager
-@ComponentRegister(typeKey = ClassLoaderUIComponent.class, name = "Style 1")
+@UIComponentRegister(typeKey = ClassLoaderUIComponent.class, name = "Style 1")
 public class ClassLoaderUIComponentWriter extends JImGuiComponentWriter {
 
     ScanResult scan;

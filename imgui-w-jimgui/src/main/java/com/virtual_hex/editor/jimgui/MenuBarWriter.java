@@ -1,11 +1,12 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.MenuBar;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
-@ComponentRegister(typeKey = MenuBar.class)
+@UIComponentRegister(typeKey = MenuBar.class)
 public class MenuBarWriter extends JImGuiComponentWriter {
 
     @Override
@@ -13,7 +14,7 @@ public class MenuBarWriter extends JImGuiComponentWriter {
         MenuBar component = (MenuBar) uiComponent;
         boolean value = out.beginMenuBar();
         if (value) {
-            processArray(out, component.uiComponents, writer);
+            UIComponentWriter.processArray(out, component.uiComponents, writer);
             out.endMenuBar();
         }
 

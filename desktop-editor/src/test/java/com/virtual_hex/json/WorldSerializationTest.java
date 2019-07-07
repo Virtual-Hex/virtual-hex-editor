@@ -55,13 +55,13 @@
 //        ComponentMapper<TestComponentNative> mapperthree = world.getMapper(TestComponentNative.class);
 //
 //        // Create various simple and complex entities
-//        int simple1 = world.create();
+//        int simple1 = world.createNativeInt();
 //        tagManager.register("TestTagSimple", simple1);
-//        TestComponentComplex testComp = mapperTwo.create(simple1);
+//        TestComponentComplex testComp = mapperTwo.createNativeInt(simple1);
 //
 //
-//        int simple2 = world.create();
-//        TestComponentNative testComponentNative = mapperthree.create(simple2);
+//        int simple2 = world.createNativeInt();
+//        TestComponentNative testComponentNative = mapperthree.createNativeInt(simple2);
 //        testComponentNative.hi = 50;
 //
 //        JaweRenderingSystem system = world.getSystem(JaweRenderingSystem.class);
@@ -129,10 +129,10 @@
 //        ComponentMapper<TestComp> mapperTwo = world.getMapper(TestComp.class);
 //
 //        // Create various simple and complex entities
-//        int simple1 = world.create();
+//        int simple1 = world.createNativeInt();
 //        tagManager.register("TestTagSimple", simple1);
 //
-//        TestComp testComp = mapperTwo.create(simple1);
+//        TestComp testComp = mapperTwo.createNativeInt(simple1);
 //        testComp.testInt = 10;
 //
 //        world.process();
@@ -174,9 +174,9 @@
 ////
 ////
 ////        // Create various simple and complex entities
-////        int simple1 = worldWrapper.create();
-////        int simple2 = worldWrapper.create();
-////        int simple3 = worldWrapper.create();
+////        int simple1 = worldWrapper.createNativeInt();
+////        int simple2 = worldWrapper.createNativeInt();
+////        int simple3 = worldWrapper.createNativeInt();
 ////
 ////        // Add some test tags
 ////        tagManager.register("TestTag1", simple1);

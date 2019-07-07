@@ -1,6 +1,8 @@
 package com.virtual_hex.editor;
 
 import ch.qos.logback.classic.Level;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.virtual_hex.editor.data.*;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
 import io.github.classgraph.ClassGraph;
@@ -133,7 +135,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
             if (renderDefault) {
                 editorConfiguration = editorConfiguration.merge(getDefaultImpl());
             }
-            // Need to create a merge
+            // Need to createNativeInt a merge
         }
 
 
@@ -173,13 +175,12 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         // Save Editor
 
 //
-//        Gson gson = new GsonBuilder().setVersion(1).setPrettyPrinting().create();
-//        String s = gson.toJson(editorConfiguration);
-//        System.out.println(s);
-//
-//
-//        UIComponent[] uiComponents = gson.fromJson(s, UIComponent[].class);
+        Gson gson = new GsonBuilder().setVersion(1).setPrettyPrinting().create();
+        String s = gson.toJson(editorConfiguration);
+        System.out.println(s);
 
+
+        UIComponent[] editorRoot = gson.fromJson(s, UIComponent[].class);
 
 
         editorConfiguration.dispose();
@@ -194,7 +195,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
             ClassInfoList uiComponents = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.data.UIComponent");
 
             // Lets grab the io component uiComponentWriters
-            ClassInfoList uiComponentWriters = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIComponentWriter").filter(classInfo -> classInfo.hasAnnotation("com.virtual_hex.editor.ComponentRegister"));
+            ClassInfoList uiComponentWriters = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIComponentWriter").filter(classInfo -> classInfo.hasAnnotation("com.virtual_hex.editor.UIComponentRegister"));
 
             // Lets grab all the uiComponentWriters
             ClassInfoList uiWriters = editorPackageScan.getClassesImplementing("com.virtual_hex.editor.UIWriter");
@@ -245,13 +246,25 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                 // The editor menu will turn into a slightly dif component, well have helper methods to extend
                                 // add to editor
                                 MainMenuBar.of(merge(
-                                        Menu.of(js("File"), merge(writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
-                                            AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
-                                            atomicBoolean.set(true);
-                                        })))),
+                                        Menu.of(js("File"),
+                                                merge(
+                                                        writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
+                                                            AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
+                                                            atomicBoolean.set(true);
+                                                        }))
+                                                )
+                                        ),
                                         Menu.of(js("Tools"),
                                                 merge(
+                                                        writer.createAction(MenuItem.of("New Widget"), new RunnableActivationHandler<>(() -> {
 
+
+
+
+
+
+                                                            writer.addToRoot(WindowDecorated.of());
+                                                        })),
                                                         writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Edit Editor"), EMPTY_STR), WindowDecorated.of(js("Edit Editor"), false, JImWindowFlags.MenuBar, merge(
                                                                 MenuBar.of(js("editor-configuration-menu"), true, merge(
                                                                         Menu.of(
@@ -313,7 +326,7 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
 //                                        dUIWriter.cToggleGroup(OPEN, W_UI_PLUGINS, new EditorWindow(
 //                                                "Plugins",
-//                                                // Here we need to show what is loaded by default , We need to create a child first classloader
+//                                                // Here we need to show what is loaded by default , We need to createNativeInt a child first classloader
 //                                                // where these will be loaded, this way same class can be overridden due to isolation
 //                                                new MainMenuBar("")
 //

@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.data.Window;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImGuiGen;
 
-@ComponentRegister(typeKey = Window.class)
+@UIComponentRegister(typeKey = Window.class)
 public class WindowWriter extends JImGuiComponentWriter {
 
     @Override
@@ -16,7 +17,7 @@ public class WindowWriter extends JImGuiComponentWriter {
             // Not clipped or collapsed
             boolean visible = out.begin(component.label);
             if (visible) { // TODO Maybe remove this open check
-                processArray(out, component.uiComponents, writer);
+                UIComponentWriter.processArray(out, component.uiComponents, writer);
             }
             JImGuiGen.end();
         }

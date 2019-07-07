@@ -1,11 +1,11 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
 import com.virtual_hex.editor.data.PlotHistogram;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 
-@ComponentRegister(typeKey = PlotHistogram.class)
+@UIComponentRegister(typeKey = PlotHistogram.class)
 public class PlotHistogramWriter extends JImGuiComponentWriter {
 
     @Override

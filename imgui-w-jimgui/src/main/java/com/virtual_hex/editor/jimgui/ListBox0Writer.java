@@ -1,12 +1,13 @@
 package com.virtual_hex.editor.jimgui;
 
-import com.virtual_hex.editor.ComponentRegister;
+import com.virtual_hex.editor.UIComponentRegister;
+import com.virtual_hex.editor.UIComponentWriter;
 import com.virtual_hex.editor.data.ListBox0;
 import com.virtual_hex.editor.data.UIComponent;
 import org.ice1000.jimgui.JImGui;
 import org.ice1000.jimgui.JImStr;
 
-@ComponentRegister(typeKey = ListBox0.class)
+@UIComponentRegister(typeKey = ListBox0.class)
 public class ListBox0Writer extends JImGuiComponentWriter {
 
 
@@ -17,7 +18,7 @@ public class ListBox0Writer extends JImGuiComponentWriter {
         boolean draw = out.listBoxHeader0(component.label, component.width, component.height);
         if(draw){
             // TODO Into Selectables Group
-            processArray(out, component.uiComponents, writer);
+            UIComponentWriter.processArray(out, component.uiComponents, writer);
             out.listBoxFooter();
         }
     }

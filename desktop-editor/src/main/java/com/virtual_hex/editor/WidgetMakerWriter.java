@@ -2,7 +2,6 @@ package com.virtual_hex.editor;
 
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
-import com.virtual_hex.editor.jimgui.JImGuiComponentWriter;
 import org.ice1000.jimgui.*;
 import org.ice1000.jimgui.cpp.DeallocatableObjectManager;
 
@@ -11,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @UIComponentRegister(typeKey = UIComponentsDataStructure.class)
-public class WidgetMakerWriter extends JImGuiComponentWriter {
+public class WidgetMakerWriter implements UIComponentWriter<JImGui, DefaultUIWriter> {
 
     public static final int STRING_SIZE_CAP = 512;
 

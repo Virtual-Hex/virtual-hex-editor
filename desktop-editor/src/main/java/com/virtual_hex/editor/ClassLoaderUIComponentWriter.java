@@ -3,7 +3,6 @@ package com.virtual_hex.editor;
 import com.virtual_hex.editor.data.InputText;
 import com.virtual_hex.editor.data.UIComponent;
 import com.virtual_hex.editor.jimgui.DefaultUIWriter;
-import com.virtual_hex.editor.jimgui.JImGuiComponentWriter;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
@@ -14,7 +13,7 @@ import java.util.WeakHashMap;
 
 // todo once we start the plugin manager
 @UIComponentRegister(typeKey = ClassLoaderUIComponent.class, name = "Style 1")
-public class ClassLoaderUIComponentWriter extends JImGuiComponentWriter {
+public class ClassLoaderUIComponentWriter implements UIComponentWriter<JImGui, DefaultUIWriter> {
 
     ScanResult scan;
     JImStr str = new JImStr("Classes");

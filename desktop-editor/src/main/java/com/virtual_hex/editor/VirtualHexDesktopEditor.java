@@ -83,13 +83,13 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
     public PluginManager pluginManager;
 
-    public AtomicBoolean shouldClose = new AtomicBoolean(false);
     public EditorConfiguration editorConfiguration = null;// This will be just a file essentially as settings, loaded into a full type
+    private AtomicBoolean shouldClose = new AtomicBoolean(false);
 
     public static void main(String[] args) throws URISyntaxException {
 
-        int width = 1024;
-        int height = 720;
+        int width = 1920;
+        int height = 1440;
         boolean renderDefault = true;
 
         // TODO jimgui.ini loading so users can import layouts
@@ -147,7 +147,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         try (JImGui imGui = new JImGui(width, height, TITLE)) {
             long latestRefresh = System.currentTimeMillis();
             imGui.initBeforeMainLoop();
-            while (!shouldClose.get()) {
+
+            while (!imGui.windowShouldClose() && !shouldClose.get()) {
                 long currentTimeMillis = System.currentTimeMillis();
                 long deltaTime = currentTimeMillis - latestRefresh;
                 Thread.sleep(deltaTime / 2);
@@ -252,10 +253,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                 MainMenuBar.of(merge(
                                         Menu.of(js("File"),
                                                 merge(
-                                                        writer.createAction(MenuItem.of("Exit"), new RunnableActivationHandler<>(() -> {
-                                                            AtomicBoolean atomicBoolean = writer.getProperty("editor-should-close");
-                                                            atomicBoolean.set(true);
-                                                        }))
+                                                        writer.createAction(MenuItem.of("Exit"), (out, uiComponent,
+                                                                                                  writer1) -> shouldClose.set(true))
                                                 )
                                         ),
                                         Menu.of(js("Tools"),
@@ -339,8 +338,6 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
 
                     }
 
-
-                    writer.setProperty("editor-should-close", shouldClose);
                     // List needs to be converted to a Editor Configuration with ability to change
                     editorConfiguration.uiWriters.add(writer);
 

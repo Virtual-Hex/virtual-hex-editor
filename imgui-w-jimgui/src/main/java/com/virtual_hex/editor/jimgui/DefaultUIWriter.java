@@ -24,8 +24,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  * Default writer
@@ -85,6 +84,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
 
     public ConcurrentHashMap<String, Object> properties;
     private Path pluginDirectory;
+    private NativeBool nativeBool;
 
     // TODO update since api change
     // Scans could be provided to provide more app level configuration
@@ -554,6 +554,67 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
         // TODO Stub
     }
 
+    public void getCacheModifySetInt(Field field, UIComponent uiComponent,
+                                     Predicate<NativeInt> predicate) throws IllegalAccessException {
+        getCacheModifySetInt(field, field.getName(), uiComponent, predicate);
+    }
+
+    public void getCacheModifySetInt(Field field, String fieldName, UIComponent uiComponent,
+                                     Predicate<NativeInt> predicate) throws IllegalAccessException {
+        NativeInt value = getCachedNativeInt(fieldName, uiComponent);
+        value.modifyValue(field.getInt(uiComponent));
+        boolean valueChanged = predicate.test(value);
+        if (valueChanged) {
+            field.setInt(uiComponent, value.accessValue());
+        }
+    }
+
+    public void getCacheModifySetFloat(Field field, UIComponent uiComponent,
+                                     Predicate<NativeFloat> predicate) throws IllegalAccessException {
+        getCacheModifySetFloat(field, field.getName(), uiComponent, predicate);
+    }
+
+    public void getCacheModifySetFloat(Field field, String fieldName, UIComponent uiComponent,
+                                     Predicate<NativeFloat> predicate) throws IllegalAccessException {
+        NativeFloat value = getCachedNativeFloat(fieldName, uiComponent);
+        value.modifyValue(field.getFloat(uiComponent));
+        boolean valueChanged = predicate.test(value);
+        if (valueChanged) {
+            field.setFloat(uiComponent, value.accessValue());
+        }
+    }
+
+    public void getCacheModifySetDouble(Field field, UIComponent uiComponent,
+                                       Predicate<NativeDouble> predicate) throws IllegalAccessException {
+        getCacheModifySetDouble(field, field.getName(), uiComponent, predicate);
+    }
+
+
+    public void getCacheModifySetDouble(Field field, String fieldName, UIComponent uiComponent,
+                                       Predicate<NativeDouble> predicate) throws IllegalAccessException {
+        NativeDouble value = getCachedNativeDouble(fieldName, uiComponent);
+        value.modifyValue(field.getDouble(uiComponent));
+        boolean valueChanged = predicate.test(value);
+        if (valueChanged) {
+            field.setDouble(uiComponent, value.accessValue());
+        }
+    }
+
+    public void getCacheModifySetBool(Field field, UIComponent uiComponent,
+                                       Predicate<NativeBool> predicate) throws IllegalAccessException {
+        getCacheModifySetBool(field, field.getName(), uiComponent, predicate);
+    }
+
+    public void getCacheModifySetBool(Field field, String fieldName, UIComponent uiComponent,
+                                        Predicate<NativeBool> predicate) throws IllegalAccessException {
+        NativeBool value = getCachedNativeBool(fieldName, uiComponent);
+        value.modifyValue(field.getBoolean(uiComponent));
+        boolean valueChanged = predicate.test(value);
+        if (valueChanged) {
+            field.setBoolean(uiComponent, value.accessValue());
+        }
+    }
+
     public NativeInt getCachedNativeInt(String fieldName, UIComponent object) {
         return cachedInts
                 .computeIfAbsent(object, value -> new HashMap<>())
@@ -681,6 +742,7 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     @Override
     public void dispose() {
         deallocatableObjectManager.deallocateAll();
+        nativeBool = null;
     }
 
     public Object getJIVec4() {
@@ -701,6 +763,15 @@ public class DefaultUIWriter implements UIWriter<JImGui> {
     public <LABEL> Selectable<LABEL> setStateChangeListener(Selectable<LABEL> selectable, StateChangeHandler stateChangeHandler) {
         stateChangeHandlers.computeIfAbsent(selectable, uuid -> new ArrayList<>()).add(stateChangeHandler);
         return selectable;
+    }
+
+    public NativeBool getAlwaysTrueNativeBool() {
+        if(nativeBool == null){
+            nativeBool = new NativeBool();
+            nativeBool.modifyValue(true);
+            deallocatableObjectManager.add(nativeBool);
+        }
+        return nativeBool;
     }
 
     private static class EmptyComponentReader implements UIComponentWriter {

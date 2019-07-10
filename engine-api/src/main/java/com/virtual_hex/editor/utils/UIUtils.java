@@ -32,4 +32,7 @@ public class UIUtils {
         return uiComponents;
     }
 
+    // Single Component merge
+//    public static UIComponent[] merge(UIComponent[]... uiComponentArrays) {
+//    }
 }

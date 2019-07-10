@@ -16,6 +16,7 @@ public final class TabBar extends AbstractUIComponent {
 
     @NonNull
     public String label;
+    @Builder.Default
     public boolean open = false;
     @Builder.Default
     public int flags = 0;

@@ -16,6 +16,7 @@ public final class Selectable<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
+    @Builder.Default
     public boolean selected = false;
     @Builder.Default
     public int width = 0;

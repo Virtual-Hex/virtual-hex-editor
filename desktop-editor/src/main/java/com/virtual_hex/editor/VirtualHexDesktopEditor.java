@@ -175,12 +175,15 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
         // Save Editor
 
 //
-        Gson gson = new GsonBuilder().setVersion(1).setPrettyPrinting().create();
-        String s = gson.toJson(editorConfiguration);
-        System.out.println(s);
+
+        try {
+            Gson gson = new GsonBuilder().setVersion(1).setPrettyPrinting().create();
 
 
-        UIComponent[] editorRoot = gson.fromJson(s, UIComponent[].class);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         editorConfiguration.dispose();
@@ -240,7 +243,8 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                 // New User Window
 
                                 WindowDecorated.of(js("Editor of Editor"), true, JImWindowFlags.MenuBar, new UIComponent[]{
-                                        CollapsingHeader.of("Data Structure", merge(new UIComponentsDataStructure(dUIWriter.root)))
+                                        CollapsingHeader.of("Data Structure",
+                                                merge(new UIComponentsDataStructure(dUIWriter.root, uiComponents)))
                                 }),
 
                                 // The editor menu will turn into a slightly dif component, well have helper methods to extend
@@ -258,12 +262,6 @@ public final class VirtualHexDesktopEditor extends AbstractUIComponent {
                                                 merge(
                                                         writer.createAction(MenuItem.of("New Widget"), new RunnableActivationHandler<>(() -> {
 
-
-
-
-
-
-                                                            writer.addToRoot(WindowDecorated.of());
                                                         })),
                                                         writer.addToggleGroup(EDITOR_ALL_WINDOWS, writer.bindTogglesAddRoot(W_EDITOR_CONFIGURATION, MenuItemSelectable.of(js("Edit Editor"), EMPTY_STR), WindowDecorated.of(js("Edit Editor"), false, JImWindowFlags.MenuBar, merge(
                                                                 MenuBar.of(js("editor-configuration-menu"), true, merge(

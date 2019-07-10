@@ -13,6 +13,7 @@ public final class TreeNode<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
+    @Builder.Default
     public boolean open = false;
     @NonNull
     public UIComponent[] uiComponents;

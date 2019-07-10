@@ -9,5 +9,9 @@ public interface UIComponent {
     UIComponent EMPTY_COMPONENT = () -> NO_UUID;
     UIComponent[] EMPTY_COMPONENTS = new UIComponent[0];
 
+    static UIComponent[] array(UIComponent... uiComponents) {
+        return uiComponents;
+    }
+
     UUID getId();
 }

@@ -13,6 +13,7 @@ public final class TabBarDecorated<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
+    @Builder.Default
     public boolean open = false;
     @Builder.Default
     public int flags = 0;

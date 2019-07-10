@@ -13,6 +13,7 @@ public final class Window extends AbstractUIComponent {
 
     @NonNull
     public String label;
+    @Builder.Default
     public boolean open = false;
     @NonNull
     public UIComponent[] uiComponents;

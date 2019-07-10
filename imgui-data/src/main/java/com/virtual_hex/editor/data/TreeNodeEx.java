@@ -18,7 +18,7 @@ public final class TreeNodeEx<LABEL> extends AbstractUIComponent {
 
     @NonNull
     public LABEL label;
-
+    @Builder.Default
     public boolean open = false;
     @Builder.Default
     public int flags = 0;
